@@ -1,3 +1,7 @@
 so_scrap_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: SOScrapBundle:Default:index }
+
+searchLinks:
+    pattern:  /searchLinks/{name}
+    defaults: { _controller: SOScrapBundle:Default:searchLinks }

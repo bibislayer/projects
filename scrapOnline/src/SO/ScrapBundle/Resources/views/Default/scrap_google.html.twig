@@ -1,0 +1,21 @@
+{% extends "SOGeneralBundle::Front/layout.html.twig" %}
+
+{% block content %}
+<div class="grid_12">
+    <div class="border-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"><h1>Scrap google</h1></div>
+                <div class="block_content" style="max-height: 600px;overflow-y: auto;overflow-x: hidden;">
+                    <ul>
+                    {% for link in arrayLink %}
+                        <li><a target="_blank" href="http://www.mixturecloud.com/media{{ link.codeUrl }}">Lien mixture</a>  <button type="button" onclick="javascript:addLink('mixture', '{{ link.codeUrl }}', '{{ link.code }}')" class="btn btn-success">Valider</button></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                <div class="block_footer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
