@@ -1,0 +1,203 @@
+SO\StandardBundle\Entity\StdArticleType:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 255 }
+                
+SO\StandardBundle\Entity\StdAssociationType:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 255 }
+                
+SO\StandardBundle\Entity\StdBenefit:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+                
+SO\StandardBundle\Entity\StdCategory:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 255 }
+            
+        sector_turnover:
+            - Type: { type: integer }
+            
+        sector_turnover_year:
+            - Type: { type: string }
+            - Length: { min: 4 , max: 4 }
+            
+        sector_employment:
+            - Type: { type: integer }
+            
+        sector_employment_year:
+            - Type: { type: string }
+            - Length: { min: 4 , max: 4 }
+            
+        sector_enterprises:
+            - Type: { type: integer }
+            
+        sector_enterprises_year:
+            - Type: { type: string }
+            - Length: { min: 4 , max: 4 }
+            
+        demand:
+            - Type: { type: integer }
+                
+SO\StandardBundle\Entity\StdDiplomaLevel:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length: { max: 255 }
+            - Type: { type: string }
+                
+SO\StandardBundle\Entity\StdDiplomaNature:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length: { max: 255 }
+            - Type: { type: string }
+                
+SO\StandardBundle\Entity\StdDiplomaType:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length: { max: 255 }
+            - Type: { type: string }
+        other_name:
+            - Length: { max: 255 }
+            - Type: { type: string }
+        demand:
+            - Type: { type: integer }
+        StartLevel:
+            - NotBlank: ~
+            - Type:
+                type: SO\StandardBundle\Entity\StdLevelStudy
+        FinalLevel:
+            - NotBlank: ~
+            - Type:
+                type: SO\StandardBundle\Entity\StdLevelStudy
+        DiplomaNature:
+            - NotBlank: ~
+            - Type:
+                type: SO\StandardBundle\Entity\StdDiplomaNature
+        DiplomaEtat:
+            - NotBlank: ~
+            - Type:
+                type: SO\StandardBundle\Entity\StdDiplomaLevel
+                
+SO\StandardBundle\Entity\StdEventType:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 255 }
+                
+SO\StandardBundle\Entity\StdGoal:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 200 }
+                
+SO\StandardBundle\Entity\StdLevelStudy:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 200 }
+                
+SO\StandardBundle\Entity\StdPlaceCity:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 200 }
+        zip_code:
+            - Type: { type: string }
+            - Length: { max: 5 }
+        latitude:
+            - Type: { type: string }
+            - Length: { max: 10 }
+        longitude:
+            - Type: { type: string }
+            - Length: { max: 10 }
+        Department:
+            - NotBlank: ~
+            - Type:
+                type: SO\StandardBundle\Entity\StdPlaceDepartment
+                
+SO\StandardBundle\Entity\StdPlaceCountry:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 200 }
+        code:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 5 }
+                
+SO\StandardBundle\Entity\StdPlaceDepartment:
+    properties:
+        Region:
+            - NotBlank: ~
+            - Type:
+                type: SO\StandardBundle\Entity\StdPlaceRegion
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 200 }
+        code:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 10 }
+                
+SO\StandardBundle\Entity\StdPlaceRegion:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 200 }
+        Country:
+            - NotBlank: ~
+            - Type:
+                type: SO\StandardBundle\Entity\StdPlaceCountry
+                
+SO\StandardBundle\Entity\StdQuality:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: text }
+                
+SO\StandardBundle\Entity\StdSchoolStatus:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 255 }
+                
+SO\StandardBundle\Entity\StdSchoolType:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 255 }
+                
+SO\StandardBundle\Entity\StdSkill:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: text }
+                
+SO\StandardBundle\Entity\StdSocialStatus:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: { type: string }
+            - Length: { max: 255 }

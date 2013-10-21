@@ -1,0 +1,101 @@
+{% extends 'SOBackBundle::layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="content _70">
+    <div class="grid _100 left">
+        <div class="block_border">
+            <div class="block_design">
+                <div class="block_header"><h1>Tous les Secteurs</h1></div>
+                <div class="block_content no_padding">
+                    <form name="backendCategoryFilter" id="backendCategoryFilter" class="filter">
+                        <table cellspacing="5" cellpadding="5" style="width:100%;">
+                            <tr style="line-height:30px;font-weight:bold;">
+                                <td style="width:32%; padding:0 1%;">{{ form_row(form.by_keyword) }}</td>
+                                <td style="width:32%; padding:0 1%;">{{ form_row(form.by_status) }}</td>
+                            </tr>
+                            <tr style="line-height:20px;font-weight:bold;">
+                                <td style="width:32%; padding:0 1%;" colspan="3">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr style="line-height:20px;font-weight:bold;">
+                                <td style="width:32%; padding:0 1%;" colspan="3">
+                                    <a href="{{ path('category_back_index') }}" class="btn">Reset</a>
+                                </td>
+                            </tr>
+                            <tr style="line-height:20px;font-weight:bold;">
+                                <td style="width:32%; padding:0 1%;" colspan="3">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <p style="padding-left:10px;">Total Record : {{ categories|length }} </p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="text-align:left; font-weight:bold;">Nom</th>
+                                <th style="text-align:left; font-weight:bold;">Parent</th>
+                                <th style="text-align:left; font-weight:bold;">Statut</th>
+                                <th style="text-align:left; font-weight:bold;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in categories %}
+                                <tr class="gradeX">
+                                    <td class="center"> 
+                                        <a href="{{ path ('category_backend_show' , {'id':  category.id  }) }}">{{ category.name }}</a>
+                                    </td>
+                                    <td class="center">
+                                        {% if category.parent %}
+                                            {{ category.parent.name }}
+                                        {% else %}
+                                            Main Category
+                                        {% endif %}
+                                        </td>
+                                        <td>
+                                        {% if category.approbation==1 and category.published==1 %}
+                                                Publi&eacute;
+                                        {% elseif category.approbation==1 and category.published!=1 %}
+                                                En attente
+                                        {% elseif (category.approbation==9 and category.published==9) or (category.approbation==8 and category.published==8) %}
+                                                En cours de r&eacute;daction
+                                        {% else %}
+                                                Non Publi&eacute;
+                                        {% endif %}                                                
+                                            </td>
+
+                                            <td class="center">
+                                                <a href="{{ path ('category_backend_edit' , {'id':  category.id  }) }}">Modifier</a>
+                                                &nbsp;&nbsp;&nbsp;<a href="{{ path('category_backend_add_child',{'cat_id':  category.id}) }}">Add child</a>
+                                                &nbsp;&nbsp;&nbsp;<a href="{{ path('category_backend_delete',{'id':  category.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a>
+                                                &nbsp;&nbsp;&nbsp;       
+                                {% if category.approbation==1 and category.published==1 %}
+                                                <a href="{{ path('category_backend_status',{'id':  category.id,'type':'unpublish'}) }}">Non Publi&eacute;</a>
+                                 {% else %}
+                                                <a href="{{ path('category_backend_status',{'id':  category.id,'type':'publish'}) }}">Enregistrer et publier</a>
+                                 {% endif %}
+                                            </td>
+
+                                        </tr>
+                            {% endfor %}
+                                    </tbody>
+                                </table>
+                    {{ params.nombrePage }}
+                                {% if params.nombrePage >= 1 %}
+                                    {% set paginationParameters = {'nombrePage': params.nombrePage, 'page': params.page, 'url': 'category_back_index'} %}
+                                    {% include 'SOStandardBundle:Backend:paginate.html.twig' with paginationParameters only %}
+                                {% endif %}
+                                 <br/>
+                                <p class="centrer"> <a class="btn  _25 text_center large" href="{{ path('category_backend_new') }}">Ajouter</a></p>
+                                <br/>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

@@ -1,0 +1,175 @@
+<div class="contenu_barre">
+     <div class="grid_4 tenpx">
+        <img class="left _10 " src="{{ asset('bundles/SOmid/images/editer.jpg') }}" >
+        {% if type == 'school' %}
+              <a class="" href="{{ path('mo_school_edit',{'slug':school.Enterprise.slug }) }}">Éditer votre établissement</a>
+        {% elseif type == 'event'  %} 
+              <a class="" href="{{ path('mo_event_edit',{'slug':event.slug, 'slug_enterprise':event.Enterprise.slug }) }}"> Editer votre évenement</a>
+        {% elseif type == 'association'  %} 
+              <a class="" href="{{ path('mo_association_edit',{'slug':association.slug, 'slug_enterprise':association.Enterprise.slug }) }}"> Editer votre association</a>      
+        {% elseif type == 'training'  %} 
+              <a class="" href="{{ path('mo_training_edit',{'slug':training.slug}) }}"> Editer votre formation</a> 
+        {% endif %}
+    </div>
+    <div class="grid_4 middle tenpx">
+        <img class="left _10" src="{{ asset('bundles/SOmid/images/loupe.jpg') }}">
+         {% if(type == 'school') %}
+                <a class="" target="_blank"  href="{{ path("fo_school_show", { 'slug': school.Enterprise.slug }) }}">Prévisualisez votre fiche établissement</a>
+         {% elseif type == 'event'  %} 
+                <a class="" target="_blank"  href="{{ path("fo_event_show", { 'slug': event.slug }) }}">Prévisualisez votre fiche évenement</a>
+         {% elseif type == 'association'  %} 
+                <a class="" target="_blank"  href="{{ path("fo_association_show", { 'slug': association.slug }) }}">Prévisualisez votre fiche association</a>
+         {% elseif type == 'training'  %} 
+                <a class="" target="_blank"  href="{{ path("fo_training_show", { 'slug': training.slug }) }}">Prévisualisez votre fiche training</a>
+         {% endif %}
+    </div>
+   
+    <div class="right _13 text_center">
+        <a class="menu_head" >
+            
+          {% if (type == 'school') %}   
+                {% if (school.Enterprise.schoolPublished != 1) %}
+                   {% set imgetat, msgetat, coloretat = 'non_publie.png' , 'Non publié', 'red' %}
+
+                {% elseif (school.Enterprise.approbation != 1 and school.Enterprise.schoolPublished == 1) %}
+                   {% set imgetat, msgetat, coloretat= 'aprobation.png', 'Validation en cours', 'orange' %}    
+
+                {% elseif (school.Enterprise.approbation == 1 and  school.Enterprise.schoolPublished == 1) %}
+                   {% set imgetat, msgetat, coloretat = 'publie.png', 'En ligne', '#669966' %}     
+
+                {% endif %}
+         {% elseif type == 'event'  %} 
+                
+                {% if (event.approbation == 0 and event.published == 0) or (event.approbation == 1 and event.published == 0) %}
+                   {% set imgetat, msgetat, coloretat = 'non_publie.png' , 'Non publié', 'red' %}
+
+                {% elseif (event.approbation == 0 and event.published == 1 ) %}
+                   {% set imgetat, msgetat, coloretat= 'aprobation.png', 'Validation en cours', 'orange' %}    
+
+                {% elseif (event.approbation == 1 and event.published == 1) %}
+                   {% set imgetat, msgetat, coloretat = 'publie.png', 'En ligne', '#669966' %}     
+
+                {% endif %}
+                
+          {% elseif type == 'association'  %} 
+                
+                {% if (association.approbation == 0 and association.published == 0) or (association.approbation == 1 and association.published == 0) %}
+                   {% set imgetat, msgetat, coloretat = 'non_publie.png' , 'Non publié', 'red' %}
+
+                {% elseif (association.approbation == 0 and association.published == 1 ) %}
+                   {% set imgetat, msgetat, coloretat= 'aprobation.png', 'Validation en cours', 'orange' %}    
+
+                {% elseif (association.approbation == 1 and association.published == 1) %}
+                   {% set imgetat, msgetat, coloretat = 'publie.png', 'En ligne', '#669966' %}     
+
+                {% endif %}  
+          {% elseif type == 'training'  %}                
+                {% if (training.approbation != 1 and training.published == 1 ) %}
+                   {% set imgetat, msgetat, coloretat= 'aprobation.png', 'Validation en cours', 'orange' %}    
+
+                {% elseif (training.approbation == 1 and training.published == 1) %}
+                   {% set imgetat, msgetat, coloretat = 'publie.png', 'En ligne', '#669966' %}     
+                {% elseif (training.approbation != 0 or training.published != 1) %}
+                   {% set imgetat, msgetat, coloretat = 'non_publie.png' , 'Non publié', 'red' %}
+                {% endif %}       
+                
+        {% endif %}        
+                
+        {% if ( (imgetat is defined) and (msgetat is defined) and (coloretat is defined) ) %}
+            <span class="cont_right_barre">
+            <span id="changeMe" class="cont_right" style="margin-top: 11px;width:16px; height:16px;">
+               <img src="{{ asset('bundles/SOmid/images/picto_admin/fleche.png') }}"  alt='approuver' title = 'approuver' name='aChanger' width="16px" height="16px">
+            </span>
+            </span >
+            <span style="float:right; color:{{ coloretat}} ; font-weight: bold; font-size:11px; margin-top: 10px; margin-right: 10px;">
+           {{ msgetat }}
+            </span>
+            <span style="float:right;  margin-top:4px; margin-right:5px">
+               <img src="{{ asset('bundles/SOmid/images/') }}{{imgetat}}" width="20px" height="20px" >
+            </span>
+            <div class="stop"></div>
+        {% endif %}
+      </a>
+    </div>
+    <div class="stop"></div>
+</div>
+
+
+<ul class="menu_body" style="display:none">
+    {% if(type == 'school') %}   
+        {% if (school.Enterprise.schoolPublished != 1) %}
+           <li> <a  style="color:#669966" href="{{ path('mo_school_change_status',{'type':'publish','slug':school.Enterprise.slug} ) }}">Publiez votre fiche</a></li>
+        {% elseif (school.Enterprise.approbation != 1 and school.Enterprise.schoolPublished == 1) %}
+           <li> <a  style="color:red" href="{{ path('mo_school_change_status',{'type':'depublish','slug':school.Enterprise.slug} ) }}" >Annuler la publication</a></li>
+        {% elseif (school.Enterprise.approbation == 1 and school.Enterprise.schoolPublished == 1) %}
+             <li> <a  style="color:red" href="{{ path('mo_school_change_status',{'type':'depublish','slug':school.Enterprise.slug} ) }}">Dépubliez votre fiche</a></li>
+        {% endif %}
+                 
+    {% elseif type == 'event' %} 
+        {% if (event.approbation == 0 and event.published == 0) or (event.approbation == 1 and event.published == 0) %}
+            <li> <a  style="color:#669966" href="{{ path('mo_event_change_status',{'type':'publish','slug':event.slug} ) }}">Publiez votre fiche</a></li>
+
+       {% elseif (event.approbation == 0 and event.published == 1 ) %}
+            <li> <a  style="color:red" href="{{ path('mo_event_change_status',{'type':'depublish','slug':event.slug} ) }}" >Annuler la publication</a></li>
+
+       {% elseif (event.approbation == 1 and event.published == 1) %}
+           <li> <a  style="color:red" href="{{ path('mo_event_change_status',{'type':'depublish','slug':event.slug} ) }}">Dépubliez votre fiche</a></li>
+
+       {% endif %}   
+           
+           
+    {% elseif type == 'association'  %} 
+        {% if (association.approbation == 0 and association.published == 0) or (association.approbation == 1 and association.published == 0) %}
+            <li> <a  style="color:#669966" href="{{ path('mo_association_change_status',{'type':'publish','slug':association.slug} ) }}">Publiez votre fiche</a></li>
+
+       {% elseif (association.approbation == 0 and association.published == 1 ) %}
+            <li> <a  style="color:red" href="{{ path('mo_association_change_status',{'type':'depublish','slug':association.slug} ) }}" >Annuler la publication</a></li>
+
+       {% elseif (association.approbation == 1 and association.published == 1) %}
+           <li> <a  style="color:red" href="{{ path('mo_association_change_status',{'type':'depublish','slug':association.slug} ) }}">Dépubliez votre fiche</a></li>
+
+       {% endif %}    
+           
+   {% elseif type == 'training'  %} 
+        {% if (training.approbation == 0 and training.published == 0) or (training.approbation == 1 and training.published == 0) %}
+            <li> <a  style="color:#669966" href="{{ path('mo_training_change_status',{'type':'publish','slug':training.slug} ) }}">Publiez votre fiche</a></li>
+
+       {% elseif (training.approbation == 0 and training.published == 1 ) %}
+            <li> <a  style="color:red" href="{{ path('mo_training_change_status',{'type':'depublish','slug':training.slug} ) }}" >Annuler la publication</a></li>
+
+       {% elseif (training.approbation == 1 and training.published == 1) %}
+           <li> <a  style="color:red" href="{{ path('mo_training_change_status',{'type':'depublish','slug':training.slug} ) }}">Dépubliez votre fiche</a></li>
+
+       {% endif %}    
+           
+  {% endif %}         
+</ul>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+        $("ul.menu_body li:even").addClass("alt");
+        $('a.menu_head').click(function () {
+            var src = $('#changeMe img').attr('src');
+            var match_img = src.match(/fleche2.png/);
+            
+            //to change arrow images
+            if(match_img !== null){
+                $('#changeMe').html('<img src="{{ asset('bundles/SOmid/images/picto_admin/fleche.png') }}"  alt="approuver" title = "approuver" name="aChanger" width="16px" height="16px">');
+            }
+            else{              
+                 $('#changeMe').html('<img src="{{ asset('bundles/SOmid/images/picto_admin/fleche2.png') }}"  alt="approuver" title = "approuver" name="aChanger" width="16px" height="16px">');
+            }
+            
+            //To display the ul
+            if ($('ul.menu_body').css('display') == 'none') {
+                $('ul.menu_body').show();
+
+            } else {
+                $('ul.menu_body').hide();
+            }
+               
+        });             
+    });
+</script>

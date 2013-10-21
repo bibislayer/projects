@@ -1,0 +1,28 @@
+SO\UserBundle\Entity\UserProfile:
+    type:  entity
+    table: users_profile
+    fields:
+          id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+          firstname: { type: string, length: 200 }
+          lastname: { type: string, length: 200 }
+          birthday: { type: date, nullable: true }
+          gender: { type: string, length: 10, nullable: true }
+          dernier_diplome: { type: string, length: 200, nullable: true }
+          post_actuel: { type: string, length: 200, nullable: true }
+          dernier_post: { type: string, length: 200, nullable: true }
+          entreprise: { type: string, length: 200, nullable: true }
+          telephone_fixe: { type: string, length: 20, nullable: true }
+          telephone_portable: { type: string, length: 20, nullable: true }
+          fax: { type: string, length: 20, nullable: true }
+    oneToOne:
+      User:
+        targetEntity: SO\UserBundle\Entity\User
+        joinColumn:
+          name: user_id
+          referencedColumnName: id
+        cascade: ["persist", "merge"]
+        inversedBy: UserProfile

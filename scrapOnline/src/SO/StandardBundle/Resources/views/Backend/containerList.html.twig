@@ -1,0 +1,15 @@
+{% extends 'SOBackBundle::layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_12">
+    <div class="block_border ">
+        <div class="block_design">
+            {% set paginationParameters = {'params': params} %}
+            {% include 'SOStandardBundle:Backend:list.html.twig' with params only %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'SOFrontBundle::layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="grid_8">
+        <div class="block_border">
+            <div class="block_design">
+                <div class="block_header"><h1>Tous les secteurs</h1></div>
+                <div class="block_content">
+                    <ul>
+                        {% for category in categories %}
+                            <li><a href="{{ path ('fo_category_show' , {'slug': category.slug  }) }}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="grid_4">
+        </div>
+    </div>
+{% endblock %}

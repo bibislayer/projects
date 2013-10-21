@@ -1,0 +1,17 @@
+<ul class="pagination">
+{% if page > 1 %}     
+<li class="prev prev"><a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all)|merge({'page': 1})) }}"> <span style="font-size:15px;">&laquo;&laquo;</span> </a></li>
+<li class="prev"><a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all)|merge({'page': page - 1})) }}"><span style="font-size:15px;">&laquo;</span></a></li>
+{% endif %}
+{% for p in range(1, nombrePage) %}
+{% if (page == p - 1) or (page == p - 2) or (page == p + 1) or (page == p + 2) or (page == p) %}
+<li{% if p == page %} class="on"{% endif %}>
+    <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all)|merge({'page': p}))  }}">{{ p }}</a>
+</li>
+{% endif %}
+{% endfor %}
+{% if page < nombrePage %}
+<li class="next"><a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all)|merge({'page': page + 1})) }}"><span style="font-size:15px;">&raquo;</span></a></li>
+<li class="next next"><a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all)|merge({'page': nombrePage})) }}"><span style="font-size:15px;">&raquo;&raquo;</span></a></li>
+{% endif %}
+</ul>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}SO{% endblock %}</title>
+        {% stylesheets 'bundles/SOgeneral/less/front.less' %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+        {% stylesheets 'bundles/SOgeneral/less/meyer.less' %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    </head>
+    <body>
+    <header>
+        <div id="header_complet">
+            <div class="header">
+                <div class="logo">
+                    <a href="#">Scrap Online</a>
+                </div>
+            </div>
+            <div class="connexion">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <a class="btn" href="{{ path('logout') }}">Deconnexion</a>
+            {% if is_granted("ROLE_ADMIN") %}
+            <a class="btn" href="{{ path('mo_dashboard') }}">Accés pro</a>
+            {% endif %}
+            {% else %}
+            <a  href="http://scrap-online.dev/app_dev.php/login_check_openid?openid_identifier=https://www.google.com/accounts/o8/id" class="btn">Connexion google</a>
+            <a  href="{{ path('login') }}" class="btn">Connexion</a>
+            {% endif %}
+            </div>
+            <ul class="menu_principal">
+                <li><a href="">Nouveau parser</a></li>
+                <li><a href="">Schema parser</a></li>
+            </ul>
+        </div>
+        <div class="stop"></div>
+    </header>
+        <div id="content">
+{% block content %}
+{% block fos_user_content %}{% endblock %}
+{% endblock %}
+            </div>
+            <footer>
+            </footer>
+        </body>
+    </html>

@@ -1,0 +1,649 @@
+list_autocomplete:
+    pattern:  /list/autocomplete/{type}
+    defaults: { _controller: SOStandardBundle:Default:index }
+add_for_autocomplete:
+    pattern:  add/for/autocomplete/{type}
+    defaults: { _controller: SOStandardBundle:Default:add }
+    requirements: { _method: post }
+
+####### StdArticleType ######
+####### SECTION BACK   ######
+
+bo_article_type_index:
+    pattern:  /backend/stdArticleTypes
+    defaults: { _controller: "SOStandardBundle:StdArticleType:index" }
+    
+bo_article_type_show:
+    pattern:  /backend/stdArticleType/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdArticleType:show" }
+    
+bo_article_type_remove:
+    pattern:  /backend/stdArticleType/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdArticleType:remove" }
+    
+bo_article_type_new:
+    pattern:  /backend/stdArticleType/new
+    defaults: { _controller: "SOStandardBundle:StdArticleType:new" }
+    
+bo_article_type_create:
+    pattern:  /backend/stdArticleType/create
+    defaults: { _controller: "SOStandardBundle:StdArticleType:create" }
+    
+bo_article_type_edit:
+    pattern:  /backend/stdArticleType/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdArticleType:edit" }
+    
+bo_article_type_update:
+    pattern:  /backend/stdArticleType/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdArticleType:update" }
+
+####### StdAssociationType ######
+####### SECTION BACK   ######
+
+bo_association_type_index:
+    pattern:  /backend/stdAssociationTypes
+    defaults: { _controller: "SOStandardBundle:StdAssociationType:index" }
+    
+bo_association_type_show:
+    pattern:  /backend/stdAssociationType/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdAssociationType:show" }
+    
+bo_association_type_remove:
+    pattern:  /backend/stdAssociationType/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdAssociationType:remove" }
+    
+bo_association_type_new:
+    pattern:  /backend/stdAssociationType/new
+    defaults: { _controller: "SOStandardBundle:StdAssociationType:new" }
+    
+bo_association_type_create:
+    pattern:  /backend/stdAssociationType/create
+    defaults: { _controller: "SOStandardBundle:StdAssociationType:create" }
+    
+bo_association_type_edit:
+    pattern:  /backend/stdAssociationType/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdAssociationType:edit" }
+    
+bo_association_type_update:
+    pattern:  /backend/stdAssociationType/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdAssociationType:update" }
+
+####### Benefits ######
+
+bo_benefit_index:
+    pattern:  /backend/stdBenefits
+    defaults: { _controller: "SOStandardBundle:StdBenefit:index" }
+    
+bo_benefit_show:
+    pattern:  /backend/stdBenefit/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdBenefit:show" }
+    
+bo_benefit_remove:
+    pattern:  /backend/stdBenefit/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdBenefit:remove" }
+    
+bo_benefit_new:
+    pattern:  /backend/stdBenefit/new
+    defaults: { _controller: "SOStandardBundle:StdBenefit:new" }
+    
+bo_benefit_create:
+    pattern:  /backend/stdBenefit/create
+    defaults: { _controller: "SOStandardBundle:StdBenefit:create" }
+    
+bo_benefit_edit:
+    pattern:  /backend/stdBenefit/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdBenefit:edit" }
+    
+bo_benefit_update:
+    pattern:  /backend/stdBenefit/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdBenefit:update" }
+
+####### StdCategory    ######
+####### SECTION BACK  ######
+
+bo_categories:
+    pattern:  /backend/categories
+    defaults: { _controller: "SOStandardBundle:StdCategory:index" }
+    
+
+bo_category_new:
+    pattern:  /backend/category/new
+    defaults: { _controller: "SOStandardBundle:StdCategory:new" } 
+   
+bo_category_edit:
+    pattern:  /backend/category/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdCategory:edit" }
+    
+bo_category_create:
+    pattern:  /backend/category/create
+    defaults: { _controller: "SOStandardBundle:StdCategory:create" }    
+    requirements: { _method: post }
+    
+bo_category_update:
+    pattern:  /backend/category/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdCategory:update" }
+    requirements: { _method: post }
+    
+bo_category_show:
+    pattern:  /backend/category/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdCategory:show"}
+
+bo_category_add_child:
+    pattern:  /backend/category/{cat_id}/add/child
+    defaults: { _controller: "SOStandardBundle:StdCategory:new" }
+    
+bo_category_create_child:
+    pattern:  /backend/category/{cat_id}/create/child
+    defaults: { _controller: "SOStandardBundle:StdCategory:create" }
+    
+bo_category_delete:
+    pattern:  /backend/category/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdCategory:remove"}
+
+bo_category_status:
+    pattern:  /backend/category/{id}/status/{type}
+    defaults: { _controller: "SOStandardBundle:StdCategory:changeStatus"}
+    
+    
+   
+sub_category_list:
+    pattern:  /category/subCategory/{id}
+    defaults: { _controller: "SOStandardBundle:StdCategory:subCategory" }
+    
+parent_category:
+    pattern:  /category/parentCategory/{id}
+    defaults: { _controller: "SOStandardBundle:StdCategory:parentCategory" }      
+       
+    
+####### SECTION Front  ######  
+
+fo_category_show:
+    pattern:  /secteur/{slug}
+    defaults: { _controller: "SOStandardBundle:StdCategory:foShow"}
+fo_categories:
+    pattern:  /secteurs
+    defaults: { _controller: "SOStandardBundle:StdCategory:foIndex"}
+
+####### StdBenefit    ######
+####### SECTION BACK  ######
+
+category_backend_status:
+    pattern:  /backend/category/{id}/status/{type}
+    defaults: { _controller: "SOStandardBundle:StdCategory:changeStatus"}
+
+bo_standards:
+     pattern:  /backend/standards
+     defaults: { _controller: "SOStandardBundle:Default:standards"}
+
+####### StdDiplomaLevel ######
+####### SECTION BACK    ######
+
+bo_diploma_level_index:
+    pattern:  /backend/stdDiplomaLevels
+    defaults: { _controller: "SOStandardBundle:StdDiplomaLevel:index" }
+    
+bo_diploma_level_show:
+    pattern:  /backend/stdDiplomaLevel/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdDiplomaLevel:show" }
+    
+bo_diploma_level_remove:
+    pattern:  /backend/stdDiplomaLevel/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdDiplomaLevel:remove" }
+    
+bo_diploma_level_new:
+    pattern:  /backend/stdDiplomaLevel/new
+    defaults: { _controller: "SOStandardBundle:StdDiplomaLevel:new" }
+    
+bo_diploma_level_create:
+    pattern:  /backend/stdDiplomaLevel/create
+    defaults: { _controller: "SOStandardBundle:StdDiplomaLevel:create" }
+    
+bo_diploma_level_edit:
+    pattern:  /backend/stdDiplomaLevel/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdDiplomaLevel:edit" }
+    
+bo_diploma_level_update:
+    pattern:  /backend/stdDiplomaLevel/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdDiplomaLevel:update" }
+
+####### StdDiplomaNature ######
+####### SECTION BACK     ######
+
+bo_diploma_nature_index:
+    pattern:  /backend/stdDiplomaNatures
+    defaults: { _controller: "SOStandardBundle:StdDiplomaNature:index" }
+    
+bo_diploma_nature_show:
+    pattern:  /backend/stdDiplomaNature/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdDiplomaNature:show" }
+    
+bo_diploma_nature_remove:
+    pattern:  /backend/stdDiplomaNature/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdDiplomaNature:remove" }
+    
+bo_diploma_nature_new:
+    pattern:  /backend/stdDiplomaNature/new
+    defaults: { _controller: "SOStandardBundle:StdDiplomaNature:new" }
+    
+bo_diploma_nature_create:
+    pattern:  /backend/stdDiplomaNature/create
+    defaults: { _controller: "SOStandardBundle:StdDiplomaNature:create" }
+    
+bo_diploma_nature_edit:
+    pattern:  /backend/stdDiplomaNature/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdDiplomaNature:edit" }
+    
+bo_diploma_nature_update:
+    pattern:  /backend/stdDiplomaNature/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdDiplomaNature:update" }
+
+####### StdDiplomaType ######
+####### SECTION BACK   ######
+
+bo_diploma_type_index:
+    pattern:  /backend/stdDiplomaTypes
+    defaults: { _controller: "SOStandardBundle:StdDiplomaType:index" }
+    
+bo_diploma_type_show:
+    pattern:  /backend/stdDiplomaType/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdDiplomaType:show" }
+    
+bo_diploma_type_remove:
+    pattern:  /backend/stdDiplomaType/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdDiplomaType:remove" }
+    
+bo_diploma_type_new:
+    pattern:  /backend/stdDiplomaType/new
+    defaults: { _controller: "SOStandardBundle:StdDiplomaType:new" }
+    
+bo_diploma_type_create:
+    pattern:  /backend/stdDiplomaType/create
+    defaults: { _controller: "SOStandardBundle:StdDiplomaType:create" }
+    
+bo_diploma_type_edit:
+    pattern:  /backend/stdDiplomaType/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdDiplomaType:edit" }
+    
+bo_diploma_type_update:
+    pattern:  /backend/stdDiplomaType/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdDiplomaType:update" }
+
+bo_diploma_type_status:
+    pattern:  /backend/stdDiplomaType/{id}/status/{type}
+    defaults: { _controller: "SOStandardBundle:StdDiplomaType:changeStatus"}
+
+####### StdEventType ######
+####### SECTION BACK ######
+
+bo_event_type_index:
+    pattern:  /backend/stdEventTypes
+    defaults: { _controller: "SOStandardBundle:StdEventType:index" }
+    
+bo_event_type_show:
+    pattern:  /backend/stdEventType/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdEventType:show" }
+    
+bo_event_type_remove:
+    pattern:  /backend/stdEventType/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdEventType:remove" }
+    
+bo_event_type_new:
+    pattern:  /backend/stdEventType/new
+    defaults: { _controller: "SOStandardBundle:StdEventType:new" }
+    
+bo_event_type_create:
+    pattern:  /backend/stdEventType/create
+    defaults: { _controller: "SOStandardBundle:StdEventType:create" }
+    
+bo_event_type_edit:
+    pattern:  /backend/stdEventType/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdEventType:edit" }
+    
+bo_event_type_update:
+    pattern:  /backend/stdEventType/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdEventType:update" }
+
+bo_event_type_status:
+    pattern:  /backend/stdEventType/{id}/status/{type}
+    defaults: { _controller: "SOStandardBundle:StdEventType:changeStatus"}
+
+####### StdGoal       ######
+####### SECTION BACK  ######
+
+bo_goal_index:
+    pattern:  /backend/stdGoals
+    defaults: { _controller: "SOStandardBundle:StdGoal:index" }
+    
+bo_goal_show:
+    pattern:  /backend/stdGoal/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdGoal:show" }
+    
+bo_goal_remove:
+    pattern:  /backend/stdGoal/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdGoal:remove" }
+    
+bo_goal_new:
+    pattern:  /backend/stdGoal/new
+    defaults: { _controller: "SOStandardBundle:StdGoal:new" }
+    
+bo_goal_create:
+    pattern:  /backend/stdGoal/create
+    defaults: { _controller: "SOStandardBundle:StdGoal:create" }
+    
+bo_goal_edit:
+    pattern:  /backend/stdGoal/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdGoal:edit" }
+    
+bo_goal_update:
+    pattern:  /backend/stdGoal/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdGoal:update" }
+
+####### StdLevelStudy ######
+####### SECTION BACK  ######
+
+bo_level_study_index:
+    pattern:  /backend/stdLevelStudys
+    defaults: { _controller: "SOStandardBundle:StdLevelStudy:index" }
+    
+bo_level_study_show:
+    pattern:  /backend/stdLevelStudy/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdLevelStudy:show" }
+    
+bo_level_study_remove:
+    pattern:  /backend/stdLevelStudy/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdLevelStudy:remove" }
+    
+bo_level_study_new:
+    pattern:  /backend/stdLevelStudy/new
+    defaults: { _controller: "SOStandardBundle:StdLevelStudy:new" }
+    
+bo_level_study_create:
+    pattern:  /backend/stdLevelStudy/create
+    defaults: { _controller: "SOStandardBundle:StdLevelStudy:create" }
+    
+bo_level_study_edit:
+    pattern:  /backend/stdLevelStudy/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdLevelStudy:edit" }
+    
+bo_level_study_update:
+    pattern:  /backend/stdLevelStudy/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdLevelStudy:update" }
+
+####### StdPlaceCity ######
+####### SECTION BACK ######
+
+bo_place_city_index:
+    pattern:  /backend/stdPlaceCitys
+    defaults: { _controller: "SOStandardBundle:StdPlaceCity:index" }
+    
+bo_place_city_show:
+    pattern:  /backend/stdPlaceCity/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdPlaceCity:show" }
+    
+bo_place_city_remove:
+    pattern:  /backend/stdPlaceCity/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdPlaceCity:remove" }
+    
+bo_place_city_new:
+    pattern:  /backend/stdPlaceCity/new
+    defaults: { _controller: "SOStandardBundle:StdPlaceCity:new" }
+    
+bo_place_city_create:
+    pattern:  /backend/stdPlaceCity/create
+    defaults: { _controller: "SOStandardBundle:StdPlaceCity:create" }
+    
+bo_place_city_edit:
+    pattern:  /backend/stdPlaceCity/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdPlaceCity:edit" }
+    
+bo_place_city_update:
+    pattern:  /backend/stdPlaceCity/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdPlaceCity:update" }
+
+####### StdPlaceCountry ######
+####### SECTION BACK    ######
+
+bo_country_index:
+    pattern:  /backend/stdPlaceCountrys
+    defaults: { _controller: "SOStandardBundle:StdPlaceCountry:index" }
+    
+bo_country_show:
+    pattern:  /backend/stdPlaceCountry/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdPlaceCountry:show" }
+    
+bo_country_remove:
+    pattern:  /backend/stdPlaceCountry/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdPlaceCountry:remove" }
+    
+bo_country_new:
+    pattern:  /backend/stdPlaceCountry/new
+    defaults: { _controller: "SOStandardBundle:StdPlaceCountry:new" }
+    
+bo_country_create:
+    pattern:  /backend/stdPlaceCountry/create
+    defaults: { _controller: "SOStandardBundle:StdPlaceCountry:create" }
+    
+bo_country_edit:
+    pattern:  /backend/stdPlaceCountry/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdPlaceCountry:edit" }
+    
+bo_country_update:
+    pattern:  /backend/stdPlaceCountry/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdPlaceCountry:update" }
+
+####### StdPlaceDepartment ######
+####### SECTION BACK       ######
+
+bo_department_index:
+    pattern:  /backend/stdPlaceDepartments
+    defaults: { _controller: "SOStandardBundle:StdPlaceDepartment:index" }
+    
+bo_department_show:
+    pattern:  /backend/stdPlaceDepartment/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdPlaceDepartment:show" }
+    
+bo_department_remove:
+    pattern:  /backend/stdPlaceDepartment/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdPlaceDepartment:remove" }
+    
+bo_department_new:
+    pattern:  /backend/stdPlaceDepartment/new
+    defaults: { _controller: "SOStandardBundle:StdPlaceDepartment:new" }
+    
+bo_department_create:
+    pattern:  /backend/stdPlaceDepartment/create
+    defaults: { _controller: "SOStandardBundle:StdPlaceDepartment:create" }
+    
+bo_department_edit:
+    pattern:  /backend/stdPlaceDepartment/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdPlaceDepartment:edit" }
+    
+bo_department_update:
+    pattern:  /backend/stdPlaceDepartment/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdPlaceDepartment:update" }
+
+####### StdPlaceRegion ######
+####### SECTION BACK   ######
+
+bo_region_index:
+    pattern:  /backend/stdPlaceRegions
+    defaults: { _controller: "SOStandardBundle:StdPlaceRegion:index" }
+    
+bo_region_show:
+    pattern:  /backend/stdPlaceRegion/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdPlaceRegion:show" }
+    
+bo_region_remove:
+    pattern:  /backend/stdPlaceRegion/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdPlaceRegion:remove" }
+    
+bo_region_new:
+    pattern:  /backend/stdPlaceRegion/new
+    defaults: { _controller: "SOStandardBundle:StdPlaceRegion:new" }
+    
+bo_region_create:
+    pattern:  /backend/stdPlaceRegion/create
+    defaults: { _controller: "SOStandardBundle:StdPlaceRegion:create" }
+    
+bo_region_edit:
+    pattern:  /backend/stdPlaceRegion/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdPlaceRegion:edit" }
+    
+bo_region_update:
+    pattern:  /backend/stdPlaceRegion/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdPlaceRegion:update" }
+
+####### StdQuality    ######
+####### SECTION BACK  ######
+
+bo_quality_index:
+    pattern:  /backend/stdQualitys
+    defaults: { _controller: "SOStandardBundle:StdQuality:index" }
+    
+bo_quality_show:
+    pattern:  /backend/stdQuality/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdQuality:show" }
+    
+bo_quality_remove:
+    pattern:  /backend/stdQuality/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdQuality:remove" }
+    
+bo_quality_new:
+    pattern:  /backend/stdQuality/new
+    defaults: { _controller: "SOStandardBundle:StdQuality:new" }
+    
+bo_quality_create:
+    pattern:  /backend/stdQuality/create
+    defaults: { _controller: "SOStandardBundle:StdQuality:create" }
+    
+bo_quality_edit:
+    pattern:  /backend/stdQuality/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdQuality:edit" }
+    
+bo_quality_update:
+    pattern:  /backend/stdQuality/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdQuality:update" }
+
+####### StdSchoolStatus ######
+####### SECTION BACK    ######
+
+bo_school_status_index:
+    pattern:  /backend/stdSchoolStatus
+    defaults: { _controller: "SOStandardBundle:StdSchoolStatus:index" }
+    
+bo_school_status_show:
+    pattern:  /backend/stdSchoolStatus/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdSchoolStatus:show" }
+    
+bo_school_status_remove:
+    pattern:  /backend/stdSchoolStatus/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdSchoolStatus:remove" }
+    
+bo_school_status_new:
+    pattern:  /backend/stdSchoolStatus/new
+    defaults: { _controller: "SOStandardBundle:StdSchoolStatus:new" }
+    
+bo_school_status_create:
+    pattern:  /backend/stdSchoolStatus/create
+    defaults: { _controller: "SOStandardBundle:StdSchoolStatus:create" }
+    
+bo_school_status_edit:
+    pattern:  /backend/stdSchoolStatus/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdSchoolStatus:edit" }
+    
+bo_school_status_update:
+    pattern:  /backend/stdSchoolStatus/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdSchoolStatus:update" }
+
+####### StdSchoolType ######
+####### SECTION BACK  ######
+
+bo_school_type_index:
+    pattern:  /backend/stdSchoolTypes
+    defaults: { _controller: "SOStandardBundle:StdSchoolType:index" }
+    
+bo_school_type_show:
+    pattern:  /backend/stdSchoolType/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdSchoolType:show" }
+    
+bo_school_type_remove:
+    pattern:  /backend/stdSchoolType/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdSchoolType:remove" }
+    
+bo_school_type_new:
+    pattern:  /backend/stdSchoolType/new
+    defaults: { _controller: "SOStandardBundle:StdSchoolType:new" }
+    
+bo_school_type_create:
+    pattern:  /backend/stdSchoolType/create
+    defaults: { _controller: "SOStandardBundle:StdSchoolType:create" }
+    
+bo_school_type_edit:
+    pattern:  /backend/stdSchoolType/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdSchoolType:edit" }
+    
+bo_school_type_update:
+    pattern:  /backend/stdSchoolType/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdSchoolType:update" }
+
+####### StdSkill        ######
+####### SECTION BACK    ######
+
+bo_skill_index:
+    pattern:  /backend/stdSkills
+    defaults: { _controller: "SOStandardBundle:StdSkill:index" }
+    
+bo_skill_show:
+    pattern:  /backend/stdSkill/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdSkill:show" }
+    
+bo_skill_remove:
+    pattern:  /backend/stdSkill/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdSkill:remove" }
+    
+bo_skill_new:
+    pattern:  /backend/stdSkill/new
+    defaults: { _controller: "SOStandardBundle:StdSkill:new" }
+    
+bo_skill_create:
+    pattern:  /backend/stdSkill/create
+    defaults: { _controller: "SOStandardBundle:StdSkill:create" }
+    
+bo_skill_edit:
+    pattern:  /backend/stdSkill/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdSkill:edit" }
+    
+bo_skill_update:
+    pattern:  /backend/stdSkill/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdSkill:update" }
+
+####### StdSocialStatus ######
+####### SECTION BACK    ######
+
+bo_social_status_index:
+    pattern:  /backend/stdSocialStatus
+    defaults: { _controller: "SOStandardBundle:StdSocialStatus:index" }
+    
+bo_social_status_show:
+    pattern:  /backend/stdSocialStatus/{id}/show
+    defaults: { _controller: "SOStandardBundle:StdSocialStatus:show" }
+    
+bo_social_status_remove:
+    pattern:  /backend/stdSocialStatus/{id}/remove
+    defaults: { _controller: "SOStandardBundle:StdSocialStatus:remove" }
+    
+bo_social_status_new:
+    pattern:  /backend/stdSocialStatus/new
+    defaults: { _controller: "SOStandardBundle:StdSocialStatus:new" }
+    
+bo_social_status_create:
+    pattern:  /backend/stdSocialStatus/create
+    defaults: { _controller: "SOStandardBundle:StdSocialStatus:create" }
+    
+bo_social_status_edit:
+    pattern:  /backend/stdSocialStatus/{id}/edit
+    defaults: { _controller: "SOStandardBundle:StdSocialStatus:edit" }
+    
+bo_social_status_update:
+    pattern:  /backend/stdSocialStatus/{id}/update
+    defaults: { _controller: "SOStandardBundle:StdSocialStatus:update" }

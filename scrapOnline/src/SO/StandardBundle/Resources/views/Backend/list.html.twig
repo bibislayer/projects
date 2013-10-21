@@ -1,0 +1,108 @@
+{% if h1 is defined %}
+    <div class="block_header"><h1>{{ h1 }}</h1></div>
+{% endif %}
+<div class="block_content">
+
+    {% if filters is defined %}
+        {% if filters.form is defined %}
+            {% include 'SOStandardBundle:Backend:filters.html.twig' with {'filters': filters.fields, 'form': filters.form} %}
+        {% else %}
+            {% include 'SOStandardBundle:Backend:filters.html.twig' with {'filters': filters.fields} %}
+        {% endif %}
+    {% endif %}
+
+    <p style="padding-left:10px;">Total Record : {{ elements.count() }} </p>
+
+    
+    {% set paginationParameters = {'elements': elements} %}
+    {% include view with paginationParameters %}
+
+
+    {% if params.actions is defined and params.actions == 'paginate' %}
+        {% set paginationParameters = paginationParameters|merge({'page': params.page}) %}
+        {% include 'SOStandardBundle:Backend:paginate.html.twig' with paginationParameters only %}
+    {% endif %}
+
+    <br/>
+    {% if addUrl is defined %}
+        <p class="centrer"><a class="btn _25 text_center large" href="{{ path(addUrl) }}">Ajouter</a></p>
+    {% endif %}
+    <br/>
+
+</div>
+
+<script>
+    $('ul.pagination li a').click(function() {
+        var params = new Array();
+        params['url'] = $(this).attr('href');
+        params['obj'] = $(this).closest('div.block_design');
+        ajaxi('', params);
+        return false;
+    });
+    $('div.filters form select').change(function() {
+        var params = new Array();
+        params['url'] = $(this).closest('form').attr('action');
+        params['data'] = $(this).closest('form').serialize();
+        params['obj'] = $(this).closest('div.block_design');
+        ajaxi('', params);
+        return false;
+    });
+
+    $('div.filters form').submit(function() {
+        var params = new Array();
+        params['url'] = $(this).attr('action');
+        params['data'] = $(this).closest('form').serialize();
+        params['obj'] = $(this).closest('div.block_design');
+        ajaxi('', params);
+        return false;
+    });
+    //This function is for sending ajax request using conditions
+    function ajaxi(that, params) {
+        var url, fancy, obj, data, dataType;
+
+        dataType = '';
+
+        if (that) {
+            event.preventDefault();
+            url = $(that).attr('data-url');
+            if ($(that).attr('data-fancy'))
+                params['action'] = fctFancy;
+            obj = $('#' + $(that).attr('data-replace'));
+            //history.pushState({}, '', $(that).attr("href"));
+        } else {
+            url = params['url'];
+            obj = params['obj'];
+            if(params['data'] != undefined)
+                 data = params['data'];
+
+            if(params['dataType'] != undefined){
+                dataType = params['dataType'] ;
+            }
+            //history.pushState({}, '', url);
+            fancy = false;
+        }
+
+        if (!params || params && !params['autocomplete'])
+            $(obj).addClass('opacity');
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: dataType,
+            data: data,
+            success: function(data) {
+                $(obj).removeClass('opacity');
+                if (params && params['action']) {
+                    params['action'](data, params);
+                } else {
+                    obj.html(data);
+                }
+                history.pushState({}, '', this.url);
+            },
+            error: function(data) {
+                return 0;
+            }
+        });
+        return false;
+    }
+</script>

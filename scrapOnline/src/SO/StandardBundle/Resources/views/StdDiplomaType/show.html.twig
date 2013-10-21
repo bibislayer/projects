@@ -1,0 +1,125 @@
+{% extends 'SOBackBundle::layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="grid_8">
+        <div class="block_border">
+            <div class="block_design">
+                <div class="block_header"><h1>Show diiploma type</h1></div>
+                <div class="block_content no_padding">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Nom du type de diplôme</td>
+                                <td class="center">{{ diplomaType.name }}</td>
+                            </tr>                            
+                            
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Alias du type de diplôme</td>
+                                <td class="center">{{ diplomaType.otherName }}</td>
+                            </tr>                          
+                            
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Demande</td>
+                                <td class="center">{{ diplomaType.demand }}</td>
+                            </tr>                          
+                            
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Nature du type de diplôme</td>
+                                <td class="center">
+                                    {% if diplomaType.DiplomaNature.id is defined %}
+                                        {{ diplomaType.DiplomaNature.name }}
+                                    {% endif %}
+                                </td>
+                            </tr>                          
+                            
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Accès</td>
+                                <td class="center">
+                                    {% if diplomaType.DiplomaEtat.id is defined %}
+                                        {{ diplomaType.DiplomaEtat.name }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        
+                            
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Niveau final du Diplome</td>
+                                <td class="center">
+                                    {% if diplomaType.FinalLevel.id is defined %}
+                                        {{ diplomaType.FinalLevel.name }}
+                                    {% endif %}
+                                </td>
+                            </tr>                        
+                            
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Std diplomas level</td>
+                                <td class="center">
+                                    {% if diplomaType.StartLevel.id is defined %}
+                                        {{ diplomaType.StartLevel.name }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                                                  
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Ou Préparer</td>
+                                <td class="center">{{ diplomaType.textTraining|raw }}</td>
+                            </tr>
+                                                  
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Text introduction</td>
+                                <td class="center">{{ diplomaType.textIntroduction|raw }}</td>
+                            </tr>
+                                                  
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Text presentation</td>
+                                <td class="center">{{ diplomaType.textPresentation|raw }}</td>
+                            </tr>
+
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Statut</td>
+                                <td class="center">
+                                    {% if diplomaType.approbation==1 and diplomaType.published==1 %}
+                                        Publi&eacute;
+                                    {% elseif (diplomaType.published==1 and diplomaType.approbation!=1) or diplomaType.approbation==null %}
+                                        En attente	
+                                    {% elseif diplomaType.published==9 and diplomaType.approbation==9 %}
+                                        En cours de r&eacute;daction
+                                    {% elseif diplomaType.published==8 and diplomaType.approbation==8 %}
+                                        En cours de validation r&eacute;daction
+                                     {% else %}
+                                        Non Publi&eacute;
+                                     {% endif %}
+                                </td>
+                            </tr>  
+                        </tbody>
+                     </table>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_4">
+            <div class="block_border">
+                <div class="block_design sidebar">
+                    <div class="block_header"><h1>Actions</h1></div>
+                    <div class="block_content no_padding">
+                        <ul class="list no_margin">                            
+                            <li><a href="{{ path('bo_diploma_type_edit',{'id':diplomaType.id}) }}">Modifier</a> </li>
+                            <li><a href="{{ path('bo_diploma_type_remove',{'id':diplomaType.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a>  </li>                            
+                            <li><a href="{{ path('bo_diploma_type_index') }}">All diploma type</a></li>
+                            {% if diplomaType.approbation==1 and diplomaType.published==1 %}
+                                <li><a href="{{ path('bo_diploma_type_status',{'id':diplomaType.id, 'type':'unpublish'}) }}">Non Publi&eacute</a></li>
+                            {% else %}
+                                <li><a href="{{ path('bo_diploma_type_status',{'id':diplomaType.id, 'type':'publish'}) }}">Enregistrer et publier</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

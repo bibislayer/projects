@@ -1,0 +1,183 @@
+<?php
+
+/*
+ * This file is part of the FOSUserBundle package.
+ *
+ * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace SO\UserBundle\Controller;
+
+use FOS\UserBundle\FOSUserEvents;
+use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\Event\UserEvent;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use FOS\UserBundle\Model\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SO\UserBundle\Entity\UserProfile;
+
+/**
+ * Controller managing the registration
+ *
+ * @author Thibault Duplessis <thibault.duplessis@gmail.com>
+ * @author Christophe Coevoet <stof@notk.org>
+ */
+class RegistrationController extends Controller implements ContainerAwareInterface {
+
+    public function registerAction(Request $request, $is_pro = NULL) {
+        /** @var $formFactory \SO\UserBundle\Form\Factory\FactoryInterface */
+        $formFactory = $this->container->get('recrut_online_user.registration.form.type');
+        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
+        $userManager = $this->container->get('fos_user.user_manager');
+        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+        $dispatcher = $this->container->get('event_dispatcher');
+
+        $userForm = $request->get('recrut_online_user_registration');
+        $user = $userManager->createUser();
+        $user->setEnabled(true);
+
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, new UserEvent($user, $request));
+
+
+        $form = $this->createForm($formFactory);
+
+        /**/
+        if ('POST' === $request->getMethod()) {
+            $form->bind($request);
+
+            //  echo '<pre>'; print_r($form); exit;
+            if ($form->isValid()) {
+
+                if (is_array($userForm) && array_key_exists('user_profile', $userForm)) {
+                    $profile = new UserProfile();
+                    if (array_key_exists('firstname', $userForm['user_profile']) && $userForm['user_profile']['firstname'] != '') {
+                        $profile->setFirstname($userForm['user_profile']['firstname']);
+                    }
+                    if (array_key_exists('lastname', $userForm['user_profile']) && $userForm['user_profile']['lastname'] != '') {
+                        $profile->setLastname($userForm['user_profile']['lastname']);
+                    }
+                    if (array_key_exists('gender', $userForm['user_profile']) && $userForm['user_profile']['gender'] != '') {
+                        $profile->setGender($userForm['user_profile']['gender']);
+                    }
+                    $profile->setUser($user);
+                    $user->setUserProfile($profile);
+                }
+                $form->setData($user);
+                $userManager->updateUser($user);
+                if (!$is_pro):
+                    // TODO explain this section
+                    $event = new FormEvent($form, $request);
+                    $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+
+                    if (null === $response = $event->getResponse()) {
+                        $url = $this->container->get('router')->generate('user_confirmed');
+                        $response = new RedirectResponse($url);
+                    }
+
+                    $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+                else:
+                    // TODO 
+                    // get repository service for create enterprise
+                    $enterprise = $this->get();
+                    // TODO 
+                    // function for create enterprise with user
+                    $enterprise->createEnterpriseForUser($dataEnterprise, $user);
+                    
+                    // TODO
+                    // send email enterprise created success and activate account
+                    
+                endif;
+                return $response;
+            }
+        }
+        $template = 'register';
+        if ($is_pro)
+            $template .= '_pro';
+        return $this->container->get('templating')->renderResponse('SOUserBundle:Registration:'.$template.'.html.' . $this->getEngine(), array(
+                    'form' => $form->createView(),
+        ));
+    }
+
+    public function registerProAction(Request $request) {
+        return $this->registerAction($request, 1);
+    }
+
+    /**
+     * Tell the user to check his email provider
+     */
+    public function checkEmailAction() {
+        $email = $this->container->get('session')->get('fos_user_send_confirmation_email/email');
+        $this->container->get('session')->remove('fos_user_send_confirmation_email/email');
+        $user = $this->container->get('fos_user.user_manager')->findUserByEmail($email);
+
+        if (null === $user) {
+            throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
+        }
+
+        return $this->container->get('templating')->renderResponse('SOUserBundle:Registration:checkEmail.html.' . $this->getEngine(), array(
+                    'user' => $user,
+        ));
+    }
+
+    /**
+     * Receive the confirmation token from user email provider, login the user
+     */
+    public function confirmAction(Request $request, $token) {
+        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
+        $userManager = $this->container->get('fos_user.user_manager');
+
+        $user = $userManager->findUserByConfirmationToken($token);
+
+        if (null === $user) {
+            throw new NotFoundHttpException(sprintf('The user with confirmation token "%s" does not exist', $token));
+        }
+
+        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+        $dispatcher = $this->container->get('event_dispatcher');
+
+        $user->setConfirmationToken(null);
+        $user->setEnabled(true);
+
+        $event = new GetResponseUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRM, $event);
+
+        $userManager->updateUser($user);
+
+        if (null === $response = $event->getResponse()) {
+            $url = $this->container->get('router')->generate('user_confirmed');
+            $response = new RedirectResponse($url);
+        }
+
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRMED, new FilterUserResponseEvent($user, $request, $response));
+
+        return $response;
+    }
+
+    /**
+     * Tell the user his account is now confirmed
+     */
+    public function confirmedAction() {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        return $this->container->get('templating')->renderResponse('SOUserBundle:Registration:confirmed.html.' . $this->getEngine(), array(
+                    'user' => $user,
+        ));
+    }
+
+    protected function getEngine() {
+        return $this->container->getParameter('fos_user.template.engine');
+    }
+
+}

@@ -1,0 +1,57 @@
+{% extends 'SOBackBundle::layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="grid_8">
+        <div class="block_border">
+            <div class="block_design">
+                <div class="block_header"><h1>Show place city</h1></div>
+                <div class="block_content no_padding">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Nom</td>
+                                <td class="center">{{ placeCity.name }}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Department</td>
+                                <td class="center">{{ placeCity.Department.name }}</td>
+                            </tr> 
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Zip code</td>
+                                <td class="center">{{ placeCity.zipcode }}</td>
+                            </tr> 
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Latitude</td>
+                                <td class="center">{{ placeCity.latitude }}</td>
+                            </tr> 
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Longitude</td>
+                                <td class="center">{{ placeCity.longitude }}</td>
+                            </tr>  
+                        </tbody>
+                     </table>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_4">
+            <div class="block_border">
+                <div class="block_design sidebar">
+                    <div class="block_header"><h1>Actions</h1></div>
+                    <div class="block_content no_padding">
+                        <ul class="list no_margin">                            
+                            <li><a href="{{ path('bo_place_city_edit',{'id':placeCity.id}) }}">Modifier</a> </li>
+                            <li><a href="{{ path('bo_place_city_remove',{'id':placeCity.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a>  </li>                            
+                            <li><a href="{{ path('bo_place_city_index') }}">All place city</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

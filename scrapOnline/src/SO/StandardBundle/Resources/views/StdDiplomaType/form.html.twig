@@ -1,0 +1,29 @@
+<div class="line">
+    
+        {{ form_row(form.name) }}
+        {{ form_row(form.other_name) }}
+
+        {{ form_label(form.DiplomaNature) }}
+        {{ form_errors(form.DiplomaNature) }}
+        {{ form_widget(form.DiplomaNature) }}
+
+        {{ form_label(form.DiplomaEtat) }}
+        {{ form_errors(form.DiplomaEtat) }}
+        {{ form_widget(form.DiplomaEtat) }}
+
+        {{ form_row(form.StartLevel) }}
+        {{ form_row(form.FinalLevel) }}
+        {{ form_row(form.demand) }}
+        {{ form_row(form.text_training) }}
+        {{ form_row(form.text_introduction) }}
+        {{ form_row(form.text_presentation) }}
+
+
+    
+    {{ form_row(form._token) }}
+
+    <div class="text_center _30">
+        {{ form_widget(form.save) }}
+        {{ form_widget(form.published) }}
+    </div>
+</div>

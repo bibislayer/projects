@@ -1,0 +1,72 @@
+{% extends 'SOBackBundle::layout.html.twig' %}
+
+{% block title %}Forma-search{% endblock %}
+
+{% block content_header '' %}
+{% block content %}
+<h1>Gestion des standards du site</h1>
+ <p>Les standards sont tous les éléments du site qui permettent au site d'ajouter des données</p>
+<div class="grid_6">
+    <div class="block_border ">
+        <div class="block_design sidebar">
+            <div class="block_header"><h2>Les diplômes</h2></div>
+            <div class="block_content no_padding">
+               <ul class="list">
+                   <li><a href="{{ path('bo_diploma_level_index')}}">{{ count.diplomaEtat }} Etats des diplomes</a></li>
+                   <li><a href="{{ path('bo_level_study_index')}}">{{ count.diplomaLevel }} Niveaux des diplomes</a></li>
+                   <li><a href="{{ path('bo_diploma_type_index')}}">{{ count.diplomaType }} Type diplome </a> </li>
+                   <li><a href="{{ path('bo_categories')}}">{{ count.category }} Catégories </a></li>
+               </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="block_border ">
+        <div class="block_design sidebar">
+            <div class="block_header"><h2>Relatif à l'école</h2></div>
+            <div class="block_content no_padding">
+                <ul class="list">
+                    <li><a href="{{ path('bo_school_status_index')}}">{{ count.schoolStatus }} Statut ecole</a></li>
+                    <li><a href="{{ path('bo_social_status_index')}}">{{ count.socialStatus }} Statut social </a> </li>
+                    <li><a href="{{ path('bo_association_type_index')}}">{{ count.associationType }} Type association </a> </li>
+                    <li><a href="{{ path('bo_school_type_index')}}">{{ count.schoolType }} Type ecole </a> </li>
+                    <li><a href="{{ path('bo_event_type_index')}}">{{ count.eventType }} Type evenement </a> </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid_6">
+    <div class="block_border ">
+        <div class="block_design sidebar">
+            <div class="block_header"><h2>Localisation</h2></div>
+            <div class="block_content no_padding">
+                <ul class="list">
+                    <li><a href="{{ path('bo_country_index')}}">{{ count.country }} Pays</a> </li>
+                    <li><a href="{{ path('bo_region_index')}}">{{ count.region }} Regions </a> </li>
+                    <li><a href="{{ path('bo_department_index')}}">{{ count.department }} Départements </a> </li>
+                    <li><a href="{{ path('bo_place_city_index')}}">{{ count.city }} Ville  </a> </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="block_border ">
+        <div class="block_design sidebar">
+            <div class="block_header"><h2>Autres</h2></div>
+            <div class="block_content no_padding">
+                <ul class="list">
+                    <li><a href="{{ path('bo_skill_index')}}">{{ count.skill }} Compétences</a> </li>
+                    <li><a href="{{ path('bo_quality_index')}}">{{ count.quality }} Qualités </a> </li>
+                    <li><a href="{{ path('bo_goal_index')}}">{{ count.goal }} Objectifs </a> </li>
+                    <li><a href="{{ path('bo_benefit_index')}}">{{ count.benefit }} Atouts  </a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

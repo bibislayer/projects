@@ -1,0 +1,41 @@
+{% extends 'SOBackBundle::layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="grid_8">
+        <div class="block_border">
+            <div class="block_design">
+                <div class="block_header"><h1>Show place region</h1></div>
+                <div class="block_content no_padding">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Nom</td>
+                                <td class="center">{{ region.name }}</td>
+                            </tr> 
+                        </tbody>
+                     </table>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_4">
+            <div class="block_border">
+                <div class="block_design sidebar">
+                    <div class="block_header"><h1>Actions</h1></div>
+                    <div class="block_content no_padding">
+                        <ul class="list no_margin">                            
+                            <li><a href="{{ path('bo_region_edit',{'id':region.id}) }}">Modifier</a> </li>
+                            <li><a href="{{ path('bo_region_remove',{'id':region.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a>  </li>                            
+                            <li><a href="{{ path('bo_region_index') }}">All region</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

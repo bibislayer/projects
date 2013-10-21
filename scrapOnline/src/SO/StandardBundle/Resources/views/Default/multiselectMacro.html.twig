@@ -1,0 +1,35 @@
+{% macro multiSelectBox(params) %}
+
+{% for fieldName , parameters in params %}
+
+<div class="stop"></div>
+<div class="label"><label for="{{ parameters.entityName }}_{{ parameters.entityName }}{{ fieldName |  capitalize }}">{{ parameters.label }}</label></div>
+    <div class="left _30_imp">
+        <select multiple="multiple" class="_70 {{ fieldName }}_list" name="{{ parameters.entityName }}[{{ parameters.entityName }}{{ fieldName |  capitalize }}][]" id="{{ parameters.entityName }}_{{ parameters.entityName }}{{ fieldName |  capitalize }}" size="{{parameters.size|default(8)}}">
+            {% if parameters.dataListLeft is defined %}
+                 {% for data in parameters.dataListLeft %}
+                     <option value="{{ data.id }}">{{ data.name }}</option>                                                                                 
+                 {% endfor %}
+             {% endif %}
+        </select>
+    </div>
+
+        <div class="low container" style="width:5%;float:left">
+            <input name="{{ parameters.entityName }}_{{ parameters.entityName }}{{ fieldName |  capitalize }}2{{ fieldName }}_values" value="=>" type="button" type_list="{{fieldName }}" style="border:none;width:100%;color:#000;" onclick="generateSelectList(this);">
+            <input name="{{ fieldName }}_values2{{ parameters.entityName }}_{{ parameters.entityName }}{{ fieldName |  capitalize }}" value="<=" type="button" type_list="{{ fieldName }}" style="border:none;width:100%;color:#000;" onclick="generateSelectList(this);">
+        </div>
+        <div class="{{ fieldName }}_text left  _30_imp">
+            <select  class="multiple _100_imp" name="{{fieldName }}_values" id="{{ fieldName }}_values" size="{{parameters.size|default(8)}}" multiple="multiple">                                                                  
+                {% set hvalue= '' %}
+                {% if parameters.dataListRight is defined %}
+                    {% for data in parameters.dataListRight %}
+                        <option value="{{ data.id }}">{{ data.name }}</option>
+                          {% set hvalue = ((hvalue == '') ? data.id :  hvalue ~ ',' ~ data.id) %}                                                                            
+                    {% endfor %}
+                {% endif %}
+            </select>               
+            <input type="hidden" name="hidden_{{ fieldName }}" id="hidden_{{ fieldName }}" value="{{ hvalue }}">
+        </div>  
+       <div class="stop"></div>
+{% endfor %}    
+{% endmacro %}

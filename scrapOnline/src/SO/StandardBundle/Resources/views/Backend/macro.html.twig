@@ -1,0 +1,36 @@
+
+{% macro _autocomplete(field,params) %}
+    <div class="form_row">
+        <div class="label">
+            <label for="auto_{{ field }}_label" class="required">{{ params.label }}</label>
+        </div>
+        <div class="field">
+            <input type="text" id="auto_{{ field }}s" class="_40_imp" name="auto_{{ field }}s" value="" class="_70" data-limit="10" data-url="list/autocomplete/{{ params.entity }}" onkeydown="generateAutocomplete(this)">
+            {% if params.multi_add is defined %}
+                {{ _self.multi_add(field,params) }}
+            {% endif %}
+        </div>
+    </div>          
+    <div class="stop"></div>
+{% endmacro %}
+
+
+{% macro multi_add(field,params) %}
+   <input type="button" class="btn btn-primary _10_imp" value="Ajouter" data-type="{{ field }}" data-input-id="auto_{{ field }}s" data-limit="5" data-add-url="add/for/autocomplete/{{ params.entity }}" onclick="generateInputList(this);">
+    <div class="stop"></div>
+    <div class="auto_list" id="auto_{{ field }}s_list"> 
+        {% if params.objects is defined %}
+            {% for row in params.objects %}
+                <div class="dynamic" id="{{ field }}_div_{{ row.id }}">
+                    <b>{{ loop.index }}</b>&nbsp;&nbsp;{{ row.name }}&nbsp;&nbsp;<a href="javascript:deleteListItem({{ row.id }},'{{ field }}');">supprimer</a>
+                    <input type="hidden" name="{{ field }}s[]" id="{{ field }}s_{{ row.id }}" value="{{ row.id }}">
+                </div>
+            {% endfor %}   
+        {% endif %}
+        {% if params.extra_fields is defined %}
+            {% for fieldRow in params.extra_fields %}
+                <input type="{{ fieldRow.type }}" name="{{ fieldRow.name }}" value="{{ fieldRow.value }}" />
+            {% endfor %}   
+        {% endif %}
+    </div>
+{% endmacro %}

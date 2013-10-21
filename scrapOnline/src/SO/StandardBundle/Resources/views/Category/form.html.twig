@@ -1,0 +1,56 @@
+<div class="block_content">
+    
+ {% if errors|length > 0 %}
+    <ul class="error_list">
+      {% for error in errors %}
+            
+            <li>{{ error.messageTemplate }}</li>
+      {% endfor %}
+     </ul> 
+  {% endif %}
+            <form action="{{ app.request.attributes.get('is_new') ? (app.request.attributes.get('cat_id')? path('bo_category_create_child',{'cat_id': app.request.attributes.get('cat_id')}) : path('bo_category_create') ): path('bo_category_update',{'id':entity.id})  }}" method="post" {{ form_enctype(form) }}> 
+
+            <div class="line">
+                    
+                                        {{ form_row(form.name) }}                                    
+                                        
+                                       
+                       <fieldset>
+                            <legend>&nbsp</legend>  
+
+                                <div style="float:left; width:70%;">{{ form_row(form.sector_turnover) }}</div>
+                                <div style="float:left; width:30%;">{{ form_row(form.sector_turnover_year) }}</div>
+                                <div class="stop"></div>  
+
+                                <div style="float:left; width:70%;">{{ form_row(form.sector_employment) }}</div>
+                                <div style="float:left; width:30%;">{{ form_row(form.sector_employment_year) }}</div>
+                                <div class="stop"></div>  
+
+                                <div style="float:left; width:70%;">{{ form_row(form.sector_enterprises) }}</div>
+                                <div style="float:left; width:30%;">{{ form_row(form.sector_enterprises_year) }}</div>
+                                <div class="stop"></div>     
+      
+                        </fieldset>              
+                        <fieldset>
+                            <legend>&nbsp</legend>
+                                {{ form_row(form.demand) }}
+                                       
+                                {{ form_row(form.introduction) }}
+
+                                {{ form_row(form.presentation) }}
+
+                                <div class="stop"></div>
+                        </fieldset>
+                        {% if app.request.attributes.get('cat_id')!='' %}        
+                            {{ form_row(form.parent_id,{'value':app.request.attributes.get('cat_id')}) }}
+                        {% endif %}
+                        {{ form_errors(form._token) }}
+                        {{ form_widget(form._token) }}
+                            <div class="text_center">
+                                <input type="submit" class="btn btn-primary _20_imp" value="Enregistrer" name="typeSubmit"  />
+                                <input type="submit" class="btn btn-success _30_imp" value="Enregistrer et Publier" name="published" />
+                            </div>
+                        </div>
+                    </form>
+
+                </div>

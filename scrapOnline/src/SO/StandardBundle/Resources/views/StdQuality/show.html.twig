@@ -1,0 +1,46 @@
+{% extends 'SOBackBundle::layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="grid_8">
+        <div class="block_border">
+            <div class="block_design">
+                <div class="block_header"><h1>Show quality</h1></div>
+                <div class="block_content no_padding">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Nom</td>
+                                <td class="center">{{ quality.name }}</td>
+                            </tr> 
+                        </tbody>
+                     </table>
+                     <div id="trade" class="related_trade"><a href="{{ path('bo_professions') }}"><b>0</b></a>&nbsp;M&eacute;tiers li&eacute;s &agrave; cette qualit&eacute;</div>
+						   
+                    <div id="trade" class="related_trade"><a href="{{ path('bo_diplomas') }}"><b>0</b></a>&nbsp;Dipl&ocirc;mes li&eacute;s &agrave; cette qualit&eacute;</div>
+
+                    <div id="trade" class="related_trade"><a href="{{ path('bo_trainings',{'training_filter[by_quality]':quality.id}) }}"><b>{{ quality.QualityTraining | length }}</b></a>&nbsp;la formation li&eacute;e &agrave; la qualit&eacute;</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_4">
+            <div class="block_border">
+                <div class="block_design sidebar">
+                    <div class="block_header"><h1>Actions</h1></div>
+                    <div class="block_content no_padding">
+                        <ul class="list no_margin">                            
+                            <li><a href="{{ path('bo_quality_edit',{'id':quality.id}) }}">Modifier</a> </li>
+                            <li><a href="{{ path('bo_quality_remove',{'id':quality.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a>  </li>                            
+                            <li><a href="{{ path('bo_quality_index') }}">All quality</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

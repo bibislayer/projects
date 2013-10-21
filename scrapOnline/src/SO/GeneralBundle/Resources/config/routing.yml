@@ -1,0 +1,15 @@
+fo_homepage:
+    pattern:  /
+    defaults: { _controller: SOGeneralBundle:Front:index }
+    
+fo_presentation:
+    pattern:  /presentation
+    defaults: { _controller: SOGeneralBundle:Front:presentation }
+    
+mo_presentation:
+    pattern:  /admin/presentation
+    defaults: { _controller: SOGeneralBundle:Middle:presentation }
+    
+bo_dashboard:
+    pattern:  /backend
+    defaults: { _controller: SOGeneralBundle:Back:dashboard }

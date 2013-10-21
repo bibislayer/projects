@@ -1,0 +1,42 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th style="text-align:left; font-weight:bold;">Nom</th>
+        <th style="text-align:left; font-weight:bold;width:20%;">Statut</th>
+        <th style="text-align:left; font-weight:bold;">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for element in elements %}
+    <tr class="gradeX">
+        <td class="center">
+            <a href="{{ path ('bo_diploma_type_show' , {'id':  element.id  }) }}">{{ element.name }}</a>
+        </td>
+        <td class="center">
+                {% if element.approbation==1 and element.published==1 %}
+                    Publi&eacute;
+                {% elseif (element.published==1 and element.approbation!=1) or element.approbation==NULL %}
+                    En attente	
+                {% elseif element.published==9 and element.approbation==9 %}
+                    En cours de r&eacute;daction
+                {% elseif element.published==8 and element.approbation==8 %}
+                    En cours de validation r&eacute;daction
+                 {% else %}
+                    Non Publi&eacute;
+                 {% endif %}
+        </td>
+        <td class="center">
+            <a href="{{ path ('bo_diploma_type_edit' , {'id':  element.id  }) }}">Modifier</a>
+                &nbsp;&nbsp;&nbsp;<a href="{{ path('bo_diploma_type_remove',{'id':  element.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a>
+            {% if element.approbation==1 and element.published==1 %}
+                <a href="{{ path('bo_diploma_type_status',{'id':element.id, 'type':'unpublish'}) }}">Non Publi&eacute</a>
+            {% else %}
+                <a href="{{ path('bo_diploma_type_status',{'id':element.id, 'type':'publish'}) }}">Enregistrer et publier</a>
+            {% endif %}
+        </td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+

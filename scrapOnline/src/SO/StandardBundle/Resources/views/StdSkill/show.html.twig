@@ -1,0 +1,46 @@
+{% extends 'SOBackBundle::layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="grid_8">
+        <div class="block_border">
+            <div class="block_design">
+                <div class="block_header"><h1>Show skill</h1></div>
+                <div class="block_content no_padding">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td style="text-align:left; font-weight:bold;">Nom</td>
+                                <td class="center">{{ skill.name }}</td>
+                            </tr> 
+                        </tbody>
+                     </table>
+                      <div id="trade" class="related_trade"><a href="{{ path('bo_professions') }}"><b>0</b></a>&nbsp;M&eacute;tiers li&eacute;s &agrave; cette comp&eacute;tence</div>
+						   
+                      <div id="trade" class="related_trade"><a href="{{ path('bo_diplomas') }}"><b>0</b></a>&nbsp;Dipl&ocirc;mes li&eacute;s &agrave; cette comp&eacute;tence</div>
+
+                      <div id="trade" class="related_trade"><a href="{{ path('bo_trainings',{'training_filter[by_skill]':skill.id}) }}"><b>{{ skill.SkillTraining | length }}</b></a>&nbsp;La formation li&eacute;e &agrave; cette comp&eacute;tence</div>
+						
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_4">
+            <div class="block_border">
+                <div class="block_design sidebar">
+                    <div class="block_header"><h1>Actions</h1></div>
+                    <div class="block_content no_padding">
+                        <ul class="list no_margin">                            
+                            <li><a href="{{ path('bo_skill_edit',{'id':skill.id}) }}">Modifier</a> </li>
+                            <li><a href="{{ path('bo_skill_remove',{'id':skill.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a>  </li>                            
+                            <li><a href="{{ path('bo_skill_index') }}">All skill</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

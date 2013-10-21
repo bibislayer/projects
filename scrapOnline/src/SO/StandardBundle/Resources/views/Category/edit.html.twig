@@ -1,0 +1,39 @@
+{% extends 'SOBackBundle::layout.html.twig' %}
+
+{% form_theme form _self %}
+
+{% block field_errors %}
+{% spaceless %}
+  {% if errors|length > 0 %}
+<ul class="error_list">
+      {% for error in errors %}
+        <li>{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endspaceless %}
+{% endblock field_errors %}
+
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="content _100">
+            <div class="block_border">
+                <div class="block_design">
+                    <div class="block_header"><h1>Formulaires Ecole</h1></div>   
+                
+                    {% set params = {'form': form, "errors": errors, "entity":entity} %}
+                    {% include 'SOStandardBundle:Category:form.html.twig' with params only %}
+                </div>
+            </div>
+        </div>
+        <div class="stop"></div>
+    </div>
+
+<script src="{{ asset('bundles/SOstandard/js/standard.js') }}"></script> 
+
+{% endblock %}
+

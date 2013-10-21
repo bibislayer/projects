@@ -1,0 +1,30 @@
+{% extends 'SOBackBundle::layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_12">
+    <div class="block_border ">
+        <div class="block_design">
+            {% set paginationParameters = {'elements': elements, 'type': 'index', 'view': view} %}
+
+            {% if filters is defined %}
+                {% set paginationParameters = paginationParameters|merge({'filters': filters }) %}
+            {% endif %}
+
+            {% if addUrl is defined %}
+                {% set paginationParameters = paginationParameters|merge({'addUrl': addUrl}) %}
+            {% endif %}
+
+            {% if h1 is defined %}
+                {% set paginationParameters = paginationParameters|merge({'h1': h1}) %}
+            {% endif %}
+
+            {% set paginationParameters = paginationParameters|merge({'params': params}) %}
+
+            {% include 'SOStandardBundle:Backend:list.html.twig' with paginationParameters only %}
+        </div>
+    </div>
+</div>
+{% endblock %}

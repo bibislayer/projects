@@ -1,0 +1,23 @@
+SO\UserBundle\Entity\User:
+    type:  entity
+    table: users
+    repositoryClass: SO\UserBundle\Repository\UserRepository
+    fields:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+            id: true
+        facebookId:
+            type: string
+            nullable: true
+            length: 255
+        email_new:
+            type: string
+            nullable: true
+            length: 255
+    oneToOne:
+      UserProfile:
+        targetEntity:  SO\UserBundle\Entity\UserProfile
+        mappedBy: User
+        cascade: ["persist", "merge"]

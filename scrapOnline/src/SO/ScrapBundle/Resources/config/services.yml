@@ -1,0 +1,7 @@
+parameters:
+#    so_scrap.example.class: SO\ScrapBundle\Example
+
+services:
+#    so_scrap.example:
+#        class: %so_scrap.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

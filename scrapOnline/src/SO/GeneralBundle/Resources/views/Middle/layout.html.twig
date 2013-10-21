@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}SO{% endblock %}</title>
+        {% stylesheets 'bundles/SOgeneral/less/middle.less' %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+        {% stylesheets 'bundles/SOgeneral/less/meyer.less' %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    </head>
+    <body>
+        <header>
+        </header>
+        <div id="content">
+{% block content %}
+{% block fos_user_content %}{% endblock %}
+{% endblock %}
+            </div>
+            <footer>
+            </footer>
+        </body>
+    </html>

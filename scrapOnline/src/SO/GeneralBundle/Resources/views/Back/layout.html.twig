@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}SO{% endblock %}</title>
+        {% stylesheets 'bundles/SOgeneral/less/back.less' %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+        {% stylesheets 'bundles/SOgeneral/less/meyer.less' %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+        <script src="{{ asset('bundles/SOgeneral/js/jquery-1.9.1.js') }}"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/tiny_mce/tiny_mce.js') }}"></script>
+    </head>
+    <body>
+        <header>
+            <ul class="menu_principal">
+                <li>
+                    <a>Entreprises</a>
+                    <ul style="display:none">
+                        <li><a href="{{ path('bo_collaborators') }}">Collaborateurs</a></li>
+                        <li><a href="{{ path('bo_jobs') }}">Offres d'emploi</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{path('bo_questionnaires')}}">Questionnaires</a>
+                </li>
+                <li>
+                   <a> Feedbacks </a>
+                </li>
+                <li>
+                    <a>Gestion des standards </a>
+                    <ul style="display:none">
+                        <li><a href="{{ path('bo_categories') }}">Catégories</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a>Mailer</a>
+                    <ul style="display:none">
+                        <li><a href="{{ path('bo_mailers') }}">Templates de Mail</a></li>
+                        <li><a href="{{ path('bo_mailer_categories') }}">Catégories de Mail</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </header>
+        <div id="content">
+        {{ wo_render_breadcrumbs() }}
+
+{% block content %}
+{% block fos_user_content %}{% endblock %}
+{% endblock %}
+            </div>
+            <footer>
+            </footer>
+        </body>
+    </html>

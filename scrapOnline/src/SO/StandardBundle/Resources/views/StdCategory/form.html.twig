@@ -1,0 +1,34 @@
+<div class="line">
+        {{ form_row(form.name) }}
+       <fieldset>
+            <legend>Chiffre du secteurs</legend>
+           <div class="form_row">
+               {{ form_label(form.sector_turnover) }}
+               {{ form_widget(form.sector_turnover) }}
+               {{ form_widget(form.sector_turnover_year) }}
+           </div>
+           <div class="form_row">
+                {{ form_label(form.sector_employment) }}
+                {{ form_widget(form.sector_employment) }}
+                {{ form_widget(form.sector_employment_year) }}
+           </div>
+           <div class="form_row">
+                {{ form_label(form.sector_enterprises) }}
+                {{ form_widget(form.sector_enterprises) }}
+                {{ form_widget(form.sector_enterprises_year) }}
+           </div>
+    </fieldset>
+            {{ form_row(form.demand) }}
+            {{ form_row(form.introduction) }}
+            {{ form_row(form.presentation) }}
+    {% if parentObj is defined %}        
+        {{ form_row(form.parent_id,{'value':parentObj.id}) }}
+    {% endif %}
+    
+    {{ form_row(form._token) }}
+
+    <div class="text_center button_save">
+        {{ form_widget(form.save) }}
+        {{ form_widget(form.published) }}
+    </div>
+</div>

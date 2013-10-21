@@ -1,0 +1,63 @@
+login:
+    pattern:   /login
+    defaults:  { _controller: SOUserBundle:Login:foLogin }
+
+login_admin:
+    pattern:   /login_admin
+    defaults:  { _controller: SOUserBundle:Login:moLogin }
+
+login_backend:
+    pattern:   /login_backend
+    defaults:  { _controller: SOUserBundle:Login:boLogin }
+    
+user_reset_email:
+    pattern:   /user/reset/email/{email_new}/{token}
+    defaults:  { _controller: SOUserBundle:ChangeEmail:resetEmail }
+    
+login_check:
+    pattern:   /login_check
+ 
+login_check_backend:
+    pattern:   /backend/login_check
+    
+login_check_admin:
+    pattern:   /admin/login_check
+    
+_security_check:
+    pattern:  /login_facebook_check
+
+logout:
+    pattern:   /logout
+
+user_profile_show:
+    pattern:  /user/profile/show
+    defaults: { _controller: "SOUserBundle:Profile:show" }
+
+user_tabs_info:
+    pattern:  /tabsInfo/{type}
+    defaults: { _controller: "SOUserBundle:Profile:getTabsInfo" }
+    prefix: /user/profile
+    
+user_profile:
+    resource: "@SOUserBundle/Resources/config/routing/profile.xml"
+    prefix: /user/profile
+
+user_register:
+    resource: "@SOUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+ 
+user_resetting:
+    resource: "@SOUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /user/profile
+ 
+user_change_password:
+    resource: "@SOUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /user/profile
+ 
+user_change_email:
+    resource: "@SOUserBundle/Resources/config/routing/change_email.xml"
+    prefix: /user/profile
+    
+user_group:
+    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
+    prefix: /group

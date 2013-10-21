@@ -1,0 +1,58 @@
+{% if filters is not empty %}
+    <div class="input-main">
+      <form id="" class="filter" method="GET" name="backendFilter" action="{{ path(app.request.attributes.get('_route')) }}">
+        <div class="first-line">
+          {% if filters.base is defined %}
+            <ul>
+              <li>
+                {% if filters.base.limit is defined %}
+                  <div class="nb_resultat">
+                      <div class="label">
+                        <label>Afficher</label>
+                      </div>
+                      <div class="input">
+                        <select id="limit" name="limit" class="_10">
+                              {% if filters.base.limit.value is defined %}
+                                <option value="{{ filters.base.limit.value }}">{{ filters.base.limit.value }}</option>
+                              {% endif %}
+                              <option value="10">10</option>
+                              <option value="25">25</option>
+                              <option value="50">50</option>
+                              <option value="100">100</option>
+                        </select>
+                          &eacute;l&eacute;ments
+                    </div>
+                  </div>
+                {% endif %}
+                </li>
+              <li>
+                  <div class="search-bar">
+                    {% if filters.base.by_keyword is defined %}
+                     <input  class="" type="text" name="by_keyword" placeholder="Rechercher un élément" {% if filters.base.by_keyword.value is defined %} value="{{ filters.base.by_keyword.value }}" {% endif %}>
+                    {% endif %}
+                  </div>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+        <div class="second-line">
+          <ul>
+            {% if filters.others is defined %}
+              {% for k, f in filters.others %}
+              <div class="input-inline">
+                <li>
+                   <div class="label">{{ form_label(form[k]) }}  </div>
+                    <div class="field">{{ form_widget(form[k]) }}  </div>
+                </li>
+              </div>
+              {% endfor %}
+            {% endif %}
+          </ul>
+        </div>
+      </form>
+    </div>
+
+    <script type="text/javascript">
+
+    </script>
+{% endif %}

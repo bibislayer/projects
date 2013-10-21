@@ -1,0 +1,144 @@
+parameters:
+#    forma_search_standard.example.class: SO\StandardBundle\Example
+
+services:
+#    forma_search_standard.example:
+#        class: %forma_search_standard.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+     index_paginate:
+        class: SO\StandardBundle\Model\IndexPaginate
+        arguments:
+            - "@service_container"
+     standard_controller:
+        class: SO\StandardBundle\Controller\DefaultController
+     std_article_type_repository:
+        class: SO\StandardBundle\Repository\StdArticleTypeRepository
+        arguments: [SOStandardBundle:StdArticleType]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_association_type_repository:
+        class: SO\StandardBundle\Repository\StdAssociationTypeRepository
+        arguments: [SOStandardBundle:StdAssociationType]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_category_repository:
+        class: SO\StandardBundle\Repository\StdCategoryRepository
+        arguments: [SOStandardBundle:StdCategory]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_benefit_repository:
+        class: SO\StandardBundle\Repository\StdBenefitRepository
+        arguments: [SOStandardBundle:StdBenefit]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_diploma_level_repository:
+        class: SO\StandardBundle\Repository\StdDiplomaLevelRepository
+        arguments: [SOStandardBundle:StdDiplomaLevel]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_diploma_nature_repository:
+        class: SO\StandardBundle\Repository\StdDiplomaNatureRepository
+        arguments: [SOStandardBundle:StdDiplomaNature]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_diploma_type_repository:
+        class: SO\StandardBundle\Repository\StdDiplomaTypeRepository
+        arguments: [SOStandardBundle:StdDiplomaType]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_event_type_repository:
+        class: SO\StandardBundle\Repository\StdEventTypeRepository
+        arguments: [SOStandardBundle:StdEventType]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_goal_repository:
+        class: SO\StandardBundle\Repository\StdGoalRepository
+        arguments: [SOStandardBundle:StdGoal]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_level_study_repository:
+        class: SO\StandardBundle\Repository\StdLevelStudyRepository
+        arguments: [SOStandardBundle:StdLevelStudy]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_place_city_repository:
+        class: SO\StandardBundle\Repository\stdPlaceCityRepository
+        arguments: [SOStandardBundle:stdPlaceCity]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_place_country_repository:
+        class: SO\StandardBundle\Repository\StdPlaceCountryRepository
+        arguments: [SOStandardBundle:StdPlaceCountry]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_place_department_repository:
+        class: SO\StandardBundle\Repository\StdPlaceDepartmentRepository
+        arguments: [SOStandardBundle:StdPlaceDepartment]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_place_region_repository:
+        class: SO\StandardBundle\Repository\StdPlaceRegionRepository
+        arguments: [SOStandardBundle:StdPlaceRegion]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_quality_repository:
+        class: SO\StandardBundle\Repository\StdQualityRepository
+        arguments: [SOStandardBundle:StdQuality]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_school_status_repository:
+        class: SO\StandardBundle\Repository\StdSchoolStatusRepository
+        arguments: [SOStandardBundle:StdSchoolStatus]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_school_type_repository:
+        class: SO\StandardBundle\Repository\StdSchoolTypeRepository
+        arguments: [SOStandardBundle:StdSchoolType]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_skill_repository:
+        class: SO\StandardBundle\Repository\StdSkillRepository
+        arguments: [SOStandardBundle:StdSkill]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     std_social_status_repository:
+        class: SO\StandardBundle\Repository\StdSocialStatusRepository
+        arguments: [SOStandardBundle:StdSocialStatus]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     standard_repository:
+        class: SO\StandardBundle\Repository\StandardRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     forma_search.twig.forma_search_extension:
+        class: SO\StandardBundle\Twig\SOExtension
+        tags:
+            - { name: twig.extension }
+     form.type.autocomplete:
+        class: SO\StandardBundle\Form\Type\AutocompleteType
+        tags:
+            - { name: form.type, alias: autocomplete }
+     form.type.multi_add:
+        class: SO\StandardBundle\Form\Type\MultiAddType
+        tags:
+            - { name: form.type, alias: multi_add }
+     form.type.select_multiple:
+        class: SO\StandardBundle\Form\Type\SelectMultipleType
+        tags:
+            - { name: form.type, alias: select_multiple }
+     twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+        - { name: twig.extension }
+     form.type.nested_select:
+        class: SO\StandardBundle\Form\Type\NestedSelectType
+        tags:
+            - { name: form.type, alias: nested_select }    
+     form.type.tinyMCE:
+        class: SO\StandardBundle\Form\Type\tinyMCEType
+        tags:
+            - { name: form.type, alias: tinyMCE }
+     form.type.period:
+        class: SO\StandardBundle\Form\Type\PeriodType
+        tags:
+            - { name: form.type, alias: period }

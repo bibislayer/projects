@@ -1,0 +1,31 @@
+{% extends 'SOFrontBundle::layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="grid_8">
+        <div class="block_border">
+            <div class="block_design ">
+                <div class="block_header"><h1>{{ category.name }}</h1></div>
+                <div class="block_content sector">
+                    <div class="grid_5 right">
+                        <img  src="{{ asset('bundles/SOstandard/images/image_bidon.png') }}" >
+                        <p class="demande_forte"><span class="color_grey bold  demande_text"> Demande dans le secteur Agroalimentaire :<br> </span><span class="bold twentypx ">Forte</span></p>
+                    </div>
+                    <p class="justify">
+                        <span class="bold">{{ category.introduction|raw }}</span>
+                        {{ category.presentation|raw }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="grid_4">
+            {% include 'SOSchoolBundle:Default:schoolDistance.html.twig' %}
+            {% include 'SOSchoolBundle:Default:schoolSimilar.html.twig' %}
+        </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}

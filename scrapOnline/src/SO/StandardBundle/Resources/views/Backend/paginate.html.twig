@@ -1,0 +1,23 @@
+ <div class="right">
+    <ul class="pagination">
+
+        {% for para in app.request.attributes.get('_route_params') %}
+        {{ para }}
+            {% endfor %}
+    {% if page > 1 %}
+    <li ><a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'page': 1})) }}">premiere</a></li>
+    <li ><a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'page': page - 1})) }}">precedente</a></li>
+    {% endif %}
+    {% for p in range(1, elements.count()) %}
+    {% if (page == p - 1) or (page == p - 2) or (page == p + 1) or (page == p + 2) or (page == p) %}
+    <li{% if p == page %} class="on"{% endif %}>
+        <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'page': p}))  }}">{{ p }}</a>
+    </li>
+    {% endif %}
+    {% endfor %}
+    {% if page < elements.count() %}
+    <li ><a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'page': page + 1})) }}">Suivante</a></li>
+    <li ><a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'page': elements.count()})) }}">Derniere</a></li>
+    {% endif %}
+    </ul>
+ </div>

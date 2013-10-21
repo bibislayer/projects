@@ -1,0 +1,18 @@
+so_scrap:
+    resource: "@SOScrapBundle/Resources/config/routing.yml"
+    prefix:   /
+
+so_user:
+    resource: "@SOUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+so_general:
+    resource: "@SOGeneralBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+so_standard:
+    resource: "@SOStandardBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+fp_openid_security:
+    resource: "@FpOpenIdBundle/Resources/config/routing/security.xml"

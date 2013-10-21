@@ -1,0 +1,20 @@
+parameters:
+#    recrut_online_general.example.class: SO\GeneralBundle\Example
+
+services:
+     index_paginate:
+        class: SO\GeneralBundle\Model\IndexPaginate
+        arguments:
+            - "@service_container"
+     form_model:
+        class: SO\GeneralBundle\Model\FormModel
+        arguments:
+            - "@service_container"
+     form.type.tinyMCE:
+        class: SO\GeneralBundle\Form\Type\tinyMCEType
+        tags:
+            - { name: form.type, alias: tinyMCE }
+     recrut_online.twig.recrut_online_extension:
+        class: SO\GeneralBundle\Twig\SOExtension
+        tags:
+            - { name: twig.extension }

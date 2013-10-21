@@ -1,0 +1,24 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th style="text-align:left; font-weight:bold;">Nom</th>
+        <th style="text-align:left; font-weight:bold;">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for element in elements %}
+    <tr class="gradeX">
+        <td class="center">
+            <a href="{{ path ('bo_benefit_show' , {'id':  element.id  }) }}">{{ element.name }}</a>
+        </td>
+
+        <td class="center">
+            <a href="{{ path ('bo_benefit_edit' , {'id':  element.id  }) }}">Modifier</a>
+            &nbsp;&nbsp;&nbsp;<a href="{{ path('bo_benefit_remove',{'id':  element.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a>
+        </td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
