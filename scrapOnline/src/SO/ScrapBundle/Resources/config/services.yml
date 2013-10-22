@@ -1,7 +1,9 @@
 parameters:
-#    so_scrap.example.class: SO\ScrapBundle\Example
+    so_scrap.controller.class: SO\ScrapBundle\Controller\DefaultController
 
 services:
-#    so_scrap.example:
-#        class: %so_scrap.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+   so_scrap.controller:
+        class: %so_scrap.controller.class%
+        arguments: [@service_container]
+        calls:
+            - [ setContainer, [@service_container] ]

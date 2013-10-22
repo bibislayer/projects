@@ -1,0 +1,52 @@
+SO\MovieBundle\Entity\Movie:
+    type: entity
+    table: movies
+    fields:
+        code:
+            type: integer
+            id: true
+        originalTitle:
+            type: string
+            length: 255
+        title:
+            type: string
+            length: 255
+        poster:
+            type: string
+            length: 255
+            nullable: TRUE
+        productionYear:
+            type: integer
+            nullable: TRUE
+        pressRating:
+            type: float
+            nullable: TRUE
+        publicRating:
+            type: float
+            nullable: TRUE
+        keywords:
+            type: text
+            nullable: TRUE
+        synopsis:
+            type: text
+            nullable: TRUE
+        synopsisShort:
+            type: text
+            nullable: TRUE
+    manyToMany:
+      genres:
+          targetEntity: Genre
+          inversedBy: Movie
+          joinTable:
+              name: movies_genres
+              joinColumns:
+                  genres:
+                      referencedColumnName: code
+              inverseJoinColumns:
+                  movies:
+                      referencedColumnName: code
+    oneToMany:
+      links:
+        targetEntity: Link
+        mappedBy: Movie
+    lifecycleCallbacks: {  }

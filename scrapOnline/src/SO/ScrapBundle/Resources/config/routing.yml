@@ -5,3 +5,11 @@ so_scrap_homepage:
 searchLinks:
     pattern:  /searchLinks/{name}
     defaults: { _controller: SOScrapBundle:Default:searchLinks }
+    
+searchAlloCine:
+    pattern:  /searchAlloCine/{name}
+    defaults: { _controller: SOScrapBundle:Default:searchAlloCine, name: NULL }
+    
+searchDpStream:
+    pattern:  /searchDpStream
+    defaults: { _controller: SOScrapBundle:Default:searchDpStream }

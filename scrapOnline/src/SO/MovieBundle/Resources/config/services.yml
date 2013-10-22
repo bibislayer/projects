@@ -1,0 +1,9 @@
+parameters:
+    so_movie.controller.class: SO\MovieBundle\Controller\MovieController
+
+services:
+   so_movie.controller:
+        class: %so_movie.controller.class%
+        arguments: [@service_container]
+        calls:
+            - [ setContainer, [@service_container] ]

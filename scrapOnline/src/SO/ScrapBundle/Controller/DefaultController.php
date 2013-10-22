@@ -16,6 +16,106 @@ class DefaultController extends Controller {
         return $this->render('SOScrapBundle:Default:index.html.twig', array('name' => $name));
     }
 
+    public function searchDpStreamAction($i) {
+            $user_agent = 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'; # <--- On dit être Firefox.
+            $header[0] = "Accept: text/xml,application/xml,application/xhtml+xml,";
+            $header[0] .= "text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
+            $header[] = "Cache-Control: max-age=0";
+            $header[] = "Connection: keep-alive";
+            $header[] = "Keep-Alive: 300";
+            $header[] = "Accept-Charset: utf-8";
+            $header[] = "Accept-Language: fr"; # Certains sites changent de contenu en fonction de cette ligne, ici le contenu sera français.
+            $header[] = "Pragma: "; // Simule un navigateur
+            $ch = curl_init();    // initialize curl handle
+
+            curl_setopt($ch, CURLOPT_URL, "http://www.dpstream.tv/films-en-streaming-page-" . $i . ".html"); // l'url à visiter
+            curl_setopt($ch, CURLOPT_FAILONERROR, 1);              // Fail on errors
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);    // allow redirects
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // return into a variable
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            curl_setopt($ch, CURLOPT_PORT, 80);            // Pas indispensable, la pluspart des sites ont le port 80 par défaut
+            curl_setopt($ch, CURLOPT_TIMEOUT, 15); //  Si la page n'est pas finie d'ici 15 secondes, tant pis, curl ferme tout. Mais le script peut continuer
+
+            curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+            $html = curl_exec($ch);
+            if (!$html) {
+                echo "cURL error number:" . curl_errno($ch);
+                echo "cURL error:" . curl_error($ch);
+                exit;
+            }
+            curl_close($ch); // On ferme curl , SCHLIIING
+            $doc = new \DOMDocument();
+// A corrupt HTML string
+            @$doc->loadHTML($html);
+            $body = $doc->getElementsByTagName('ul')->item(1)->nodeValue;
+            $links = explode("\n", $body);
+            echo "\n Page : " . $i . "";
+            foreach ($links as $q):
+                $q = htmlentities($q);
+                $q = trim($q);
+                if (preg_match("`[[:alnum:]]`", $q)) {
+                    $q = preg_replace('/\[VOSTFR\]/', "", $q);
+                    $q = preg_replace('/&nbsp;/', "", $q);
+                    $q = preg_replace('/  /', "", $q);
+                    $q = preg_replace('/YOUWATCH/', "", $q);
+                    $q = preg_replace('/PUREVID/', "", $q);
+                    $datas = json_decode($this->search($q), TRUE);
+                    $objMovie = $this->get('so_movie.controller');
+                    $objMovie->setContainer($this->container);
+                    $moviesList = $objMovie->saveMovies($datas);
+                }
+            endforeach;
+        if($i < 7625)
+            return 1;
+        else
+            return 0;
+        //return $this->render('SOScrapBundle:Default:search_dp_stream.html.twig', array());
+    }
+
+    public function searchAlloCineAction() {
+        $processed = 0;
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST') {
+            $arrFilms = explode(';', $request->request->get('name'));
+            $processed = 1;
+        }
+        if ($request->get('name')) {
+            $processed = 1;
+            $q = $request->get('name');
+            $q = str_replace(" ", "+", $q);
+            $arrFilms[] = $q;
+        }
+        if ($processed == 1) {
+            foreach ($arrFilms as $q):
+                echo $q;
+                $datas = json_decode($this->search($q), TRUE);
+                $objMovie = $this->get('so_movie.controller');
+                $objMovie->setContainer($this->container);
+                $moviesList = $objMovie->saveMovies($datas);
+                echo '<pre>';
+                print_r($moviesList);
+                echo '<hr />';
+            endforeach;
+        }
+
+        return $this->render('SOScrapBundle:Default:search_allo_cine.html.twig', array());
+    }
+
+    private function search($query) {
+        // build the params
+        $params = array(
+            'partner' => $this->_partner_key,
+            'q' => $query,
+            'format' => 'json',
+            'count' => '50',
+            'filter' => 'movie'
+        );
+
+        // do the request
+        $response = $this->_do_request('search', $params);
+        return $response;
+    }
+
     private function _do_request($method, $params) {
         // build the URL
         $query_url = $this->_api_url . '/' . $method;

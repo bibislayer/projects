@@ -1,0 +1,15 @@
+SO\MovieBundle\Entity\Genre:
+    type: entity
+    table: genres
+    fields:
+        code:
+            type: integer
+            id: true
+        name:
+            type: string
+            length: 255
+    manyToMany:
+      Movie:
+        targetEntity: Movie
+        mappedBy: Genre
+    lifecycleCallbacks: {  }

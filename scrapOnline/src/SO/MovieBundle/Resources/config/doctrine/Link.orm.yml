@@ -1,0 +1,27 @@
+SO\MovieBundle\Entity\Link:
+    type: entity
+    table: links
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        movies_id:
+            type: integer
+        mixture:
+            type: string
+            length: '255'
+        purevid:
+            type: string
+            length: '255'
+        visible:
+            type: boolean
+    manyToOne:
+      Movie:
+        targetEntity: Movie
+        inversedBy: Link
+        joinColumn:
+          name: movies_id
+          referencedColumnName: code
+    lifecycleCallbacks: {  }

@@ -1,0 +1,21 @@
+{% extends "SOGeneralBundle::Front/layout.html.twig" %}
+
+{% block content %}
+<div class="grid_12">
+    <div class="border-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"><h1>Scrap allocine</h1></div>
+                <div class="block_content" style="max-height: 600px;overflow-y: auto;overflow-x: hidden;">
+                    <form method="post" action="">
+                        <textarea name="name" rows="30" cols="30"></textarea>
+                        <br />
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
+                <div class="block_footer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

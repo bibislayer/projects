@@ -1,3 +1,7 @@
+so_movie:
+    resource: "@SOMovieBundle/Resources/config/routing.yml"
+    prefix:   /
+
 so_scrap:
     resource: "@SOScrapBundle/Resources/config/routing.yml"
     prefix:   /
