@@ -1,0 +1,121 @@
+/* 15. Gravity Forms Styles
+*********************************************************************************************/
+
+body .gform_wrapper {
+margin: 0;
+}
+
+body .gform_wrapper ul {
+margin: 0;
+list-style: none;
+}
+
+body .gform_wrapper li {
+background-image: none;
+}
+
+body .gform_wrapper input, body .gform_wrapper textarea {
+border: 1px solid #e1e1e1;
+background: #f5f5f5;
+background: #ffffff;
+background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(100%, #f5f5f5));
+background: -moz-linear-gradient(top, #ffffff, #f5f5f5 100%);
+background: -o-linear-gradient(top, #ffffff, #f5f5f5 100%);
+background: linear-gradient(top, #ffffff, #f5f5f5 100%);
+-webkit-border-radius: 4px;
+-khtml-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+-webkit-background-clip: padding-box;
+-khtml-background-clip: padding-box;
+-moz-background-clip: padding-box;
+background-clip: padding-box;
+}
+
+body .gform_wrapper input:hover,
+body .gform_wrapper input:focus,
+body .gform_wrapper textarea:hover,
+body .gform_wrapper textarea:focus {
+background: #fff;
+}
+
+body .gform_wrapper input[type=text],
+body .gform_wrapper input[type=url],
+body .gform_wrapper input[type=email],
+body .gform_wrapper input[type=phone],
+body .gform_wrapper input[type=number],
+body .gform_wrapper input[type=password] {
+font-size: 14px;
+color: #2d2d2d;
+padding: 8px 5px;
+}
+
+body .gform_wrapper select {
+font-size: 16px;
+}
+
+body .gform_wrapper .ginput_left {
+clear: both;
+}
+
+body .gform_wrapper .gfield_label {
+color: #333333;
+font-weight: bold;
+line-height: 2;
+}
+
+body .gform_wrapper .gfield {
+padding: 8px 0;
+}
+
+body .gform_wrapper .gfield_description, body .gform_wrapper .validation_message {
+font-size: 12px;
+font-style: italic;
+}
+
+body .gform_wrapper .gfield_error {
+-webkit-border-radius: 4px;
+-khtml-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+-webkit-background-clip: padding-box;
+-khtml-background-clip: padding-box;
+-moz-background-clip: padding-box;
+background-clip: padding-box;
+}
+
+body .gform_wrapper .button {
+cursor: pointer;
+padding: 8px 15px;
+color: #f5f5f5;
+font-weight: bold;
+text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
+border: none;
+background: #2d2d2d;
+-webkit-border-radius: 4px;
+-khtml-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+-webkit-background-clip: padding-box;
+-khtml-background-clip: padding-box;
+-moz-background-clip: padding-box;
+background-clip: padding-box;
+}
+
+body .gform_wrapper .button:hover {
+color: #fff;
+background: #2d2d2d;
+-webkit-box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.05);
+-moz-box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.05);
+box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.05);
+}
+
+body .gform_wrapper .gform_edit_link {
+padding: 0 15px;
+display: inline;
+}
+
+body .gform_wrapper .gform_footer {
+margin: 10px 0;
+padding: 0;
+}

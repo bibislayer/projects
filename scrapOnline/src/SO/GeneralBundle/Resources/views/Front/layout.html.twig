@@ -2,46 +2,102 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}SO{% endblock %}</title>
-        {% stylesheets 'bundles/SOgeneral/less/front.less' %}
-            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
-        {% endstylesheets %}
-        {% stylesheets 'bundles/SOgeneral/less/meyer.less' %}
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
-        {% endstylesheets %}
+        <!-- required theme styles -->
+        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/style.css') }}" type="text/css" media="screen">
+        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/style-css3.css') }}" type="text/css" media="screen">
+        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/style-gravity-forms.css') }}" type="text/css" media="screen">
+        <title>{% block title %}MovieFinder{% endblock %}</title>
+        <!-- custom theme styles -->
+        <style type="text/css" media="screen">
+            body {
+            }
+
+            li.date, #footer h3, #footer p, #sidebar h3, #sidebar p, .cat-post-content, blockquote, .widget {
+            }
+
+            #full-width-ad, #posts, #posts-page, #paginate, .gallery-item h2, li.date, li.categories, .post-details h2, #comments-meta, #comments, #author, #email, #url, #comment, #sidebar, #footer-content {
+            }
+
+            a:link, a:visited, li.comments a:link, li.comments a:visited, #footer a:link, #footer a:visited {
+            }
+
+            a:hover {
+            }
+        </style>
+        <link rel="shortcut icon" href=./images/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="./images/favicon.ico">
+        <meta name="robots" content="noindex,nofollow">
+        <link rel="stylesheet" id="fancybox-css" href="{{ asset('bundles/SOgeneral/css/style(1).css') }}" type="text/css" media="all">
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.js') }}"></script><style type="text/css"></style><style type="text/css"></style>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery-migrate.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.superfish.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.easing.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.coda.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.float.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.equal.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/fancybox.min.js') }}"></script>
     </head>
-    <body>
-    <header>
-        <div id="header_complet">
-            <div class="header">
-                <div class="logo">
-                    <a href="#">Scrap Online</a>
-                </div>
-            </div>
-            <div class="connexion">
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <a class="btn" href="{{ path('logout') }}">Deconnexion</a>
-            {% if is_granted("ROLE_ADMIN") %}
-            <a class="btn" href="{{ path('mo_dashboard') }}">Accés pro</a>
-            {% endif %}
-            {% else %}
-            <a  href="http://scrap-online.dev/app_dev.php/login_check_openid?openid_identifier=https://www.google.com/accounts/o8/id" class="btn">Connexion google</a>
-            <a  href="{{ path('login') }}" class="btn">Connexion</a>
-            {% endif %}
-            </div>
-            <ul class="menu_principal">
-                <li><a href="">Nouveau parser</a></li>
-                <li><a href="">Schema parser</a></li>
-            </ul>
-        </div>
-        <div class="stop"></div>
-    </header>
+    <body class="home blog" style="">
+        <div id="header">
+            <div id="header-inside">
+                <div id="header-left">
+                    <a href="" title="Home"><img src="{{ asset('bundles/SOgeneral/images/logo.png') }}" alt="On Demand"></a>
+                </div> <!-- header-left -->
+
+                <div id="header-right">
+                    <div id="site-search">
+                        <div id="search">
+                            <form method="get" id="search-form" action="">
+                                <input type="text" name="s" id="s" value="Search for Something" onfocus="if (this.value == & #39; Search for Something & #39; )this.value = & #39; & #39; ;" onblur="if (this.value == & #39; & #39; )this.value = & #39; Search for Something & #39; ;">
+                                <input type="submit" id="search-submit" value="">
+                            </form>
+                        </div> <!-- search -->				</div> <!-- site-search -->
+                </div> <!-- header-right -->
+            </div> <!-- header-inside -->
+        </div> <!-- header -->	
+        <div id="navigation">
+            <div class="navigation-inside navigation-video">
+                <div class="menu-header"><ul id="menu-home" class="menu sf-js-enabled"><li id="menu-item-484" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-484"><a href="">Home</a></li>
+                        <li id="menu-item-510" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-510"><a href="http://www.press75.com/themes/on-demand/category/sample-videos/">Sample Videos</a>
+                            <ul class="sub-menu" style="display: none; visibility: hidden;">
+                                <li id="menu-item-511" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-511"><a href="http://www.press75.com/themes/on-demand/category/sample-videos/more-videos/">More Videos</a></li>
+                                <li id="menu-item-512" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-512"><a href="http://www.press75.com/themes/on-demand/category/sample-videos/sub-videos/">Sub Videos</a></li>
+                            </ul>
+                        </li>
+                        <li id="menu-item-513" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-513"><a href="http://www.press75.com/themes/on-demand/category/sample-posts/">Sample Posts</a>
+                            <ul class="sub-menu" style="display: none; visibility: hidden;">
+                                <li id="menu-item-514" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-514"><a href="http://www.press75.com/themes/on-demand/category/blog/">Blog</a></li>
+                                <li id="menu-item-515" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-515"><a href="http://www.press75.com/themes/on-demand/category/featured/">Featured</a></li>
+                            </ul>
+                        </li>
+                        <li id="menu-item-516" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-516"><a href="http://www.press75.com/themes/on-demand/category/sample-category/">Sample Category</a>
+                            <ul class="sub-menu" style="display: none; visibility: hidden;">
+                                <li id="menu-item-517" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-517"><a href="http://www.press75.com/themes/on-demand/category/sample-category/sub-category/">Sub Category</a>
+                                    <ul class="sub-menu" style="display: none; visibility: hidden;">
+                                        <li id="menu-item-518" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-518"><a href="http://www.press75.com/themes/on-demand/category/sample-category/sub-category/sub-sub-category/">Sub Sub Category</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="menu-item-519" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-519"><a href="http://www.press75.com/themes/on-demand/category/sample-category/another-category/">Another Category</a></li>
+                        <li id="menu-item-520" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-520"><a href="http://www.press75.com/themes/on-demand/sample-page/">Sample Page</a>
+                            <ul class="sub-menu" style="display: none; visibility: hidden;">
+                                <li id="menu-item-521" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-521"><a href="http://www.press75.com/themes/on-demand/sample-page/sample-sub-page/">Sample Sub Page</a></li>
+                                <li id="menu-item-522" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-522"><a href="http://www.press75.com/themes/on-demand/full-width-page/">Full Width Page</a></li>
+                            </ul>
+                        </li>
+                        <li id="menu-item-486" class="subscribe menu-item menu-item-type-custom menu-item-object-custom menu-item-486"><a href="http://www.press75.com/themes/on-demand/feed/">Subscribe</a></li>
+                        <li id="menu-item-485" class="twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-485"><a href="http://www.twitter.com/press75">Twitter</a></li>
+                    </ul></div>		</div> <!-- navigation-inside -->
+        </div>  <!-- navigation -->
         <div id="content">
-{% block content %}
-{% block fos_user_content %}{% endblock %}
-{% endblock %}
+            <div id="content-inside">
+                {% block content %}
+                {% block fos_user_content %}{% endblock %}
+                {% endblock %}
             </div>
-            <footer>
-            </footer>
-        </body>
-    </html>
+        </div>
+        <footer>
+        </footer>
+    </body>
+</html>

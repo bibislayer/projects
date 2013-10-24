@@ -49,7 +49,6 @@ class DefaultController extends Controller {
             @$doc->loadHTML($html);
             $body = $doc->getElementsByTagName('ul')->item(1)->nodeValue;
             $links = explode("\n", $body);
-            echo "\n Page : " . $i . "";
             foreach ($links as $q):
                 $q = htmlentities($q);
                 $q = trim($q);
