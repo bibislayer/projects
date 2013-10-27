@@ -1,119 +1,57 @@
 <div id="featured-content">
     <div id="featured-posts">
         <div id="coda-nav" class="arrows">
-            <div class="coda-nav-left" id="coda-nav-left-1"><a href="http://www.press75.com/themes/on-demand/#"></a></div><div class="coda-slider" id="slider" style="height: 380px;">
-                <div class="panel-container" style="width: 3920px; margin-left: -1960px;"><div class="panel" style="display: block;">
+            <div class="coda-nav-left" id="coda-nav-left-1">
+                <a href="#"></a>
+            </div>
+            <div class="coda-slider" id="slider" style="height: 380px;">
+                    {% for i in 0..4 %}
+                    <div class="panel" style="display: block;">
                         <div class="featured-post">
-                            <a class="" href="{{ path('so_movie_show', {'code': 1234}) }}" title="This is a Sample Video Post">
-                                <img width="560" height="315" src="{{ asset('bundles/SOgeneral/images/rain-lights-560x315.jpg') }}" class="attachment-featured wp-post-image" alt="Rain Lights">
+                            <a class="" href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">
+                                <img height="315" src="{{ movies[i].poster }}" class="attachment-featured wp-post-image" alt="{{ movies[i].originalTitle }}">
                             </a>
                             <div class="featured-post-description" style="float:left;">
-                                <h2><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-4/" title="This is a Sample Video Post">This is a Sample Video Post</a></h2>
-
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec facilisis elit. Ut imperdiet, mi sed laoreet tincidunt, eros diam vulputate sem, vitae volutpat orci nunc nec odio. Suspendisse potenti. Vivamus lobortis erat ut nunc scelerisque viverra. Sed nibh dui, posuere vel posuere vel, hendrerit eget metus. Ut rutrum dui …</p>
-
-                                <a class="continue" href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-4/" title="This is a Sample Video Post">Continue Reading</a>
+                                <h2><a href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">{{ movies[i].title }}</a></h2>
+                                <p>{{ movies[i].synopsis }}</p>
+                                <div class="post-thumbnail" style="height: auto !important; with: auto !important;">
+                                <a class="frame-video continue inline" href="{{ path('so_movie_video', {'code': 123}) }}" title="This is a Sample Video Post">Voir le film.</a>	
+                                </div>
+                                <a class="continue" href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">Voir la fiche du film.</a>
+                            </div>
+                            <a class="" href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">
+                                <img height="315" src="{{ movies[i + 6].poster }}" class="attachment-featured wp-post-image" alt="{{ movies[i].originalTitle }}">
+                            </a>
+                            <div class="featured-post-description" style="float:left;">
+                                <h2><a href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">{{ movies[i + 6].originalTitle }}</a></h2>
+                                <p>{{ movies[i + 6].synopsis }}</p>
+                                <div class="post-thumbnail" style="height: auto !important; with: auto !important;">
+                                <a class="frame-video continue inline" href="{{ path('so_movie_video', {'code': 123}) }}" title="This is a Sample Video Post">Voir le film.</a>	
+                                </div>
+                                <a class="continue" href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">Voir la fiche du film.</a>
                             </div>
                             <div style="clear:both"></div>
-                        </div> <!-- featured-post -->
+                        </div>
                     </div>
-                    <div class="panel" style="display: block;">
-                        <div class="featured-post">
-                            <a class="inline" href="http://www.press75.com/themes/on-demand/#video-carousel-126" title="This is a Sample Video Post">
-                                <img width="560" height="315" src="{{ asset('bundles/SOgeneral/images/beach-560x315.jpg') }}" class="attachment-featured wp-post-image" alt="Beach">		</a>
-                            <div class="instant">
-                                <div id="video-carousel-126" class="instant-view">
-                                    <iframe src="{{ asset('bundles/SOgeneral/images/3864495.html') }}" width="604" height="340" frameborder="0"></iframe>			</div>
-                            </div>
-                            <div class="featured-post-description">
-                                <h2><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-10/" title="This is a Sample Video Post">This is a Sample Video Post</a></h2>
-
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec facilisis elit. Ut imperdiet, mi sed laoreet tincidunt, eros diam vulputate sem, vitae volutpat orci nunc nec odio. Suspendisse potenti. Vivamus lobortis erat ut nunc scelerisque viverra. Sed nibh dui, posuere vel posuere vel, hendrerit eget metus. Ut rutrum dui …</p>
-
-                                <a class="continue" href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-10/" title="This is a Sample Video Post">Continue Reading</a>
-                            </div>
-                        </div> <!-- featured-post -->
-                    </div>
-                    <div class="panel" style="display: block;">
-                        <div class="featured-post">
-                            <a href="http://www.press75.com/themes/on-demand/this-is-a-sample-non-video-post-3/" title="This is a Sample Non Video Post">
-                                <img width="560" height="315" src="{{ asset('bundles/SOgeneral/images/ape-560x315.jpg') }}" class="attachment-featured wp-post-image" alt="Sample">		</a>
-
-                            <div class="featured-post-description">
-                                <h2><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-non-video-post-3/" title="This is a Sample Non Video Post">This is a Sample Non Video Post</a></h2>
-
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec facilisis elit. Ut imperdiet, mi sed laoreet tincidunt, eros diam vulputate sem, vitae volutpat orci nunc nec odio. Suspendisse potenti. Vivamus lobortis erat ut nunc scelerisque viverra. Sed nibh dui, posuere vel posuere vel, hendrerit eget metus. Ut rutrum dui …</p>
-
-                                <a class="continue" href="http://www.press75.com/themes/on-demand/this-is-a-sample-non-video-post-3/" title="This is a Sample Non Video Post">Continue Reading</a>
-                            </div>
-                        </div> <!-- featured-post -->
-                    </div>
-                    <div class="panel" style="display: block;">
-                        <div class="featured-post">
-                            <a class="inline" href="http://www.press75.com/themes/on-demand/#video-carousel-184" title="This is a Sample Video Post">
-                                <img width="560" height="315" src="{{ asset('bundles/SOgeneral/images/sample-560x315.jpg') }}" class="attachment-featured wp-post-image" alt="Sample">		</a>
-
-                            <div class="instant">
-                                <div id="video-carousel-184" class="instant-view">
-                                    <iframe src="{{ asset('bundles/SOgeneral/images/1418995.html') }}" width="604" height="340" frameborder="0"></iframe>			</div>
-                            </div>
-                            <div class="featured-post-description">
-                                <h2><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/" title="This is a Sample Video Post">This is a Sample Video Post</a></h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec facilisis elit. Ut imperdiet, mi sed laoreet tincidunt, eros diam vulputate sem, vitae volutpat orci nunc nec odio. Suspendisse potenti. Vivamus lobortis erat ut nunc scelerisque viverra. Sed nibh dui, posuere vel posuere vel, hendrerit eget metus. Ut rutrum dui …</p>
-                                <a class="continue" href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/" title="This is a Sample Video Post">Continue Reading</a>
-                            </div>
-                        </div> <!-- featured-post -->
-                    </div>
-                </div> <!-- panel -->
+                    {% endfor %}
             </div>
-            <div class="coda-nav-right" id="coda-nav-right-1"><a href="http://www.press75.com/themes/on-demand/#"></a></div> <!-- coda-slider -->
+            <div class="coda-nav-right" id="coda-nav-right-1"><a href="#"></a></div> <!-- coda-slider -->
         </div> <!-- coda-nav -->
     </div> <!-- featured-posts -->
 
     <div id="featured-categories">
         <div id="categories">
-            <p>Films similaires :</p>
-
+            <p>Films les mieux note :</p>
+             {% for movie in movies %}
+            {% if loop.index < 9 %}
             <div class="featured-category">
-                <a href="" title="View all posts in Featured">
-                    <img width="80" height="80" src="{{ asset('bundles/SOgeneral/images/rain-lights-80x80.jpg') }}" class="attachment-category wp-post-image" alt="Rain Lights">						<span style="display: inline; opacity: 0.0484; top: -48.412237985229496px;">Featured</span>
+                <a href="{{ path('so_movie_show', { 'slug': movie.slug }) }}" title="{{ movie.originalTitle }}">
+                    <img width="80" height="80" src="{{ movie.poster }}" class="attachment-category wp-post-image" alt="{{ movie.title }}">
+                    <span style="display: inline; opacity: 0.0484; top: -48.412237985229496px;">{{ movie.title }}</span>
                 </a>
-            </div>	
-            <div class="featured-category">
-                <a href="" title="View all posts in More Videos">
-                    <img width="80" height="80" src="{{ asset('bundles/SOgeneral/images/tree-rain1-80x80.jpg') }}" class="attachment-category wp-post-image" alt="Tree">						<span style="display: inline; opacity: 0.00009999999999998899; top: -49.99569871873856px;">More Videos</span>
-                </a>
-            </div>	
-            <div class="featured-category">
-                <a href="" title="View all posts in Sample Category">
-                    <img width="80" height="80" src="{{ asset('bundles/SOgeneral/images/can-80x80.jpg') }}" class="attachment-category wp-post-image" alt="Can">						<span style="display: inline; opacity: 0; top: -50px;">Sample Category</span>
-                </a>
-            </div>	
-            <div class="featured-category">
-                <a href="" title="View all posts in Sample Posts">
-                    <img width="80" height="80" src="{{ asset('bundles/SOgeneral/images/face-80x80.jpg') }}" class="attachment-category wp-post-image" alt="Rain">						<span style="display: inline; opacity: 0; top: -50px;">Sample Posts</span>
-                </a>
-            </div>	
-            <div class="featured-category">
-                <a href="" title="View all posts in Sample Videos">
-                    <img width="80" height="80" src="{{ asset('bundles/SOgeneral/images/tree-rain1-80x80.jpg') }}" class="attachment-category wp-post-image" alt="Tree">						<span style="display: inline; opacity: 0; top: -50px;">Sample Videos</span>
-                </a>
-            </div>	
-            <div class="featured-category">
-                <a href="" title="View all posts in Sub Category">
-                    <img width="80" height="80" src="{{ asset('bundles/SOgeneral/images/car-80x80.jpg') }}" class="attachment-category wp-post-image" alt="Car">						<span style="display: inline; opacity: 0; top: -50px;">Sub Category</span>
-                </a>
-            </div>	
-            <div class="featured-category">
-                <a href="" title="View all posts in Sub Sub Category">
-                    <img width="80" height="80" src="{{ asset('bundles/SOgeneral/images/ape-80x80.jpg') }}" class="attachment-category wp-post-image" alt="Sample">						<span style="display: inline; opacity: 0; top: -50px;">Sub Sub Category</span>
-                </a>
-            </div>	
-            <div class="featured-category">
-                <a href="" title="View all posts in Sub Videos">
-                    <img width="80" height="80" src="{{ asset('bundles/SOgeneral/images/fireplays-80x80.jpg') }}" class="attachment-category wp-post-image" alt="fireplays">						<span style="display: inline; opacity: 0; top: -50px;">Sub Videos</span>
-                </a>
-            </div>	
+            </div>
+            {% endif %}
+            {% endfor %}	
         </div> <!-- categories -->
     </div> <!-- featured-categories -->
 </div> <!-- featured-content -->

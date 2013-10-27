@@ -33,20 +33,30 @@ SO\MovieBundle\Entity\Movie:
         synopsisShort:
             type: text
             nullable: TRUE
+        slug:
+          type: string
+          length: 255
+          unique: TRUE
+          gedmo:
+            slug:
+              separator: _
+              style: camel
+              fields:
+                - title
     manyToMany:
-      genres:
+      Genre:
           targetEntity: Genre
           inversedBy: Movie
           joinTable:
               name: movies_genres
               joinColumns:
-                  genres:
+                  genre_code:
                       referencedColumnName: code
               inverseJoinColumns:
-                  movies:
+                  movie_code:
                       referencedColumnName: code
     oneToMany:
-      links:
+      Link:
         targetEntity: Link
         mappedBy: Movie
     lifecycleCallbacks: {  }

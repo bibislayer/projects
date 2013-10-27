@@ -4,6 +4,6 @@
 {% endblock %}
 
 {% block content %}
-    {% include 'SOMovieBundle:Default:features.html.twig' %}
-    {% include 'SOMovieBundle:Default:container_movie.html.twig' %}
+    {% include 'SOMovieBundle:Default:features.html.twig' with {'movies': movies} %}
+    {% include 'SOMovieBundle:Default:container_movie.html.twig' with {'movies': movies}  %}
 {% endblock %}

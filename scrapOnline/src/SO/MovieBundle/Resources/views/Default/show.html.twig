@@ -3,41 +3,41 @@
 <div id="video-container">
     <iframe style="float:left;margin-left:25px" width="605px" height="365px" frameBorder="0" src="http://www.purevid.com/?m=embed&id=552343jmo8A9jklx00GHK7875833"></iframe>
     <div class="featured-post-description" style="float:left;">
-        <h2><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-4/" title="This is a Sample Video Post">The Mortal Instruments : La Cité des ténèbres</a></h2>
+        <h2>{{ movie.title }}</h2>
         <ul>
             <li></li>
             <li><strong>Durée:</strong> <span>2:09:56</span></li>
             <li><strong>Année:</strong> <span>2013</span></li>
             <li><strong>Genre:</strong> <span>N.A</span></li>
         </ul>
-        <p>
-            New York, de nos jours. Au cours d’une soirée, Clary, 15 ans, est témoin d’un meurtre. Elle est terrifiée lorsque le corps de la victime disparaît mystérieusement devant ses yeux... Elle découvre alors l’existence d’une guerre invisible entre des forces démoniaques et la société secrète des Chasseurs d’Ombres. Le mystérieux Jace est l’un d’entre eux. À ses côtés, Clary va jouer dans cette aventure un rôle qu’elle n’aurait jamais imaginé.
-        </p>
-
-        <a class="continue" href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-4/" title="This is a Sample Video Post">Continue Reading</a>
-    </div>
+        <p>{{ movie.synopsis }}</p>
+     </div>
     <div style="clear:both"></div>
 </div> <!-- featured-post -->
 <div id="post-container">
     <div id="posts">
         <div id="post-184" class="post-item">
             <div class="post-details">
-                <h2><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/" title="This is a Sample Video Post">The Mortal Instruments : La Cité des ténèbres</a></h2>
-
-
-                <ul class="post-meta post-meta-post">
+                <h2>{{ movie.title }}</h2>
+                    <ul class="post-meta post-meta-post">
                     <li class="date">Posted on May 23, 2009</li>
-                    <li class="categories"><a href="http://www.press75.com/themes/on-demand/category/featured/" title="View all posts in Featured" rel="category tag">Featured</a>, <a href="http://www.press75.com/themes/on-demand/category/sample-videos/" title="View all posts in Sample Videos" rel="category tag">Sample Videos</a>, <a href="http://www.press75.com/themes/on-demand/category/sample-category/sub-category/" title="View all posts in Sub Category" rel="category tag">Sub Category</a></li>
-                    <li class="comments"><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/#comments" title="This is a Sample Video Post">Comments: 4</a></li>
+                    <li class="categories">
+                        <a href="http://www.press75.com/themes/on-demand/category/featured/" title="View all posts in Featured" rel="category tag">Featured</a>, 
+                        <a href="http://www.press75.com/themes/on-demand/category/sample-videos/" title="View all posts in Sample Videos" rel="category tag">Sample Videos</a>, 
+                        <a href="http://www.press75.com/themes/on-demand/category/sample-category/sub-category/" title="View all posts in Sub Category" rel="category tag">Sub Category</a>
+                    </li>
+                    <li class="comments">
+                        <a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/#comments" title="This is a Sample Video Post">Comments: 4</a>
+                    </li>
                 </ul>
             </div> <!-- post-details -->
-
             <div class="post-content">
-                <p></p><div id="attachment_341" class="wp-caption alignright" style="width: 310px">
-                    <img src="http://fr.web.img6.acsta.net/r_160_240/b_1_d6d6d6/pictures/210/355/21035536_20130902125911072.jpg" alt="The Mortal Instruments : La Cité des ténèbres" title="The Mortal Instruments : La Cité des ténèbres" itemprop="image">
+                <p></p>
+                <div id="attachment_341" class="wp-caption alignright" style="width: 310px">
+                    <img src="{{ movie.poster }}" height="250px" alt="The Mortal Instruments : La Cité des ténèbres" title="The Mortal Instruments : La Cité des ténèbres" itemprop="image">
                     <p class="wp-caption-text">Affiche du film</p>
                 </div>
-                New York, de nos jours. Au cours d’une soirée, Clary, 15 ans, est témoin d’un meurtre. Elle est terrifiée lorsque le corps de la victime disparaît mystérieusement devant ses yeux... Elle découvre alors l’existence d’une guerre invisible entre des forces démoniaques et la société secrète des Chasseurs d’Ombres. Le mystérieux Jace est l’un d’entre eux. À ses côtés, Clary va jouer dans cette aventure un rôle qu’elle n’aurait jamais imaginé.
+                {{ movie.synopsis }}
             </div> <!-- post-content -->
         </div> <!-- post-item -->				 
 

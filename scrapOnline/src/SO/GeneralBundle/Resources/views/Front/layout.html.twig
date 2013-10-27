@@ -41,54 +41,83 @@
         <div id="header">
             <div id="header-inside">
                 <div id="header-left">
-                    <a href="" title="Home"><img src="{{ asset('bundles/SOgeneral/images/logo.png') }}" alt="On Demand"></a>
                 </div> <!-- header-left -->
-
                 <div id="header-right">
                     <div id="site-search">
                         <div id="search">
                             <form method="get" id="search-form" action="">
-                                <input type="text" name="s" id="s" value="Search for Something" onfocus="if (this.value == & #39; Search for Something & #39; )this.value = & #39; & #39; ;" onblur="if (this.value == & #39; & #39; )this.value = & #39; Search for Something & #39; ;">
+                                <input type="text" name="s" id="s">
                                 <input type="submit" id="search-submit" value="">
                             </form>
-                        </div> <!-- search -->				</div> <!-- site-search -->
+                        </div> <!-- search -->				
+                    </div> <!-- site-search -->
                 </div> <!-- header-right -->
             </div> <!-- header-inside -->
         </div> <!-- header -->	
         <div id="navigation">
             <div class="navigation-inside navigation-video">
-                <div class="menu-header"><ul id="menu-home" class="menu sf-js-enabled"><li id="menu-item-484" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-484"><a href="">Home</a></li>
-                        <li id="menu-item-510" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-510"><a href="http://www.press75.com/themes/on-demand/category/sample-videos/">Sample Videos</a>
+                <div class="menu-header">
+                    <ul id="menu-home" class="menu sf-js-enabled">
+                        <li id="menu-item-484" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-484">
+                            <a href="#">Home</a>
+                        </li>
+                        <li id="menu-item-510" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-510">
+                            <a href="#">Sample Videos</a>
                             <ul class="sub-menu" style="display: none; visibility: hidden;">
-                                <li id="menu-item-511" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-511"><a href="http://www.press75.com/themes/on-demand/category/sample-videos/more-videos/">More Videos</a></li>
-                                <li id="menu-item-512" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-512"><a href="http://www.press75.com/themes/on-demand/category/sample-videos/sub-videos/">Sub Videos</a></li>
+                                <li id="menu-item-511" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-511">
+                                    <a href="#">More Videos</a>
+                                </li>
+                                <li id="menu-item-512" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-512">
+                                    <a href="#">Sub Videos</a>
+                                </li>
                             </ul>
                         </li>
-                        <li id="menu-item-513" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-513"><a href="http://www.press75.com/themes/on-demand/category/sample-posts/">Sample Posts</a>
+                        <li id="menu-item-513" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-513">
+                            <a href="#">Sample Posts</a>
                             <ul class="sub-menu" style="display: none; visibility: hidden;">
-                                <li id="menu-item-514" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-514"><a href="http://www.press75.com/themes/on-demand/category/blog/">Blog</a></li>
-                                <li id="menu-item-515" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-515"><a href="http://www.press75.com/themes/on-demand/category/featured/">Featured</a></li>
+                                <li id="menu-item-514" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-514">
+                                    <a href="#">Blog</a></li>
+                                <li id="menu-item-515" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-515">
+                                    <a href="#">Featured</a>
+                                </li>
                             </ul>
                         </li>
-                        <li id="menu-item-516" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-516"><a href="http://www.press75.com/themes/on-demand/category/sample-category/">Sample Category</a>
+                        <li id="menu-item-516" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-516">
+                            <a href="#">Sample Category</a>
                             <ul class="sub-menu" style="display: none; visibility: hidden;">
-                                <li id="menu-item-517" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-517"><a href="http://www.press75.com/themes/on-demand/category/sample-category/sub-category/">Sub Category</a>
+                                <li id="menu-item-517" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-517">
+                                    <a href="#">Sub Category</a>
                                     <ul class="sub-menu" style="display: none; visibility: hidden;">
-                                        <li id="menu-item-518" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-518"><a href="http://www.press75.com/themes/on-demand/category/sample-category/sub-category/sub-sub-category/">Sub Sub Category</a></li>
+                                        <li id="menu-item-518" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-518">
+                                            <a href="#">Sub Sub Category</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
-                        <li id="menu-item-519" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-519"><a href="http://www.press75.com/themes/on-demand/category/sample-category/another-category/">Another Category</a></li>
-                        <li id="menu-item-520" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-520"><a href="http://www.press75.com/themes/on-demand/sample-page/">Sample Page</a>
+                        <li id="menu-item-519" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-519">
+                            <a href="#">Another Category</a>
+                        </li>
+                        <li id="menu-item-520" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-520">
+                            <a href="#">Sample Page</a>
                             <ul class="sub-menu" style="display: none; visibility: hidden;">
-                                <li id="menu-item-521" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-521"><a href="http://www.press75.com/themes/on-demand/sample-page/sample-sub-page/">Sample Sub Page</a></li>
-                                <li id="menu-item-522" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-522"><a href="http://www.press75.com/themes/on-demand/full-width-page/">Full Width Page</a></li>
+                                <li id="menu-item-521" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-521">
+                                    <a href="#">Sample Sub Page</a>
+                                </li>
+                                <li id="menu-item-522" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-522">
+                                    <a href="#">Full Width Page</a>
+                                </li>
                             </ul>
                         </li>
-                        <li id="menu-item-486" class="subscribe menu-item menu-item-type-custom menu-item-object-custom menu-item-486"><a href="http://www.press75.com/themes/on-demand/feed/">Subscribe</a></li>
-                        <li id="menu-item-485" class="twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-485"><a href="http://www.twitter.com/press75">Twitter</a></li>
-                    </ul></div>		</div> <!-- navigation-inside -->
+                        <li id="menu-item-486" class="subscribe menu-item menu-item-type-custom menu-item-object-custom menu-item-486">
+                            <a href="#">Subscribe</a>
+                        </li>
+                        <li id="menu-item-485" class="twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-485">
+                            <a href="#">Twitter</a>
+                        </li>
+                    </ul>
+                </div>		
+            </div> <!-- navigation-inside -->
         </div>  <!-- navigation -->
         <div id="content">
             <div id="content-inside">

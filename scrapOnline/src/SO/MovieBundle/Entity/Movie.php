@@ -373,4 +373,62 @@ class Movie
     {
         return $this->genres;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $Link;
+
+
+    /**
+     * Get Link
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLink()
+    {
+        return $this->Link;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $Genre;
+
+
+    /**
+     * Get Genre
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGenre()
+    {
+        return $this->Genre;
+    }
+    /**
+     * @var string
+     */
+    private $slug;
+
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Movie
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 }

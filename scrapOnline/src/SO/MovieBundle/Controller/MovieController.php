@@ -11,8 +11,16 @@ class MovieController extends Controller {
         return $this->render('SOMovieBundle:Default:index.html.twig', array('name' => $name));
     }
     
-    public function showAction($code) {
-        return $this->render('SOMovieBundle:Default:show.html.twig', array());
+    public function showAction($slug) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $movie = $em->getRepository('SOMovieBundle:Movie')->findOneBy(array('slug' => $slug));
+        return $this->render('SOMovieBundle:Default:show.html.twig', array('movie' => $movie));
+    }
+    
+      public function videoAction($slug) {
+        //$em = $this->getDoctrine()->getEntityManager();
+        //$movie = $em->getRepository('SOMovieBundle:Movie')->findOneBy(array('code' => $code));
+        return $this->render('SOMovieBundle:Default:video_movie.html.twig', array());
     }
     
     private function colorPrompt($string, $color){

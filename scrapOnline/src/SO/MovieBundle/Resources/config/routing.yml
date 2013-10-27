@@ -3,5 +3,9 @@ so_movie_homepage:
     defaults: { _controller: SOMovieBundle:Default:index }
     
 so_movie_show:
-    pattern:  /movie/{code}
+    pattern:  /movie/{slug}
     defaults: { _controller: SOMovieBundle:Movie:show }
+
+so_movie_video:
+    pattern:  /movie/video/{code}
+    defaults: { _controller: SOMovieBundle:Movie:video }

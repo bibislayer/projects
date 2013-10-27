@@ -7,8 +7,6 @@ SO\MovieBundle\Entity\Link:
             id: true
             generator:
                 strategy: AUTO
-        movies_id:
-            type: integer
         mixture:
             type: string
             length: '255'
@@ -22,6 +20,6 @@ SO\MovieBundle\Entity\Link:
         targetEntity: Movie
         inversedBy: Link
         joinColumn:
-          name: movies_id
+          name: movie_code
           referencedColumnName: code
     lifecycleCallbacks: {  }
