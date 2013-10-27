@@ -1,7 +1,7 @@
 {# default Sliding pagination control implementation #}
 
 {% if pageCount > 1 %}
-<ul class="pagination">
+<ul id="paginate">
     {% if first is defined and current != first %}
         <li class="first">
             <a href="{{ path(route, query|merge({(pageParameterName): first})) }}">&lt;&lt;</a>

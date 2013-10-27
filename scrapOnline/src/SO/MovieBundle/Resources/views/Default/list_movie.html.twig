@@ -12,13 +12,21 @@
                     <iframe src="{{ asset('bundles/SOgeneral/images/6964382.html') }}" width="604" height="340" frameborder="0"></iframe>		
                 </div>
             </div>
-            <h2>{{ movie.title }}</h2>
+            <h2><a href="{{ path('so_movie_show', { 'slug': movie.slug }) }}" title="{{ movie.title }}">{{ movie.title }}</a></h2>
             <ul class="post-meta">
-                <li class="date">Posted on October 26, 2009</li>
+                <li class="date">Annee : {{ movie.productionYear }}</li> 
+                {% if movie.genre is not empty %}
                 <li class="categories">
-                    <a href="#" title="View all posts in More Videos" rel="category tag">More Videos</a>, 
-                    <a href="#" title="View all posts in Sample Videos" rel="category tag">Sample Videos</a>
+                    Genre : 
+                    {% for genre in movie.genre %}
+                    <a href="#{{ genre.name }}" title="{{ genre.name }}" rel="{{ genre.name }}">{{ genre.name }}</a>, 
+                    {% endfor %}
                 </li>
+                {% else %}
+                {% if movie.runtime is not empty %}
+                <li class="date">Duree : {{ movie.runtime }}</li>
+                {% endif %}
+                {% endif %}
                 <li class="comments">
                     <a href="#comments" title="This is a Sample Video Post">Comments: ?</a>
                 </li>
@@ -32,4 +40,16 @@
     {{ render(controller('SOMovieBundle:Movie:sidebar', {
             'max': 5, 'request': app.request
         })) }}
+    {{ dump(app.request.query) }}
 </div> <!-- post-container -->
+<script>
+    $(document).ready(function() {
+        $('#paginate a').click(function(e) {
+            e.preventDefault();
+            $.get("{{ path('so_movie_list') }}", function(data) {
+                $("#post-container").replaceWith(data);
+                alert("Load was performed.");
+            });
+        });
+    });
+</script>

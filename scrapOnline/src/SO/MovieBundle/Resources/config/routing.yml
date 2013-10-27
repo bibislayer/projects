@@ -5,6 +5,10 @@ so_movie_homepage:
 so_movie_show:
     pattern:  /movie/{slug}
     defaults: { _controller: SOMovieBundle:Movie:show }
+    
+so_movie_list:
+    pattern:  /movie/list/
+    defaults: { _controller: SOMovieBundle:Movie:list }
 
 so_movie_video:
     pattern:  /movie/video/{code}

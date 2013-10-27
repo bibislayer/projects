@@ -60,22 +60,27 @@ class Movie
     private $synopsisShort;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var string
      */
-    private $links;
+    private $slug;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $genres;
+    private $Link;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $Genre;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->links = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->genres = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->Link = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->Genre = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -309,107 +314,6 @@ class Movie
     }
 
     /**
-     * Add links
-     *
-     * @param \SO\MovieBundle\Entity\Link $links
-     * @return Movie
-     */
-    public function addLink(\SO\MovieBundle\Entity\Link $links)
-    {
-        $this->links[] = $links;
-    
-        return $this;
-    }
-
-    /**
-     * Remove links
-     *
-     * @param \SO\MovieBundle\Entity\Link $links
-     */
-    public function removeLink(\SO\MovieBundle\Entity\Link $links)
-    {
-        $this->links->removeElement($links);
-    }
-
-    /**
-     * Get links
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLinks()
-    {
-        return $this->links;
-    }
-
-    /**
-     * Add genres
-     *
-     * @param \SO\MovieBundle\Entity\Genre $genres
-     * @return Movie
-     */
-    public function addGenre(\SO\MovieBundle\Entity\Genre $genres)
-    {
-        $this->genres[] = $genres;
-    
-        return $this;
-    }
-
-    /**
-     * Remove genres
-     *
-     * @param \SO\MovieBundle\Entity\Genre $genres
-     */
-    public function removeGenre(\SO\MovieBundle\Entity\Genre $genres)
-    {
-        $this->genres->removeElement($genres);
-    }
-
-    /**
-     * Get genres
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getGenres()
-    {
-        return $this->genres;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $Link;
-
-
-    /**
-     * Get Link
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLink()
-    {
-        return $this->Link;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $Genre;
-
-
-    /**
-     * Get Genre
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getGenre()
-    {
-        return $this->Genre;
-    }
-    /**
-     * @var string
-     */
-    private $slug;
-
-
-    /**
      * Set slug
      *
      * @param string $slug
@@ -430,5 +334,99 @@ class Movie
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Add Link
+     *
+     * @param \SO\MovieBundle\Entity\Link $link
+     * @return Movie
+     */
+    public function addLink(\SO\MovieBundle\Entity\Link $link)
+    {
+        $this->Link[] = $link;
+    
+        return $this;
+    }
+
+    /**
+     * Remove Link
+     *
+     * @param \SO\MovieBundle\Entity\Link $link
+     */
+    public function removeLink(\SO\MovieBundle\Entity\Link $link)
+    {
+        $this->Link->removeElement($link);
+    }
+
+    /**
+     * Get Link
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLink()
+    {
+        return $this->Link;
+    }
+
+    /**
+     * Add Genre
+     *
+     * @param \SO\MovieBundle\Entity\Genre $genre
+     * @return Movie
+     */
+    public function addGenre(\SO\MovieBundle\Entity\Genre $genre)
+    {
+        $this->Genre[] = $genre;
+    
+        return $this;
+    }
+
+    /**
+     * Remove Genre
+     *
+     * @param \SO\MovieBundle\Entity\Genre $genre
+     */
+    public function removeGenre(\SO\MovieBundle\Entity\Genre $genre)
+    {
+        $this->Genre->removeElement($genre);
+    }
+
+    /**
+     * Get Genre
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGenre()
+    {
+        return $this->Genre;
+    }
+    /**
+     * @var integer
+     */
+    private $runtime;
+
+
+    /**
+     * Set runtime
+     *
+     * @param integer $runtime
+     * @return Movie
+     */
+    public function setRuntime($runtime)
+    {
+        $this->runtime = $runtime;
+    
+        return $this;
+    }
+
+    /**
+     * Get runtime
+     *
+     * @return integer 
+     */
+    public function getRuntime()
+    {
+        return $this->runtime;
     }
 }

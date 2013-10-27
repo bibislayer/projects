@@ -6,33 +6,65 @@
             </div>
             <div class="coda-slider" id="slider" style="height: 380px;">
                     {% for i in 0..4 %}
-                    <div class="panel" style="display: block;">
-                        <div class="featured-post">
-                            <a class="" href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">
-                                <img height="315" src="{{ movies[i].poster }}" class="attachment-featured wp-post-image" alt="{{ movies[i].originalTitle }}">
-                            </a>
-                            <div class="featured-post-description" style="float:left;">
-                                <h2><a href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">{{ movies[i].title }}</a></h2>
-                                <p>{{ movies[i].synopsis }}</p>
+                <div class="panel" style="display: block;">
+                    <div class="featured-post">
+                        <a class="" href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">
+                            <img height="315" src="{{ movies[i].poster }}" class="attachment-featured wp-post-image" alt="{{ movies[i].originalTitle }}">
+                        </a>
+                        <div class="featured-post-description" style="float:left;">
+                            <h2><a href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">{{ movies[i].title }}</a></h2>
+                            <ul class="post-meta">
+                                <li class="categories">Annee : {{ movies[i].productionYear }}</li> 
+                                {% if movies[i].genre is not empty %}
+                                <li class="categories">
+                                    Genre : 
+                                    {% for genre in movies[i].genre %}
+                                    <a href="#{{ genre.name }}" title="{{ genre.name }}" rel="{{ genre.name }}">{{ genre.name }}</a>, 
+                                    {% endfor %}
+                                </li>
+                                {% else %}
+                                {% if movies[i].runtime is not empty %}
+                                <li class="categories">Duree : {{ movies[i].runtime }}</li>
+                                {% endif %}
+                                {% endif %}
+                            </ul> <!-- post-meta -->
+                            <div class="featured-bottom">
                                 <div class="post-thumbnail" style="height: auto !important; with: auto !important;">
-                                <a class="frame-video continue inline" href="{{ path('so_movie_video', {'code': 123}) }}" title="This is a Sample Video Post">Voir le film.</a>	
+                                    <a class="frame-video continue inline" href="{{ path('so_movie_video', {'code': 123}) }}" title="This is a Sample Video Post">Voir le film.</a>	
                                 </div>
                                 <a class="continue" href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">Voir la fiche du film.</a>
                             </div>
-                            <a class="" href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">
-                                <img height="315" src="{{ movies[i + 6].poster }}" class="attachment-featured wp-post-image" alt="{{ movies[i].originalTitle }}">
-                            </a>
-                            <div class="featured-post-description" style="float:left;">
-                                <h2><a href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">{{ movies[i + 6].originalTitle }}</a></h2>
-                                <p>{{ movies[i + 6].synopsis }}</p>
-                                <div class="post-thumbnail" style="height: auto !important; with: auto !important;">
-                                <a class="frame-video continue inline" href="{{ path('so_movie_video', {'code': 123}) }}" title="This is a Sample Video Post">Voir le film.</a>	
-                                </div>
-                                <a class="continue" href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">Voir la fiche du film.</a>
-                            </div>
-                            <div style="clear:both"></div>
                         </div>
+                        <a class="" href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">
+                            <img height="315" src="{{ movies[i + 6].poster }}" class="attachment-featured wp-post-image" alt="{{ movies[i].originalTitle }}">
+                        </a>
+                        <div class="featured-post-description" style="float:left;">
+                            <h2><a href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">{{ movies[i + 6].originalTitle }}</a></h2>
+                            <ul class="post-meta">
+                                <li class="categories">Annee : {{ movies[i + 6].productionYear }}</li> 
+                                {% if movies[i + 6].genre is not empty %}
+                                <li class="categories">
+                                    Genre : 
+                                    {% for genre in movies[i + 6].genre %}
+                                    <a href="#{{ genre.name }}" title="{{ genre.name }}" rel="{{ genre.name }}">{{ genre.name }}</a>, 
+                                    {% endfor %}
+                                </li>
+                                {% else %}
+                                {% if movies[i + 6].runtime is not empty %}
+                                <li class="categories">Duree : {{ movies[i + 6].runtime }}</li>
+                                {% endif %}
+                                {% endif %}
+                            </ul> <!-- post-meta -->
+                            <div class="featured-bottom">
+                            <div class="post-thumbnail" style="height: auto !important; with: auto !important;">
+                                <a class="frame-video continue inline" href="{{ path('so_movie_video', {'code': 123}) }}" title="This is a Sample Video Post">Voir le film.</a>	
+                            </div>
+                            <a class="continue" href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">Voir la fiche du film.</a>
+                            </div>
+                        </div>
+                        <div style="clear:both"></div>
                     </div>
+                </div>
                     {% endfor %}
             </div>
             <div class="coda-nav-right" id="coda-nav-right-1"><a href="#"></a></div> <!-- coda-slider -->

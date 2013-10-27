@@ -130,6 +130,7 @@ float: right;
 a.continue,
 #submit,
 #paginate a,
+#paginate span,
 .nav-previous a,
 .nav-next a {
 font-family: Helvetica, Verdana, Geneva, sans-serif;
@@ -556,7 +557,10 @@ float: left;
 margin: 0 0 0 30px;
 }
 
-
+.featured-bottom{
+    position: relative;
+    bottom: -184px;
+}
 
 
 
@@ -602,9 +606,6 @@ left: -35px;
 text-align: center;
 padding: 7px 0 0 0;
 }
-
-
-
 
 /* 9. Gallery and Post Thumbnail Styles
 *********************************************************************************************/

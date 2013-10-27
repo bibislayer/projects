@@ -114,6 +114,23 @@ class DefaultController extends Controller {
         $response = $this->_do_request('search', $params);
         return $response;
     }
+    
+    private function _get($id) {
+        // build the params
+        $params = array(
+            'partner' => $this->_partner_key,
+            'code' => $id,
+            'profile' => 'large',
+            'filter' => 'movie',
+            'striptags' => 'synopsis,synopsisshort',
+            'format' => 'json',
+        );
+
+        // do the request
+        $response = $this->_do_request('movie', $params);
+
+        return $response;
+    }
 
     private function _do_request($method, $params) {
         // build the URL

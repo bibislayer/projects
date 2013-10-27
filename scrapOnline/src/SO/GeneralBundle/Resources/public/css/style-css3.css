@@ -4,6 +4,7 @@
 a.continue, 
 #submit,
 #paginate a,
+#paginate span,
 .nav-previous a,
 .nav-next a {
 -webkit-font-smoothing: antialiased;
@@ -32,6 +33,7 @@ background: linear-gradient(top, rgba(229,229,229,1) 0%,rgba(153,153,153,1) 100%
 
 #submit,
 #paginate a,
+#paginate span,
 .nav-previous a,
 .nav-next a {
 -moz-box-shadow: 0 0 4px #CCCCCC;
@@ -39,19 +41,20 @@ background: linear-gradient(top, rgba(229,229,229,1) 0%,rgba(153,153,153,1) 100%
 box-shadow: 0 0 4px #CCCCCC;
 }
 
-#paginate a {
+#paginate a, #paginate span{
 border-radius: 20px;
 -moz-border-radius: 20px;
 -webkit-border-radius: 20px;
 }
 
-#paginate a.current-page {
+#paginate .current {
 opacity: 0.5;
 }
 
 a.continue:hover, 
 #submit,
 #paginate a,
+#paginate span,
 .nav-previous a,
 .nav-next a {
 background: rgb(252,252,252);
@@ -135,6 +138,10 @@ text-shadow: #181818 -1px -1px 0;
 	}
 	
 	#paginate a {
+	padding: 3px 8px 1px 8px;
+	}
+        
+        #paginate span {
 	padding: 3px 8px 1px 8px;
 	}
 	

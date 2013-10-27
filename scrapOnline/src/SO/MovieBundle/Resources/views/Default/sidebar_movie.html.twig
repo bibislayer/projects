@@ -17,7 +17,25 @@
                 <h3 class="featured">
                     <a href="{{ path('so_movie_show', { 'slug': movie.slug }) }}" title="{{ movie.title }}">{{ movie.title }}</a>
                 </h3>
-                <span class="widget-date">March 29, 2010</span>
+               <ul class="">
+                <li class="date"></li>
+                <li class="date">Annee : {{ movie.productionYear }}</li> 
+                {% if movie.genre is not empty %}
+                <li class="categories">
+                    Genre : 
+                    {% for genre in movie.genre %}
+                       <a href="#{{ genre.name }}" title="{{ genre.name }}" rel="{{ genre.name }}">{{ genre.name }}</a>, 
+                    {% endfor %}
+                </li>
+                {% else %}
+                {% if movie.runtime is not empty %}
+                <li class="date">Duree : {{ movie.runtime }}</li>
+                {% endif %}
+                {% endif %}
+                <li class="comments">
+                    <a href="#comments" title="This is a Sample Video Post">Comments: ?</a>
+                </li>
+            </ul> <!-- post-meta -->
             </div>
             {% endfor %}
             <!-- end widget content -->
