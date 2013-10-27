@@ -1,0 +1,35 @@
+<div id="post-container">
+    <div id="posts">
+        <p class="gallery-description">List des films ({{ pagination.getTotalItemCount }}):</p>
+        {% for movie in pagination %}
+        <div id="post-121" class="post-121 post type-post status-publish format-standard hentry category-more-videos category-sample-videos gallery-item" style="height: 271px;">
+            <div class="post-thumbnail">
+                <a class="thumbnail-frame-video inline" href="{{ path('so_movie_video', {'code': movie.code}) }}" title="{{ movie.title }}"><!-- nothing to see here --></a>
+                <img width="180" height="130" src="{{ movie.poster }}" class="attachment-post-thumbnail wp-post-image" alt="Tree">	
+            </div>
+            <div class="instant">
+                <div id="video-121" class="instant-view">
+                    <iframe src="{{ asset('bundles/SOgeneral/images/6964382.html') }}" width="604" height="340" frameborder="0"></iframe>		
+                </div>
+            </div>
+            <h2>{{ movie.title }}</h2>
+            <ul class="post-meta">
+                <li class="date">Posted on October 26, 2009</li>
+                <li class="categories">
+                    <a href="#" title="View all posts in More Videos" rel="category tag">More Videos</a>, 
+                    <a href="#" title="View all posts in Sample Videos" rel="category tag">Sample Videos</a>
+                </li>
+                <li class="comments">
+                    <a href="#comments" title="This is a Sample Video Post">Comments: ?</a>
+                </li>
+            </ul> <!-- post-meta -->
+        </div> <!-- gallery-item -->	
+        {% endfor %}
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div> <!-- posts -->
+    {{ render(controller('SOMovieBundle:Movie:sidebar', {
+            'max': 5, 'request': app.request
+        })) }}
+</div> <!-- post-container -->

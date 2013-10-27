@@ -9,7 +9,7 @@ class RepositoryModel extends EntityRepository
 {
     private $params = array();
     private $action;
-    private $order = array('field' => 'id', 'sort' => 'ASC');
+    private $order = array('field' => 'code', 'sort' => 'ASC');
     private $length = 2;
 
     function __construct($q, $params = array()) {

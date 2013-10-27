@@ -7,3 +7,8 @@ services:
         arguments: [@service_container]
         calls:
             - [ setContainer, [@service_container] ]
+   movie_repository:
+        class: SO\MovieBundle\Repository\MovieRepository
+        arguments: [SOMovieBundle:Movie]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository

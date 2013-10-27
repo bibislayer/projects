@@ -12,9 +12,26 @@ class MovieController extends Controller {
     }
     
     public function showAction($slug) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $movie = $em->getRepository('SOMovieBundle:Movie')->findOneBy(array('slug' => $slug));
         return $this->render('SOMovieBundle:Default:show.html.twig', array('movie' => $movie));
+    }
+    
+    public function listAction($max = 3, $request) {
+        $em = $this->getDoctrine()->getManager();
+        $dql   = "SELECT m FROM SOMovieBundle:Movie m";
+        $query = $em->createQuery($dql);
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($query,  $request->query->get('page', 1), 9);
+        
+        return $this->render('SOMovieBundle:Default:list_movie.html.twig',  array('pagination' => $pagination));
+    }
+    
+     public function sidebarAction($max = 5, $request) {
+        $em = $this->getDoctrine()->getManager();
+        $movie = $em->getRepository('SOMovieBundle:Movie')->findBy(array(), array('publicRating' => 'DESC'), $max);
+        
+        return $this->render('SOMovieBundle:Default:sidebar_movie.html.twig',  array('movies' => $movie));
     }
     
       public function videoAction($slug) {

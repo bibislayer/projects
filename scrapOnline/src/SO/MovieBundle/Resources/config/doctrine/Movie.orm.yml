@@ -1,6 +1,7 @@
 SO\MovieBundle\Entity\Movie:
     type: entity
     table: movies
+    repositoryClass: SO\MovieBundle\Repository\MovieRepository
     fields:
         code:
             type: integer

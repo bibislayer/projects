@@ -40,14 +40,4 @@ class OpenIdIdentity extends BaseUserIdentity{
         parent::__construct();
         // your own logic (nothing for this example)
     }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 }

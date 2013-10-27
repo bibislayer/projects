@@ -5,5 +5,7 @@
 
 {% block content %}
     {% include 'SOMovieBundle:Default:features.html.twig' with {'movies': movies} %}
-    {% include 'SOMovieBundle:Default:container_movie.html.twig' with {'movies': movies}  %}
+    {{ render(controller('SOMovieBundle:Movie:list', {
+            'max': 3, 'request': app.request
+        })) }}
 {% endblock %}
