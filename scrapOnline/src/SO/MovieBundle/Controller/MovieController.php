@@ -23,13 +23,14 @@ class MovieController extends Controller {
         $dql = "SELECT m FROM SOMovieBundle:Movie m";
         $query = $em->createQuery($dql);
         $paginator = $this->get('knp_paginator');
-        
+        if(!$request)
+            $request = $this->getRequest();
         $pagination = $paginator->paginate($query, $request->query->get('page', 1), 9);
 
-        return $this->render('SOMovieBundle:Default:list_movie.html.twig', array('pagination' => $pagination, 'request' => $request));
+        return $this->render('SOMovieBundle:Default:list_movie.html.twig', array('pagination' => $pagination));
     }
 
-    public function sidebarAction($max = 5) {
+    public function sidebarAction($max = 5, $request) {
         $em = $this->getDoctrine()->getManager();
         $movie = $em->getRepository('SOMovieBundle:Movie')->findBy(array(), array('publicRating' => 'DESC'), $max);
 

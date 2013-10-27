@@ -1,6 +1,9 @@
 <div id="post-container">
     <div id="posts">
         <p class="gallery-description">List des films ({{ pagination.getTotalItemCount }}):</p>
+         <div class="pagination">
+            {{ knp_pagination_render(pagination) }}
+        </div>
         {% for movie in pagination %}
         <div id="post-121" class="post-121 post type-post status-publish format-standard hentry category-more-videos category-sample-videos gallery-item" style="height: 271px;">
             <div class="post-thumbnail">
@@ -33,22 +36,20 @@
             </ul> <!-- post-meta -->
         </div> <!-- gallery-item -->	
         {% endfor %}
-        <div class="navigation">
+        <div class="pagination">
             {{ knp_pagination_render(pagination) }}
         </div>
     </div> <!-- posts -->
     {{ render(controller('SOMovieBundle:Movie:sidebar', {
             'max': 5, 'request': app.request
         })) }}
-    {{ dump(app.request.query) }}
 </div> <!-- post-container -->
 <script>
     $(document).ready(function() {
         $('#paginate a').click(function(e) {
             e.preventDefault();
-            $.get("{{ path('so_movie_list') }}", function(data) {
+            $.get("{{ path('so_movie_list') }}?page="+$(this).text(), function(data) {
                 $("#post-container").replaceWith(data);
-                alert("Load was performed.");
             });
         });
     });

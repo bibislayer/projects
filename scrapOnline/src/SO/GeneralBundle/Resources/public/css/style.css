@@ -438,12 +438,16 @@ float: left;
 padding: 25px 0 0 0;
 }
 
+.pagination{
+    border-top: 1px solid #E1E1E1;
+    width: 660px;
+    float: left;
+    padding: 5px 0 5px 0;
+}
+
 #paginate {
-border-top: 1px solid #E1E1E1;
-width: 660px;
-float: left;
-margin: -35px 0 0 0;
-padding: 5px 0 5px 0;
+width: 290px;
+margin: 0 auto;
 }
 
 #paginate a,
