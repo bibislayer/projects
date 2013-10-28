@@ -1,7 +1,7 @@
 <div id="post-container">
     <div id="posts">
         <p class="gallery-description">List des films ({{ pagination.getTotalItemCount }}):</p>
-         <div class="pagination">
+        <div class="pagination">
             {{ knp_pagination_render(pagination) }}
         </div>
         {% for movie in pagination %}
@@ -12,7 +12,7 @@
             </div>
             <div class="instant">
                 <div id="video-121" class="instant-view">
-                    <iframe src="{{ asset('bundles/SOgeneral/images/6964382.html') }}" width="604" height="340" frameborder="0"></iframe>		
+                    <iframe src="" width="604" height="340" frameborder="0"></iframe>		
                 </div>
             </div>
             <h2><a href="{{ path('so_movie_show', { 'slug': movie.slug }) }}" title="{{ movie.title }}">{{ movie.title }}</a></h2>
@@ -43,14 +43,20 @@
     {{ render(controller('SOMovieBundle:Movie:sidebar', {
             'max': 5, 'request': app.request
         })) }}
-</div> <!-- post-container -->
-<script>
-    $(document).ready(function() {
-        $('#paginate a').click(function(e) {
-            e.preventDefault();
-            $.get("{{ path('so_movie_list') }}?page="+$(this).text(), function(data) {
-                $("#post-container").replaceWith(data);
+    <script>
+        $(document).ready(function() {
+            var page;
+            var data = {};
+            $('#paginate a').click(function(e) {
+                e.preventDefault();
+                /*$.get("{{ path('so_movie_list') }}?page=" + $(this).text(), function(data) {
+                 $("#post-container").replaceWith(data);
+                 });*/
+                page = getParameterByName('page', e.target.href);
+                data[page] = {'url': '{{ path('so_movie_list') }}?page=' + page};
+                history.pushState(data[page], page, '?page=' + page);
+                reportData(data[page]);
             });
         });
-    });
-</script>
+    </script>
+</div> <!-- post-container -->

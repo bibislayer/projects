@@ -1,10 +1,6 @@
 <div id="featured-content">
     <div id="featured-posts">
-        <div id="coda-nav" class="arrows">
-            <div class="coda-nav-left" id="coda-nav-left-1">
-                <a href="#"></a>
-            </div>
-            <div class="coda-slider" id="slider" style="height: 380px;">
+            <div class="liquid-slider"  id="main-slider" style="height: 380px;">
                     {% for i in 0..4 %}
                 <div class="panel" style="display: block;">
                     <div class="featured-post">
@@ -67,11 +63,14 @@
                 </div>
                     {% endfor %}
             </div>
-            <div class="coda-nav-right" id="coda-nav-right-1"><a href="#"></a></div> <!-- coda-slider -->
-        </div> <!-- coda-nav -->
     </div> <!-- featured-posts -->
 
     <div id="featured-categories">
+        <div id="featured-control">
+            <span>
+                <a href="#" name="stop" data-ref="slider-id" >  ^ ^ ^ </a>
+            </span>
+        </div>
         <div id="categories">
             <p>Films les mieux note :</p>
              {% for movie in movies %}
@@ -87,3 +86,6 @@
         </div> <!-- categories -->
     </div> <!-- featured-categories -->
 </div> <!-- featured-content -->
+<script>
+    $('#main-slider').liquidSlider({pauseOnHover: true});
+</script>

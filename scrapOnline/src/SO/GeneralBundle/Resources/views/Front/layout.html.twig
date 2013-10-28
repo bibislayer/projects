@@ -6,6 +6,8 @@
         <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/style.css') }}" type="text/css" media="screen">
         <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/style-css3.css') }}" type="text/css" media="screen">
         <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/style-gravity-forms.css') }}" type="text/css" media="screen">
+        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/animate.css') }}" type="text/css" media="screen">
+        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/liquid-slider.css') }}" type="text/css" media="screen">
         <title>{% block title %}MovieFinder{% endblock %}</title>
         <!-- custom theme styles -->
         <style type="text/css" media="screen">
@@ -28,15 +30,16 @@
         <link rel="apple-touch-icon" href="./images/favicon.ico">
         <meta name="robots" content="noindex,nofollow">
         <link rel="stylesheet" id="fancybox-css" href="{{ asset('bundles/SOgeneral/css/style(1).css') }}" type="text/css" media="all">
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.js') }}"></script><style type="text/css"></style><style type="text/css"></style>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery-1.9.1.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery-migrate.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.superfish.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.easing.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.coda.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.easing.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.touchSwipe.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.liquid-slider-custom.min.js') }}"></script>  
         <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.float.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.equal.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/fancybox.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery-1.9.1.js') }}"></script>
+
     </head>
     <body class="home blog" style="">
         <div id="header">
@@ -44,14 +47,6 @@
                 <div id="header-left">
                 </div> <!-- header-left -->
                 <div id="header-right">
-                    <div id="site-search">
-                        <div id="search">
-                            <form method="get" id="search-form" action="">
-                                <input type="text" name="s" id="s">
-                                <input type="submit" id="search-submit" value="">
-                            </form>
-                        </div> <!-- search -->				
-                    </div> <!-- site-search -->
                 </div> <!-- header-right -->
             </div> <!-- header-inside -->
         </div> <!-- header -->	
@@ -127,6 +122,44 @@
                 {% endblock %}
             </div>
         </div>
+        <script>
+            function reportData(data) {
+                //console.log(data);
+                if (data.url != "unknown") {
+                    $.get(data.url, function(data) {
+                        $("#post-container").replaceWith(data);
+                    });
+                }
+            }
+            function getParameterByName(name, url) {
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                        results = regex.exec(url);
+                return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+            window.addEventListener('popstate', function(event) {
+                //console.log('popstate');
+                reportData(event.state || {url: "unknown", name: "undefined", location: "undefined"});
+            });
+            $(document).ready(function() {
+                $('#featured-control span a').click(function(e) {
+                    var slider = $("#main-slider-wrapper");
+                    if (slider.css('display') == 'block') {
+                        //$('#main-slider').liquidSlider({autoSlide: true});
+                        $('#featured-control span').css('font-size', 10);
+                        $('#featured-control span').css('margin-bottom', 4);
+                        $('#featured-control span a').attr('name', 'start');
+                        $('#featured-control span a').html(' v v v ');
+                    } else {
+                        // $('#main-slider').liquidSlider({autoSlide: false});
+                        $('#featured-control span').css('font-size', 13);
+                        $('#featured-control span').css('margin-bottom', 0);
+                        $('#featured-control span a').attr('name', 'stop');
+                        $('#featured-control span a').html(' ^ ^ ^ ');
+                    }
+                    slider.slideToggle('slow');
+                });
+            });
+        </script>
         <footer>
         </footer>
     </body>
