@@ -11,5 +11,5 @@ so_movie_list:
     defaults: { _controller: SOMovieBundle:Movie:list }
 
 so_movie_video:
-    pattern:  /movie/video/{code}
-    defaults: { _controller: SOMovieBundle:Movie:video }
+    pattern:  /movie/video/{slug}/{type}/{movieCode}
+    defaults: { _controller: SOMovieBundle:Movie:video, type: "n", movieCode: NULL }

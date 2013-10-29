@@ -26,7 +26,7 @@
                             </ul> <!-- post-meta -->
                             <div class="featured-bottom">
                                 <div class="post-thumbnail" style="height: auto !important; with: auto !important;">
-                                    <a class="frame-video continue inline" href="{{ path('so_movie_video', {'code': 123}) }}" title="This is a Sample Video Post">Voir le film.</a>	
+                                    <a class="frame-video continue inline" href="{{ path('so_movie_video', {'slug': movies[i].slug}) }}" title="This is a Sample Video Post">Voir le film.</a>	
                                 </div>
                                 <a class="continue" href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">Voir la fiche du film.</a>
                             </div>
@@ -53,7 +53,7 @@
                             </ul> <!-- post-meta -->
                             <div class="featured-bottom">
                             <div class="post-thumbnail" style="height: auto !important; with: auto !important;">
-                                <a class="frame-video continue inline" href="{{ path('so_movie_video', {'code': 123}) }}" title="This is a Sample Video Post">Voir le film.</a>	
+                                <a class="frame-video continue inline" href="{{ path('so_movie_video', {'slug': movies[i + 6].slug}) }}" title="This is a Sample Video Post">Voir le film.</a>	
                             </div>
                             <a class="continue" href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">Voir la fiche du film.</a>
                             </div>

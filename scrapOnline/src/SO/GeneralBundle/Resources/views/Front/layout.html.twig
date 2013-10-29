@@ -123,11 +123,12 @@
             </div>
         </div>
         <script>
-            function reportData(data) {
+            function reportData(object) {
                 //console.log(data);
-                if (data.url != "unknown") {
-                    $.get(data.url, function(data) {
-                        $("#post-container").replaceWith(data);
+                if (object.url != "unknown") {
+                    //console.log(object);
+                    $.get(object.url, function(data) {
+                        $(""+object.replaced+"").replaceWith(data);
                     });
                 }
             }

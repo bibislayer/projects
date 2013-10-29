@@ -17,6 +17,17 @@ class MovieController extends Controller {
         $movie = $em->getRepository('SOMovieBundle:Movie')->findOneBy(array('slug' => $slug));
         return $this->render('SOMovieBundle:Default:show.html.twig', array('movie' => $movie));
     }
+    
+     public function videoAction($slug, $type, $movieCode) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $movie = $em->getRepository('SOMovieBundle:Movie')->findOneBy(array('slug' => $slug));
+        $q = "";
+        $code = $movie->getCode();
+        $links = $this->get('so_scrap.controller')->searchLinksAction($q, $code);
+    
+        return $this->render('SOMovieBundle:Default:video_movie.html.twig', array('movie' => $movie, 'links' => $links, 
+                                                                                  'type' => $type, 'movieCode' => $movieCode));
+    }
 
     public function listAction($max = 3, $request = null) {
         $em = $this->getDoctrine()->getManager();
@@ -78,12 +89,6 @@ class MovieController extends Controller {
         curl_close($ch);
 
         return $response;
-    }
-
-    public function videoAction($slug) {
-        //$em = $this->getDoctrine()->getEntityManager();
-        //$movie = $em->getRepository('SOMovieBundle:Movie')->findOneBy(array('code' => $code));
-        return $this->render('SOMovieBundle:Default:video_movie.html.twig', array());
     }
 
     private function colorPrompt($string, $color) {

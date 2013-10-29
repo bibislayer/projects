@@ -188,20 +188,15 @@ class DefaultController extends Controller {
                 $i++;
             }
         endforeach;
-        return $this->container->get('templating')->renderResponse('SOScrapBundle:Default:scrap_google.html.twig', array(
+        return $arrayLink;
+        /*return $this->container->get('templating')->renderResponse('SOScrapBundle:Default:scrap_google.html.twig', array(
                     'arrayLink' => $arrayLink,
-        ));
+        ));*/
         //}
     }
 
-    public function searchLinksAction() {
-        $request = $this->getRequest();
-        if ($request->get('name')) {
-            $q = $request->get('name');
-            $q = str_replace(" ", "+", $q);
-            $code = ($request->get('code')) ? $request->get('code') : '';
-            return $this->scrapGoogle($q, $code);
-        }
+    public function searchLinksAction($q, $code) {
+        return $this->scrapGoogle($q, $code);
         exit;
     }
 

@@ -1,1 +1,61 @@
-<iframe width="645px" height="365px" frameBorder="0" src="http://www.purevid.com/?m=embed&id=161u0txtptrqmnn317373"></iframe>
+<div id="video-container">
+    <div id="{{ movie.code }}">
+        {% if type is defined %}
+        {{ type }}
+            {% if type == "m" %}
+        <iframe style="float:left;margin-left:25px" width="605" height="365" src="https://player.mixturecloud.com/embed={{ movieCode }}" frameborder="0" allowfullscreen scrolling="no"></iframe>
+            {% elseif type == "p" %}
+        <iframe style="float:left;margin-left:25px" width="605" height="365" frameBorder="0" src="http://www.purevid.com/?m=embed&id=552343jmo8A9jklx00GHK7875833"></iframe>
+            {% endif %}  
+        {% else %}
+        <iframe style="float:left;margin-left:25px" width="605" height="365" frameBorder="0" src="http://www.purevid.com/?m=embed&id=552343jmo8A9jklx00GHK7875833"></iframe>
+        {% endif %}   
+        <div class="featured-post-description" style="float:left;color:white;width:320px !important;">
+            <h2>{{ movie.title }}</h2>
+            <ul class="post-meta">
+                <li class="date">Annee : {{ movie.productionYear }}</li> 
+            {% if movie.genre is not empty %}
+                <li class="categories">
+                    Genre : 
+                {% for genre in movie.genre %}
+                    <a href="#{{ genre.name }}" title="{{ genre.name }}" rel="{{ genre.name }}">{{ genre.name }}</a>, 
+                {% endfor %}
+                </li>
+            {% else %}
+            {% if movie.runtime is not empty %}
+                <li class="date">Duree : {{ movie.runtime }}</li>
+            {% endif %}
+            {% endif %}
+                <li class="comments">
+                    <a href="#comments" title="This is a Sample Video Post">Comments: ?</a>
+                </li>
+            </ul>
+            <ul style="line-height:30px;" class="post-meta links">
+            {% if links is not empty %}
+                {% for link in links %}
+                <li><a class="frame-video continue inline" style="float: initial !important" href="{{ path('so_movie_video', {'slug': movie.slug, 'type': 'm', 'movieCode': link.codeUrl|replace({'/': ''})}) }}" title="{{ link.codeUrl }}" rel="{{ link.codeUrl }}">Lien mixture</a></li>
+                {% endfor %}
+            {% endif %}
+            </ul>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            var data = {};
+            $('.links a').click(function(e) {
+                e.preventDefault();
+                var replaced;
+                if ($('#featured-posts').html())
+                    replaced = '#featured-posts';
+                else if ($('#video-container').html())
+                    replaced = '#video-container';
+                data = {'url': e.target.href, 'replaced': replaced};
+                reportData(data);
+                location.hash = "#";
+                location.hash = "#menu-home";
+                //history.pushState(data, e.target.href, replaced);
+            });
+        });
+    </script>
+</div>

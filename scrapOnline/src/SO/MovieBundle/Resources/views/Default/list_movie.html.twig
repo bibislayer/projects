@@ -7,7 +7,7 @@
         {% for movie in pagination %}
         <div id="post-121" class="post-121 post type-post status-publish format-standard hentry category-more-videos category-sample-videos gallery-item" style="height: 271px;">
             <div class="post-thumbnail">
-                <a class="thumbnail-frame-video inline" href="{{ path('so_movie_video', {'code': movie.code}) }}" title="{{ movie.title }}"><!-- nothing to see here --></a>
+                <a class="thumbnail-frame-video inline" data-code="{{  movie.code }}" href="{{ path('so_movie_video', {'slug': movie.slug}) }}" title="{{ movie.title }}"><!-- nothing to see here --></a>
                 <img width="180" height="130" src="{{ movie.poster }}" class="attachment-post-thumbnail wp-post-image" alt="Tree">	
             </div>
             <div class="instant">
@@ -47,13 +47,26 @@
         $(document).ready(function() {
             var page;
             var data = {};
-            $('#paginate a').click(function(e) {
+            $('.post-thumbnail a').click(function(e) {
+                e.preventDefault();
+                var replaced;
+                if($('#featured-posts').html())
+                    replaced = '#featured-posts';
+                else if($('#video-container').html())
+                    replaced = '#video-container';
+                data = {'url': e.target.href, 'replaced': replaced};
+                reportData(data);
+                location.hash = "#";
+                location.hash = "#menu-home";
+                //history.pushState(data, e.target.href, replaced);
+            });
+            $('.pagination a').click(function(e) {
                 e.preventDefault();
                 /*$.get("{{ path('so_movie_list') }}?page=" + $(this).text(), function(data) {
                  $("#post-container").replaceWith(data);
                  });*/
                 page = getParameterByName('page', e.target.href);
-                data[page] = {'url': '{{ path('so_movie_list') }}?page=' + page};
+                data[page] = {'url': '{{ path('so_movie_list') }}?page=' + page, 'replaced': '#post-container'};
                 history.pushState(data[page], page, '?page=' + page);
                 reportData(data[page]);
             });
