@@ -1,15 +1,14 @@
 <div id="video-container">
     <div id="{{ movie.code }}">
-        {% if type is defined %}
-        {{ type }}
             {% if type == "m" %}
-        <iframe style="float:left;margin-left:25px" width="605" height="365" src="https://player.mixturecloud.com/embed={{ movieCode }}" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                <iframe style="float:left;margin-left:25px" width="605" height="365" src="https://player.mixturecloud.com/embed={{ movieCode }}" frameborder="0" allowfullscreen scrolling="no"></iframe>
             {% elseif type == "p" %}
-        <iframe style="float:left;margin-left:25px" width="605" height="365" frameBorder="0" src="http://www.purevid.com/?m=embed&id=552343jmo8A9jklx00GHK7875833"></iframe>
-            {% endif %}  
-        {% else %}
-        <iframe style="float:left;margin-left:25px" width="605" height="365" frameBorder="0" src="http://www.purevid.com/?m=embed&id=552343jmo8A9jklx00GHK7875833"></iframe>
-        {% endif %}   
+                <iframe style="float:left;margin-left:25px" width="605" height="365" frameBorder="0" src="http://www.purevid.com/?m=embed&id=552343jmo8A9jklx00GHK7875833"></iframe>
+             {% else %}
+                {% if movie.trailerEmbed is defined %}
+                    {{ movie.trailerEmbed|raw }}
+                {% endif %}
+            {% endif %}    
         <div class="featured-post-description" style="float:left;color:white;width:320px !important;">
             <h2>{{ movie.title }}</h2>
             <ul class="post-meta">

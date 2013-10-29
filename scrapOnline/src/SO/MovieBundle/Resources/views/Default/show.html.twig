@@ -1,19 +1,8 @@
 {% extends 'SOGeneralBundle:Front:layout.html.twig' %}
 {% block content %}
-<div id="video-container">
-    <iframe style="float:left;margin-left:25px" width="605px" height="365px" frameBorder="0" src="http://www.purevid.com/?m=embed&id=552343jmo8A9jklx00GHK7875833"></iframe>
-    <div class="featured-post-description" style="float:left;color:white;width:320px !important;">
-        <h2>{{ movie.title }}</h2>
-        <ul>
-            <li></li>
-            <li><strong>Durée:</strong> <span>2:09:56</span></li>
-            <li><strong>Année:</strong> <span>2013</span></li>
-            <li><strong>Genre:</strong> <span>N.A</span></li>
-        </ul>
-        <p>{{ movie.synopsis }}</p>
-     </div>
-    <div style="clear:both"></div>
-</div> <!-- featured-post -->
+{{ render(controller('SOMovieBundle:Movie:video', {
+            'slug': movie.slug, 'type': 'n', 'movieCode': movie.code
+        })) }}
 <div id="post-container">
     <div id="posts">
         <div id="post-184" class="post-item">

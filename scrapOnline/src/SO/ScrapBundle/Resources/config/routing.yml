@@ -13,3 +13,7 @@ searchAlloCine:
 searchDpStream:
     pattern:  /searchDpStream
     defaults: { _controller: SOScrapBundle:Default:searchDpStream }
+    
+searchDpStreamLink:
+    pattern:  /searchDpStreamLink
+    defaults: { _controller: SOScrapBundle:Default:searchDpStreamLink }

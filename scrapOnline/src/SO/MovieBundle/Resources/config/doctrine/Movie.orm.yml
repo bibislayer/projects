@@ -37,6 +37,9 @@ SO\MovieBundle\Entity\Movie:
         runtime:
             type: integer
             nullable: TRUE
+        trailerEmbed:
+            type: text
+            nullable: TRUE
         slug:
           type: string
           length: 255

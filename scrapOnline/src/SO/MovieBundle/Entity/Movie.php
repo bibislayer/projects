@@ -429,4 +429,32 @@ class Movie
     {
         return $this->runtime;
     }
+    /**
+     * @var string
+     */
+    private $trailerEmbed;
+
+
+    /**
+     * Set trailer_embed
+     *
+     * @param string $trailerEmbed
+     * @return Movie
+     */
+    public function setTrailerEmbed($trailerEmbed)
+    {
+        $this->trailerEmbed = $trailerEmbed;
+    
+        return $this;
+    }
+
+    /**
+     * Get trailer_embed
+     *
+     * @return string 
+     */
+    public function getTrailerEmbed()
+    {
+        return $this->trailerEmbed;
+    }
 }

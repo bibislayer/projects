@@ -15,6 +15,39 @@ class DefaultController extends Controller {
     public function indexAction($name) {
         return $this->render('SOScrapBundle:Default:index.html.twig', array('name' => $name));
     }
+    
+    public function searchDpStreamLinkAction() {
+        $user_agent = 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'; # <--- On dit être Firefox.
+            $header[0] = "Accept: text/xml,application/xml,application/xhtml+xml,";
+            $header[0] .= "text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
+            $header[] = "Cache-Control: max-age=0";
+            $header[] = "Connection: keep-alive";
+            $header[] = "Keep-Alive: 300";
+            $header[] = "Accept-Charset: utf-8";
+            $header[] = "Accept-Language: fr"; # Certains sites changent de contenu en fonction de cette ligne, ici le contenu sera français.
+            $header[] = "Pragma: "; // Simule un navigateur
+            $ch = curl_init();    // initialize curl handle
+
+            curl_setopt($ch, CURLOPT_URL, "http://www.dpstream.net/film-wolverine-le-combat-de-l-immortel-en-streaming-656736.html"); // l'url à visiter
+            curl_setopt($ch, CURLOPT_FAILONERROR, 1);              // Fail on errors
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);    // allow redirects
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // return into a variable
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            curl_setopt($ch, CURLOPT_PORT, 80);            // Pas indispensable, la pluspart des sites ont le port 80 par défaut
+            curl_setopt($ch, CURLOPT_TIMEOUT, 15); //  Si la page n'est pas finie d'ici 15 secondes, tant pis, curl ferme tout. Mais le script peut continuer
+
+            curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+            $html = curl_exec($ch);
+            if (!$html) {
+                echo "cURL error number:" . curl_errno($ch);
+                echo "cURL error:" . curl_error($ch);
+                exit;
+            }
+            curl_close($ch);
+            
+            echo $html;
+            exit;
+    }
 
     public function searchDpStreamAction($i) {
             $user_agent = 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'; # <--- On dit être Firefox.

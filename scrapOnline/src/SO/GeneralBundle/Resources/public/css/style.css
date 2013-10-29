@@ -136,6 +136,10 @@ a:link, a:visited {text-decoration: none;}
 .pagination{overflow: auto;margin:0 auto; text-align: center; width: 660px; }
 .pagination ul{margin: 0 auto;width: 360px;}
 
+#ACEmbed{
+    width: 55%;
+    float: left;
+}
 a.continue,
 #submit,
 #paginate a,

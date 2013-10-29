@@ -118,6 +118,7 @@ class MovieController extends Controller {
                         if (is_array($movie)) {
                             echo $this->colorPrompt($movie['originalTitle'], "green");
                             $movies = json_decode($this->_get($movie['code']), TRUE);
+                            //print_r($movies);exit;
                             $movies = $movies['movie'];
                             if (is_array($movies)) {
                                 $moviesList[] = $movies;
@@ -133,6 +134,15 @@ class MovieController extends Controller {
                                     (array_key_exists('pressRating', $movies['statistics'])) ? $objMovie->setPressRating($movies['statistics']['pressRating']) : '';
                                     (array_key_exists('userRating', $movies['statistics'])) ? $objMovie->setPublicRating($movies['statistics']['userRating']) : '';
                                 }
+                                
+                                if (array_key_exists('media', $movies)) {
+                                    //print_r($movies); exit;
+                                    foreach($movies['media'] as $media):
+                                        if($media['class'] == 'video')
+                                            (array_key_exists('trailerEmbed', $media)) ? $objMovie->setTrailerEmbed($media['trailerEmbed']) : '';
+                                    endforeach;
+                                }
+                                
                                 if (array_key_exists('poster', $movies)) {
                                     (array_key_exists('href', $movies['poster'])) ? $objMovie->setPoster($movies['poster']['href']) : '';
                                 }
