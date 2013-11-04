@@ -3,6 +3,7 @@
 namespace SO\MovieBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SO\MovieBundle\Entity\Link;
 use SO\MovieBundle\Entity\Movie;
 use SO\MovieBundle\Entity\Genre;
 
@@ -17,16 +18,16 @@ class MovieController extends Controller {
         $movie = $em->getRepository('SOMovieBundle:Movie')->findOneBy(array('slug' => $slug));
         return $this->render('SOMovieBundle:Default:show.html.twig', array('movie' => $movie));
     }
-    
-     public function videoAction($slug, $type, $movieCode) {
+
+    public function videoAction($slug, $type, $movieCode) {
         $em = $this->getDoctrine()->getEntityManager();
         $movie = $em->getRepository('SOMovieBundle:Movie')->findOneBy(array('slug' => $slug));
         $q = "";
         $code = $movie->getCode();
         $links = $this->get('so_scrap.controller')->searchLinksAction($q, $code);
-    
-        return $this->render('SOMovieBundle:Default:video_movie.html.twig', array('movie' => $movie, 'links' => $links, 
-                                                                                  'type' => $type, 'movieCode' => $movieCode));
+
+        return $this->render('SOMovieBundle:Default:video_movie.html.twig', array('movie' => $movie, 'links' => $links,
+                    'type' => $type, 'movieCode' => $movieCode));
     }
 
     public function listAction($max = 3, $request = null) {
@@ -34,7 +35,7 @@ class MovieController extends Controller {
         $dql = "SELECT m FROM SOMovieBundle:Movie m";
         $query = $em->createQuery($dql);
         $paginator = $this->get('knp_paginator');
-        if(!$request)
+        if (!$request)
             $request = $this->getRequest();
         $pagination = $paginator->paginate($query, $request->query->get('page', 1), 9);
 
@@ -46,6 +47,48 @@ class MovieController extends Controller {
         $movie = $em->getRepository('SOMovieBundle:Movie')->findBy(array(), array('publicRating' => 'DESC'), $max);
 
         return $this->render('SOMovieBundle:Default:sidebar_movie.html.twig', array('movies' => $movie));
+    }
+
+    public function addLinkAction() {
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST') {
+            if ($request->request->get('linkM') || $request->request->get('linkP')) {
+                $linkM = $request->request->get('linkM');
+                $linkP = $request->request->get('linkP');
+                $code = ($request->request->get('code')) ? (int) $request->request->get('code') : '';
+                $em = $this->getDoctrine()->getManager();
+                $objLink = $this->get('link_repository');
+                if ($linkM)
+                    $objLink = $objLink->getElements(array('by_mixture' => $linkM, 'by_movie_code' => $code));
+                if ($linkP)
+                    $objLink = $objLink->getElements(array('by_purvid' => $linkP, 'by_movie_code' => $code));
+                $objMovie = $em->getRepository('SOMovieBundle:Movie')->findOneBy(array('code' => $code));
+                if (!$objLink) {
+                    $objLink = new Link();
+                    $objLink->setMovie($objMovie);
+                    if ($linkM)
+                        $objLink->setMixture($linkM);
+                    else
+                        $objLink->setMixture("");
+                    if ($linkP)
+                        $objLink->setPurevid($linkP);
+                    else
+                        $objLink->setPurevid("");
+                    $objLink->setPurevid('');
+                    $objLink->setVisible(true);
+
+                    $em->persist($objLink);
+                    $em->flush();
+                } else {
+                    echo 'exist';
+                    exit;
+                }
+                if ($linkM)
+                    return $this->redirect($this->generateUrl('so_movie_video', array('slug' => $objMovie->getSlug(), 'type' => 'm', 'movieCode' => $linkM)));
+                else if ($linkP)
+                    return $this->redirect($this->generateUrl('so_movie_video', array('slug' => $objMovie->getSlug(), 'type' => 'p', 'movieCode' => $linkP)));
+            }
+        }
     }
 
     private $_api_url = 'http://api.allocine.fr/rest/v3';
@@ -134,15 +177,15 @@ class MovieController extends Controller {
                                     (array_key_exists('pressRating', $movies['statistics'])) ? $objMovie->setPressRating($movies['statistics']['pressRating']) : '';
                                     (array_key_exists('userRating', $movies['statistics'])) ? $objMovie->setPublicRating($movies['statistics']['userRating']) : '';
                                 }
-                                
+
                                 if (array_key_exists('media', $movies)) {
                                     //print_r($movies); exit;
-                                    foreach($movies['media'] as $media):
-                                        if($media['class'] == 'video')
+                                    foreach ($movies['media'] as $media):
+                                        if ($media['class'] == 'video')
                                             (array_key_exists('trailerEmbed', $media)) ? $objMovie->setTrailerEmbed($media['trailerEmbed']) : '';
                                     endforeach;
                                 }
-                                
+
                                 if (array_key_exists('poster', $movies)) {
                                     (array_key_exists('href', $movies['poster'])) ? $objMovie->setPoster($movies['poster']['href']) : '';
                                 }

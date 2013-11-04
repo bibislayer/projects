@@ -50,9 +50,9 @@
             $('.post-thumbnail a').click(function(e) {
                 e.preventDefault();
                 var replaced;
-                if($('#featured-posts').html())
+                if ($('#featured-posts').html())
                     replaced = '#featured-posts';
-                else if($('#video-container').html())
+                else if ($('#video-container').html())
                     replaced = '#video-container';
                 data = {'url': e.target.href, 'replaced': replaced};
                 reportData(data);

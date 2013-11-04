@@ -1,9 +1,10 @@
 <div id="featured-content">
     <div id="featured-posts">
-            <div class="liquid-slider"  id="main-slider" style="height: 380px;">
+        <div class="liquid-slider"  id="main-slider" style="height: 380px;">
                     {% for i in 0..4 %}
-                <div class="panel" style="display: block;">
-                    <div class="featured-post">
+            <div class="panel" style="display: block;">
+                <div class="featured-post">
+                    <div style="float:left">
                         <a class="" href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">
                             <img height="315" src="{{ movies[i].poster }}" class="attachment-featured wp-post-image" alt="{{ movies[i].originalTitle }}">
                         </a>
@@ -24,13 +25,15 @@
                                 {% endif %}
                                 {% endif %}
                             </ul> <!-- post-meta -->
-                            <div class="featured-bottom">
-                                <div class="post-thumbnail" style="height: auto !important; with: auto !important;">
-                                    <a class="frame-video continue inline" href="{{ path('so_movie_video', {'slug': movies[i].slug}) }}" title="This is a Sample Video Post">Voir le film.</a>	
-                                </div>
-                                <a class="continue" href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">Voir la fiche du film.</a>
-                            </div>
                         </div>
+                        <div class="featured-bottom">
+                            <div class="post-thumbnail" style="height: auto !important; with: auto !important;">
+                                <a class="frame-video continue inline" href="{{ path('so_movie_video', {'slug': movies[i].slug}) }}" title="This is a Sample Video Post">Voir le film.</a>	
+                            </div>
+                            <a class="continue" href="{{ path('so_movie_show', { 'slug': movies[i].slug }) }}" title="{{ movies[i].originalTitle }}">Voir la fiche du film.</a>
+                        </div>
+                    </div>
+                    <div style="float:left;">
                         <a class="" href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">
                             <img height="315" src="{{ movies[i + 6].poster }}" class="attachment-featured wp-post-image" alt="{{ movies[i].originalTitle }}">
                         </a>
@@ -51,18 +54,19 @@
                                 {% endif %}
                                 {% endif %}
                             </ul> <!-- post-meta -->
-                            <div class="featured-bottom">
+                        </div>
+                        <div class="featured-bottom">
                             <div class="post-thumbnail" style="height: auto !important; with: auto !important;">
                                 <a class="frame-video continue inline" href="{{ path('so_movie_video', {'slug': movies[i + 6].slug}) }}" title="This is a Sample Video Post">Voir le film.</a>	
                             </div>
                             <a class="continue" href="{{ path('so_movie_show', { 'slug': movies[i + 6].slug }) }}" title="{{ movies[i + 6].originalTitle }}">Voir la fiche du film.</a>
-                            </div>
                         </div>
-                        <div style="clear:both"></div>
                     </div>
+                    <div style="clear:both"></div>
                 </div>
-                    {% endfor %}
             </div>
+                    {% endfor %}
+        </div>
     </div> <!-- featured-posts -->
 
     <div id="featured-categories">

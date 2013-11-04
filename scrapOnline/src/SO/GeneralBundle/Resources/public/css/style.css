@@ -483,8 +483,9 @@ li.twitter:hover {
 }
 
 .featured-bottom{
-    position: absolute;
-    top: 293px;
+    position: relative;
+    bottom: 67px;
+    left: 260px;
     width: 150px;
 }
 

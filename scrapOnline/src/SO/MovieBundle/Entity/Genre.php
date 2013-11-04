@@ -81,10 +81,10 @@ class Genre
     /**
      * Add Movie
      *
-     * @param \SO\MovieBundle\Entity\movies $movie
+     * @param \SO\MovieBundle\Entity\Movie $movie
      * @return Genre
      */
-    public function addMovie(\SO\MovieBundle\Entity\movies $movie)
+    public function addMovie(\SO\MovieBundle\Entity\Movie $movie)
     {
         $this->Movie[] = $movie;
     
@@ -94,9 +94,9 @@ class Genre
     /**
      * Remove Movie
      *
-     * @param \SO\MovieBundle\Entity\movies $movie
+     * @param \SO\MovieBundle\Entity\Movie $movie
      */
-    public function removeMovie(\SO\MovieBundle\Entity\movies $movie)
+    public function removeMovie(\SO\MovieBundle\Entity\Movie $movie)
     {
         $this->Movie->removeElement($movie);
     }

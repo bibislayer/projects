@@ -1,6 +1,7 @@
 SO\MovieBundle\Entity\Link:
     type: entity
     table: links
+    repositoryClass: SO\MovieBundle\Repository\LinkRepository
     fields:
         id:
             type: integer

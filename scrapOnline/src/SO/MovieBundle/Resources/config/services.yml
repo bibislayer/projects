@@ -12,3 +12,8 @@ services:
         arguments: [SOMovieBundle:Movie]
         factory_service: doctrine.orm.entity_manager
         factory_method: getRepository
+   link_repository:
+        class: SO\MovieBundle\Repository\LinkRepository
+        arguments: [SOMovieBundle:Link]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository

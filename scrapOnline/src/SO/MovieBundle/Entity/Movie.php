@@ -60,6 +60,16 @@ class Movie
     private $synopsisShort;
 
     /**
+     * @var integer
+     */
+    private $runtime;
+
+    /**
+     * @var string
+     */
+    private $trailerEmbed;
+
+    /**
      * @var string
      */
     private $slug;
@@ -314,6 +324,52 @@ class Movie
     }
 
     /**
+     * Set runtime
+     *
+     * @param integer $runtime
+     * @return Movie
+     */
+    public function setRuntime($runtime)
+    {
+        $this->runtime = $runtime;
+    
+        return $this;
+    }
+
+    /**
+     * Get runtime
+     *
+     * @return integer 
+     */
+    public function getRuntime()
+    {
+        return $this->runtime;
+    }
+
+    /**
+     * Set trailerEmbed
+     *
+     * @param string $trailerEmbed
+     * @return Movie
+     */
+    public function setTrailerEmbed($trailerEmbed)
+    {
+        $this->trailerEmbed = $trailerEmbed;
+    
+        return $this;
+    }
+
+    /**
+     * Get trailerEmbed
+     *
+     * @return string 
+     */
+    public function getTrailerEmbed()
+    {
+        return $this->trailerEmbed;
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
@@ -400,61 +456,5 @@ class Movie
     public function getGenre()
     {
         return $this->Genre;
-    }
-    /**
-     * @var integer
-     */
-    private $runtime;
-
-
-    /**
-     * Set runtime
-     *
-     * @param integer $runtime
-     * @return Movie
-     */
-    public function setRuntime($runtime)
-    {
-        $this->runtime = $runtime;
-    
-        return $this;
-    }
-
-    /**
-     * Get runtime
-     *
-     * @return integer 
-     */
-    public function getRuntime()
-    {
-        return $this->runtime;
-    }
-    /**
-     * @var string
-     */
-    private $trailerEmbed;
-
-
-    /**
-     * Set trailer_embed
-     *
-     * @param string $trailerEmbed
-     * @return Movie
-     */
-    public function setTrailerEmbed($trailerEmbed)
-    {
-        $this->trailerEmbed = $trailerEmbed;
-    
-        return $this;
-    }
-
-    /**
-     * Get trailer_embed
-     *
-     * @return string 
-     */
-    public function getTrailerEmbed()
-    {
-        return $this->trailerEmbed;
     }
 }

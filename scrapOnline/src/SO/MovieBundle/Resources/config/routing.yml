@@ -13,3 +13,7 @@ so_movie_list:
 so_movie_video:
     pattern:  /movie/video/{slug}/{type}/{movieCode}
     defaults: { _controller: SOMovieBundle:Movie:video, type: "n", movieCode: NULL }
+    
+add_link:
+    pattern:  /movie/add_link/
+    defaults: { _controller: SOMovieBundle:Movie:addLink }

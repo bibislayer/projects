@@ -1,9 +1,9 @@
 <div id="video-container">
     <div id="{{ movie.code }}">
             {% if type == "m" %}
-                <iframe style="float:left;margin-left:25px" width="605" height="365" src="https://player.mixturecloud.com/embed={{ movieCode }}" frameborder="0" allowfullscreen scrolling="no"></iframe>
+        <iframe style="float:left;margin-left:25px" width="605" height="365" src="https://player.mixturecloud.com/embed={{ movieCode }}" frameborder="0" allowfullscreen scrolling="no"></iframe>
             {% elseif type == "p" %}
-                <iframe style="float:left;margin-left:25px" width="605" height="365" frameBorder="0" src="http://www.purevid.com/?m=embed&id=552343jmo8A9jklx00GHK7875833"></iframe>
+        <iframe style="float:left;margin-left:25px" width="605" height="365" frameBorder="0" src="http://www.purevid.com/?m=embed&id={{ movieCode }}"></iframe>
              {% else %}
                 {% if movie.trailerEmbed is defined %}
                     {{ movie.trailerEmbed|raw }}
@@ -29,18 +29,56 @@
                     <a href="#comments" title="This is a Sample Video Post">Comments: ?</a>
                 </li>
             </ul>
-            <ul style="line-height:30px;" class="post-meta links">
-            {% if links is not empty %}
-                {% for link in links %}
-                <li><a class="frame-video continue inline" style="float: initial !important" href="{{ path('so_movie_video', {'slug': movie.slug, 'type': 'm', 'movieCode': link.codeUrl|replace({'/': ''})}) }}" title="{{ link.codeUrl }}" rel="{{ link.codeUrl }}">Lien mixture</a></li>
+            <ul style="line-height:30px;" class="post-meta links"> 
+            {% if movie.link is not empty %}
+                {% for link in movie.link %}
+                <li><a class="frame-video continue inline" style="float: initial !important" href="{{ path('so_movie_video', {'slug': movie.slug, 'type': 'm', 'movieCode': link.mixture}) }}" title="{{ link.mixture }}" rel="{{ link.mixture }}">Lien mixture</a></li>
                 {% endfor %}
+            {% else %}
+                Liens auto genere
+                {% if links is not empty %}
+                    {% for link in links %}
+                <li><a class="frame-video continue inline" style="float: initial !important" href="{{ path('so_movie_video', {'slug': movie.slug, 'type': 'm', 'movieCode': link.codeUrl|replace({'/': ''})}) }}" title="{{ link.codeUrl }}" rel="{{ link.codeUrl }}">Lien mixture</a></li>
+                    {% endfor %}
+                {% endif %}
             {% endif %}
             </ul>
+            <h4>Ajout manuel</h4>
+            <form id="linkForm" action="#linkForm" method="POST">
+                <span>
+                    <label>Mixture :</label>
+                    <input type="text" name="linkM" placeholder="Lien mixture"/>
+                </span>
+                <br />
+                <span>
+                    <label>PureVid :</label>
+                    <input type="text" name="linkP" placeholder="Lien purevid"/>
+                    <input type="hidden" name="code" value="{{ movie.code }}"/>
+                </span>
+                <br />
+                <span>
+                    <input type="submit" value="Submit"/>
+                </span>
+            </form>
         </div>
         <div style="clear:both"></div>
     </div>
     <script>
         $(document).ready(function() {
+            $('#linkForm').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ path('add_link') }}',
+                    data: $(this).serialize(),
+                    success: function(d, textStatus, jqXHR) {
+                        $("#video-container").replaceWith(d);
+                    },
+                    error: function(textStatus) {
+                        console.log(textStatus);
+                    }
+                });
+            });
             var data = {};
             $('.links a').click(function(e) {
                 e.preventDefault();

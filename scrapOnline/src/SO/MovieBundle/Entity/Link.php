@@ -15,11 +15,6 @@ class Link
     private $id;
 
     /**
-     * @var integer
-     */
-    private $movies_id;
-
-    /**
      * @var string
      */
     private $mixture;
@@ -35,7 +30,7 @@ class Link
     private $visible;
 
     /**
-     * @var \SO\MovieBundle\Entity\movies
+     * @var \SO\MovieBundle\Entity\Movie
      */
     private $Movie;
 
@@ -48,29 +43,6 @@ class Link
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set movies_id
-     *
-     * @param integer $moviesId
-     * @return Link
-     */
-    public function setMoviesId($moviesId)
-    {
-        $this->movies_id = $moviesId;
-    
-        return $this;
-    }
-
-    /**
-     * Get movies_id
-     *
-     * @return integer 
-     */
-    public function getMoviesId()
-    {
-        return $this->movies_id;
     }
 
     /**
@@ -145,10 +117,10 @@ class Link
     /**
      * Set Movie
      *
-     * @param \SO\MovieBundle\Entity\movies $movie
+     * @param \SO\MovieBundle\Entity\Movie $movie
      * @return Link
      */
-    public function setMovie(\SO\MovieBundle\Entity\movies $movie = null)
+    public function setMovie(\SO\MovieBundle\Entity\Movie $movie = null)
     {
         $this->Movie = $movie;
     
@@ -158,7 +130,7 @@ class Link
     /**
      * Get Movie
      *
-     * @return \SO\MovieBundle\Entity\movies 
+     * @return \SO\MovieBundle\Entity\Movie 
      */
     public function getMovie()
     {
