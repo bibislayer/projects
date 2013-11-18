@@ -42,11 +42,31 @@ class MovieController extends Controller {
         return $this->render('SOMovieBundle:Default:list_movie.html.twig', array('pagination' => $pagination));
     }
 
-    public function sidebarAction($max = 5, $request) {
+    public function topMoviesAction($max = 5, $request) {
         $em = $this->getDoctrine()->getManager();
         $movie = $em->getRepository('SOMovieBundle:Movie')->findBy(array(), array('publicRating' => 'DESC'), $max);
 
-        return $this->render('SOMovieBundle:Default:sidebar_movie.html.twig', array('movies' => $movie));
+        return $this->render('SOMovieBundle:Default:top_movies.html.twig', array('movies' => $movie));
+    }
+    
+    public function sidebarAction($max = 5, $position, $type, $request) {
+        $em = $this->getDoctrine()->getManager();
+        if($type == 'show'){
+            $title = 'Les plus vues';
+            $criteres = array('publicRating' => 'DESC');
+        }
+        elseif($type == 'rate'){
+            $title = 'Les mieux notés';
+            $criteres = array('publicRating' => 'DESC');
+        }
+        else{
+            $title = 'Les dernieres sorties';
+            $criteres = array('productionYear' => 'DESC');
+        }
+        
+        $movie = $em->getRepository('SOMovieBundle:Movie')->findBy(array(), $criteres, $max);
+
+        return $this->render('SOMovieBundle:Default:'.$position.'_sidebar_movies.html.twig', array('movies' => $movie, 'title' => $title));
     }
 
     public function addLinkAction() {

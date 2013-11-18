@@ -1,167 +1,321 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <!-- required theme styles -->
-        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/style.css') }}" type="text/css" media="screen">
-        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/style-css3.css') }}" type="text/css" media="screen">
-        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/style-gravity-forms.css') }}" type="text/css" media="screen">
-        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/animate.css') }}" type="text/css" media="screen">
-        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/liquid-slider.css') }}" type="text/css" media="screen">
-        <title>{% block title %}MovieFinder{% endblock %}</title>
-        <!-- custom theme styles -->
-        <style type="text/css" media="screen">
-            body {
-            }
-
-            li.date, #footer h3, #footer p, #sidebar h3, #sidebar p, .cat-post-content, blockquote, .widget {
-            }
-
-            #full-width-ad, #posts, #posts-page, #paginate, .gallery-item h2, li.date, li.categories, .post-details h2, #comments-meta, #comments, #author, #email, #url, #comment, #sidebar, #footer-content {
-            }
-
-            a:link, a:visited, li.comments a:link, li.comments a:visited, #footer a:link, #footer a:visited {
-            }
-
-            a:hover {
-            }
-        </style>
-        <link rel="shortcut icon" href=./images/favicon.ico" type="image/x-icon">
-        <link rel="apple-touch-icon" href="./images/favicon.ico">
-        <meta name="robots" content="noindex,nofollow">
-        <link rel="stylesheet" id="fancybox-css" href="{{ asset('bundles/SOgeneral/css/style(1).css') }}" type="text/css" media="all">
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery-1.9.1.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery-migrate.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.superfish.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.easing.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.easing.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.touchSwipe.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.liquid-slider-custom.min.js') }}"></script>  
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.float.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/SOgeneral/js/jquery.equal.js') }}"></script>
-
+        <meta charset="utf-8" />
+        <title>Zoombi</title>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/icomoon.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/superfish.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/style.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/SOgeneral/css/responsive.css') }}" />
+        <!--[if lt IE 9]>
+        <link rel="stylesheet" type="text/css" href="css/ie.css">
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/PIE_IE678.js') }}"></script>
+        <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
     </head>
-    <body class="home blog" style="">
-        <div id="header">
-            <div id="header-inside">
-                <div id="header-left">
-                </div> <!-- header-left -->
-                <div id="header-right">
-                </div> <!-- header-right -->
-            </div> <!-- header-inside -->
-        </div> <!-- header -->	
-        <div id="navigation">
-            <div class="navigation-inside navigation-video">
-                <div class="menu-header">
-                    <ul id="menu-home" class="menu sf-js-enabled">
-                        <li id="menu-item-484" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-484">
-                            <a href="{{ path('fo_homepage') }}">Accueil</a>
-                        </li>
-                        <li id="menu-item-510" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-510">
-                            <a href="#">Sample Videos</a>
-                            <ul class="sub-menu" style="display: none; visibility: hidden;">
-                                <li id="menu-item-511" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-511">
-                                    <a href="#">More Videos</a>
+    <body class="kp-home">
+        <header id="header-page">
+            <div class="top-header">
+                <div class="container">
+                    <div id="logo">
+                        <a href="index.html" ><img src="{{ asset('bundles/SOgeneral/images/logo.png') }}" alt="logo"></a>
+                    </div>
+                    <nav class="pull-right">
+                        <ul class="sf-menu" id="main-menu">
+                            <li class="current-item-menu">
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="blog.html">Page</a>
+                                <ul>
+                                    <li><a href="blog.html">Blog</a>
+                                        <ul>
+                                            <li><a href="blog.html">Blog</a></li>
+                                            <li><a href="blog-1-sidebar.html">Blog 1 sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="element.html">Element</a></li>
+                                    <li><a href="single.html">Single</a>
+                                        <ul>
+                                            <li><a href="single.html">Single</a></li>
+                                            <li><a href="single-1-sidebar.html">Single 1 sidebar</a></li>
+                                            <li><a href="single-video.html">Single video</a></li>
+                                            <li><a href="single-audio.html">Single audio</a></li>
+                                            <li><a href="single-gallery.html">Single gallery</a></li>
+                                            <li><a href="single-soundcloud.html">Single soundcloud</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="404.html">Page 404</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Fashion</a>
+                            </li>
+                            <li>
+                                <a href="#">Movie</a>
+                            </li>
+                            <li>
+                                <a href="contact.html">Contact</a>
+                            </li> 
+                        </ul>
+                        <div id="mobile-menu">
+                            <span>Menu</span>
+                            <ul id="toggle-view-menu">
+                                <li class="clearfix">
+                                    <h3><a href="#">Home</a></h3>
+                                    <span>+</span>
+                                    <div class="clearfix"></div>
+                                    <div class="menu-panel clearfix">
+                                        <ul>
+                                            <li><a href="index.html">Index style 1</a></li>
+                                            <li><a href="index-2.html">Index style 2</a></li>
+                                            <li><a href="index-3.html">Index style 3</a></li>
+                                        </ul>
+                                    </div>
                                 </li>
-                                <li id="menu-item-512" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-512">
-                                    <a href="#">Sub Videos</a>
+                                <li class="clearfix">
+                                    <h3><a href="#">Pages</a></h3>
+                                    <span>+</span>
+                                    <div class="clearfix"></div>                    
+                                    <div class="menu-panel clearfix">
+                                        <ul>
+                                            <li><a href="about.html">About page</a></li>
+                                            <li><a href="elements.html">Elements page</a></li>
+                                            <li><a href="404.html">404 page</a></li>
+                                        </ul>
+                                    </div>
                                 </li>
-                            </ul>
-                        </li>
-                        <li id="menu-item-513" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-513">
-                            <a href="#">Sample Posts</a>
-                            <ul class="sub-menu" style="display: none; visibility: hidden;">
-                                <li id="menu-item-514" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-514">
-                                    <a href="#">Blog</a></li>
-                                <li id="menu-item-515" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-515">
-                                    <a href="#">Featured</a>
+                                <li class="clearfix">
+                                    <h3><a href="#">Portfolio</a></h3>
+                                    <span>+</span>
+                                    <div class="clearfix"></div>                    
+                                    <div class="menu-panel clearfix">
+                                        <ul>
+                                            <li><a href="portfolio-3col.html">Portfolio 3 column</a></li>
+                                            <li><a href="portfolio-2col.html">Portfolio 2 column</a></li>
+                                            <li><a href="portfolio-1col.html">Portfolio 1 column</a></li>
+                                            <li>
+                                                <a href="#">Portfolio detail</a>
+                                                <ul>
+                                                    <li><a href="portfolio-detail.html">Portfolio single</a></li>
+                                                    <li><a href="portfolio-audio.html">Portfolio audio</a></li>
+                                                    <li><a href="portfolio-gallery.html">Portfolio gallery</a></li>
+                                                    <li><a href="portfolio-video.html">Portfolio video</a></li>
+                                                    <li><a href="portfolio-soundcloud.html">Portfolio soundcloud</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
-                            </ul>
-                        </li>
-                        <li id="menu-item-516" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-516">
-                            <a href="#">Sample Category</a>
-                            <ul class="sub-menu" style="display: none; visibility: hidden;">
-                                <li id="menu-item-517" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-517">
-                                    <a href="#">Sub Category</a>
-                                    <ul class="sub-menu" style="display: none; visibility: hidden;">
-                                        <li id="menu-item-518" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-518">
-                                            <a href="#">Sub Sub Category</a>
-                                        </li>
-                                    </ul>
+                                <li class="clearfix">
+                                    <h3><a href="#">Blog</a></h3>
+                                    <span>+</span>
+                                    <div class="clearfix"></div>                    
+                                    <div class="menu-panel clearfix">
+                                        <ul>
+                                            <li>
+                                                <a href="#">Blog style 1</a>
+                                                <ul>
+                                                    <li><a href="blog-1-left-sidebar.html">Width left sidebar</a></li>
+                                                    <li><a href="blog-1-right-sidebar.html">Width right sidebar</a></li>
+                                                    <li><a href="blog-1-two-sidebar.html">Width two sidebar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="blog-2.html">Blog style 2</a></li>
+                                            <li>
+                                                <a href="#">Blog style 3</a>
+                                                <ul>
+                                                    <li><a href="blog-3-one-sidebar.html">Width one sidebar</a></li>
+                                                    <li><a href="blog-3-two-sidebar.html">Width two sidebar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="#">Blog single</a>
+                                                <ul>
+                                                    <li><a href="single-1.html">Single style 1</a></li>
+                                                    <li><a href="single-2.html">Single style 2</a></li>
+                                                    <li><a href="single-3.html">Single style 3</a></li>
+                                                    <li><a href="single-4.html">Single style 4</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
-                            </ul>
-                        </li>
-                        <li id="menu-item-519" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-519">
-                            <a href="#">Another Category</a>
-                        </li>
-                        <li id="menu-item-520" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-520">
-                            <a href="#">Sample Page</a>
-                            <ul class="sub-menu" style="display: none; visibility: hidden;">
-                                <li id="menu-item-521" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-521">
-                                    <a href="#">Sample Sub Page</a>
-                                </li>
-                                <li id="menu-item-522" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-522">
-                                    <a href="#">Full Width Page</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li id="menu-item-486" class="subscribe menu-item menu-item-type-custom menu-item-object-custom menu-item-486">
-                            <a href="#">Subscribe</a>
-                        </li>
-                        <li id="menu-item-485" class="twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-485">
-                            <a href="#">Twitter</a>
-                        </li>
-                    </ul>
-                </div>		
-            </div> <!-- navigation-inside -->
-        </div>  <!-- navigation -->
-        <div id="content">
-            <div id="content-inside">
-                {% block content %}
-                {% block fos_user_content %}{% endblock %}
-                {% endblock %}
+                                <li class="clearfix"><h3><a href="contact.html">Contact</a></h3></li>                   
+                            </ul><!--toggle-view-menu-->
+                        </div><!--mobile-menu-->
+                    </nav>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- container -->
             </div>
+            <!-- top-header -->
+            <div class="bottom-header">
+                <div class="container">
+                    <div class="top-news pull-left">
+                        <span>Dernières news</span>
+                        <div class="list_carousel">
+                            <ul class="carousel-1">
+                                <li><a href="#">Site en cours de construction: 30/100</a></li>
+                                <li><a href="#">Sorties dvd: “Bond Girls” Through The Years...</a></li>
+                                <li><a href="#">Sorties dvd: “Bond Girls” Through The Years...</a></li>
+                                <li><a href="#">Sorties dvd: “Bond Girls” Through The Years...</a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <!-- list_carousel -->
+                    </div>
+                    <!-- top news -->
+                    <div class="search-box pull-right">
+                        <form action="/" method="post">
+                            <div class="form-group">					
+                                <input type="text"  name="search-text" class="form-control" onBlur="if (this.value == '')
+                                                    this.value = this.defaultValue;" onFocus="if (this.value == this.defaultValue)
+                                                                this.value = '';" value="Search..." >
+                            </div>
+                            <button type="submit"><span class="icon-search"></span></button>
+                        </form>
+                    </div>
+                </div>
+                <!-- container -->
+            </div>
+            <!-- bottom-header -->
+        </header>
+        <!-- header-page -->
+        <div id="content" class="container clearfix">
+    {% block content %}
+    {% block fos_user_content %}{% endblock %}
+    {% endblock %}
         </div>
-        <script>
-            function reportData(object) {
-                //console.log(data);
-                if (object.url != "unknown") {
-                    //console.log(object);
-                    $.get(object.url, function(data) {
-                        $(""+object.replaced+"").replaceWith(data);
-                    });
-                }
-            }
-            function getParameterByName(name, url) {
-                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                        results = regex.exec(url);
-                return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-            }
-            window.addEventListener('popstate', function(event) {
-                //console.log('popstate');
-                reportData(event.state || {url: "unknown", name: "undefined", location: "undefined"});
-            });
-            $(document).ready(function() {
-                $('#featured-control span a').click(function(e) {
-                    var slider = $("#main-slider-wrapper");
-                    if (slider.css('display') == 'block') {
-                        //$('#main-slider').liquidSlider({autoSlide: true});
-                        $('#featured-control span').css('font-size', 10);
-                        $('#featured-control span').css('margin-bottom', 4);
-                        $('#featured-control span a').attr('name', 'start');
-                        $('#featured-control span a').html(' v v v ');
-                    } else {
-                        // $('#main-slider').liquidSlider({autoSlide: false});
-                        $('#featured-control span').css('font-size', 13);
-                        $('#featured-control span').css('margin-bottom', 0);
-                        $('#featured-control span a').attr('name', 'stop');
-                        $('#featured-control span a').html(' ^ ^ ^ ');
-                    }
-                    slider.slideToggle('slow');
-                });
-            });
-        </script>
-        <footer>
+        <!-- container -->
+        <div id="bottom-sidebar">
+            <div class="container clearfix">
+                <div class="col-area-5">
+                    <a href="#" class="bottom-logo"><img src="images/logo.png" alt=""></a>
+                    <div class="widget widget-text">
+                        <p>Kopasoft  is a clean, powerful and responsive wordpress magazine / news theme.</p>
+                        <p>It was popularised in the 1960s with the release of Letraset sheets containing</p>
+                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC...</p>
+                    </div>
+                    <!-- widget-text -->
+                </div>
+                <!-- col-area-5 -->
+                <div class="col-area-6">
+                    <div class="widget widget-flickr">
+                        <h2 class="widget-title">photo on flickr</h2>
+                        <div class="widget-content">
+                            <div class="flickr-wrap clearfix" id="flickr-feed-1">
+                                <ul class="clearfix list-unstyled"></ul>
+                            </div><!--flickr-wrap-->
+                        </div>
+                        <!-- widget-content -->
+                    </div>
+                    <!-- widget-flickr -->
+                </div>
+                <!-- col-area-6 -->
+                <div class="col-area-7">
+                    <div class="widget widget_categories">
+                        <h2 class="widget-title">categories</h2>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="#">Business(10)</a>
+                            </li>
+                            <li>
+                                <a href="#">Health(10)</a>
+                            </li>
+                            <li>
+                                <a href="#">Movies(10)</a>
+                            </li>
+                            <li>
+                                <a href="#">Graphic Design(10)</a>
+                            </li>
+                            <li>
+                                <a href="#">Politics(10)</a>
+                            </li>
+                            <li>
+                                <a href="#">Technology(10)</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <!-- widget-cat -->
+                </div>
+                <!-- col-area-7 -->
+                <div class="col-area-8">
+                    <div class="widget widget_pages">
+                        <h2 class="widget-title">page</h2>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="#">Archive</a>
+                            </li>
+                            <li>
+                                <a href="#">Advertise With Us</a>
+                            </li>
+                            <li>
+                                <a href="#">Contact</a>
+                            </li>
+                            <li>
+                                <a href="#">Log In</a>
+                            </li>
+                            <li>
+                                <a href="#">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="#">Sitemap</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- widget-cat -->
+                </div>
+                <!-- col-area-8 -->
+                <div class="col-area-9">
+                    <div class="widget widget-contact">
+                        <h2 class="widget-title">contact us</h2>
+                        <div class="widget-content">
+                            <span>Envanto headquaters</span>
+                            <ul class="list-unstyled">
+                                <li class="clearfix"><span class="icon-location pull-left"></span> Elizabeth St, Melbourne, Victoria 3000 Australi</li>
+                                <li class="clearfix"><span class="icon-phone pull-left"></span> +61 (0) 3 8376 6286</li>
+                                <li class="clearfix"><span class="icon-mail pull-left"></span><a href="mailto:kopasof@gmail.com">mail@yoursite.com</a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- widget contact -->
+                </div>
+                <!-- col-area-9 -->
+            </div>
+            <!-- container -->
+        </div>
+        <!-- bottom-sidebar -->
+        <footer id="page-footer">
+            <div class="container">
+                <p class="copy-right pull-left"> Copyright 2013 - <span>Kopasoft</span>.  All Rights Reserved</p>
+                <ul class="pull-right list-inline">
+                    <li><a href="#" class="icon-facebook"></a></li>
+                    <li><a href="#" class="icon-flickr"></a></li>
+                    <li><a href="#" class="icon-vimeo"></a></li>
+                    <li><a href="#" class="icon-dribbble"></a></li>
+                    <li><a href="#" class="icon-twitter"></a></li>
+                </ul>
+
+            </div>
         </footer>
+        <!-- page footer -->
+        <span class="back-to-top icon-arrow-up"></span>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/superfish.js') }}"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/jquery.carousel-6.2.1.js') }}"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/jflickrfeed.min.js') }}"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/tweetable.jquery.js') }}"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/jquery.timeago.js') }}"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/jquery.form.js') }}"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/imagesloaded.js') }}"></script>
+        <script src="{{ asset('bundles/SOgeneral/js/custom.js') }}"></script>
     </body>
 </html>

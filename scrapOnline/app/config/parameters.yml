@@ -5,7 +5,7 @@ parameters:
     database_port: null
     database_name: scrap_online
     database_user: root
-    database_password: 
+    database_password: root
     mailer_transport: smtp
     mailer_host: smtp-relay.mailin.fr
     mailer_user: n.adam@forma-search.com

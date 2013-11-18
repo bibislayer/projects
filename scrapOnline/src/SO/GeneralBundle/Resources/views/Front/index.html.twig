@@ -4,8 +4,139 @@
 {% endblock %}
 
 {% block content %}
-    {% include 'SOMovieBundle:Default:features.html.twig' with {'movies': movies} %}
-    {{ render(controller('SOMovieBundle:Movie:list', {
-            'max': 3, 'request': app.request
+<div class="main-top">
+    <div class="col-area-1 pull-left">
+        {{ render(controller('SOMovieBundle:Movie:topMovies', {
+            'max': 5, 'request': app.request
         })) }}
+        <div class="widget widget-social">
+            <ul class="list-unstyled clearfix">
+                <li><a href="#" class="pull-left"><span class="icon-feed"></span></a><span>1234</span></li>
+                <li><a href="#" class="pull-left"><span class="icon-twitter"></span></a><span>1234</span></li>
+                <li><a href="#" class="pull-left"><span class="icon-facebook"></span></a><span>1234</span></li>
+            </ul>
+        </div>
+        <!-- widget-social -->
+    </div>
+    <!-- col-area-1 -->
+    <div class="col-area-2 pull-left">
+        {% include 'SOMovieBundle:Default:features.html.twig' with {'movies': movies} %}
+        <!-- top slide -->
+        <div class="widget newsletter clearfix">
+            <i class="icon-mail pull-left"></i>
+            <h2 class="pull-left"><span>newsletter </span>Stay up - to date with the latest news and other stuffs, Sign Up today!</h2>
+            <div class="newsletter-form pull-right">
+                <form action="/" method="post">
+                    <div class="form-group">
+                        <label for="d" class="hide">email</label>
+                        <input type="text" name="" value="" class="form-control" id="d" placeholder="Email Adress">
+                    </div>
+                    <input type="submit" name="" value="SIGN UP">
+                </form>
+            </div>
+            <!-- newsletter-form -->
+        </div>
+        <!-- newsletter -->
+    </div>
+    <!-- col-area-2 -->
+    <div class="clearfix"></div>
+</div>
+<!-- main-top -->
+<div id="main-content">
+    <div class="col-area-3 pull-left">
+        {{ render(controller('SOMovieBundle:Movie:sidebar', {
+            'max': 5, 'position': 'left', 'type': 'rate', 'request': app.request
+        })) }}
+        {{ render(controller('SOMovieBundle:Movie:sidebar', {
+            'max': 5, 'position': 'left', 'type': 'best', 'request': app.request
+        })) }}
+        {{ render(controller('SOMovieBundle:Movie:sidebar', {
+            'max': 5, 'position': 'left', 'type': 'show', 'request': app.request
+        })) }}
+        <div class="widget widget-gallery">
+            <h2 class="widget-title clearfix">
+                Gallery
+                <a href="#">View All</a>
+                <span></span>
+            </h2>
+            <!-- widget-title-2 -->
+            <div class="list_carousel">
+                <ul class="carousel-4">
+                    <li>
+                        <div class="item clearfix">
+                            <a href="#">
+                                <img src="placeholders/posts/img-13.jpg" alt="">
+                                <div class="mask">
+                                    <span class="icon-link"></span>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- item -->
+                    </li>
+                    <li>
+                        <div class="item clearfix">
+                            <a href="#">
+                                <img src="placeholders/posts/img-14.jpg" alt="">
+                                <div class="mask">
+                                    <span class="icon-link"></span>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- item -->
+                    </li>
+                    <li>
+                        <div class="item clearfix">
+                            <a href="#">
+                                <img src="placeholders/posts/img-15.jpg" alt="">
+                                <div class="mask">
+                                    <span class="icon-link"></span>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- item -->
+                    </li>
+                    <li>
+                        <div class="item clearfix">
+                            <a href="#">
+                                <img src="placeholders/posts/img-13.jpg" alt="">
+                                <div class="mask">
+                                    <span class="icon-link"></span>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- item -->
+                    </li>
+                    <li>
+                        <div class="item clearfix">
+                            <a href="#">
+                                <img src="placeholders/posts/img-14.jpg" alt="">
+                                <div class="mask">
+                                    <span class="icon-link"></span>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- item -->
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+                <a id="prev4" class="prev icon-arrow-left" href="#"></a>
+                <a id="next4" class="next icon-arrow-right" href="#"></a>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-area-4 pull-left">
+        {% include 'SOMovieBundle:Default:middle_sidebar_movies.html.twig' %}
+    </div>
+    <div class="widget widget-tweet">
+        <span class="icon-twitter"></span>
+        <div id="tweets">
+
+        </div>
+    </div>
+    <!-- kp-tweet -->
+</div>
+<!-- main-content -->
+{% include 'SOMovieBundle:Default:right_sidebar_movies.html.twig' %}
+<!-- sidebar -->
 {% endblock %}

@@ -1,0 +1,59 @@
+<div class="widget widget-tab-news clearfix">
+        <div class="pull-left">
+            <h2 class="widget-title clearfix">
+                {{ title }}
+                <a href="#">View All</a>
+                <span></span>
+            </h2>
+            <!-- widget-title-2 -->
+            <ul>
+                {% for movie in movies %}
+                <li>
+                    <a href="#tabs-{{ movie.code }}">
+                        <div class="item clearfix">
+                            <img style="height:52px;with:52px;" src="{{ movie.poster }}" alt="" class="pull-left">
+                            <div class="item-right">
+                                <h4>{{ movie.title }}</h4>
+                                <ul class="list-inline kp-metadata clearfix">
+                                    <li class="kp-time">10 Sep 2013</li>
+                                    <li class="kp-view"><span class="icon-eye pull-left"></span>50 View</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- pull left -->
+        <div class="pull-right">
+            {% for movie in movies %}
+            <div id="tabs-{{ movie.code }}">
+                <div class="item clearfix">
+                    <a href="#">
+                        <img style="with:380px;height:210px" src="{{ movie.poster }}" alt="">
+                        <div class="mask">
+                            <span class="icon-link"></span>
+                        </div>
+                    </a>
+                    <div class="item-content">
+                        <header class="header-item">
+                            <span class="icon-image pull-left"></span>
+                            <div class="item-right">
+                                <h4><a href="#">{{ movie.title }}</a></h4>
+                                <ul class="list-inline kp-metadata clearfix">
+                                    <li class="kp-author"><span class="icon-chat pull-left"></span><a href="#">By Join</a></li>
+                                    <li class="kp-view"><span class="icon-calendar pull-left"></span>10 Sep 2013</li>
+                                </ul>
+                            </div>
+                        </header>
+                        <p>{{ movie.synopsis|truncate(400) }}</p>
+                        <a href="#" class="read-more">Read more</a>
+                    </div>
+                </div>
+                <!-- item -->
+            </div>
+            {% endfor %}
+        </div>
+        <!-- pull-right -->
+    </div>
