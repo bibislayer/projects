@@ -566,10 +566,10 @@ body {
 ============================================================*/
 @media only screen and (-webkit-min-device-pixel-ratio:2), only screen and (min--moz-device-pixel-ratio:2), only screen and (-o-min-device-pixel-ratio:2 / 1), only screen and (min-device-pixel-ratio:2), only screen and (min-resolution:192dpi), only screen and (min-resolution:2dppx) {
     .list_carousel .prev {
-        background:url("images/hoverPrev@2x.png") no-repeat;
+        background:url("../images/hoverPrev@2x.png") no-repeat;
     }
      .list_carousel .next {
-        background:url("images/hoverNext@2x.png") no-repeat;
+        background:url("../images/hoverNext@2x.png") no-repeat;
     }
      .kp-gallery-slider .flex-prev {
         background-image:url(../images/slider/flex-prev-2@2x.png);
@@ -670,7 +670,7 @@ ul.page-numbers li:hover {
     line-height:16px;
 }
  #main-content .col-area-3 .widget-title span, .kp-home .col-area-4 .widget-title span {
-    background:url("images/border-right.jpg") no-repeat;
+    background:url("../images/border-right.jpg") no-repeat;
     width:70px;
     height:3px;
     position:absolute;
@@ -684,7 +684,7 @@ ul.page-numbers li:hover {
     position:relative;
 }
  .kp-breadcrumb > span {
-    background:url("images/border-right.jpg") no-repeat;
+    background:url("../images/border-right.jpg") no-repeat;
     width:70px;
     height:3px;
     position:absolute;
@@ -931,7 +931,7 @@ ul.page-numbers li:hover {
 ============================================================*/
 .top-header {
     background:#2f2f2f;
-    height:78px;
+    height:35px;
     padding-top:23px;
     padding-bottom:20px;
 }
@@ -1397,7 +1397,7 @@ ul.page-numbers li:hover {
     content:'';
     width:10px;
     height:19px;
-    background:url("images/hover-tab.png") no-repeat left center;
+    background:url("../images/hover-tab.png") no-repeat left center;
     top:50%;
     margin-top:-10px;
     z-index:999;
