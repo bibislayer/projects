@@ -1,0 +1,22 @@
+parameters:
+#    forma_search_mailer.example.class: FP\MailerBundle\Example
+    recrutOnline.controller.process.class: FP\MailerBundle\Controller\ProcessController
+    
+services:
+     mailer_category_repository:
+        class: FP\MailerBundle\Repository\MailerCategoryRepository
+        arguments: [FPMailerBundle:MailerCategory]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     mailer_repository:
+        class: FP\MailerBundle\Repository\MailerRepository
+        arguments: [FPMailerBundle:Mailer]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+     mailers:
+        class:        FP\MailerBundle\Form\MailerType
+        arguments:    [doctrine]
+     my_mailer:
+        class:        FP\MailerBundle\Controller\ProcessController
+        arguments:
+            - "@service_container"

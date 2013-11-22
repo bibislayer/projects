@@ -1,0 +1,39 @@
+mo:
+    general:
+        title:
+            homepage: Dashboard
+        menu:
+            collaborator: Collaborators' management
+            questionnaire: Questionnaires
+            logout: Logout
+    enterprise:
+        title:
+            show: Dashboard %ent%
+            edit: Edit enterprise %ent%
+        link:
+            edit: Edit entreprise
+    collaborator:
+        title:
+            index: %ent%'s collaborators
+            new: Add a collaborator to %ent%
+        link:
+            add: Add a collaborator
+    questionnaire:
+        title:
+            creation: Questionnaires in progress
+            index: Questionnaires of the company %ent%
+            last: Last questionnaires
+            new: Add a questionnaire to %ent%
+            edit: Edit %quest%
+        link:
+            add: Add a questionnaire
+            index: Your questionnaires
+    candidate:
+        title:
+            index: All participants
+            index_quest: All participants of %quest%
+            last: Last participants
+            accepted: Candidates accepted
+            refused: Candidates refused
+            best: Best Candidates
+            waiting_rating: Candidates awaiting rating

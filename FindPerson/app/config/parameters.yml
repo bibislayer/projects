@@ -1,0 +1,15 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_port: null
+    database_host: localhost
+    database_name: find_person
+    database_user: root
+    database_password: root
+    mailer_transport: smtp
+    mailer_port: 587
+    mailer_host: smtp-relay.mailin.fr
+    mailer_user: n.adam@forma-search.com
+    mailer_password: 9p1qxBA63Emz78Xb
+    locale: fr
+    secret: c6f7625d10541cbd0926eb424fc7be90b6986ed7

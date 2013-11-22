@@ -1,0 +1,122 @@
+mo:
+    general:
+        title:
+            homepage: Tableau de Bord
+        menu:
+            collaborator: Gestion des Collaborateurs
+            questionnaire: Questionnaires
+            advert: Annonces
+            logout: Déconnexion
+    enterprise:
+        title:
+            show: Tableau de Bord %ent%
+            edit: Modifier l'entreprise %ent%
+        link:
+            edit: Modifier l'entreprise
+    collaborator:
+        title:
+            index: Collaborateurs de %ent%
+            new: Ajouter un collaborateur à %ent%
+        link:
+            add: Ajouter un collaborateur
+    advert:
+        link:
+            add: Ajouter un advert
+    questionnaire:
+        title:
+            creation: Questionnaires en cours de création
+            index: Questionnaires de l'entreprise %ent%
+            last: Vos derniers questionnaires
+            new: Ajouter un questionnaire à %ent%
+            edit: Modifier %quest%
+        link:
+            add: Ajouter un questionnaire
+            index: Vos questionnaires
+    candidate:
+        title:
+            index: Tous les participants
+            index_quest: Tous les participants de %quest%
+            last: Les derniers participants
+            accepted: Candidats acceptés
+            refused: Candidats refusés
+            best: Meilleurs Candidats
+            waiting_rating: Candidats en attente de réponse
+
+edit: Modifier
+new: Nouveau
+delete: Supprimer
+preview: Prévisualiser
+
+form:
+    questionnaire:
+          name: Nom du questionnaire
+          StdQuestionnaireType: Type
+          formule: Formule
+          text_payment: Texte de paiement
+          payment_amount_before: Prix d\'achat questionnaire HT
+          payment_amount_after: Prix de vente questionnaire HT
+          payment_vat:  Taux de TVA
+          text_introduction: Text d\'introduction
+          text_presentation: Présentaion de votre questionnaire
+          mail_invitation: Contenu du mail d\'invitation
+          mail_accepted: Contenu du mail participant recu
+          mail_refused: Contenu du mailparticipant refusé           
+    QuestionnaireElement:
+          name: Nom du questionnaire element
+          StdQuestionnaireTypeElement: Type de questionnaire element
+          text_description: Text de description
+    Question: 
+          StdQuestionType: Type de question
+          choice_type: Type de choice question
+          response_time: Response time
+          char_limit: Character Limit
+          datetime_type: Type de datetime question 
+          evaluation_type: Type de evaluation question
+          choice_name: Choice Name
+          QuestionnaireElement:
+              name: Name du question element
+              text_description: Text de description 
+          
+    enterprise:
+          name: Nom de l’entreprise
+          company_name: Raison Sociale
+          logo: Logo
+          code_naf: Code naf
+          code_siret: Code siret
+          phone: Téléphone
+          fax: Fax
+          url_site: Site web
+          text_introduction: Text introduction
+          text_presentation: Présentation de votre entreprise
+    
+    feedback:
+          text: Text
+          Question: Question
+          
+    advert:
+          name: Nom
+          Enterprise:  Entreprise
+          text_introduction:  Introduction
+          text_description:  Description
+          start_date:  Start date
+          period: Durée
+          advert_type:  Type d'annonce
+          
+    enterprise_invitation_administrator:
+          email:  Email
+    
+    mailer_category:
+          name: Nom
+    
+    mailer:
+          name: Nom
+          subject: Subject
+          description: Description
+          content: Content
+          template: Template
+          MailerCategory: Type
+    
+    help:
+          text: Text
+          std_question_type: Question type
+          std_questionnaire_type: Questionnaire type

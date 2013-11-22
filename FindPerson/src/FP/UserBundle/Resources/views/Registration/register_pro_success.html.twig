@@ -1,0 +1,12 @@
+{% extends "FPGeneralBundle::Middle/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+<p>Bienvenu {{ user.username }}</p>
+<p>Vous allez recevoir un mail de confirmation</p>
+{% if enterprise is defined %}
+<p>Vous etes lie a une entreprise : {{ enterprise.name }}</p>
+{% endif %}
+{% endblock fos_user_content %}
+

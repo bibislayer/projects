@@ -1,0 +1,121 @@
+{% if h1 is defined %}
+    <div class="block_header"><h1>{{ h1 }}</h1></div>
+{% endif %}
+<div class="block_content">
+
+    {% if filters is defined %}
+        {% if filters.form is defined %}
+            {% include 'FPGeneralBundle:Default:filters.html.twig' with {'filters': filters.fields, 'form': filters.form} %}
+        {% else %}
+            {% include 'FPGeneralBundle:Default:filters.html.twig' with {'filters': filters.fields} %}
+        {% endif %}
+    {% endif %}
+
+    <span class="total">Nombre d'enregistrements : {{ elements.getTotalItemCount }} </span>
+   <div class="stop"> </div>
+    
+    {% set paginationParameters = {'elements': elements} %}
+    
+    {% include view with paginationParameters %}
+
+    {{ knp_pagination_render(elements) }}
+
+    {% if addUrl is defined %}
+        {% for url in addUrl %}
+            {% if url.url is defined %}
+                <a class="btn_principal" href="{{ url.url }}">
+                    {% if url.title is defined %}
+                        {{url.title}}
+                    {% else %}
+                        Ajouter
+                    {% endif %}
+                </a>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+</div>
+
+<script>
+    $('ul.pagination li a').click(function() {
+        var params = new Array();
+        params['url'] = $(this).attr('href');
+        params['obj'] = $(this).closest('div.block_design');
+        ajaxi('', params);
+        return false;
+    });
+    $('form.filter select').change(function() {
+        var params = new Array();
+        params['url'] = $(this).closest('form').attr('action');
+        params['data'] = $(this).closest('form').serialize();
+        params['obj'] = $(this).closest('div.block_design');
+        ajaxi('', params);
+        return false;
+    });
+
+    $('input').bind("enterKey",function(e){
+        var params = new Array();
+        params['url'] = $(this).attr('action');
+        params['data'] = $(this).closest('form').serialize();
+        params['obj'] = $(this).closest('div.block_design');
+        ajaxi('', params);
+        return false;
+    });
+
+    $('input').keyup(function(e){
+    if(e.keyCode == 13)
+    {
+      $(this).trigger("enterKey");
+    }
+    });
+
+    //This function is for sending ajax request using conditions
+    function ajaxi(that, params) {
+        var url, fancy, obj, data, dataType;
+
+        dataType = '';
+
+        if (that) {
+            event.preventDefault();
+            url = $(that).attr('data-url');
+            if ($(that).attr('data-fancy'))
+                params['action'] = fctFancy;
+            obj = $('#' + $(that).attr('data-replace'));
+            //history.pushState({}, '', $(that).attr("href"));
+        } else {
+            url = params['url'];
+            obj = params['obj'];
+            if(params['data'] != undefined)
+                 data = params['data'];
+
+            if(params['dataType'] != undefined){
+                dataType = params['dataType'] ;
+            }
+            //history.pushState({}, '', url);
+            fancy = false;
+        }
+
+        if (!params || params && !params['autocomplete'])
+            $(obj).addClass('opacity');
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: dataType,
+            data: data,
+            success: function(data) {
+                $(obj).removeClass('opacity');
+                if (params && params['action']) {
+                    params['action'](data, params);
+                } else {
+                    obj.html(data);
+                }
+                history.pushState({}, '', this.url);
+            },
+            error: function(data) {
+                return 0;
+            }
+        });
+        return false;
+    }
+</script>

@@ -1,0 +1,36 @@
+FP\MailerBundle\Entity\Mailer:
+    type: entity
+    table: mailers
+    repositoryClass: FP\MailerBundle\Repository\MailerRepository
+    fields:
+        id:
+           type: integer
+           id: true
+           generator:
+               strategy: AUTO
+        subject: { type: string, length: 100 }
+        name: { type: string, length: 100 }
+        description: { type: text }
+        template: { type: string, length: 255, notnull: true, unique: true}
+        content: { type: text }
+        created_at:
+          type: date
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: create
+        updated_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: update
+           
+    manyToOne:
+      MailerCategory:
+        targetEntity: FP\MailerBundle\Entity\MailerCategory
+        joinColumn:
+          name: mailer_category_id
+          referencedColumnName: id
+        inversedBy: Mailer
+    lifecycleCallbacks: {  }

@@ -1,0 +1,22 @@
+<div class="line">
+ 
+    {{ form_row(form.name) }}
+
+    {% if parentObj is defined %}        
+        {{ form_row(form.parent_id,{'value':parentObj.id}) }}
+    {% endif %}
+    
+    
+    {{ form_errors(form._token) }}
+    {{ form_widget(form._token) }}
+    
+    
+    <div class="stop"></div>
+       <br/>
+       <div class="text_center">
+         {{ form_row(form.save)}}               
+       </div>
+    </div>
+
+</div>    
+ 

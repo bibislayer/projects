@@ -1,0 +1,39 @@
+{% extends 'FPGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_8">
+    <div class="block-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"> <h1>Template Mail : {{mailer.name}}</h1></div>
+                <div class="block_content">
+                    <p>{{mailer.name}} </p>
+                    <p>{{mailer.description}} </p>
+                    <p>{{mailer.content|raw}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid_4">
+    <div class="block-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"> <h1>Template Mail : {{mailer.name}}</h1></div>
+                <div class="block_content">
+                    <ul>
+                        <li><a href="{{ path('bo_mailer_testMail',{'id':mailer.id}) }}">Send mail<a></li>
+                        <li>bouton 2</li>
+                        <li>bouton 3</li>
+                        <li>bouton 4</li>
+                        <li>bouton 5</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+
+            
+    <div class="block_content">
+       {{ form_row(form.name) }}
+
+        {{ form_row(form.introduction) }}
+        {{ form_row(form.presentation) }}
+   
+                    
+        {% if app.request.attributes.get('cat_id')!='' %}        
+                {{ form_row(form.parent_id,{'value':app.request.attributes.get('cat_id')}) }}
+        {% endif %}
+
+        {{ form_row(form._token) }}
+        <div class="text_center button_save">
+           {{ form_widget(form.save ) }}
+        </div>
+    </div>
+            

@@ -1,0 +1,14 @@
+<div class="connexion">
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <a class="btn_connexion" href="{{ path('logout') }}"><img src="{{ asset('bundles/recrutonlinegeneral/images/exit.png') }}" alt="logo_entreprise" /><span>{{'mo.general.menu.logout'|trans }}</span></a>
+        {% if app.request.attributes.get('_route') != 'mo_dashboard' and app.session.get('access_admin')%}
+            <p class="entreprise"><span><img src="{{ asset('uploads/gallery/enterprises/'~ app.session.get('access_admin').current.id ~'/pictures/'~app.session.get('access_admin').current.logo ) }}" alt="logo_entreprise" /></span><span class="text"> {{app.session.get('access_admin').current.name}}</span></p>
+        {% endif %}
+
+        <p class="profil"><img src="{{ asset('bundles/recrutonlinegeneral/images/list_image/profil_list.png') }}" alt="logo_entreprise" /><span>{{ app.user.UserProfile.firstname is defined or app.user.UserProfile.lastname is defined?app.user.UserProfile.firstname~' '~app.user.UserProfile.lastname: ''}}</span><span>Sondeur</span></p>
+
+    {% else %}
+        <a  href="http://recrut-online.dev/app_dev.php/login_check_openid?openid_identifier=https://www.google.com/accounts/o8/id" class="btn">Connexion google</a>
+        <a  href="{{ path('login_admin') }}" class="btn_connexion"><span>Connexion</span></a>
+    {% endif %}
+</div>

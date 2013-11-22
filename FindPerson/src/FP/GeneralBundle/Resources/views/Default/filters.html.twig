@@ -1,0 +1,63 @@
+{% if filters is not empty %}
+    <div class="input-main">
+      <div class="input-block">
+      <form id="" class="filter" method="GET" name="backendFilter" action="{{ path(app.request.attributes.get('_route'), 
+        app.request.attributes.get('_route_params')) }}">
+        <div class="first-line">
+          {% if filters.base is defined %}
+            <ul>
+              <li>
+                {% if filters.base.limit is defined %}
+                  <div class="nb_resultat">
+                      <div class="field">
+                       <span>Afficher</span>
+
+                        <select id="limit" name="limit" class="_10_imp">
+                              {% if filters.base.limit.value is defined %}
+                                <option value="{{ filters.base.limit.value }}">{{ filters.base.limit.value }}</option>
+                              {% endif %}
+                              <option value="10">10</option>
+                              <option value="25">25</option>
+                              <option value="50">50</option>
+                              <option value="100">100</option>
+                        </select>
+                         <span> &eacute;l&eacute;ments</span>
+                    </div>
+                  </div>
+                {% endif %}
+                </li>
+              <li>
+                  <div class="search-bar">
+                    {% if filters.base.by_keyword is defined %}
+                    <div class="field"> <input type="text" name="by_keyword" placeholder="Rechercher un élément" {% if filters.base.by_keyword.value is defined %} value="{{ filters.base.by_keyword.value }}" {% endif %}></div>
+                    {% endif %}
+                  </div>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+
+            {% if filters.others is defined %}
+          <div class="second-line">
+              <ul>
+              {% for k, f in filters.others %}
+              <div class="input-inline">
+                <li>
+                   {{ form_label(form[k]) }}
+                  {{ form_widget(form[k]) }}
+                </li>
+              </div>
+              {% endfor %}
+              </ul>
+          </div>
+            {% endif %}
+
+          <div class="stop"></div>
+      </form>
+    </div>
+    </div>
+
+<script type="text/javascript">
+
+    </script>
+{% endif %}

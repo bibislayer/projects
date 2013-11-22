@@ -1,0 +1,48 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="content _70">
+    <div class="grid _100 left">
+        <div class="block_border">
+            <div class="block_design">
+                <div class="block_header"><h1>Création de votre compte entreprise</h1></div>
+                <div class=" block_content">
+                {{errors|raw}}
+                
+                <form  action="{{ path('user_register') }}pro{{ app.request.get('email')!=''?'?email='~app.request.get('email')~'&confirm_token='~app.request.get('confirm_token'):''}}" novalidate  {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+                    <div class="line">
+                    {{ form_errors(form)}}
+                    {{ form_row(form.enterprise.name)}}
+                    {{ form_row(form.user_profile.firstname)}}
+                    {{ form_row(form.user_profile.lastname)}}
+                    {{ form_row(form.email, {'value': app.request.get('email')})}}
+                    {{ form_row(form.plainPassword)}}
+                 {% if form.enterprise is defined %}
+                    {{ form_row(form.enterprise.logo)}}
+                    {% if entity is defined %}
+                    {% set logo = (old_logo is defined and old_logo !=''  ? old_logo : (entity is defined and entity.logo is defined  ? entity.logo :'')) %}   
+
+                    <div class="form_row">  
+                        <div class="label">
+                        </div>    
+                       <div class="field"> 
+                               <img class="left _10 " src="{{ asset('uploads/gallery/enterprise/'~ entity.id ~'/pictures/'~logo ) }}" >
+                       </div>
+                       <div class="stop"></div>     
+                    </div>
+                    <input value="{{ logo }}" type='hidden' name='logo_hidden'>   
+                    {% endif %}
+                    {{ form_row(form.enterprise.code_siret)}}
+                    {{ form_row(form.enterprise.phone)}}
+                    {{ form_row(form.enterprise.url_site)}}
+                 {% endif %}
+                    {{ form_widget(form._token)}}
+                    {# form_widget(form) 
+                        <p>Form enterprise</p>#}
+                        <input class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans }}" />
+                    </div>
+                </form>
+                </div>
+           </div>
+        </div>
+    </div>
+</div>

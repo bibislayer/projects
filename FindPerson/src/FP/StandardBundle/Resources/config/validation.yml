@@ -1,0 +1,19 @@
+FP\StandardBundle\Entity\StdCategory:
+   properties:
+        name:
+            - NotBlank: ~
+
+FP\StandardBundle\Entity\StdQuestionType:
+   properties:
+        name:
+            - NotBlank: ~
+
+FP\StandardBundle\Entity\StdQuestionnaireType:
+   properties:
+        name:
+            - NotBlank: ~
+
+FP\StandardBundle\Entity\StdQuestionnaireTypeElement:
+   properties:
+        name:
+            - NotBlank: ~

@@ -1,0 +1,59 @@
+FP\MailerBundle\Entity\MailerCategory:
+    type: entity
+    table: mailers_categories
+    repositoryClass: FP\MailerBundle\Repository\MailerCategoryRepository
+    gedmo:
+      tree:
+        type: nested
+    fields:
+        id:
+           type: integer
+           id: true
+           generator:
+               strategy: AUTO
+        name: { type: string, length: 100 }
+        lft:
+         type: integer
+         gedmo:
+           - treeLeft
+        rgt:
+          type: integer
+          gedmo:
+            - treeRight
+        root_id:
+          type: integer
+          gedmo:
+            - treeRoot
+        level:
+          type: integer
+          gedmo:
+            - treeLevel
+        created_at:
+          type: date
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: create
+        updated_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: update          
+    oneToMany:
+      children:
+        targetEntity: FP\MailerBundle\Entity\MailerCategory
+        mappedBy: parent
+      Mailer:
+        targetEntity: FP\MailerBundle\Entity\Mailer
+        mappedBy: MailerCategory
+    manyToOne:
+      parent:
+        targetEntity: FP\MailerBundle\Entity\MailerCategory
+        inversedBy: children
+        gedmo:
+          - treeParent
+        joinColumns:
+          parent_id:
+            referencedColumnName: id 
+    lifecycleCallbacks: {  }

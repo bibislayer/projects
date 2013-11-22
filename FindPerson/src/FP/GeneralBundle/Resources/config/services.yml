@@ -1,0 +1,27 @@
+parameters:
+#    recrut_online_general.example.class: FP\GeneralBundle\Example
+
+services:
+     index_paginate:
+        class: FP\GeneralBundle\Model\IndexPaginate
+        arguments:
+            - "@service_container"
+     form_model:
+        class: FP\GeneralBundle\Model\FormModel
+        arguments:
+            - "@service_container"
+     form.type.tinyMCE:
+        class: FP\GeneralBundle\Form\Type\tinyMCEType
+        tags:
+            - { name: form.type, alias: tinyMCE }
+     form.type.autocomplete:
+        class: FP\GeneralBundle\Form\Type\AutocompleteType
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@service_container"
+        tags:
+            - { name: form.type, alias: autocomplete }
+     recrut_online.twig.recrut_online_extension:
+        class: FP\GeneralBundle\Twig\FPExtension
+        tags:
+            - { name: twig.extension }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}FP{% endblock %}</title>
+        {% stylesheets 'bundles/recrutonlinegeneral/less/middle.less' filter='cssrewrite' %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+         <script src="{{ asset('bundles/recrutonlinegeneral/js/jquery-1.9.1.js') }}"></script>
+    </head>
+    <body>
+        <header>
+            <div class="logo"><a href="#"><img src="{{ asset('bundles/recrutonlinegeneral/images/logo_front.png') }}" alt="FP" /></a></div>
+            {% include 'FPGeneralBundle:Middle:_menu.html.twig' %}
+        </header>
+        {% if app.request.get('slug_ent')%}
+        <nav id="rolling-nav">
+            <ul>
+                <li><a data-clone="{{'mo.general.menu.questionnaire'|trans }}" href="{{ path('mo_questionnaires',{'slug_ent':app.request.get('slug_ent')}) }}">{{'mo.general.menu.questionnaire'|trans }}</a></li>
+                <li><a data-clone="{{'mo.general.menu.advert'|trans }}" href="{{ path('mo_adverts',{'slug_ent':app.request.get('slug_ent')}) }}">{{'mo.general.menu.advert'|trans }}</a></li>
+                <li><a data-clone="{{'mo.general.menu.collaborator'|trans }}" href="{{ path('mo_collaborators',{'slug_ent':app.request.get('slug_ent')}) }}">{{'mo.general.menu.collaborator'|trans }}</a></li>
+
+            </ul>
+        </nav>
+        {% endif %}
+        <div id="content">
+                {{ wo_render_breadcrumbs({'env':'mo'}) }}
+{% block content %}
+{% block fos_user_content %}{% endblock %}
+{% endblock %}
+            </div>
+            <div class="stop"></div>
+            <footer width="100%">
+                Changer de Langue <a href="{{ path('change_language', {'locale': 'fr_FR'}) }}"> Français </a> - <a href="{{ path('change_language', {'locale': 'en_EN'}) }}"> Anglais </a>
+            </footer>
+        </body>
+    </html>

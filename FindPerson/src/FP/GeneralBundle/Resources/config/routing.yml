@@ -1,0 +1,19 @@
+fo_homepage:
+    pattern:  /
+    defaults: { _controller: FPGeneralBundle:Front:index }
+    
+fo_presentation:
+    pattern:  /presentation
+    defaults: { _controller: FPGeneralBundle:Front:presentation }
+    
+mo_presentation:
+    pattern:  /admin/presentation
+    defaults: { _controller: FPGeneralBundle:Middle:presentation }
+    
+bo_dashboard:
+    pattern:  /backend
+    defaults: { _controller: FPGeneralBundle:Back:dashboard }
+
+change_language:
+    pattern:  /change-language/{locale}
+    defaults: { _controller: FPGeneralBundle:Default:changeLanguage }

@@ -1,0 +1,18 @@
+recrut_online_general:
+    resource: "@FPGeneralBundle/Resources/config/routing.yml"
+    prefix:   /
+
+recrut_online_standard:
+    resource: "@FPStandardBundle/Resources/config/routing.yml"
+    prefix:   /
+
+recrut_online_mailer:
+    resource: "@FPMailerBundle/Resources/config/routing.yml"
+    prefix:   /
+
+recrut_online_user:
+    resource: "@FPUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+fp_openid_security:
+    resource: "@FpOpenIdBundle/Resources/config/routing/security.xml"

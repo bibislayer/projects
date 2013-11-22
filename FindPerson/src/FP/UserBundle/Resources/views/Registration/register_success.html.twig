@@ -1,0 +1,10 @@
+{% extends "FPGeneralBundle::Front/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+{% block fos_user_content %}
+<p>Bienvenu {{ user.username }}</p>
+<p>Vous allez recevoir un mail de confirmation</p>
+{% endblock fos_user_content %}
+

@@ -1,0 +1,19 @@
+{% extends 'FPGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+        {% endblock %}
+
+{% block content %}
+    <ul>
+        <li>
+            <a  href="{{ path('bo_enterprises') }}">Entreprises</a>
+            <ul>
+                <li>- <a href="{{ path('bo_collaborators') }}">Collaborateurs</a></li>
+                <li>- <a href="{{ path('bo_adverts') }}">Offres d'emploi</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ path('bo_standards') }}"> Standards</a>
+        </li>
+    </ul>
+{% endblock %}

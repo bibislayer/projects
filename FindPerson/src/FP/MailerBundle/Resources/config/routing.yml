@@ -1,0 +1,79 @@
+### Mailer Template Related ###
+bo_mailers:
+    pattern:  /backend/mailers
+    defaults: { _controller: "FPMailerBundle:Backend:indexMailer" }    
+bo_mailer_new:
+    pattern:  /backend/mailer/new
+    defaults: { _controller: "FPMailerBundle:Form:mailerForm" }
+bo_mailer_create:
+    pattern:  /backend/mailer/create
+    defaults: { _controller: "FPMailerBundle:Form:mailerForm" }
+bo_mailer_show:
+    pattern:  /backend/mailer/show/{id}
+    defaults: { _controller: "FPMailerBundle:Backend:showMailer" }
+    
+bo_mailer_edit:
+    pattern:  /backend/mailer/edit/{id}
+    defaults: { _controller: "FPMailerBundle:Form:mailerForm" }
+bo_mailer_update:
+    pattern:  /backend/mailer/update/{id}
+    defaults: { _controller: "FPMailerBundle:Form:mailerForm" }
+bo_mailer_delete:
+    pattern:  /backend/mailer/delete/{id}
+    defaults: { _controller: "FPMailerBundle:Form:removeMailer" }   
+    
+bo_mailer_send_mail:    
+    pattern:  /backend/mailer/sendmail/{id}
+    defaults: { _controller: "FPMailerBundle:Form:sendMailMailer" }
+    
+###    Mailer Category Related ####    
+bo_ac_mailer_categories:
+    pattern:  /backend/autocomplete/mailer-categories
+    defaults: { _controller: "FPMailerBundle:Ajax:mailerCategoryAutocomplete" }
+bo_mailer_categories:
+    pattern:  /backend/mailer/categories
+    defaults: { _controller: "FPMailerBundle:Backend:indexCategory" }
+bo_mailer_category_new:
+    pattern:  /backend/mailer/category/new
+    defaults: { _controller: "FPMailerBundle:Form:mailerCategoryForm" }
+   
+bo_mailer_category_edit:
+    pattern:  /backend/mailer/category/{id}/edit
+    defaults: { _controller: "FPMailerBundle:Form:mailerCategoryForm" }
+    
+bo_mailer_category_create:
+    pattern:  /backend/mailer/category/create
+    defaults: { _controller: "FPMailerBundle:Form:mailerCategoryForm" }
+    requirements: { _method: post }
+    
+bo_mailer_category_update:
+    pattern:  /backend/mailer/category/{id}/update
+    defaults: { _controller: "FPMailerBundle:Form:mailerCategoryForm" }
+    requirements: { _method: post }
+    
+bo_mailer_category_show:
+    pattern:  /backend/mailer/category/{id}/show
+    defaults: { _controller: "FPMailerBundle:Backend:showCategory"}
+
+bo_mailer_category_add_child:
+    pattern:  /backend/mailer/category/{cat_id}/add/child
+    defaults: { _controller: "FPMailerBundle:Form:newCategory" }
+    
+bo_mailer_category_create_child:
+    pattern:  /backend/mailer/category/{cat_id}/create/child
+    defaults: { _controller: "FPMailerBundle:Form:createCategory" }
+    
+bo_mailer_category_delete:
+    pattern:  /backend/mailer/category/{id}/remove
+    defaults: { _controller: "FPMailerBundle:Form:removeCategory"}
+    
+mailer_category_child:
+    pattern:  mailer_category/subMailer_category/{id}
+    defaults: { _controller: "FPMailerBundle:Form:subMailerCategory"}
+mailer_category_parent:
+    pattern:  mailer_category/parentMailer_category/{id}
+    defaults: { _controller: "FPMailerBundle:Form:parentMailerCategory"}    
+    
+bo_mailer_testMail:
+    pattern:   /backend/mailers/testMail/{id}
+    defaults: { _controller: "FPMailerBundle:Backend:testMail" }   

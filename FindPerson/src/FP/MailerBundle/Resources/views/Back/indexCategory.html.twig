@@ -1,0 +1,36 @@
+<div class="grid_12">
+<div class="border_table">
+    <table class="table-backend">
+        <thead>
+        <tr>
+            <th style="text-align:left; font-weight:bold;">Nom</th>
+            <th style="text-align:left; font-weight:bold;">Parent</th>
+            <th style="text-align:left; font-weight:bold;">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for element in elements %}
+        <tr >
+            <td>
+                <a href="{{ path ('bo_mailer_category_show' , {'id':  element.id  }) }}">{{ element.name }}</a>
+            </td>
+            <td>
+                {% if element.parent %}
+                {{ element.parent.name }}
+                {% else %}
+                Main Category
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ path ('bo_mailer_category_edit' , {'id':  element.id  }) }}">Modifier</a>
+                &nbsp;&nbsp;&nbsp;<a href="{{ path('bo_mailer_category_add_child',{'cat_id':  element.id}) }}">Add child</a>
+                &nbsp;&nbsp;&nbsp;<a href="{{ path('bo_mailer_category_delete',{'id':  element.id}) }}"
+             onclick="return confirm('Are you sure?');">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+

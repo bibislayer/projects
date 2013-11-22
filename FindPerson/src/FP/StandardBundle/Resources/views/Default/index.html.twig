@@ -1,0 +1,16 @@
+{% extends 'FPGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+        {% endblock %}
+
+{% block content %}
+<div class="block_header">
+    <h1>Gestion des standards du site</h1>
+    <p>Les standards sont tous les éléments du site qui permettent au site d'ajouter des données</p>
+</div>
+    <p>&nbsp;</p><br><br>
+    <p><a href="{{ path('bo_categories') }}"> Catégories</a></p>
+    <p><a href="{{ path('bo_type_questions') }}"> Question type</a></p>
+    <p><a href="{{ path('bo_type_questionnaires') }}"> Questionnaire type</a></p>
+    <p><a href="{{ path('bo_type_questionnaire_elements') }}"> Questionnaire type element</a></p>
+{% endblock %}

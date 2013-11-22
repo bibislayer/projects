@@ -1,0 +1,44 @@
+{% extends "FPGeneralBundle::Front/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+{% if error %}
+<div>{{ error|trans }}</div>
+{% endif %}
+<div class="container">
+    <div class="grid_6">
+        <div class="block_border">
+            <div class="block_design height_250">
+                <div class="block_header"><h1>Connectez-vous</h1></div>
+                <div class="block_content">
+                    <form action="{{ path("login_check") }}" method="post">
+                        <div class="grid _70 left ">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+                            <label for="username">{{ 'security.login.username'|trans }}</label>
+                            <input type="text" class="_90"  id="username" name="_username" value="{{ last_username }}" required="required" />
+
+                            <label for="password">{{ 'security.login.password'|trans }}</label>
+                            <input type="password" class="_90"  id="password" name="_password" required="required" />
+                            <div class="stop"></div>
+                            <input type="checkbox" class="_90"  id="remember_me" name="_remember_me" value="on" />
+                            <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+                        </div>
+                        <div class="grid _30 left connexion_pro">                           
+                            <input class="btn _40" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+                            <div class="line">
+                                <p><a>mot de passe oubliée ?</a></p>
+                            </div>
+                        </div> 
+                    </form>
+
+                </div>
+                <div class="stop"></div>
+                <div class="block_footer"></div>
+            </div>   
+        </div>
+    </div>
+    <div class="stop"></div>
+</div>
+{% endblock fos_user_content %}

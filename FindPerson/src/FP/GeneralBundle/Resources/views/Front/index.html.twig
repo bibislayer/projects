@@ -1,0 +1,48 @@
+{% extends 'FPGeneralBundle:Front:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+<div class="slide_home">
+    <ul>
+        <li>
+            <div class="grid_6">
+               <div class="img"></div>
+            </div>
+            <div class="grid_6">
+                <p>Le principe du site </p>
+                <p class="text">Cliquez sur le bouton Pour en savoir plus </p>
+                <a class="btn blue">En savoir plus</a>
+            </div>
+            <div class="stop"></div>
+        </li>
+    </ul>
+    <div class="block_content">
+        <div class="grid_4">
+            <div class="box">
+                <div class="img"></div>
+                <h2>Titre 1</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut adipiscing sed arcu non egestas. Nullam ac tempus turpis, </p>
+            </div>
+        </div>
+        <div class="grid_4">
+            <div class="box">
+                <div class="img"></div>
+                <h2>Titre 2</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut adipiscing sed arcu non egestas. Nullam ac tempus turpis, </p>
+            </div>
+        </div>
+        <div class="grid_4">
+            <div class="box">
+                <div class="img"></div>
+                <h2>Titre 3</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut adipiscing sed arcu non egestas. Nullam ac tempus turpis, </p>
+            </div>
+        </div>
+        <div class="stop"></div>
+    </div>
+    <div class="stop"></div>
+</div>
+{% endblock %}

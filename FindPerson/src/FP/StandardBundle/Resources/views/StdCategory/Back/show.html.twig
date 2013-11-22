@@ -1,0 +1,73 @@
+{% extends 'FPGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_8">
+    <div class="block_border">
+        <div class="block_design">
+            <div class="block_header"><h1>{{ category.name }}</h1></div>
+            <div class="block_content no_padding">
+                <table class="table-border">
+                    <tbody>
+                    <tr>
+                        <td style="text-align:left; font-weight:bold;">Nom</td>
+                        <td class="center">{{ category.name }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left; font-weight:bold;">Parent</td>
+                        <td class="center">
+                            {% if category.parent %}
+                            {{ category.parent.name }}
+                            {% else %}
+                            Main Category
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left; font-weight:bold;">Description courte du secteur</td>
+                        <td class="center">{{ category.introduction }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left; font-weight:bold;">Description longue du secteur</td>
+                        <td class="center">{{ category.presentation }}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                {#
+                    <div id="trade" class="related_trade"><a href="{{ path('bo_professions') }}"><b>0</b></a>&nbsp;M&eacute;tiers li&eacute;s &agrave; cette cat&eacute;gorie</div>
+						   
+                    <div id="trade" class="related_trade"><a href="{{ path('bo_diplomas') }}"><b>0</b></a>&nbsp;Dipl&ocirc;mes li&eacute;s &agrave; cette cat&eacute;gorie</div>
+                    			   
+                    <div id="trade" class="related_trade"><a href="{{ path('bo_trainings',{'training_filter[by_category]':category.id}) }}"><b>{{ category.CategoryTraining | length }}</b></a>&nbsp;Formation li&eacute;s &agrave; cette cat&eacute;gorie</div>
+                    #}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid_4">
+    <div class="block_border">
+        <div class="block_design sidebar">
+            <div class="block_header"><h2>Actions</h2></div>
+            <div class="block_content no_padding">
+
+                <ul class="list no_margin">                    
+                    <li><a href="{{ path('bo_category_edit',{'id':category.id}) }}">Edit</a></li>
+                    <li><a href="{{ path('bo_category_delete',{'id':category.id}) }}"
+                           onclick="return confirm('Are you sure?');">Supprimer</a></li>
+                    {% if category.approbation==1 and category.published==1 %}
+                    <li><a href="{{ path('bo_category_status',{'id':  category.id,'type':'unpublish'}) }}">Non
+                        Publi&eacute;</a></li>
+                    {% else %}
+                    <li><a href="{{ path('bo_category_status',{'id':  category.id,'type':'publish'}) }}">Enregistrer
+                        et publier</a></li>
+                    {% endif %}
+                    <li><a href="{{ path('bo_categories') }}">All Categories</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

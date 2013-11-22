@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}FP{% endblock %}</title>
+        {% stylesheets 'bundles/fpgeneral/less/front.less' %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    </head>
+    <body>
+    <header>
+        <div id="header_complet">
+                <div class="logo">
+                    <a href="#"><img src="{{ asset('bundles/fpgeneral/images/logo_front.png') }}" alt="FP" /></a>
+                </div>
+            <div class="connexion">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {% if is_granted("ROLE_MANAGER") %}
+                <a class="" href="{{ path('mo_dashboard') }}">Accés pro</a>
+                {% endif %}
+            <a class="" href="{{ path('logout') }}">Deconnexion</a>
+
+            {% else %}
+                <a  href="{{ path('login') }}" class="">Connexion</a>
+            <a  href="http://findperson.dev/app_dev.php/login_check_openid?openid_identifier=https://www.google.com/accounts/o8/id" class="">Connexion google</a>
+
+            {% endif %}
+            </div>
+            <div class="stop"></div>
+        </div>
+
+    </header>
+        <div id="content">
+            {% if app.request.attributes.get('_route') != 'fo_homepage' %}
+                {{ wo_render_breadcrumbs({'env':'fo'}) }}
+            {% endif %}
+{% block content %}
+{% block fos_user_content %}{% endblock %}
+{% endblock %}
+            </div>
+            <footer>
+            </footer>
+        </body>
+    </html>

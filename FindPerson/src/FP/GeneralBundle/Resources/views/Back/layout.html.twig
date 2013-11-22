@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}FP{% endblock %}</title>
+        {% stylesheets 'bundles/recrutonlinegeneral/less/back.less' filter='lessphp' %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+
+        <script src="{{ asset('bundles/recrutonlinegeneral/js/jquery-1.9.1.js') }}"></script>
+        <script src="{{ asset('bundles/recrutonlinegeneral/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+        <script src="{{ asset('bundles/recrutonlinegeneral/js/tiny_mce/tiny_mce.js') }}"></script>
+    </head>
+    <body>
+        <header>
+            <div class="logo"><a href="#"><img src="{{ asset('bundles/recrutonlinegeneral/images/logo_front.png') }}" alt="FP" /></a></div>
+            <div class="stop"></div>
+        </header>
+        <ul id="menu">
+            <li><a href="{{ path('bo_enterprises') }}" data-clone="Entreprises">Entreprises</a>
+                <ul>
+                    <li><a href="{{ path('bo_adverts') }}">Annonces</a></li>
+                    <li><a href="{{ path('bo_collaborators') }}">Collaborateurs</a></li>
+                    <li><a href="{{ path('bo_adverts') }}">Offres d'emploi</a></li>
+                </ul>
+            </li>
+            <li><a data-clone="Questionnaires" href="{{path('bo_questionnaires')}}">Questionnaires</a></li>
+            <li><a data-clone="Feedbacks"> Feedbacks </a></li>
+            <li><a data-clone="Gestion des standards">Gestion des standards </a>
+                <ul>
+                    <li><a href="{{ path('bo_categories') }}">Catégories</a></li>
+                </ul>
+            </li>
+            <li><a  data-clone="Mailer">Mailer</a>
+                <ul>
+                    <li><a href="{{ path('bo_mailers') }}">Templates de Mail</a></li>
+                    <li><a href="{{ path('bo_mailer_categories') }}">Catégories de Mail</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="stop"></div>
+        <div id="content">
+        {{ wo_render_breadcrumbs({'env':'bo'}) }}
+{% block content %}
+{% block fos_user_content %}{% endblock %}
+{% endblock %}
+            </div>
+            <footer>
+            </footer>
+        </body>
+    </html>

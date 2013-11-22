@@ -1,0 +1,715 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block radio_widget %}
+{% spaceless %}
+<input type="radio" {{ block('widget_attributes') }}{% if value is defined %}
+       value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{% endspaceless %}
+{% endblock radio_widget %}
+
+{% block form_row %}
+<div class="form_row">
+    <div class="input-main grey">
+        <div class="input-block">
+            {{ form_label(form) }}
+            <div class="field">
+                {{ form_widget(form) }}
+                <div class="error">
+                    {{ form_errors(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock form_row %}
+
+{% block form_label %}
+    {% spaceless %}
+        <div class="label">
+            {% if label is empty %}
+                {% if form.parent is empty or form.parent.vars.name == '' %}
+                    {% set label = 'form'~'.others.'~form.vars.name|trans %}
+                {% else %}
+                    {% if form.parent.parent is empty %}
+                        {% set label = 'form'~'.'~form.parent.vars.name~'.'~form.vars.name|trans %}
+                    {% else %}
+                        {% set label = 'form'~'.'~form.parent.parent.vars.name~'.'~form.parent.vars.name~'.'~form.vars.name|trans %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {{ parent() }}
+        {% if required %}
+            <span class="required_red" title="Ce champ est obligatoire">*</span>
+        {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock form_label %}
+
+{% block autocomplete_widget %}
+
+    {% if form.id is defined %}
+        {{form_widget(form.id)}}
+    {% endif %}
+    {{form_widget(form.name)}}
+
+    {% set ac_params = {'url' : form.vars.url}%}
+
+    <script type="text/javascript">
+        $(function() {
+            var cache = {};
+            $("#{{form.name.vars.id}}").autocomplete({
+                minLength: 2,
+                autoFocus : true,
+                source: function( request, response ) {
+                    var term = request.term;
+                    var data = {
+                        limit: 50,
+                        q: term
+                    };
+                    $("#{{form.id.vars.id}}").val('');
+                    if ( term in cache ) {
+                        response( cache[ term ] );
+                        return;
+                    }
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ ac_params.url }}",
+                        dataType: "jsonp",
+                        data: data,
+                        success: function(data) {
+                                //params['action'](data, params);
+                                (function(){
+                                    response($.map(data.success, function(i, item) {
+                                        return {
+                                            label: i.name ,
+                                            value: i.name,
+                                            id: i.id
+                                        }
+
+                                    }));
+                                })();
+                            }
+                    });
+                },
+                select: function( event, ui ) {
+                    jQuery("#{{form.id.vars.id}}").val(ui.item.id);
+                }
+
+            })
+        });
+    </script>
+
+{% endblock %}
+
+{% block multi_add_widget %}
+         {% set config = config|merge({'multi_add': true }) %}
+         {{ block('autocomplete_widget') }}
+         <input type="hidden" name="{{ name~'_multi_add'}}" value="1" /> 
+         <input type="button" id="ajout_{{ id }}" class="btn btn-primary _10_imp" value="Ajouter" data-type="{{ name }}" data-text-input-id="{{ id }}"
+        data-limit="{{ config.limit is defined? config.limit:5 }}">
+         <div class="{{ id }}_list" id="{{ id }}_list"> 
+            {% if config.objects is defined %}
+                {% for row in config.objects %}
+                    <div class="dynamic" id="{{ id }}_{{ row.id }}">
+                        <b>{{ loop.index }}</b>&nbsp;&nbsp;{{ row.name }}
+                        {% if config.allow_delete is defined and config.allow_delete %}
+                            &nbsp;&nbsp;<a href="javascript:remove_{{ id }}({{ row.id }});">supprimer</a>
+                        {% endif %}
+                        <input type="hidden" name="{{ name }}[]" id="{{ name }}_{{ row.id }}" value="{{ row.id }}">
+                    </div>
+                {% endfor %}   
+            {% endif %}
+        </div>
+    <script type="text/javascript">
+        $('#ajout_{{ id }}').click(function(){
+            var limit = $(this).attr('data-limit'),
+                count = $("#{{ id }}_list div").length,
+                type='',exist = 0,auto_id=0;
+
+
+            if($("#{{ id }}").val()==''){
+                alert("Please fill input value.");
+            }else{
+                if(count < limit){
+                    auto_id = $('#hidd_{{ id }}').val()!=''? $('#hidd_{{ id }}').val():0 ;
+                    type = $(this).attr('data-type');
+                    count++;
+                    if(auto_id){
+                        $('#{{ id }}_list input[name^="'+type+'[]"]').each(function(){        
+                            var value = $(this).val();       
+                            if(value == auto_id)
+                               exist = 1;
+                        });
+                        if(exist==0){
+                            var new_div = '<div class="dynamic" id="{{ id }}_'+auto_id+'"><b>'+count+'</b>&nbsp;&nbsp;'+($("#{{ id }}").val())+' {% if config.allow_delete is defined and config.allow_delete %} &nbsp;&nbsp;<a href="javascript:remove_{{ id }}('+auto_id+');">supprimer</a>{% endif %}
+                                            <input type="hidden" name="'+type+'[]" id="'+ type +'_'+auto_id+'" value="'+auto_id+'"></div>';
+                        }else{
+                            alert('Already Exists');
+                        }
+                        $('#{{ id }}_list').append(new_div);      
+                    }else{
+                        alert('Please select form autocomplete list');
+                    }
+
+                    $('#{{ id }}').val(""); 
+                    $('#hidd_{{ id }}').val(""); 
+
+                }else{
+                    alert("You can not add more than "+limit+" values");
+                }
+            }
+        });
+        remove_{{ id }}=function(id){
+                var delconfirm =confirm('Are you sure?');
+                if(delconfirm){
+                    $('#{{ id }}_'+id).remove();
+                    $('#{{ id }}_list .dynamic b').each(function(i,v){
+                        i++;
+                        $(this).html(i);                        
+                    });
+                }
+        }
+    </script>
+{% endblock %}
+
+{# block select_multiple_widget %}
+{% spaceless %}   
+        
+   {% set entity_name = (full_name | explodeTwig('[') | first) %}         
+   {% set first_box_id =  entity_name~'_'~entity_name~ (name | capitalize)  %} 
+   {% set first_box_name =  entity_name~'['~entity_name~ (name | capitalize)~']'  %}      
+   {% set second_box_id =  entity_name~'_'~(name | capitalize)  %}   
+        
+   <div class="{{ second_box_id }}_box"> 
+        <div class="form_row">
+            <div class="label">
+                 <label for="{{ first_box_id }}" style="float:left;"> {{ label }} </label>  
+            </div>
+            <div class="field">    
+                <select  style="float:left;" class="multi_list _70_imp " name="{{ first_box_name }}" id="{{ first_box_id }}" size="{{config.size|default(8)}}" multiple="multiple">  
+                  {% if config.mainlist is defined  and  (config.mainlist | length > 0) %}    
+                    {% for element in config.mainlist %}
+                            {% if config.line is defined %}
+                                {{ evalTwig(config.line) | raw }} 
+                            {% else %}
+                                <option value="{{ element.id }}">{{ element.name }}</option>
+                            {% endif %}
+                    {% endfor %}
+                   {% endif %}                
+                </select>   
+
+                <div class="low container" style="width:5%;float:left">
+                    <input name="{{ first_box_id~'2'~ second_box_id }}" value="=>" type="button"  style="border:none;width:100%;color:#000;">
+                    <input name="{{ second_box_id~'2'~first_box_id }}" value="<=" type="button" style="border:none;width:100%;color:#000;">
+                </div>
+
+                <div class="{{ name }}_text left  _30_imp">
+                    <select  class="multiple _100_imp multi_list" name="{{ full_name }}" id="{{second_box_id}}" size="{{config.size|default(8)}}" multiple="multiple">                                                                  
+                        {% set hvalue= '' %}
+                        {% if list is defined  and  (list | length > 0) %}
+                            {% for element in list %}
+                                  {% if config.line is defined %}
+                                      {{ evalTwig(config.line) | raw }} 
+                                  {% else %}
+                                      <option value="{{ element.id }}">{{ element.name }}</option>
+                                  {% endif %}
+                                  {% set hvalue = ((hvalue == '') ? element.id :  hvalue ~ ',' ~ element.id) %}                                                                            
+                            {% endfor %}
+                        {% endif %}
+                    </select>               
+                    <input type="hidden" name="hidden_{{ name }}" id="hidden_{{ name }}" value="{{ hvalue }}">
+                </div> 
+               </div>     
+                
+            </div>    
+       <div class="stop"></div>
+   </div>     
+   <script type="text/javascript">
+       $('.{{ second_box_id }}_box  input[type="button"]').bind('click', function(){
+            //getting value of name attribute
+            var arr = $(this).attr("name").split("2");
+            var from = arr[0];
+            var to = arr[1];
+
+           //Adding or deleting list data from list
+            $("#" + from + " option:selected").each(function(){
+                $("#" + to).append($(this).clone());
+                $(this).remove();
+            });
+
+            //bof code for setting selected skills value
+            var values = '';
+                   
+            $("#{{ second_box_id }} option").each(function(){
+               
+                if(values==='')
+                    values = $(this).val();
+                else
+                    values = values + ',' + $(this).val();	   
+            });
+           
+            $('#hidden_{{ name }}').val(values);
+         });
+       
+  </script>
+
+{% endspaceless %}
+{% endblock select_multiple_widget #}
+  
+       
+{# This block is making  nested select boxes#}
+{# block nested_select_widget %}
+{% spaceless %}
+  
+{% set entity_name = (full_name | explodeTwig('[') | first) %}         
+{% set select_box_id =  entity_name~'_'~ (name | capitalize)  %} 
+  
+<div class="clearfix" id="{{ name }}_section"> 
+     <div class="form_row">
+       <div class="label">   
+          <label for="{{ select_box_id }}">{{ label }}</label>  
+       </div>   
+       <div class="field">      
+            <div class="input" id="{{ name }}_listing">
+                <div class="selector" id="uniform-{{ name }}_level_0">
+                   <select id="{{ select_box_id }}" name="{{ full_name }}" class="_70" data-custom_id="{{ name }}_level_0" onchange="initial(this);getSelected(0,this);" data-ajouter="ajouter_links" data-limit="5">
+                        {% if empty_value is defined %}
+                                <option value="">{{ empty_value }}</option>
+                        {% endif %} 
+                        {% for element in config.list%} 
+                               {% if config.line is defined %}
+                                    {{ evalTwig(config.line) | raw }} 
+                               {% else %}
+                                    <option value="{{ element.id }}">{{ element.name }}</option>
+                               {% endif %}
+                        {% endfor %}   
+                   </select>
+                </div>    
+            </div>
+            <div id="ajouter_links" class="ajouter_links"> </div>  <div class="stop"></div>
+            <div id="{{ name }}_list" class="{{ name }}_list">
+
+                {% if config.single is defined and config.single == true %}
+                      {% if list is defined and list !='' %}  
+                        {{ list.parent.name is defined ? (list.parent.name~'>>' ) ? " "  }}{{ list.name }} 
+                         <input type="hidden" name="{{ name }}[]" id="{{ name }}_{{ list.id }}" value="{{ list.id }}"> 
+                      {% endif %}   
+                {% else %} 
+                    {% if list is defined %}
+                       {% for element in list %}    
+                        <div class="dynamic" id="{{ name }}_div_{{ element.id }}">
+                               {{ element.parent.name is defined ? (element.parent.name~'>>' ) ? " "  }}{{ element.name }}&nbsp;&nbsp;<a href="javascript:delete{{ name }}('{{ element.id }}','{{ select_box_id}}');">supprimer</a>
+                               <input type="hidden" name="{{ name }}[]" id="{{ name }}_{{ element.id }}" value="{{ element.id }}">
+                        </div>
+                      {% endfor %} 
+                   {% endif %} 
+                {% endif %}
+            </div> 
+      </div>      
+    </div>         
+    <script type="text/javascript">
+    
+       //finds the selected box level
+        function getSelected(level, that) {
+            var id = $(that).attr('id');
+            var custom_id = $(that).attr('data-custom_id').split('_');
+            var custom_id_start = custom_id[0] + '_' + custom_id[1] + '_';
+
+            //setting params for ajax requst
+            var params = new Array();
+            params['affine'] = new Array();
+            params['affine']['id'] = id;
+            params['action'] = fctAffine;
+
+            var value = $("#" + id).val();
+            $('#hidden_level').val(level);
+
+            //removes all select box below this level
+            var select_count = 0;
+            $("select[data-custom_id^=" + custom_id_start + "]").each(function() {
+                select_count++;
+            });
+
+            select_count--;
+            for (var j = level + 1; j <= select_count; j++) {
+                $('#uniform-' + custom_id_start + j).remove();
+            }
+
+            var value = $("select[data-custom_id=" + custom_id_start + level + "]").val();
+            {% if config.type is defined  and config.type!='' %}
+                 params['url'] = "{{ config.type | lower }}/sub{{ config.type | capitalize}}/" + value;
+            {% else %}     
+                 params['url'] = "category/subCategory/" + value;
+            {% endif %}   
+            ajax('', params);
+
+            return false;
+        }
+
+        //this function is made for onchange event for showing affiner and ajouter button 
+        function initial(that) {
+            //bof code for category section 
+            var ajouter_links = $(that).attr('data-ajouter');
+            var id = $(that).attr('id');
+
+            //If selected value is not blank
+            if ($(that).val() != 0) {
+
+                var link = '<input id="hidden_level" name="hidden_level" value="0" type="hidden">';
+                link += '<a href="javascript:affiner(\'' + id + '\');" id="affiner" name="affiner">Affiner</a>&nbsp;&nbsp;';
+                link += '<a href="javascript:ajouter(\'' + id + '\');" id="add_{{ name }}" name="add_{{ name }}">Ajouter</a>&nbsp;&nbsp;';
+
+                if ($('#' + ajouter_links + ' #hidden_level').length == 0)
+                    $('#' + ajouter_links).append(link);
+            }
+            else {
+                $('#' + ajouter_links).text('');
+            }
+        }
+    
+        //Function for expanding subcategory of a parent category
+        var fctAffine = function(data, params) {
+         
+            //decode json of response data
+            var obj = jQuery.parseJSON(data);
+            
+            if (obj.count == 0) {
+                $('#affiner').remove();
+            } else {
+                var link = '<a href="javascript:affiner(\'' + params['affine']['id'] + '\');" id="affiner" name="affiner">Affiner</a>&nbsp;&nbsp;';
+                if ($('#affiner').length == 0) {
+                    $('#add_{{name}}').before(link);
+                }
+            }
+        }
+        
+
+
+
+        //eof code for category section 
+        if ($("#ajouter_links #addnew").length == 1) {
+            $('#uniform-{{name|lower}}_level_0').hide();
+        }
+
+
+        //Function to show child category
+        function affiner(id) {
+
+            var params = new Array();
+            params['subData'] = new Array();
+
+            //getting some attributes values
+            var custom_id = $("#" + id).attr('data-custom_id').split('_');
+            var custom_id_start = custom_id[0] + '_' + custom_id[1] + '_';
+
+            //setting parameters
+            params['subData']['custom_id_start'] = custom_id_start;
+            params['subData']['custom_id'] = custom_id;
+
+            var select_count = 0;
+
+            //counting the select box which data-custom_id atrribute started with particular value
+            $("select[data-custom_id^=" + custom_id_start + "]").each(function() {
+                select_count++;
+            });
+
+            select_count--;
+
+            if ($("[data-custom_id=" + custom_id_start + select_count + "]").val() == '0') {
+
+                if (select_count == 0)
+                    alert('Please select {{ label }}!!!');
+                else
+                    alert('Please select lowest level sub {{ label }} !!!');
+            } else {
+                //Category selected value
+                 var value = $("[data-custom_id=" + custom_id_start + select_count + "]").val();
+
+               //setting url and action in params variable
+                {% if config.type is defined  and config.type !='' %}
+                     params['url'] = "{{ config.type | lower }}/sub{{ config.type | capitalize}}/" + value;
+                {% else %}     
+                     params['url'] = "category/subCategory/" + value;
+                {% endif %}   
+                    
+                params['action'] = getSelectSub{{name|capitalize}};
+
+                //Called ajax function for finding subcategories
+                ajax('', params);
+            }
+
+        }
+
+
+        //This function  is made for showing subcategory select box
+        var getSelectSub{{name|capitalize}} = function(data, params) {
+           
+            console.log(params['subData']['custom_id_start']);
+
+            //Decodes json data
+            var obj = jQuery.parseJSON(data);
+            var i = 0;
+            var sub_cat = '';
+            var splitk = new Array(0, 0, 0);
+
+            // bof for creation of section for subcategory with select box
+            $.each(obj.cat_data, function(key, value) {
+                splitk = key.split('_');
+
+                //making subcategory select box
+                if (i == 0) {
+
+                    var ids = params['subData']['custom_id_start'] + splitk[1];
+                    var name = params['subData']['custom_id_start'] + splitk[1];
+
+                    sub_cat += '<div id="uniform-' + ids + '" class="selector">';
+                    sub_cat += "<select id=" + ids + " name=" + name + " onchange='initial(this);getSelected(" + splitk[1] + ",this)' data-custom_id='" + params['subData']['custom_id_start'] + splitk[1] + "'>";
+                    sub_cat += '<option value="0">S&eacute;lectionner</option>';
+                }
+                sub_cat += '<option value="' + splitk[0] + '">' + value + '</option>';
+                i++;
+
+            });
+            if (i > 0) {
+                sub_cat += '</select>';
+                sub_cat += '</div>';
+            }
+            // eof for creation of section for subcategory with select box
+
+            //Add new subcategory box
+            $('#' + params['subData']['custom_id'][0] + '_listing').append(sub_cat);
+        }
+
+
+        //This function shows added category with parent category name like parent category >> sub category
+        var getSelectParent{{name|capitalize}} = function(data, params) {
+            console.log(params['parentData']['custom_id']);
+
+            var category_name = '';
+
+            //parent exists 
+            if (data != '')
+                category_name = data + "<b> >> </b> " + $("#" + params['parentData']['custom_id_start'] + params['parentData']['level'] + " option[value='" +  params['parentData']['cat_id'] + "']").text();
+            else
+                category_name = $("[data-custom_id=" + params['parentData']['custom_id_start'] + params['parentData']['level'] + "] option[value='" + params['parentData']['cat_id'] + "']").text();
+
+            {% if config.single is defined  and config.single == true %}
+                 //content to add in category list 	
+                    var new_div = '<div class="dynamic" id="{{ name }}_div_' + params['parentData']['cat_id'] + '">' + category_name + '</div>';
+                    new_div += '<input type="hidden" name="' + params['parentData']['custom_id'][0] + '[]" id="' + params['parentData']['custom_id'][0] + '_' + params['parentData']['cat_id'] + '" value="' + params['parentData']['cat_id']+ '">';
+
+                //add content to catgory list
+                $('#' + params['parentData']['custom_id'][0] + '_list').html(new_div);
+            {% else %}    
+                 //content to add in category list 	
+                    var new_div = '<div class="dynamic" id="{{ name }}_div_' + params['parentData']['cat_id'] + '">' + category_name + '&nbsp;&nbsp;<a href="javascript:delete{{name}}(\'' + params['parentData']['cat_id'] + '\',\'' + params['parentData']['id'] + '\');">supprimer</a></div>';
+                    new_div += '<input type="hidden" name="' + params['parentData']['custom_id'][0] + '[]" id="' + params['parentData']['custom_id'][0] + '_' + params['parentData']['cat_id'] + '" value="' + params['parentData']['cat_id']+ '">';
+
+                //add content to catgory list
+                $('#' + params['parentData']['custom_id'][0] + '_list').append(new_div);
+            {% endif %}
+            
+            //Removed affiner and ajouter link and added Ajouter un nouveau link
+            $('#' + params['parentData']['ajouter_links']).text('');
+            
+            {% if config.single is defined  and config.single == true %}
+                //add content to catgory list
+               $('#' + params['parentData']['ajouter_links']).append('<a href="javascript:addNew(\'' + params['parentData']['id'] + '\');" id="addnew" name="addnew">Modifier un nouveau</a>');
+            {% else %}    
+                //add content to catgory list
+               $('#' + params['parentData']['ajouter_links']).append('<a href="javascript:addNew(\'' + params['parentData']['id'] + '\');" id="addnew" name="addnew">Ajouter un nouveau</a>');
+            {% endif %}
+            
+            
+
+            //bof section to remove all selectbox 
+            var select_count = 0;
+
+            $('select[data-custom_id^=' +  params['parentData']['custom_id_start']+ ']').each(function() {
+                select_count++;
+            });
+
+            select_count--;
+            for (var j = 1; j <= select_count; j++) {
+                $('#uniform-' +  params['parentData']['custom_id_start'] + j).remove();
+            }
+            //	$('#uniform-category_level_0 > span').text("S&egrave;lectionner");
+            $('#uniform-' +  params['parentData']['custom_id_start'] + '0 option[value="0"]').attr('selected', 'selected');
+
+            $('#uniform-' +  params['parentData']['custom_id_start'] + '0').attr('disabled', 'disabled');
+            $('#uniform-' +  params['parentData']['custom_id_start'] + '0').hide();
+        }
+
+
+        //function for adding category in form
+        function ajouter(id) {
+            //selected level for select box
+            var level = $('#hidden_level').val();
+            var custom_id = $("#" + id).attr('data-custom_id').split('_');
+            var custom_id_start = custom_id[0] + '_' + custom_id[1] + '_';
+            var limit = $("#"+id).attr('data-limit');
+
+            //setting params for ajax request
+            var params = new Array();
+            params['parentData'] = new Array();
+            params['parentData']['custom_id_start'] = custom_id_start;
+            params['parentData']['custom_id'] = custom_id;
+            params['parentData']['ajouter_links'] = $('#' + id).attr('data-ajouter');
+            params['parentData']['level'] = level; 
+            params['parentData']['id'] = id;
+
+            //selected category for selected level select box
+            var cat_id = $('[data-custom_id=' + custom_id_start + level + ']').val();
+            params['parentData']['cat_id'] = cat_id;
+
+            if ($('#' + custom_id[0] + '_list div').length < limit) {
+                var exist = 0;
+                $('#' + custom_id[0] + '_list input[id^="' + custom_id[0] + '_"]').each(function() {
+                    var cat = $(this).val();
+                    if (cat == cat_id)
+                        exist = 1;
+                });
+
+                if (exist == 0) {
+                    if (level == 0) {
+                        if ($('[data-custom_id=' + custom_id_start + level + ']').val() == '') {
+                            alert('Please Select Category');
+                            return false;
+                        }
+                    }
+
+                    {% if config.type is defined  and config.type !='' %}
+                         params['url'] = "{{ config.type | lower }}/parent{{ config.type | capitalize}}/" + cat_id;
+                    {% else %}     
+                         params['url'] = "category/parentCategory/" + cat_id;
+                    {% endif %} 
+                    
+                    
+                    params['action'] = getSelectParent{{name|capitalize}};
+
+                    //called ajax function for sending ajax request for getting parent category name 
+                    ajax('', params);
+
+                } else {
+                    alert('Already exists');
+                }
+            } else {
+                alert('You can not add more then '+limit+'!!!');
+                //bof section to remove all selectbox 
+                var select_count = 0;
+                $('select[data-custom_id^=' + custom_id_start + ']').each(function() {
+                    select_count++;
+                });
+
+                select_count--;
+                for (var j = 1; j <= select_count; j++) {
+                    $('#uniform-' + custom_id_start + j).remove();
+                }
+
+                $('#uniform-' + custom_id_start + '_0').hide();
+            }
+            var custom_id = $("#" + id).attr('data-custom_id').split('_');
+            var custom_id_start = custom_id[0] + '_' + custom_id[1] + '_';
+            var ajouter_links = $('#' + id).attr('data-ajouter');
+
+            $('#uniform-' + custom_id_start + '0').removeAttr('disabled');
+            $('#uniform-' + custom_id_start + '0 option').each(function() {
+                $(this).removeAttr('selected');
+            });
+
+            $('#' + ajouter_links).text('');
+        }
+
+
+        //Add new category
+        function addNew(id) {
+
+            var custom_id = $("#" + id).attr('data-custom_id').split('_');
+            var custom_id_start = custom_id[0] + '_' + custom_id[1] + '_';
+            var ajouter_links = $('#' + id).attr('data-ajouter');
+
+            $('#uniform-' + custom_id_start + '0').removeAttr('disabled');
+            $('#uniform-' + custom_id_start + '0 option').each(function() {
+                $(this).removeAttr('selected');
+            });
+
+            $('#uniform-' + custom_id_start + '0').show();
+            $('#' + ajouter_links).text('');
+
+        }
+
+        {% if config.single is not defined  or  config.single == false or config.single=='' %}
+            //function to delete category from particular  diploma
+            function delete{{name}}(id, select_id) {
+                var custom_id = $("#" + select_id).attr('data-custom_id').split('_');
+                var delconfirm = confirm('Are you sure?');
+                if (delconfirm) {
+                    $('#{{ name }}_div_' + id).remove();
+                    $('#' + custom_id[0] + '_' + id).remove();
+                }
+            }
+        
+        {% endif %}
+        
+    </script>
+ </div>       
+     
+    {% endspaceless %} 
+{% endblock nested_select_widget #}
+
+{# This block is making tinyMCE editor#}
+  
+{% block tinyMCE_widget %}
+ {% spaceless %}
+     {% set entity_name = (full_name | explodeTwig('[') | first) %}         
+     {% set editor_id =  entity_name~'_'~ name  %}
+    <textarea cols="20" rows="5" name="{{full_name}}" id="{{ editor_id }}">{{ data }}</textarea>
+    <div class="error"> {{ form_errors(form) }}</div>
+
+<script language="javascript" type="text/javascript">
+        tinyMCE.init({
+          theme : "advanced",
+          mode: "exact",
+          elements : "{{ editor_id }}",
+          theme_advanced_toolbar_location : "top",
+          theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,"
+          + "justifyleft,justifycenter,justifyright,justifyfull,formatselect,"
+          + "bullist,numlist,outdent,indent,link,unlink,anchor,image,separator,"
+          +"undo,redo,cleanup,code,separator,sub,sup,charmap",
+          removeformat_selector : 'b,strong,em,i,span,ins,p',
+          theme_advanced_buttons2 : "",
+          theme_advanced_buttons3 : "",
+          invalid_elements : "em/i,strike,u,strong/b,div[align],p , img, #p[align],-ol[type|compact],-ul[type|compact],-li",
+          height:"{{config.height is defined ? config.height: '350px' }}",
+          width:"{{config.width is defined ? config.width: '600px' }}",
+          theme_advanced_toolbar_align : "left",
+          theme_advanced_resizing : true,
+          paste_remove_styles : true,
+          paste_remove_spans : true,
+          paste_stip_class_attributes : "all",
+          force_br_newlines : true,
+          force_p_newlines : false,
+          forced_root_block : '' 
+       });
+       
+       
+     </script>
+
+ {% endspaceless %}
+{% endblock tinyMCE_widget %}
+{# end block of tinyMCE editor#}
+     
+     
+{% block period_widget %}
+{% spaceless %}
+<div class="input-main">
+    <div class="input-bl">
+        <div class="label">{{ form_widget(form.period) }}  </div>
+        <div class="field"> {{ form_widget(form.period_type) }} </div>
+    </div>
+</div>
+
+{% endspaceless %}
+{% endblock period_widget %}
+
+
