@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>three.js webgl - interactive - voxel painter</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <!-- Bootstrap core CSS -->
+        <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="./css/navbar-fixed-top.css" rel="stylesheet">
+
+        <!-- Just for debugging purposes. Don't actually copy this line! -->
+        <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            body {
+                font-family: Monospace;
+                background-color: #f0f0f0;
+                margin: 0px;
+                overflow: hidden;
+            }
+
+            #oldie { background-color: #ddd !important }
+        </style>
+    </head>
+    <body>
+        <div id="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">World domination</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Controls <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header">Camera</li>
+                                <li><strong>shift + click</strong>: rotate</li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Contruction</li>
+                                <li><strong>click</strong>: add block</li>
+                                <li><strong>control + click</strong>: remove block</li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" id="stats">
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left select">
+                        <div class="form-group">
+                            <select id="mapBlock">
+                                <option value="">Default</option>
+                                <option value="textures/grass.png">Grass</option>
+                                <option value="textures/dirt.png">Dirt</option>
+                                <option value="textures/grass_dirt.png">Grass Dirst</option>
+                            </select>
+                        </div>
+                    </form>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="../navbar/">Connexion</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+        <script src="./js/three.min.js"></script>
+
+        <script src="js/Detector.js"></script>
+        <script src="js/stats.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script>
+
+            if (!Detector.webgl)
+                Detector.addGetWebGLMessage();
+
+            var container, stats;
+            var camera, scene, renderer;
+            var projector, plane, cube;
+            var mouse2D, mouse3D, raycaster,
+                    rollOveredFace, isShiftDown = false,
+                    theta = 45 * 0.5, pos = 0, isCtrlDown = false,
+                    up = false, down = false, left = false, right = false;
+
+            var rollOverMesh, rollOverMaterial;
+            var voxelPosition = new THREE.Vector3(), tmpVec = new THREE.Vector3(), normalMatrix = new THREE.Matrix3();
+            var cubeGeo, cubeMaterial;
+            var i, intersector;
+
+            init();
+            animate();
+
+            function init() {
+
+                container = document.createElement('div');
+                document.body.appendChild(container);
+
+                var info = document.createElement('div');
+                info.style.position = 'absolute';
+                info.style.top = '10px';
+                info.style.width = '100%';
+                info.style.textAlign = 'center';
+                info.innerHTML = '<a href="http://threejs.org" target="_blank">three.js</a> - voxel painter - webgl<br>';
+                container.appendChild(info);
+
+                camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+                camera.position.y = 600;
+
+                scene = new THREE.Scene();
+
+                rollOverMesh = initRollOver();
+                $('#mapBlock').change(function() {
+                    scene.remove(rollOverMesh);
+                    rollOverMesh = initRollOver();
+                    scene.add(rollOverMesh);
+                })
+
+                scene.add(rollOverMesh);
+                // picking
+
+                projector = new THREE.Projector();
+
+                // grid
+
+                var size = 2500, step = 50;
+
+                var geometry = new THREE.Geometry();
+
+                for (var i = -size; i <= size; i += step) {
+
+                    geometry.vertices.push(new THREE.Vector3(-size, 0, i));
+                    geometry.vertices.push(new THREE.Vector3(size, 0, i));
+
+                    geometry.vertices.push(new THREE.Vector3(i, 0, -size));
+                    geometry.vertices.push(new THREE.Vector3(i, 0, size));
+
+                }
+
+                var material = new THREE.LineBasicMaterial({color: 0x000000, opacity: 0.2, transparent: true});
+
+                var line = new THREE.Line(geometry, material);
+                line.type = THREE.LinePieces;
+                scene.add(line);
+
+                planeTexture = THREE.ImageUtils.loadTexture("textures/grass.png");
+                planeTexture.wrapS = THREE.RepeatWrapping;
+                planeTexture.wrapT = THREE.RepeatWrapping;
+                planeTexture.repeat.set(50, 50);
+                planeMaterial = new THREE.MeshLambertMaterial({color: 0x00CC00, ambient: 0x00ff80, shading: THREE.FlatShading, map: planeTexture});
+                planeMaterial.ambient = planeMaterial.color;
+                plane = new THREE.Mesh(new THREE.PlaneGeometry(5000, 5000), planeMaterial);
+                plane.rotation.x = -Math.PI / 2;
+                plane.visible = true;
+                scene.add(plane);
+
+                mouse2D = new THREE.Vector3(0, 10000, 0.5);
+
+                // Lights
+
+                var ambientLight = new THREE.AmbientLight(0x606060);
+                scene.add(ambientLight);
+
+                var directionalLight = new THREE.DirectionalLight(0xffffff);
+                directionalLight.position.set(1, 0.75, 0.5).normalize();
+                scene.add(directionalLight);
+
+                renderer = new THREE.WebGLRenderer({antialias: true});
+                renderer.setClearColor(0xf0f0f0);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+
+                container.appendChild(renderer.domElement);
+
+                stats = new Stats();
+                stats.domElement.style.zIndex = '1000';
+                $('#stats').html(stats.domElement);
+
+                document.addEventListener('mousemove', onDocumentMouseMove, false);
+                document.addEventListener('mousedown', onDocumentMouseDown, false);
+                document.addEventListener('keydown', onDocumentKeyDown, false);
+                document.addEventListener('keyup', onDocumentKeyUp, false);
+
+                //
+                window.addEventListener('resize', onWindowResize, false);
+
+            }
+
+            function onWindowResize() {
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            function getRealIntersector(intersects) {
+
+                for (i = 0; i < intersects.length; i++) {
+                    intersector = intersects[ i ];
+                    if (intersector.object != rollOverMesh) {
+                        return intersector;
+                    }
+                }
+                return null;
+            }
+
+            function setVoxelPosition(intersector) {
+
+                normalMatrix.getNormalMatrix(intersector.object.matrixWorld);
+                if (intersector.face)
+                    tmpVec.copy(intersector.face.normal);
+                tmpVec.applyMatrix3(normalMatrix).normalize();
+
+                voxelPosition.addVectors(intersector.point, tmpVec);
+
+                voxelPosition.x = Math.floor(voxelPosition.x / 50) * 50 + 25;
+                voxelPosition.y = Math.floor(voxelPosition.y / 50) * 50 + 25;
+                voxelPosition.z = Math.floor(voxelPosition.z / 50) * 50 + 25;
+
+            }
+
+            function onDocumentMouseMove(event) {
+
+                event.preventDefault();
+
+                mouse2D.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse2D.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            }
+
+            function initBlock() {
+                var mapBlock = THREE.ImageUtils.loadTexture("textures/square-outline-textured.png");
+                if ($('#mapBlock').val()) {
+                    mapBlock = THREE.ImageUtils.loadTexture($('#mapBlock').val());
+                }
+                cubeGeo = new THREE.CubeGeometry(50, 50, 50);
+                cubeMaterial = new THREE.MeshLambertMaterial({color: 0xfeb74c, ambient: 0x00ff80, shading: THREE.FlatShading, map: mapBlock});
+                cubeMaterial.ambient = cubeMaterial.color;
+                return new THREE.Mesh(cubeGeo, cubeMaterial);
+            }
+
+            function initRollOver() {
+                var mapBlock = THREE.ImageUtils.loadTexture("textures/square-outline-textured.png");
+                if ($('#mapBlock').val()) {
+                    mapBlock = THREE.ImageUtils.loadTexture($('#mapBlock').val());
+                }
+                rollOverGeo = new THREE.CubeGeometry(50, 50, 50);
+                rollOverMaterial = new THREE.MeshLambertMaterial({color: 0x00CC00, opacity: 0.5, transparent: true, ambient: 0x00ff80, shading: THREE.FlatShading, map: mapBlock});
+                rollOverMaterial.ambient = rollOverMaterial.color;
+                return new THREE.Mesh(rollOverGeo, rollOverMaterial);
+            }
+
+            function onDocumentMouseDown(event) {
+                if (!$(event.target).attr('id')) {
+                    event.preventDefault();
+                }
+                var intersects = raycaster.intersectObjects(scene.children);
+                if (intersects.length > 0) {
+                    intersector = getRealIntersector(intersects);
+                    // delete cube
+                    if (isCtrlDown) {
+                        if (intersector.object != plane) {
+                            scene.remove(intersector.object);
+                        }
+                        // create cube
+                    } else {
+                        intersector = getRealIntersector(intersects);
+                        setVoxelPosition(intersector);
+
+                        var voxel = initBlock();
+                        voxel.position.copy(voxelPosition);
+                        voxel.matrixAutoUpdate = false;
+                        voxel.updateMatrix();
+                        scene.add(voxel);
+                    }
+                }
+            }
+
+            function onDocumentKeyDown(event) {
+                switch (event.keyCode) {
+                    case 16:
+                        isShiftDown = true;
+                        break;
+                    case 17:
+                        isCtrlDown = true;
+                        break;
+                    case 36:
+                        up = true;
+                        break;
+                    case 40:
+                        down = true;
+                        break;
+                    case 37:
+                        left = true;
+                        break;
+                    case 39:
+                        right = true;
+                        break;
+                }
+            }
+
+            function onDocumentKeyUp(event) {
+                switch (event.keyCode) {
+                    case 16:
+                        isShiftDown = false;
+                        break;
+                    case 17:
+                        isCtrlDown = false;
+                        break;
+                    case 36:
+                        up = false;
+                        break;
+                    case 40:
+                        down = false;
+                        break;
+                    case 37:
+                        left = false;
+                        break;
+                    case 39:
+                        right = false;
+                        break;
+                }
+            }
+
+            //
+
+            function animate() {
+                requestAnimationFrame(animate);
+                render();
+                stats.update();
+            }
+
+            function render() {
+                if (isShiftDown) {
+                    theta += mouse2D.x * 1.5;
+                }
+                if (up) {
+                    camera.lookAt(scene.position);
+                }
+                if (down) {
+                    theta += mouse2D.y * 1.5;
+                    //camera.position.y = 200;
+                }
+                if (left) {
+                    theta += 1;
+                }
+                if (right) {
+                    theta -= 1;
+                }
+                raycaster = projector.pickingRay(mouse2D.clone(), camera);
+                var intersects = raycaster.intersectObjects(scene.children);
+
+                if (intersects.length > 0) {
+                    intersector = getRealIntersector(intersects);
+                    if (intersector) {
+                        setVoxelPosition(intersector);
+                        rollOverMesh.position = voxelPosition;
+                        if (voxelPosition.y > 25) {
+                            return false;
+                        }
+                    }
+                }
+                camera.position.x = 1400 * Math.sin(THREE.Math.degToRad(theta));
+                camera.position.z = 1400 * Math.cos(THREE.Math.degToRad(theta));
+
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+
+            }
+
+        </script>
+        <script src="./js/bootstrap.min.js"></script>
+    </body>
+</html>
