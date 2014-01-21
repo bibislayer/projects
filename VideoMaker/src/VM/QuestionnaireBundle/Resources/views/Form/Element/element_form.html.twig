@@ -1,0 +1,161 @@
+{# empty Twig template #}
+<div class="form">
+{# condition added for group and description element#}    
+{% if app.request.get('element_type') != 3 %}  
+
+    {% if object.id is empty %}
+        {% if app.request.get('element_type') == 2 %}
+    <h2>Ajouter une description</h2>
+        {% elseif app.request.get('element_type') == 1 %}
+    <h2>Ajouter un groupe</h2>
+        {% endif %}
+    {% endif %}
+
+    {{ form_row(form.name)}}
+    <input type="hidden" name="QuestionnaireElement[StdQuestionnaireTypeElement]" value="{{app.request.get('element_type')}}" />         
+
+    {{ form_row(form.text_description)}}
+    {{ form_row(form.media_allow)}}  
+    <div id="media_type_area" style="display:none;"> 
+
+         {{ form_row(form.media_type)}}  
+        <div id="media_type_browse" style="display:none;"> 
+         {{ form_row(form.element_media_file,{'attr':{'data-id':(app.request.get('data_list') ? app.request.get('data_list') :'' ),'data-media_id':'media_file','data-type':'image','data-url':path('mo_questionnaire_element_media_upload',{'slug_ent':app.request.get('slug_ent'),'slug_quest':app.request.get('slug_quest')})}})}}
+
+        {% if extraParams.type_media is defined and extraParams.type_media != 'embed'%}
+            {% set attach_file = app.request.get('media_file') ? app.request.get('media_file') : (extraParams.element.enclosedFiles? (extraParams.element.enclosedFiles | split('/')[5]) :'') %}
+        {% else %}
+            {% set attach_file = app.request.get('media_file') ? app.request.get('media_file') ?'' %}
+        {% endif %}
+
+
+            <div id="attachment_file">{{ attach_file }}</div>  
+            <input type="hidden" id= "media_file" name="media_file" value="{{ attach_file }}">
+        </div>
+        <div id="media_type_embed" style="display:none;"> 
+
+       {% if extraParams.type_media is defined and extraParams.type_media == 'embed'%}
+         {% set embed_file = extraParams.element.enclosedFiles? extraParams.element.enclosedFiles :'' %}
+       {% else %}
+         {% set embed_file = app.request.get('QuestionnaireElement') ? app.request.get('QuestionnaireElement')['media_embed'] ?'' %}
+       {% endif %}
+
+          {{ form_row(form.media_embed,{'value':embed_file}) }}    
+        </div>
+    </div>  
+    {% if extraParams.level_0 is defined and extraParams.level_0 == 1 %}
+               {{ form_row(form.time_limit)}}
+    {% endif %} 
+
+    {% if (app.request.attributes.get('parent_id') is defined and app.request.attributes.get('parent_id') !='') or ( parent_id is defined and parent_id !='' ) %}        
+         {{ form_row(form.parent_id,{'value':app.request.attributes.get('parent_id') ? app.request.attributes.get('parent_id') : parent_id}) }}
+    {% endif %}
+
+{% endif %} 
+
+{# condition for question if added question element #}
+
+{% if app.request.get('element_type') == 3 %}  
+         {% include 'VMQuestionnaireBundle:Form:Element/question_form.html.twig' %} 
+         {% if (app.request.attributes.get('parent_id') is defined and app.request.attributes.get('parent_id') !='') or ( parent_id is defined and parent_id !='' ) %}        
+               {{ form_row(form.QuestionnaireElement.parent_id,{'value':app.request.attributes.get('parent_id') ? app.request.attributes.get('parent_id') : parent_id}) }}
+         {% endif %} 
+    <input type="hidden" name="Question[QuestionnaireElement][StdQuestionnaireTypeElement]" value="{{app.request.get('element_type')}}" />        
+{% endif %}
+
+{{ form_row(form._token) }}
+
+{% if app.request.get('element_type') != 3 %} 
+
+    <div class="text_center button_save">
+       {{ form_widget(form.save ) }}
+        <div style="height:10px;">&nbsp;</div>
+    </div>
+
+{% endif %}
+    <div class="stop"></div>
+
+    <script type="text/javascript">
+
+        var data_id = "{{ app.request.get('data_id') ? app.request.get('data_id') :'element_form' }}";
+        var data_list = "{{ app.request.get('data_list') ? app.request.get('data_list') :'' }}";
+
+        $('.list_' + data_id + ' form').submit(function(event) {
+            tinyMCE.triggerSave();
+            var element_type = "{{ app.request.get('element_type') ? app.request.get('element_type') : ''}}";
+
+            if (data_list === '') {
+                var data = "data_id=" + data_id + "&element_type=" + element_type + "&" + $('.list_' + data_id + ' form').serialize();
+            } else {
+                var data = "data_list=" + data_list + "&data_id=" + data_id + "&element_type=" + element_type + "&" + $('.list_' + data_id + ' form').serialize();
+            }
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: data,
+                success: function(data) {
+                    if (isPartialUrl(data)) {
+                        window.location.href = data;
+                        return false;
+                    } else {
+                        if (data_list !== '') {
+                            //If error coming on edit time
+                            if (data.indexOf('<form') > -1) {
+                                if (data_id == 'element_form') {
+                                    $('.list_element_form').removeClass('opacity');
+                                    $('.list_element_form').remove();
+                                    $('#element_form.new').append("<div class='list_element_form'><div class='stop'></div><div>" + data + "</div></div>");
+                                } else {
+                                    $('.list_' + data_id + ' .block_content').removeClass('opacity');
+                                    $('.list_' + data_id + ' .block_content').remove();
+                                    $('.list_' + data_id).append(data);
+                                }
+                            } else {
+                                $('#' + data_list).replaceWith(data);
+                                $('html, body').animate({
+                                    scrollTop: $('#' + data_list).offset().top
+                                }, 'slow');
+                            }
+
+                        } else {
+
+                            if (data_id == 'element_form') {
+                                $('.list_element_form').removeClass('opacity');
+                                $('.list_element_form').remove();
+                                $('#element_form.new').append("<div class='list_element_form'><div class='stop'></div><div>" + data + "</div></div>");
+                            } else {
+                                $('.list_' + data_id + ' .block_content').removeClass('opacity');
+                                $('.list_' + data_id + ' .block_content').remove();
+                                $('.list_' + data_id).append(data);
+                                $('html, body').animate({
+                                    scrollTop: $('.list_' + data_id).offset().top
+                                }, 'slow');
+                            }
+                        }
+
+                    }
+                },
+                error: function(data) {
+                    return 0;
+                }
+            });
+
+            return false;
+
+        });
+
+        //This function is for sending ajax request using conditions
+        function isPartialUrl(data) {
+            var urlPattern = new RegExp("^/[a-zA-Z0-9?&=/._-]*$");
+            if (urlPattern.test(data))
+                return true;
+            else
+                return false;
+        }
+
+    </script>
+    {% if app.request.get('element_type') != 3 %}      
+    <script src="{{ asset('bundles/vmgeneral/js/media_type.js') }}"></script>       
+    {% endif %} 
+</div>

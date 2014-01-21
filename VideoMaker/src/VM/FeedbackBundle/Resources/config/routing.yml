@@ -1,0 +1,63 @@
+recrut_online_feedback_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: VMFeedbackBundle:Default:index }
+
+bo_feedbacks:
+    pattern:  /backend/feedbacks
+    defaults: { _controller: VMFeedbackBundle:Backend:boIndex }
+
+bo_feedback_show:
+    pattern:  /backend/{id}/feedback/
+    defaults: { _controller: "VMFeedbackBundle:Backend:boShow" }
+
+bo_feedback_new:
+    pattern:  /backend/feedback/new
+    defaults: { _controller: "VMFeedbackBundle:Form:feedbackForm" }
+
+bo_feedback_create:
+    pattern:  /backend/feedback/create
+    defaults: { _controller: VMFeedbackBundle:Form:feedbackForm }
+
+bo_feedback_edit:
+    pattern:  /backend/feedback/{id}/edit
+    defaults: { _controller: VMFeedbackBundle:Form:feedbackForm }
+
+bo_feedback_add_comment:
+    pattern:  /backend/feedback/{id}/add/comment
+    defaults: { _controller: VMFeedbackBundle:Form:feedbackCommentForm }
+
+bo_feedback_show_comment:
+    pattern:  /backend/feedback/{id}/show/comment
+    defaults: { _controller: VMFeedbackBundle:Form:commentShow }
+
+bo_feedback_status:
+    pattern:  /backend/feedback/{id}/change/statut/{status}
+    defaults: { _controller: VMFeedbackBundle:Form:changeStatus }
+
+bo_feedback_update:
+    pattern:  /backend/feedback/{id}/update
+    defaults: { _controller: VMFeedbackBundle:Form:feedbackForm }
+
+bo_feedback_resolve:
+    pattern:  /backend/feedback/{id}/resolved
+    defaults: { _controller: VMFeedbackBundle:Form:resolvedFeedback }
+
+bo_feedback_delete:
+    pattern:  /backend/feedback/{id}/delete
+    defaults: { _controller: VMFeedbackBundle:Form:removeFeedback }
+
+mo_feedback_new:
+    pattern:  /admin/{slug_ent}/feedback/new
+    defaults: { _controller: "VMFeedbackBundle:Form:feedbackForm" }
+
+mo_feedback_create:
+    pattern:  /admin/{slug_ent}/feedback/create
+    defaults: { _controller: VMFeedbackBundle:Form:feedbackForm }
+
+fo_feedback_new:
+    pattern:  /feedback/new
+    defaults: { _controller: "VMFeedbackBundle:Form:feedbackForm" }
+
+fo_feedback_create:
+    pattern:  /feedback/create
+    defaults: { _controller: VMFeedbackBundle:Form:feedbackForm }    

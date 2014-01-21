@@ -1,0 +1,143 @@
+bo_standards:
+    pattern:  /backend/standards
+    defaults: { _controller: "VMStandardBundle:Default:index" }
+####### StdCategory    ######
+####### SECTION BACK  ######
+
+bo_categories:
+    pattern:  /backend/categories
+    defaults: { _controller: "VMStandardBundle:StdCategory:boIndex" }
+    
+
+bo_category_new:
+    pattern:  /backend/category/new
+    defaults: { _controller: "VMStandardBundle:StdCategory:categoryForm" } 
+   
+bo_category_edit:
+    pattern:  /backend/category/{id}/edit
+    defaults: { _controller: "VMStandardBundle:StdCategory:categoryForm" }
+    
+bo_category_create:
+    pattern:  /backend/category/create
+    defaults: { _controller: "VMStandardBundle:StdCategory:categoryForm" }    
+    requirements: { _method: post }
+    
+bo_category_update:
+    pattern:  /backend/category/{id}/update
+    defaults: { _controller: "VMStandardBundle:StdCategory:categoryForm" }
+    requirements: { _method: post }
+    
+bo_category_show:
+    pattern:  /backend/category/{id}/show
+    defaults: { _controller: "VMStandardBundle:StdCategory:boShow"}
+
+bo_category_child_new:
+    pattern:  /backend/category/{cat_id}/add/child
+    defaults: { _controller: "VMStandardBundle:StdCategory:categoryForm" }
+    
+bo_category_child_create:
+    pattern:  /backend/category/{cat_id}/create/child
+    defaults: { _controller: "VMStandardBundle:StdCategory:categoryForm" }
+    
+bo_category_delete:
+    pattern:  /backend/category/{id}/remove
+    defaults: { _controller: "VMStandardBundle:StdCategory:boDelete"}
+
+bo_category_status:
+    pattern:  /backend/category/{id}/status/{type}
+    defaults: { _controller: "VMStandardBundle:StdCategory:changeStatus"}
+    
+####### StdQuestionType    ######        
+
+bo_type_questions:
+    pattern:  /backend/typeQuestions
+    defaults: { _controller: "VMStandardBundle:TypeQuestion:boIndex" }
+bo_type_question_new:
+    pattern:  /backend/typeQuestion/new
+    defaults: { _controller: "VMStandardBundle:TypeQuestion:typeQuestionForm" } 
+   
+bo_type_question_edit:
+    pattern:  /backend/typeQuestion/{id}/edit
+    defaults: { _controller: "VMStandardBundle:TypeQuestion:typeQuestionForm" }
+    
+bo_type_question_create:
+    pattern:  /backend/typeQuestion/create
+    defaults: { _controller: "VMStandardBundle:TypeQuestion:typeQuestionForm" }    
+    requirements: { _method: post }
+    
+bo_type_question_update:
+    pattern:  /backend/typeQuestion/{id}/update
+    defaults: { _controller: "VMStandardBundle:TypeQuestion:typeQuestionForm" }
+    requirements: { _method: post }
+    
+bo_type_question_show:
+    pattern:  /backend/typeQuestion/{id}/show
+    defaults: { _controller: "VMStandardBundle:TypeQuestion:boShow"}
+    
+bo_type_question_delete:
+    pattern:  /backend/typeQuestion/{id}/remove
+    defaults: { _controller: "VMStandardBundle:TypeQuestion:boDelete"}
+    
+####### StdQuestionnaireType    ######    
+
+bo_type_questionnaires:
+    pattern:  /backend/typeQuestionnaires
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaire:boIndex" }
+    
+bo_type_questionnaire_new:
+    pattern:  /backend/typeQuestionnaire/new
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaire:typeQuestionnaireForm" } 
+   
+bo_type_questionnaire_edit:
+    pattern:  /backend/typeQuestionnaire/{id}/edit
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaire:typeQuestionnaireForm" }
+    
+bo_type_questionnaire_create:
+    pattern:  /backend/typeQuestionnaire/create
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaire:typeQuestionnaireForm" }    
+    requirements: { _method: post }
+    
+bo_type_questionnaire_update:
+    pattern:  /backend/typeQuestionnaire/{id}/update
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaire:typeQuestionnaireForm" }
+    requirements: { _method: post }
+    
+bo_type_questionnaire_show:
+    pattern:  /backend/typeQuestionnaire/{id}/show
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaire:boShow"}
+    
+bo_type_questionnaire_delete:
+    pattern:  /backend/typeQuestionnaire/{id}/remove
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaire:boDelete"}
+
+####### StdQuestionnaireTypeElement    ######
+
+bo_type_questionnaire_elements:
+    pattern:  /backend/typeQuestionnaireElements
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaireElement:boIndex" }
+    
+bo_type_questionnaire_element_new:
+    pattern:  /backend/typeQuestionnaireElement/new
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaireElement:typeQuestionnaireElementForm" } 
+   
+bo_type_questionnaire_element_edit:
+    pattern:  /backend/typeQuestionnaireElement/{id}/edit
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaireElement:typeQuestionnaireElementForm" }
+    
+bo_type_questionnaire_element_create:
+    pattern:  /backend/typeQuestionnaireElement/create
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaireElement:typeQuestionnaireElementForm" }    
+    requirements: { _method: post }
+    
+bo_type_questionnaire_element_update:
+    pattern:  /backend/typeQuestionnaireElement/{id}/update
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaireElement:typeQuestionnaireElementForm" }
+    requirements: { _method: post }
+    
+bo_type_questionnaire_element_show:
+    pattern:  /backend/typeQuestionnaireElement/{id}/show
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaireElement:boShow"}
+    
+bo_type_questionnaire_element_delete:
+    pattern:  /backend/typeQuestionnaireElement/{id}/remove
+    defaults: { _controller: "VMStandardBundle:TypeQuestionnaireElement:boDelete"}

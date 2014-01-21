@@ -1,0 +1,54 @@
+questionnaire:
+    title:
+        general: Questionnaire %name%
+        success: End of the questionnaire %name%
+        personnalInformations: Personnal informations
+    actionButton:
+        start: Start the questionnaire
+        nextQuestion: Next question
+        nextStep: Next step
+    text:
+        presentation: Presentation of the questionnaire
+        end: End of the questionnaire
+        congrats: Congratulations!
+        participationSuccess: Your participation in the %ent_name% questionnaire %quest_name% has been recorded.
+        contactSoon: %ent_name% will contact you soon.
+        regards: Best regards.
+    element:
+        progress: Progress of the questionnaire : %number% %
+        question: Question n°%number%
+    question:
+        errors:
+            required: Should not be empty
+            charLimit: Character limit : %number%
+        options:
+            charLimit: Your response is limited to %number% characters
+            required: This question is required
+            textTimeLimit: This question is timed : %time% seconds
+            timeLimit: Time limit
+        media:
+            allowedFormat: Authorized format
+        webcam:
+            configurationQuestion: Have you succeeded in setting up your webcam? you need to see you in the small screen!
+            step1: <span class="color_orange">Etape 1 :</span> Equipment check
+            step2: <span class="color_orange">Etape 2 :</span> Webcam activation
+            step3: <span class="color_orange">Etape 3 :</span> Question process
+            step4: <span class="color_orange">Etape 4 :</span> Question reading
+            step5: <span class="color_orange">Etape 5 :</span> Question recording
+            skipReading: Skip reading time
+            stopRecording: Finish recording
+            recordingStart: Recording has begun.
+            recordingSuccess: Your video has been uploaded. You will be redirected.</p><p>If you are not redirected click on next button.
+            confStep1: As in the example below, left click on close
+            confStep2: Click on allow and then wait a few seconds for the camera active
+            confStep3: You might have to allow your browser to save the video (message at the top of your screen)
+            hasWebcam: You are about to answer a webcam question, to do so, you have a webcam?
+            stepText: You will have ( %question_time% seconds ) to read the video question and when this time has elapsed the webcam will automatically route and you will have ( %response_time% seconds ) to answer the question.
+            questionTime: Time reading the question
+            responseTime: Remaining recording time
+            displayInfoTime: You will have <strong style="color:orange">( %questionTime% seconds )</strong> to read the video question and when this time has elapsed the webcam will automatically route and you will have <strong style="color:orange">( %responseTime% seconds )</strong> to answer the question.
+            begin: Start the video question
+
+yes: yes
+no: no
+language: Language

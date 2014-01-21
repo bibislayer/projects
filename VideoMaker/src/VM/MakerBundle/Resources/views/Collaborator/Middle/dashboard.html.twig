@@ -1,0 +1,40 @@
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="grid_12">
+        <div class="border-main">
+            <div class="block-border">
+                <div class="block_design">
+                    <div class="block_header"><h1>{{'mo.general.title.homepage'|trans }}</h1></div>
+                    <div class="block_content">
+                        <table class="table-border">
+                            <ul class="list-design ">
+                                {% for objRow in makerAdministrators %}
+                                    <li>
+                                        <a href="{{ path('mo_maker_show', {'slug_ent': objRow.Maker.slug}) }}">
+
+                                            <div class="contenu">
+                                                <div class="titre_entreprise">
+                                                    {% if objRow.Maker.logo %}
+                                                        <img src="{{ asset(objRow.Maker.logo) }}" alt="logo_entreprise" />
+                                                    {% else %}
+                                                        <img src="{{ asset('bundles/vmgeneral/images/remplacement.png') }}" alt="logo_entreprise" />
+                                                    {% endif %}
+                                                    <h1 class="titre">{{ objRow.Maker.name }}</h1>
+                                                </div>
+                                             </div>
+                                            <div class="fleche"></div>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

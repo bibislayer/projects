@@ -1,0 +1,27 @@
+
+
+
+    
+{% if form.is_main is defined %}
+    <div class="form_row">
+        <div class="input-main grey">
+            <div class="input-block">
+                <div class="label"><label class="required" for="maker_note_type">Type</label><span title="Ce champ est obligatoire" class="required_red">*</span></div>
+                <div class="field">
+                    Note générale
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_row(form.is_main) }}
+{% endif %}
+    {{ form_row(form.type) }}
+    {{ form_row(form.note) }}
+    {% if form.is_main is not defined %}
+        {{ form_row(form.date_recall) }}
+        {{ form_row(form.is_close) }}
+    {% endif %}
+{{ form_row(form._token) }}
+<div class="text_center button_save">
+    {{ form_widget(form.save ) }}
+</div>

@@ -1,0 +1,23 @@
+fo_homepage:
+    pattern:  /
+    defaults: { _controller: VMGeneralBundle:Front:index }
+
+fo_404:
+    pattern:  /404
+    defaults: { _controller: VMGeneralBundle:Default:page404 }
+    
+fo_presentation:
+    pattern:  /presentation
+    defaults: { _controller: VMGeneralBundle:Front:presentation }
+    
+mo_presentation:
+    pattern:  /admin/presentation
+    defaults: { _controller: VMGeneralBundle:Middle:presentation }
+    
+bo_dashboard:
+    pattern:  /backend
+    defaults: { _controller: VMGeneralBundle:Back:dashboard }
+
+change_language:
+    pattern:  /change-language/{locale}
+    defaults: { _controller: VMGeneralBundle:Default:changeLanguage }

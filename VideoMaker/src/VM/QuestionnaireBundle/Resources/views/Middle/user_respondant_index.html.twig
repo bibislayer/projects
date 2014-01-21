@@ -1,0 +1,90 @@
+<div class="border_table">
+    <table class="table-block">
+        <thead>
+            <tr>
+                <th class="_20">#</th>
+                <th class="_20">Répondant</th>
+                <th class="_20">Statut</th>
+                <th class="_20">Date</th>
+                <th class="_20">Note</th>
+            </tr>
+        </thead>
+        {% for element in elements %}
+            <tr>
+                <td class="_20">
+                    {% if element.rank %}
+                        {{element.rank}}
+                    {% endif %}
+                </td>
+                <td class="_20">
+                    <a href="{{ path('mo_questionnaire_user_respondant_decisions', {'slug_ent': element.Questionnaire.Enterprise.slug, 'slug_quest': element.Questionnaire.slug, 'questionnaire_user_id': element.id}) }}">
+                        {% if element.firstname and element.lastname %}
+                            {{element.firstname}} {{element.lastname}}
+                        {% else %}
+                            {{element.email}}
+                        {% endif %}
+                    </a>
+                </td>
+                <td class="_20">
+                    {% if element.status == 3 %}
+                    Utilisateur test
+                    {% elseif element.asFinished != 1 %}
+                    Questionnaire non-fini
+                    {% else %}
+                        {% if element.status == 1 %}
+                    Accepté
+                        {% elseif element.status == 2 %}
+                    Refusé
+                        {% else %}
+                    En attente
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td class="_20">
+                        {{element.createdAt|date("d/m/Y")}}
+                </td>
+                <td class="_20">
+                    {% set unmarked = 0 %}
+                    {% if element.score %}
+                       {% if element.score.total is defined %}
+                            Total : {{scores.total}} / {{element.score.dividend}}
+                       {% elseif element.score.average is defined %}
+                            Moyenne : {{element.score.average}} / {{element.score.dividend}}
+                       {% elseif element.score.auto is defined %}
+                            Auto : {{element.score.auto}} / {{element.score.dividend}}
+                       {% else %}
+                            Non noté
+                            {% set unmarked = 1 %}
+                       {% endif %}
+                    {% else %}
+                        Non noté
+                    {% endif %}
+                    <a href="" class="show_details">Détails</a>
+                    {% if unmarked != 1 %}
+                        <div class="details" style="display:none;">
+                            {% if element.score.total is defined %}
+                                 Total : {{scores.total}} / {{element.score.dividend}}<br />
+                            {% endif %}
+                            {% if element.score.average is defined %}
+                                 Moyenne : {{element.score.average}} / {{element.score.dividend}}<br />
+                            {% endif %}
+                            {% if element.score[app.user.id] is defined %}
+                                 Votre Note : {{element.score[app.user.id]}} / {{element.score.dividend}}<br />
+                            {% endif %}
+                            {% if element.score.auto is defined %}
+                                 Auto : {{element.score.auto}} / {{element.score.dividend}}<br />
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <script>
+        $( ".show_details" ).click(function() {
+          elem = $(this).next('div.details');
+          (elem.is(":visible"))?$(elem).hide():$(elem).show();
+          return false;
+        });
+    </script>
+</div>

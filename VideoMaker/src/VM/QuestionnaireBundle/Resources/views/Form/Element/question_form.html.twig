@@ -1,0 +1,60 @@
+<div>
+    {% if object.id is empty %}
+        <h2>Ajouter une question</h2>
+    {% endif %}
+    {% if app.request.get('id') or (app.request.get('question_type') or app.request.get('Question') )%}
+
+        <input type="hidden" id="Question_StdQuestionType" required="required" name="Question[StdQuestionType]" value="{{app.request.get('question_type')?app.request.get('question_type'):(app.request.get('Question')?app.request.get('Question')['StdQuestionType']:'')}}">
+    {% else %}
+
+       <form>
+            {{ form_row(form.StdQuestionType)}}
+       </form>
+    {% endif %}
+    <div id="question_form" style="{{ (app.request.get('question_type') or app.request.get('Question') ) ? '' : 'display:none;'}}"> 
+         {% if app.request.get('question_type') or app.request.get('Question')  %}
+
+               {% if errors is defined and errors|length > 0 %}
+
+                    <div  class="error_list" style="color:red;">
+                        {% if errors[0] is defined %}
+                            {% for error in errors %}
+                                {{ error.messageTemplate }}
+                            {% endfor %}
+                        {% else %}
+                           {{ errors }}
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+               {% include 'VMQuestionnaireBundle:Form:Element/Question/'~extraParams.questType.template~'_form.html.twig' %}   
+         {% endif %}      
+                       
+        <div style="height:10px;">&nbsp;</div>
+    </div>
+
+    <script type="text/javascript">
+        var data_id = "{{ app.request.get('data_id') ? app.request.get('data_id') :'element_form' }}";       
+       
+        $(document).ready(function() {
+         
+            $('#Question_StdQuestionType').change(function(e) { 
+                           
+                $.ajax({
+                    type: "POST",
+                    data: {'question_type': $(this).val(),'data_id': "{{( app.request.get('data_id') ? app.request.get('data_id') :'element_form')}}"},
+                    url: "{{path('mo_questionnaire_question_new', {'slug_ent': app.request.get('slug_ent'), 'slug_quest': app.request.get('slug_quest')})}}",
+                    success: function(data) {
+                        $("#question_form").show();
+                        $("#question_form").html("<div class='stop'></div><div class='list_"+data_id+"'>"+data+"</div>");
+                       
+                    },
+                    error: function(data) {
+                        return 0;
+                    }
+                });
+            });
+        });
+        
+    </script>
+</div>

@@ -1,0 +1,7 @@
+parameters:
+#    vm_video.example.class: VM\VideoBundle\Example
+
+services:
+#    vm_video.example:
+#        class: %vm_video.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

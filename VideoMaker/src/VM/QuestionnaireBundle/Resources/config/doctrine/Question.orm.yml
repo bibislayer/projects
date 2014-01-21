@@ -1,0 +1,65 @@
+VM\QuestionnaireBundle\Entity\Question:
+    type: entity
+    table: questions
+    repositoryClass: VM\QuestionnaireBundle\Repository\QuestionRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        
+        rankin : { type: integer, nullable: TRUE }
+        options : { type: array, nullable: TRUE }
+        question_time: { type: integer, nullable: TRUE }
+        response_time: { type: integer, nullable: TRUE }
+        is_conditional: { type: text, nullable: TRUE }
+        eliminate_question: { type: boolean, nullable: TRUE }
+        anti_plagiat: { type: boolean, nullable: TRUE }
+        needed: { type: boolean, nullable: TRUE }
+        char_limit: { type: integer, nullable: TRUE }
+        created_at:
+          type: date
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: create
+        updated_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: update
+    manyToOne:
+      StdQuestionType:
+        targetEntity: VM\StandardBundle\Entity\StdQuestionType
+        inversedBy: Question
+        joinColumns:
+          std_question_type_id:
+            referencedColumnName: id
+      Help:
+        targetEntity: VM\QuestionnaireBundle\Entity\Help
+        inversedBy: Question
+        joinColumns:
+          help_id:
+            referencedColumnName: id
+    oneToMany:
+         QuestionnaireQuestionResponse:
+            targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireQuestionResponse
+            mappedBy: Question
+         QuestionnaireQuestionChoice:
+            targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireQuestionChoice
+            mappedBy: Question
+         Feedback:
+            targetEntity: VM\FeedbackBundle\Entity\Feedback
+            mappedBy: Question
+    oneToOne:  
+         QuestionnaireElement:
+            targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireElement
+            joinColumn:
+              name: questionnaire_element_id
+              referencedColumnName: id
+            cascade: ["persist", "merge"]
+            inversedBy: Question       
+      
+    lifecycleCallbacks: {  }

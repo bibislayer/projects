@@ -1,0 +1,32 @@
+{# empty Twig template #}
+<div class="border_table">
+    <table class="table-backend">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for element in elements %}
+        <tr class="">
+            <td class="center"> {{ element.id}} </td>
+            <td class="center">
+                <a href="{{ path ('bo_user_show' , {'id':  element.id  }) }}">{{ element.UserProfile.firstname is defined or element.UserProfile.lastname is defined?(element.UserProfile.firstname)~' '~(element.UserProfile.lastname):element.username }}</a>
+            </td>
+            <td class="center"> {{ element.email}} </td>
+            <td class="center">{{ element.roles is defined?element.roles|join(', '):'' }}</td>
+
+
+            <td class="center">
+                <a href="{{ path ('bo_user_show' , {'id':  element.id  }) }}">Voir</a>
+            </td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

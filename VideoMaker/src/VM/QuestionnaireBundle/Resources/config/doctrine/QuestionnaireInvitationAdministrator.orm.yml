@@ -1,0 +1,38 @@
+VM\QuestionnaireBundle\Entity\QuestionnaireInvitationAdministrator:
+    type: entity
+    table: questionnaires_invitations_administrators
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        email: { type: string, length: 255 }
+        roles: { type: array }
+        confirmation_token : { type: string, lenght: 255, nullable: TRUE }
+        created_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: create
+        updated_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: update
+    manyToOne:
+      Questionnaire:
+        targetEntity: VM\QuestionnaireBundle\Entity\Questionnaire
+        inversedBy: QuestionnaireInvitationAdministrator
+        joinColumns:
+          questionnaire_id:
+            referencedColumnName: id
+      User:
+        targetEntity: VM\UserBundle\Entity\User
+        inversedBy: QuestionnaireInvitationAdministrator
+        joinColumns:
+          user_id:
+            referencedColumnName: id
+    lifecycleCallbacks: {  }

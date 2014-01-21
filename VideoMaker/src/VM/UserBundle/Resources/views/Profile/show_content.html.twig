@@ -1,0 +1,208 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+<div class="grid_8">
+    <div class="block_border">
+        <div class="block_design">
+            <div class="content_tabs">
+                <div class="block_header"><h1>mon profil</h1></div>
+                <div class="block_content">
+                    <div class="grid_8">
+                        <p class="twentypx bold">{{ user.username }}</p>
+                        <p class="fourteenpx"><span class="bold">{{ 'profile.show.email'|trans }}:</span> {{ user.email }}</p>
+                        <p><span class="bold">Statut :</span> Etudiant </p>
+                        <p><span class="bold">Date de naissance :</span> 26 septembre 1990 </p>
+                        <p><span class="bold">Adresse :</span> 125 rue des GROS GRÉS - 92700 Colombes </p>
+                    </div>
+                    <div class="grid_4 text_center">
+                        <img src="{{ asset('bundles/VMfront/images/architecte-naval.jpg') }}">
+                        <a class="btn ">Modifier mes informations</a>
+                    </div>
+                    <div class="stop"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block_border">
+        <div class="block_design">
+            <div class="content_tabs">
+                <div class="block_header"><h1>messagerie</h1></div>
+                <div class="block_content">
+                    <div class="grid_9">
+                        <p> E-Art Sup Bordeaux </p>
+                        <p>Ville: Bordeaux  </p>
+                        <p>Nature: Ecole d'Art</p>
+                        <p>Fiche de l'établissement</p>
+                    </div>
+                    <div class="grid_3">
+                        <img src="{{ asset('bundles/VMfront/images/architecte-naval.jpg') }}" > <div class="stop"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="stop"></div>
+    <div class="block_border">
+        <div class="block_design">
+            <div class="content_tabs">
+                <div class="block_content">
+                    <div class="simple_tabs">
+                        <div class="header_tabs ">
+                            <ul class="tabs _4">
+                                <li><a>message</a></li>
+                                <li><a>message</a></li>
+                                <li><a>message</a></li>
+                                <li><a>message</a></li>
+                                <li class="stop"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="messagerie">
+                        {% if user.userSender is defined %}
+                            {% for send in user.userSender %}
+                                <div class="left">
+                                    <p class="bold">Vous</p>
+                                    <div class="stop"></div>
+                                    <div class="cadre_you"></div>
+                                    <div class=" bulle_mess bold">{{ send.msgText }}</div>
+                                    <p class="date">{{ send.createdAt|date("m-d-Y") }}</p>
+                                    <div class="stop"></div>
+                                </div>
+                            {% endfor %}
+                         {% endif %}
+                         {% if user.userReceiver is defined %}
+                            {% for receive in user.userReceiver %}
+                                <div class="right">
+                                    <p class="bold">Établissement</p>
+
+                                    <div class="stop"></div>
+                                    <div class="cadre_school"></div>
+                                    <div class="bulle_ecole bold">{{ receive.msgText }}</div>
+                                    <p class="date">{{ receive.createdAt|date("m-d-Y") }}</p>
+                                    <div class="stop"></div>
+                                </div>
+                            {% endfor %}
+                         {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block_border">
+            <div class="block_design">
+                <div class="block_header"><h1>list messagerie</h1></div>
+                <div class="block_content no_padding">
+                    <ul class="list">
+                        <li>
+                            <a>
+                                <div class="grid_2"><img src="{{ asset('bundles/VMfront/images/architecte-naval.jpg') }}" class="_70_imp" > </div>
+                                <div class="grid_6">
+                                    <p class="bold sixteenpx">E-Art Sup Bordeaux</p>
+                                    <p><span class="bold">Nature :</span> Ecole d'Art</p>
+                                    <p> <span class="bold">ville :</span> Bordeaux </p>
+                                </div>
+                                <div class="grid_4"> <button class="btn">voir la fiche de l'établissement</button></div>
+                                <div class="stop"></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <div class="grid_2"><img src="{{ asset('bundles/VMfront/images/architecte-naval.jpg') }}" class="_70_imp"> </div>
+                                <div class="grid_6">
+                                    <p class="bold sixteenpx">E-Art Sup Bordeaux</p>
+                                    <p><span class="bold">Nature :</span> Ecole d'Art</p>
+                                    <p> <span class="bold">ville :</span> Bordeaux </p>
+                                </div>
+                                <div class="grid_4"> <button class="btn">voir la fiche de l'établissement</button></div>
+                                <div class="stop"></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <div class="grid_2"><img src="{{ asset('bundles/VMfront/images/architecte-naval.jpg') }}" class="_70_imp"> </div>
+                                <div class="grid_6">
+                                    <p class="bold sixteenpx">E-Art Sup Bordeaux</p>
+                                    <p><span class="bold">Nature :</span> Ecole d'Art</p>
+                                    <p> <span class="bold">ville :</span> Bordeaux </p>
+                                </div>
+                                <div class="grid_4"><button class="btn"> voir la fiche de l'établissement</button></div>
+                                <div class="stop"></div>
+                            </a>
+                            <div class="stop"></div>
+                        </li>
+                        <li>
+                            <a>
+                                <div class="grid_2"><img src="{{ asset('bundles/VMfront/images/architecte-naval.jpg') }}" class="_70_imp"> </div>
+                                <div class="grid_6">
+                                    <p class="bold sixteenpx">E-Art Sup Bordeaux</p>
+                                    <p><span class="bold">Nature :</span> Ecole d'Art</p>
+                                    <p> <span class="bold">ville :</span> Bordeaux </p>
+                                </div>
+                                <div class="grid_4"><button class="btn"> voir la fiche de l'établissement</button></div>
+                                <div class="stop"></div>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="pagination">
+                        <li class="prev"><a >precedent</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li class="next"><a >suivant</a></li>
+                    </ul>
+                    <div class="stop"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid_4">
+        <div class="block_border">
+            <div class="block_design sidebar profil " id="scrollingDiv">
+                <div class="cadre"></div>
+                <div class="block_header orange "><h3>Votre compte</h3></div>
+                <div class="block_content">
+                    <ul>
+                        <li class="open  ">
+                            <div class="img_profil"></div>
+                            <a onClick="ajax(this)" data-url="{{ path('user_tabs_info',{ 'type': 'profile' }) }}" data-replace="content_tabs">Profil</a>
+                        </li>
+                        <li>
+                            <div class="img_changer"></div>
+                            <a onClick="ajax(this)" data-url="{{ path('user_tabs_info',{ 'type': 'change_email' }) }}" data-replace="content_tabs">Modifiez votre email</a>
+                        </li>
+                        <li>
+                            <div class="img_mdp"></div>
+                            <a onClick="ajax(this)" data-url="{{ path('user_tabs_info',{ 'type': 'change_mdp' }) }}" data-replace="content_tabs"> Modifiez votre mot de passe </a></li>
+                        <li>
+                            <div class="img_favoris"></div>
+                            <a onClick="ajax(this)" data-url="{{ path('user_tabs_info',{ 'type': 'favoris' }) }}" data-replace="content_tabs"> Favoris</a>
+                        </li>
+                        <li>
+                            <div class="img_mail"></div>
+                            <a onClick="ajax(this)" data-url="{{ path('user_tabs_info',{ 'type': 'mail' }) }}" data-replace="content_tabs">Messagerie</a>
+                        </li>
+                        <!--<li>
+                          <div class="img_avis"></div>
+                            <a onClick="ajax(this)" data-url="{{ path('user_tabs_info',{ 'type': 'avis' }) }}" data-replace="content_tabs">Mes Avis</a>
+                        </li>-->
+                        <li>
+                            <div class="img_telechargement"></div>
+                            <a onClick="ajax(this)" data-url="{{ path('user_tabs_info',{ 'type': 'telechargement' }) }}" data-replace="content_tabs">Télechargements</a>
+                        </li>
+
+                    </ul>
+                    <div class="stop"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(window).scroll(function(){
+            $("#scrollingDiv").stop();
+            $("#scrollingDiv").animate({"marginTop": ($(window).scrollTop() + 0) + "px"}, "fast");
+        });
+        </script>

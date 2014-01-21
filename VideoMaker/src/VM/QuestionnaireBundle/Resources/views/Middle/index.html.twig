@@ -1,0 +1,36 @@
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_12">
+    <div class="block-main">
+        <div class="block_design ">
+            <div class="block_header"><h1>Vos questionnaires</h1></div>
+            <div class="block_content simple_tabs">
+                    <ul class="tabs _3">
+                        {% set nbPublished = enterprise.getQuestionnaireBy({'by_status':'published'})|length %}
+                        {% set nbCreation = enterprise.getQuestionnaireBy({'by_status':'creation'})|length %}
+                        {% set nbClosed = enterprise.getQuestionnaireBy({'by_status':'closed'})|length %}
+                        <li class="{{ app.request.get('by_status') == '' ? 'on_tabs' }}"><a href="{{path('mo_questionnaires', {'slug_ent': enterprise.slug, 'by_status':''})}}">Tous ({{enterprise.Questionnaire|length}})</a></li>
+                        {% if nbPublished > 0 %}
+                            <li class="{{ app.request.get('by_status') == 'published' ? 'on_tabs' }} green"><a href="{{path('mo_questionnaires', {'slug_ent': enterprise.slug, 'by_status':'published'})}}">Publié ({{nbPublished}})</a></li>
+                        {% endif %}
+                        {% if nbCreation > 0 %}
+                            <li class="{{ app.request.get('by_status') == 'creation' ? 'on_tabs' }} orange"><a href="{{path('mo_questionnaires', {'slug_ent': enterprise.slug, 'by_status':'creation'})}}">En cours de création ({{nbCreation}}) </a></li>
+                        {% endif %}
+                        {% if nbClosed > 0 %}
+                            <li class="{{ app.request.get('by_status') == 'closed' ? 'on_tabs' }} red"><a href="{{path('mo_questionnaires', {'slug_ent': enterprise.slug, 'by_status':'closed'})}}">Clôturé ({{nbClosed}})</a></li>
+                        {% endif %}
+                    </ul>
+                    <div class="content">
+                        {% set paramsBox = {'template': 'VMQuestionnaireBundle:Middle:_index.html.twig', 'paramsQ':{'by_status': app.request.get('by_status'), 'by_ent_id': enterprise.id}, 'urlPaginate' : {'route' : 'mo_questionnaires_list','params' : {'slug_ent' : enterprise.slug, 'by_status' : app.request.get('by_status') } }} %}
+                        {{ render(controller('VMQuestionnaireBundle:Questionnaire:questionnaireList', { 'params': paramsBox })) }}
+                    </div>
+                <div class="stop"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+    {# CSS CHANGE, UPDATE, CANCEL CLASS #}
+    {# CSS CHANGE, UPDATE, CANCEL CLASS #}
+    <div class="border_table">
+        <table class="table-block">
+            <thead>
+            <tr>
+                <th>Email</th>
+                <th>Roles</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for element in elements %}
+                <tr>
+                    <td>{{ element.email }}</td>
+                    <td class="center roles">
+                       {{element.roles|join(', ')}}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>

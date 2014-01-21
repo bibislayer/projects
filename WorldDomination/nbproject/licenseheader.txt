@@ -1,0 +1,7 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix} (c) 2014  Adrien THEVENET <a.thevenet@WD-project.com>
+<#if licenseLast??>
+${licenseLast}
+</#if>

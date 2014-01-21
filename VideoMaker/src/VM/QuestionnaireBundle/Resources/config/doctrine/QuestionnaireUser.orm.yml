@@ -1,0 +1,51 @@
+VM\QuestionnaireBundle\Entity\QuestionnaireUser:
+    type: entity
+    repositoryClass: VM\QuestionnaireBundle\Repository\QuestionnaireUserRepository
+    table: questionnaires_users
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        time_elapsed: { type: integer, nullable: TRUE }
+        rank: { type: integer, nullable: TRUE }
+        score: { type: array, nullable: TRUE }
+        comments: { type: array, nullable: TRUE }
+        status: { type: integer, length: 2, nullable: TRUE }
+        as_finished: { type: boolean }
+        phone_number: { type: string, length: 30, nullable: TRUE } 
+        current_position: {type: integer, default: 1  }
+        email: { type: string, length: 255, nullable: TRUE }
+        first_name: { type: string, length: 255, nullable: TRUE }
+        last_name: { type: string, length: 255, nullable: TRUE }
+        created_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: create
+        updated_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: update
+    manyToOne:
+      Questionnaire:
+        targetEntity: VM\QuestionnaireBundle\Entity\Questionnaire
+        inversedBy: QuestionnaireUser
+        joinColumns:
+          questionnaire_id:
+            referencedColumnName: id
+      User:
+        targetEntity: VM\UserBundle\Entity\User
+        inversedBy: QuestionnaireUser
+        joinColumns:
+          user_id:
+            referencedColumnName: id
+    oneToMany:
+      QuestionnaireQuestionResponse:
+        targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireQuestionResponse
+        mappedBy: QuestionnaireUser       
+    lifecycleCallbacks: {  }

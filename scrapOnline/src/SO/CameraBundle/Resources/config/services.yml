@@ -1,0 +1,7 @@
+parameters:
+#    so_camera.example.class: SO\CameraBundle\Example
+
+services:
+#    so_camera.example:
+#        class: %so_camera.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

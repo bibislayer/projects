@@ -1,3 +1,7 @@
+so_camera:
+    resource: "@SOCameraBundle/Resources/config/routing.yml"
+    prefix:   /
+
 so_movie:
     resource: "@SOMovieBundle/Resources/config/routing.yml"
     prefix:   /

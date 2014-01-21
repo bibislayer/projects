@@ -1,0 +1,72 @@
+fo_login:
+    pattern:   /login
+    defaults:  { _controller: VMUserBundle:Login:login }
+
+mo_login:
+    pattern:   /login_admin
+    defaults:  { _controller: VMUserBundle:Login:login }
+
+bo_login:
+    pattern:   /login_backend
+    defaults:  { _controller: VMUserBundle:Login:login }
+    
+user_reset_email:
+    pattern:   /user/reset/email/{email_new}/{token}
+    defaults:  { _controller: VMUserBundle:ChangeEmail:resetEmail }
+    
+login_check:
+    pattern:   /login_check
+ 
+login_check_backend:
+    pattern:   /backend/login_check
+    
+login_check_admin:
+    pattern:   /admin/login_check
+    
+_security_check:
+    pattern:  /login_facebook_check
+
+logout:
+    pattern:   /logout
+
+user_register:
+    resource: "@VMUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+ 
+user_resetting:
+    resource: "@VMUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /user/forgot/password
+ 
+user_change_password:
+    resource: "@VMUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /user/profile
+ 
+user_change_email:
+    resource: "@VMUserBundle/Resources/config/routing/change_email.xml"
+    prefix: /user/profile
+    
+user_group:
+    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
+    prefix: /group
+    
+bo_users:
+    pattern:  /backend/users
+    defaults: { _controller: VMUserBundle:Back:boIndex }
+
+bo_user_show:
+    pattern:  /backend/user/{id}
+    defaults: { _controller: VMUserBundle:Back:boShow }
+    
+#### update user Role ###
+
+bo_user_role_edit:
+    pattern:  /backend/user/{user_id}/edit/role
+    defaults: { _controller: VMUserBundle:Form:userRoleForm }
+    
+bo_user_role_update:
+    pattern:  /backend/user/{user_id}/update/role
+    defaults: { _controller: VMUserBundle:Form:userRoleForm }
+
+bo_user_role_remove:
+    pattern:  /backend/{id}/user/{role}/role/remove
+    defaults: { _controller:VMUserBundle:Form:removeRole}

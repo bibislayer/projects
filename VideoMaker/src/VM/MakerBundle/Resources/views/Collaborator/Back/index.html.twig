@@ -1,0 +1,86 @@
+{# empty Twig template #}
+    {# CSS CHANGE, UPDATE, CANCEL CLASS #}
+        <style>
+            .change, .cancel{text-decoration:underline; color:red;font-size:11px;}
+            .update{text-decoration:underline; color:green;font-size:11px; font-weight:bold;}
+        </style>
+    {# CSS CHANGE, UPDATE, CANCEL CLASS #}
+<div class="grid_12">
+<div class="border_table">
+<table class="table-backend">
+    <thead>
+    <tr>
+        <th>#Id</th>
+        <th>Email</th>
+        <th>Maker</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for element in elements %}
+    <tr class="">
+        <td>{{ element.id }}</td>
+        <td class="center">{{ element.User.email }}</td>
+        <td class="center"><a href="{{ path('bo_maker_show',{'slug_ent':element.Maker.slug}) }}">{{ element.Maker.name }}</a></td>
+        <td class="center roles">
+                            <div id="change_role_{{element.id}}">
+                                {{element.roles|join(', ')}} 
+                                <a href="javascript:void(0);" class="change">change</a>
+                            </div>
+                            <div id="div_update_role_{{element.id}}" style="display:none;">
+                                <select name="update_role_{{element.id}}" id="update_role_{{element.id}}">
+                                    <option value="">Tous</option>
+                                    <option value="ROLE_EDITOR" {{ "ROLE_EDITOR" in element.roles?'selected="selected"':''}}>créateur</option>
+                                    <option value="ROLE_MARKER" {{ "ROLE_MARKER" in element.roles?'selected="selected"':''}}>correcteur</option>
+                                    <option value="ROLE_ADMIN" {{ "ROLE_ADMIN" in element.roles?'selected="selected"':''}}>admin</option>
+                                </select>
+                                <a href="javascript:void(0);" class="update">update</a>
+                                <a href="javascript:void(0);" class="cancel">cancel</a>
+                            </div>
+        </td>
+        <td class="center"><a href="{{ path('bo_collaborator_remove',{'id':element.id}) }}" onclick="if(!confirm('Are you sure want to remove.'))return false;">Remove</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    </div>
+</div>
+
+<script>
+    $('td.roles a.change').click(function(){ 
+        var id = $(this).parents('div').attr('id').split('_').pop();
+        $('div#change_role_'+id).attr('style','display:none;');
+        $('div#div_update_role_'+id).attr('style','display:block;');
+    });
+    $('td.roles a.cancel').click(function(){ 
+        var id = $(this).parents('div').attr('id').split('_').pop();
+        $('div#change_role_'+id).attr('style','display:block;');
+        $('div#div_update_role_'+id).attr('style','display:none;');
+    });
+    $('td.roles a.update').click(function(){ 
+        var id = $(this).parents('div').attr('id').split('_').pop();
+        var role = $('#update_role_'+id).val();
+        if(role == ''){
+            alert('please select any role'); 
+            $('#update_role_'+id).attr('style','border:1px solid red;');
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: '{{ path('bo_collaborator_change_role') }}',
+            cache: false,
+            data: {'id':id,'role':role},
+            success: function(data) {
+                if(data=='success'){
+                    window.location.reload(true);
+                }else{
+                    alert(data);
+                }
+            },
+            error: function(data) {
+                return false;
+            }
+        });
+    });
+</script>

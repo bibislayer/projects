@@ -1,0 +1,99 @@
+VM\QuestionnaireBundle\Entity\Questionnaire:
+    type: entity
+    table: questionnaires
+    repositoryClass: VM\QuestionnaireBundle\Repository\QuestionnaireRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name: { type: string, length: 255 }
+        date_start: { type: datetime, nullable: TRUE }
+        date_end : { type: datetime, nullable: TRUE }
+        is_end_close: { type: boolean, nullable: TRUE }
+        text_introduction: { type: text, nullable: TRUE }
+        text_presentation: { type: text, nullable: TRUE }
+        payment: { type: boolean, nullable: TRUE }
+        text_payment: { type: text, nullable: TRUE }
+        payment_amount_before: { type: float, scale="2" nullable: TRUE }
+        payment_amount_after: { type: float, scale="2" nullable: TRUE }
+        payment_vat: { type: float, nullable: TRUE }
+        mail_invitation: { type: text, nullable: TRUE }
+        mail_accepted: { type: text, nullable: TRUE }
+        mail_refused: { type: text, nullable: TRUE }
+        published: { type: boolean, nullable: TRUE }
+        published_at: { type: datetime, nullable: TRUE }
+        anonymous: {type: boolean, nullable: TRUE }
+        approbation: { type: boolean, nullable: TRUE }
+        is_model: { type: boolean, nullable: TRUE }
+        created_at:
+          type: date
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: create
+        updated_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: update
+        slug:
+          type: string
+          length: 255
+          unique: TRUE
+          gedmo:           
+             slug:
+               separator: -
+               fields:
+                - name
+    manyToOne:
+      Maker:
+        targetEntity: VM\MakerBundle\Entity\Maker
+        inversedBy: Questionnaire
+        joinColumns:
+          enterprise_id:
+            referencedColumnName: id
+      StdQuestionnaireType:
+            targetEntity: VM\StandardBundle\Entity\StdQuestionnaireType
+            inversedBy: Questionnaire
+            joinColumns:
+                std_questionnaire_type_id:
+                  referencedColumnName: id
+      Help:
+        targetEntity: VM\QuestionnaireBundle\Entity\Help
+        inversedBy: Questionnaire
+        joinColumns:
+          help_id:
+            referencedColumnName: id
+    oneToMany:
+         QuestionnaireAdministrator:
+            targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireAdministrator
+            mappedBy: Questionnaire
+         QuestionnaireUser:
+            targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireUser
+            mappedBy: Questionnaire
+         QuestionnaireRestriction:
+            targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireRestriction
+            mappedBy: Questionnaire
+         QuestionnaireElement:
+            targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireElement
+            mappedBy: Questionnaire
+         AdvertQuestionnaire:
+            targetEntity: VM\MakerBundle\Entity\AdvertQuestionnaire
+            mappedBy: Questionnaire
+            cascade: [persist]        
+    manyToMany:
+        QuestionnaireCategory:
+            targetEntity: VM\StandardBundle\Entity\StdCategory
+            inversedBy: CategoryQuestionnaire
+            joinTable:
+                name: questionnaires_categories
+                joinColumns:
+                    questionnaire_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    std_category_id:
+                        referencedColumnName: id
+    lifecycleCallbacks: {  }

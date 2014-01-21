@@ -1,0 +1,72 @@
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+    {% if maker.Questionnaire | length  == 0 %}
+    <div class="grid_12">
+        <div class="border-main">
+            <div class="block-border">
+                <div class="block_design">
+                    <div class="block_header"><h1>{{'mo.maker.title.show'|trans({'%ent%': maker.name}) }}</h1></div>
+                    <div class="block_content">
+                        <div class="grid_6">
+                          <ul class="tuto">
+                              <li><span> 1 </span><p>Créer et configurer votre questionnaire</p></li>
+                              <li><span> 2 </span><p>Publier et inviter des personnes à participer à votre questionnaire.</p></li>
+                              <li><span> 3 </span><p>Evaluer et classer les répondants.</p></li>
+                              <li><span> 4 </span><p>Sélectionner les candidats les plus compétents.</p></li>
+                          </ul>
+                        </div>
+                        <div class="grid_6 text_center">
+                            {% if maker is defined %}
+                            <a class="btn blue _60_imp btn_tuto" href="{{ path('mo_questionnaire_new', {'slug_ent': maker.slug }) }}">Commencer la création de votre <br/> premier questionnaire</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="grid_12">
+        <div class="border-main">
+            <div class="block-border">
+                <div class="block_design">
+                    <div class="block_header"><h1>{{'mo.maker.title.show'|trans({'%ent%': maker.name}) }}</h1></div>
+                    <div class="block_content">
+                        <div class="grid_3">
+                            {% if app.environment == 'dev' %}
+                                <a class="btn" href="{{ path('mo_questionnaire_creation', {'slug_ent': maker.slug }) }}">{{'mo.questionnaire.link.add'|trans}}</a>
+                            {% else %}
+                                <a class="btn" href="{{ path('mo_questionnaire_new', {'slug_ent': maker.slug }) }}">{{'mo.questionnaire.link.add'|trans}}</a>
+                            {% endif %}
+
+                        </div>
+                        <div class="grid_3">
+                            {% if isCollaborator is defined and isCollaborator %}
+                            <a class="btn blue" href="{{ path('mo_maker_edit', {'slug_ent': maker.slug }) }}">{{'mo.maker.link.edit'|trans}}</a>
+                            {% endif %}
+                        </div>
+                        <div class="grid_3">
+                            <a class="btn green" href="{{path('mo_collaborator_new',{'slug_ent': maker.slug })}}">{{'mo.collaborator.link.add'|trans}}</a>
+                        </div>
+                        <div class="grid_3">
+                            <a class="btn blue" href="{{ path('mo_advert_new', {'slug_ent': maker.slug }) }}">{{'mo.advert.link.add'|trans}}</a>
+                        </div>
+                        <div class="grid_6">
+                            {% set paramsBox = {'title': {'text' : 'mo.questionnaire.title.last'|trans}, 'paramsQ' : {'by_ent_id' : maker.id, 'order_by':{'field':'updated_at', 'sort': 'desc'} }, 'urlPaginate' : {'route' : 'mo_questionnaires_list','params' : {'slug_ent' : maker.slug } }} %}
+                            {{ render(controller('VMQuestionnaireBundle:Questionnaire:questionnaireList', { 'params': paramsBox })) }}
+                        </div>
+                        <div class="grid_6">
+                            {% set paramsBox = {'title': {'text' : 'mo.candidate.title.last'|trans}, 'paramsQ' : {'by_ent_id' : maker.id, 'order_by':{'field':'created_at', 'sort': 'desc'}}, 'urlPaginate' : {'route' : 'mo_questionnaire_users_list','params' : {'slug_ent' : maker.slug }}} %}
+                            {{ render(controller('VMQuestionnaireBundle:QuestionnaireUser:moRespondantsList', { 'params': paramsBox })) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

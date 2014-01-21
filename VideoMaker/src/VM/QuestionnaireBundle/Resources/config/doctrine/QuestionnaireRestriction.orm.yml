@@ -1,0 +1,20 @@
+VM\QuestionnaireBundle\Entity\QuestionnaireRestriction:
+    type: entity
+    table: questionnaires_restrictions
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        date_start: { type: datetime, nullable: TRUE }
+        date_end : { type: datetime, nullable: TRUE }
+        ip: { type: string, lenght: 255, nullable: TRUE }
+    manyToOne:
+      Questionnaire:
+        targetEntity: VM\QuestionnaireBundle\Entity\Questionnaire
+        inversedBy: QuestionnaireRestriction
+        joinColumns:
+          Questionnaire_id:
+            referencedColumnName: id
+    lifecycleCallbacks: {  }

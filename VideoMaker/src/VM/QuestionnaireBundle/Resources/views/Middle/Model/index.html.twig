@@ -1,0 +1,17 @@
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+        {% block content %}
+            <div class="border-main">
+                <div class="block-border">
+                    <div class="block_design">
+                        <div class="block_header"><h1>resultat recherche questionnaire</h1></div>
+                        <div class="block_content">
+                        {% include('VMQuestionnaireBundle:Middle:Model/_search_results.html.twig') with {'questionnaires': questionnaires} %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}

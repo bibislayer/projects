@@ -1,0 +1,25 @@
+VM\QuestionnaireBundle\Entity\QuestionnaireAdministrator:
+    type: entity
+    table: questionnaires_administrators
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        roles: { type: array }
+
+    manyToOne:
+      Questionnaire:
+        targetEntity: VM\QuestionnaireBundle\Entity\Questionnaire
+        inversedBy: QuestionnaireAdministrator
+        joinColumns:
+          questionnaire_id:
+            referencedColumnName: id
+      User:
+        targetEntity: VM\UserBundle\Entity\User
+        inversedBy: QuestionnaireAdministrator
+        joinColumns:
+          user_id:
+            referencedColumnName: id
+    lifecycleCallbacks: {  }

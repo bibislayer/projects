@@ -1,0 +1,53 @@
+questionnaire:
+    title:
+        general: Questionnaire %name%
+        success: Fin du Questionnaire %name%
+        personnalInformations: Informations personnelles
+    actionButton:
+        start: Commencer le questionnaire
+        nextQuestion: Question suivante
+        nextStep: Etape suivante
+    text:
+        presentation: Présentation du questionnaire
+        end: Fin du questionnaire
+        congrats: Félicitations!
+        participationSuccess: Votre participation au questionnaire %quest_name% de l'entreprise %ent_name% a bien été enregistrée.
+        contactSoon: %ent_name% vous recontactera prochainement.
+        regards: Cordialement.
+    element:
+        progress: Avancement du questionnaire : %number% %
+        question: Question n°%number%
+    question:
+        errors:
+            required: Ne doit pas etre vide
+            charLimit: Limite de caractères : %number%
+        options:
+            charLimit: Votre réponse est limité à %number% caractères
+            required: Cette question est obligatoire
+            textTimeLimit: Cette question est chronomètrée : %time% secondes
+            timeLimit: Temps limite
+        media:
+            allowedFormat: Format autorisé
+        webcam:
+            configurationQuestion: Avez vous réussi à configurer votre webcam ? vous devez vous voir dans le petit écran !
+            step1: <span class="color_orange">Etape 1 :</span> Vérification du matériel
+            step2: <span class="color_orange">Etape 2 :</span> Activation de votre Webcam
+            step3: <span class="color_orange">Etape 3 :</span> Déroulement de la question
+            step4: <span class="color_orange">Etape 4 :</span> Lecture de la question
+            step5: <span class="color_orange">Etape 5 :</span> Enregistrement de votre réponse
+            skipReading: Passer le temps de lecture
+            stopRecording: Terminer enregistrement
+            recordingStart: L\'enregistrement a commencé.
+            recordingSuccess: Votre vidéo a bien été transférée. Vous allez être redirigé.</p><p>Si vous n\'étes pas rédirigé cliquez sur le bouton Suivant.
+            confStep1: Comme sur l'exemple en dessous, cliquez à gauche sur fermer
+            confStep2: Cliquez sur autoriser et puis attendez quelques secondes que la camera s'active
+            confStep3: Dans certains cas, vous devrez autoriser votre navigateur à enregistrer la vidéo (message en haut de votre votre écran)
+            hasWebcam: Vous êtes sur le point de répondre à une question webcam, pour se faire, possédez vous une webcam ?
+            stepText: Vous aurez ( %question_time% secondes ) pour lire la question Video et lorsque ce délai sera écoulé la webcam se mettra automatiquement en route et vous aurez ( %response_time% secondes ) pour répondre à la question.
+            questionTime: Temps de lecture de la question
+            responseTime: Temps d'enregistrement restant
+            displayInfoTime: Vous aurez <strong style="color:orange">( %questionTime% secondes )</strong> pour lire la question Video et lorsque ce délai sera écoulé la webcam se mettra automatiquement en route et vous aurez <strong style="color:orange">( %responseTime% secondes )</strong> pour répondre à la question.
+            begin: Commencer la question vidéo
+yes: oui
+no: non
+language: Langue

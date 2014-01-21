@@ -1,0 +1,23 @@
+VM\UserBundle\Entity\User:
+   constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email_new
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
+   properties:
+        email:
+            - NotBlank: ~
+            - Email:
+                message: The email "{{ value }}" is not a valid email.
+                checkMX: true     
+                
+VM\UserBundle\Entity\UserProfile:
+   properties:
+        firstname:
+            - NotBlank: ~
+        lastname:
+            - NotBlank: ~
+                
+VM\EnterpriseBundle\Entity\Enterprise:
+   properties:
+        name:
+            - NotBlank: ~              

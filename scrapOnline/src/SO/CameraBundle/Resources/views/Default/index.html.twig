@@ -1,0 +1,156 @@
+{% extends 'SOGeneralBundle:Front:layout.html.twig' %}
+{% block content %}
+{{ render(controller('SOMovieBundle:Movie:video', {
+            'slug': movie.slug, 'type': 'n', 'movieCode': movie.code
+        })) }}
+<div id="post-container">
+    <div id="posts">
+        <div id="post-184" class="post-item">
+            <div class="post-details">
+                <h2>{{ movie.title }}</h2>
+                    <ul class="post-meta post-meta-post">
+                     <li class="date">Annee {{ movie.productionYear }}</li> 
+                        {% if movie.genre is not empty %}
+                        <li class="categories">
+                            {% for genre in movie.genre %}
+                                <a href="#{{ genre.name }}" title="{{ genre.name }}" rel="{{ genre.name }}">{{ genre.name }}</a>, 
+                            {% endfor %}
+                        </li>
+                        {% endif %}
+                    <li class="date">Duree {{ movie.runtime }}</li>
+                    <li class="comments">
+                        <a href="#comments" title="This is a Sample Video Post">Comments: ?</a>
+                    </li>
+                </ul>
+            </div> <!-- post-details -->
+            <div class="post-content">
+                <p></p>
+                <div id="attachment_341" class="wp-caption alignright" style="width: 310px">
+                    <img src="{{ movie.poster }}" height="250px" alt="{{ movie.title }}" title="{{ movie.title }}s" itemprop="image">
+                    <p class="wp-caption-text">Affiche du film</p>
+                </div>
+                {{ movie.synopsis }}
+            </div> <!-- post-content -->
+        </div> <!-- post-item -->				 
+
+        <!-- start editing here. -->
+        <div id="comments-meta">
+            <p>Got something to say? Go for it!</p>
+        </div>
+      <!--  <div id="comments">
+            <ol class="commentlist">
+                <li class="comment byuser comment-author-admin bypostauthor even thread-even depth-1 parent" id="comment-57">
+                    <div id="div-comment-57" class="comment-body">
+                        <div class="comment-author vcard">
+                            <img alt="" src="./images/0f7084cf63e887b544c3590fb380a40e.jpg" class="avatar avatar-48 photo" height="48" width="48">			<cite class="fn"><a href="http://www.press75.com/" rel="external nofollow" class="url">Jason Schuller</a></cite> <span class="says">says:</span>		</div>
+
+                        <div class="comment-meta commentmetadata"><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/#comment-57">
+                                June 5, 2010 at 12:44 am</a>		</div>
+
+                        <p>Mauris eu libero cursus arcu malesuada vulputate eu quis ligula. 
+                            Cras rhoncus accumsan tellus, ac mattis justo condimentum at. Praesent 
+                            in mauris non elit sagittis consectetur a sed nisl. Cum sociis natoque 
+                            penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
+                        <p>Sed nec tellus mauris. Morbi nibh magna, placerat non bibendum sed, 
+                            faucibus quis tortor. Aenean eros nulla, vulputate vitae convallis 
+                            convallis, aliquet a dui. Praesent rutrum diam ut nunc auctor aliquam. 
+                            In tincidunt urna id ante ornare rutrum. Nullam suscipit consequat 
+                            tellus a laoreet. Etiam dictum orci quis elit vestibulum euismod. Nullam
+                            accumsan porta ornare.</p>
+
+                        <div class="reply">
+                            <a class="comment-reply-link" href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/?replytocom=57#respond" onclick='return addComment.moveForm("div-comment-57", "57", "respond", "184")'>Reply</a>		</div>
+                    </div>
+                    <ul class="children">
+                        <li class="comment byuser comment-author-admin bypostauthor odd alt depth-2 parent" id="comment-58">
+                            <div id="div-comment-58" class="comment-body">
+                                <div class="comment-author vcard">
+                                    <img alt="" src="./images/0f7084cf63e887b544c3590fb380a40e.jpg" class="avatar avatar-48 photo" height="48" width="48">			<cite class="fn"><a href="http://www.press75.com/" rel="external nofollow" class="url">Jason Schuller</a></cite> <span class="says">says:</span>		</div>
+
+                                <div class="comment-meta commentmetadata"><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/#comment-58">
+                                        June 5, 2010 at 12:44 am</a>		</div>
+
+                                <p>Praesent rutrum diam ut nunc auctor aliquam. In tincidunt urna id 
+                                    ante ornare rutrum. Nullam suscipit consequat tellus a laoreet. Etiam 
+                                    dictum orci quis elit vestibulum euismod. Nullam accumsan porta ornare.</p>
+
+                                <div class="reply">
+                                    <a class="comment-reply-link" href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/?replytocom=58#respond" onclick='return addComment.moveForm("div-comment-58", "58", "respond", "184")'>Reply</a>		</div>
+                            </div>
+                            <ul class="children">
+                                <li class="comment byuser comment-author-admin bypostauthor even depth-3" id="comment-59">
+                                    <div id="div-comment-59" class="comment-body">
+                                        <div class="comment-author vcard">
+                                            <img alt="" src="./images/0f7084cf63e887b544c3590fb380a40e.jpg" class="avatar avatar-48 photo" height="48" width="48">			<cite class="fn"><a href="http://www.press75.com/" rel="external nofollow" class="url">Jason Schuller</a></cite> <span class="says">says:</span>		</div>
+
+                                        <div class="comment-meta commentmetadata"><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/#comment-59">
+                                                June 5, 2010 at 12:45 am</a>		</div>
+
+                                        <p>Quisque et sem aliquam leo laoreet vulputate. Praesent dictum quam 
+                                            ac sapien faucibus blandit. Fusce laoreet vestibulum turpis id bibendum.
+                                            Praesent at enim nec arcu dapibus faucibus. Sed sed urna a metus porta 
+                                            ullamcorper. Integer sapien mauris, eleifend non dignissim ac, 
+                                            adipiscing id enim. Fusce tristique pellentesque velit ut molestie. 
+                                            Praesent porta pretium odio. Suspendisse eu enim id lorem interdum 
+                                            adipiscing sollicitudin ac nisl.</p>
+
+                                        <div class="reply">
+                                            <a class="comment-reply-link" href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/?replytocom=59#respond" onclick='return addComment.moveForm("div-comment-59", "59", "respond", "184")'>Reply</a>		</div>
+                                    </div>
+                                </li> 
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="comment byuser comment-author-admin bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-60">
+                    <div id="div-comment-60" class="comment-body">
+                        <div class="comment-author vcard">
+                            <img alt="" src="./images/0f7084cf63e887b544c3590fb380a40e.jpg" class="avatar avatar-48 photo" height="48" width="48">			<cite class="fn"><a href="http://www.press75.com/" rel="external nofollow" class="url">Jason Schuller</a></cite> <span class="says">says:</span>		</div>
+
+                        <div class="comment-meta commentmetadata"><a href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/#comment-60">
+                                June 5, 2010 at 12:45 am</a>		</div>
+
+                        <p>Cras quis sem turpis. Ut porta convallis nisi in condimentum. 
+                            Pellentesque sit amet magna risus, vitae pretium mi. Quisque et sem 
+                            aliquam leo laoreet vulputate. Praesent dictum quam ac sapien faucibus 
+                            blandit. Fusce laoreet vestibulum turpis id bibendum. Praesent at enim 
+                            nec arcu dapibus faucibus. </p>
+                        <p>Sed sed urna a metus porta ullamcorper. Integer sapien mauris, 
+                            eleifend non dignissim ac, adipiscing id enim. Fusce tristique 
+                            pellentesque velit ut molestie. Praesent porta pretium odio. Suspendisse
+                            eu enim id lorem interdum adipiscing sollicitudin ac nisl.</p>
+
+                        <div class="reply">
+                            <a class="comment-reply-link" href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/?replytocom=60#respond" onclick='return addComment.moveForm("div-comment-60", "60", "respond", "184")'>Reply</a>		</div>
+                    </div>
+                </li>
+            </ol>
+
+        </div>
+
+
+
+        <div id="respond" class="comment-respond">
+            <h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://www.press75.com/themes/on-demand/this-is-a-sample-video-post-2/#respond" style="display:none;">Cancel reply</a></small></h3>
+            <form action="http://www.press75.com/themes/on-demand/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+                <p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" size="30" aria-required="true" type="text"></p>
+                <p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" size="30" aria-required="true" type="text"></p>
+                <p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" size="30" type="text"></p>
+                <p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a
+                        href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; 
+                        &lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del 
+                        datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; 
+                        &lt;strong&gt; </code></p>						<p class="form-submit">
+                    <input name="submit" id="submit" value="Post Comment" type="submit">
+                    <input name="comment_post_ID" value="184" id="comment_post_ID" type="hidden">
+                    <input name="comment_parent" id="comment_parent" value="0" type="hidden">
+                </p>
+                <p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="815f9ca0e9" type="hidden"></p>					</form>
+        </div><!-- #respond --> 
+
+    </div> <!-- posts -->
+    {{ render(controller('SOMovieBundle:Movie:sidebar', {
+           'max': 5, 'request': app.request
+       })) }}	
+</div> <!-- post-container -->
+{% endblock %}

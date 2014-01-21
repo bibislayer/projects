@@ -1,0 +1,35 @@
+{% extends "VMGeneralBundle::Middle/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+
+<div class="content _70">
+    <div class="grid _100 left">
+        <div class="block_border">
+            <div class="block_design">
+                <div class=" block_content text_center">
+                    {% if app.session is not empty %}
+                    <p class="succes"><span>Félicitations {{user.UserProfile.firstname}} {{user.UserProfile.lastname}}, votre compte est maintenant activé.</span></p>
+                    <p class="succes">Vous venez d'activer votre compte pour l'entreprise {{user.EnterpriseAdministrator[0].Enterprise.name}}<br/>
+                        Vous allez maintenant pouvoir créer votre premier questionnaire.
+                    </p>
+                    <div class="box">
+                        <div class="approuve"></div>
+                        <p class="btn_succes"><span> Si vous souhaitez créez un questionnaire <a href="{{ path('mo_questionnaire_new', {'slug_ent': user.EnterpriseAdministrator[0].Enterprise.slug }) }}">cliquez ici</a></span></p>
+                        <p class="btn_succes"><span> Si vous souhaitez modifier les données de votre entreprise, <a href="{{ path('mo_enterprise_edit', {'slug_ent': user.EnterpriseAdministrator[0].Enterprise.slug }) }}">cliquez ici</a></span></p>
+                        <p class="btn_succes"><span> Si vous souhaitez accéder à votre tableau de bord, <a href="{{ path('mo_enterprise_show', {'slug_ent': user.EnterpriseAdministrator[0].Enterprise.slug }) }}">cliquez ici</a></span></p>
+                    </div>
+                    {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
+                    {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>{% endif %}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock fos_user_content %}

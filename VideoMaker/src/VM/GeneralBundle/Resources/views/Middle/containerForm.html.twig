@@ -1,0 +1,19 @@
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/vmgeneral/js/tiny_mce/tiny_mce.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="grid_12">
+    <div class="block-main">
+    <div class="block_border ">
+        <div class="block_design">
+            {% set par = {'params': params} %}
+            {% include 'VMGeneralBundle:Default:form.html.twig' with par only %}
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

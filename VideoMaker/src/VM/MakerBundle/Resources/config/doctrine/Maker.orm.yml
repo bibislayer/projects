@@ -1,0 +1,54 @@
+VM\MakerBundle\Entity\Maker:
+    type: entity
+    table: makers
+    repositoryClass: VM\MakerBundle\Repository\MakerRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name: { type: string, length: 255 } 
+        status: { type: array, nullable: TRUE }
+        credit: { type: integer, nullable: TRUE }
+        approbation: { type: integer, nullable: TRUE }
+        published: { type: integer, nullable: TRUE }
+        published_at: { type: datetime, nullable: TRUE }
+        created_at:
+          type: date
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: create
+        updated_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: update
+        slug:
+          type: string
+          length: 255
+          unique: TRUE
+          gedmo:
+            slug:
+              separator: -
+              fields:
+                - name
+    oneToMany:
+         MakerAdministrator:
+            targetEntity: VM\MakerBundle\Entity\MakerAdministrator
+            mappedBy: Maker
+         Advert:
+            targetEntity: VM\MakerBundle\Entity\Advert
+            mappedBy: Maker
+         MakerInvitationAdministrator:
+            targetEntity: VM\MakerBundle\Entity\MakerInvitationAdministrator
+            mappedBy: Maker
+         MakerNote:
+            targetEntity: VM\MakerBundle\Entity\MakerNote
+            mappedBy: Maker
+         Questionnaire:
+           targetEntity: VM\QuestionnaireBundle\Entity\Questionnaire
+           mappedBy: Maker
+    lifecycleCallbacks: {  }

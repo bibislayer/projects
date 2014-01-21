@@ -1,0 +1,50 @@
+{# empty Twig template #}
+<div class="grid_12">
+    <div class="border_table">
+        <table class="table-backend">
+            <thead>
+            <tr>
+                <th>#Id</th>
+                <th>User</th>
+                <th>Question</th>
+                <th>Text</th>
+                <th>Read</th>
+                <th>Responsed</th>
+                <th>Resolved</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for element in elements %}
+            <tr class="">
+                <td class="center">{{ element.id }}</td>
+                <td class="center">
+                    {% if element.User.UserProfile is defined and element.User.UserProfile is not null %}
+                        {{ element.User.UserProfile.firstname }}
+                    {% elseif element.User is defined and element.User is not null %}
+                        {{ element.User.email }}
+                    {% elseif element.email is defined %}
+                        {{ element.email }}
+                    {% endif %}
+                </td>
+                <td class="center">{{ element.Question is defined and element.Question is not null?element.Question.id:'' }}</td>
+                <td class="center">{{ element.text|raw }}</td>
+                <td class="center"> {{ element.isRead?'Yes':'No' }} </td>
+                <td class="center"> {{element.responsed?'Yes':'No' }} </td>
+                <td class="center"> {{ element.resolved?'Yes':'No' }} </td>
+
+                <td class="center">
+                    {% if element.resolved is null or element.resolved==0 %}
+                        <a href="{{ path ('bo_feedback_resolve' , {'id':  element.id  }) }}">Resolved</a>&nbsp;&nbsp;&nbsp;
+                    {% endif %}
+                    <a href="{{ path ('bo_feedback_show' , {'id':  element.id  }) }}">Voir</a>&nbsp;&nbsp;&nbsp;
+                    <a href="{{ path ('bo_feedback_edit' , {'id':  element.id  }) }}">Modifier</a>&nbsp;&nbsp;&nbsp;
+                    <a href="{{ path('bo_feedback_delete',{'id':  element.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

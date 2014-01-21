@@ -1,0 +1,223 @@
+<?php
+
+namespace RecrutOnline\EnterpriseBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * EnterpriseInvitationAdministrator
+ */
+class EnterpriseInvitationAdministrator
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $email;
+
+    /**
+     * @var array
+     */
+    private $roles;
+
+    /**
+     * @var string
+     */
+    private $confirmation_token;
+
+    /**
+     * @var \DateTime
+     */
+    private $created_at;
+
+    /**
+     * @var \DateTime
+     */
+    private $updated_at;
+
+    /**
+     * @var \RecrutOnline\EnterpriseBundle\Entity\Enterprise
+     */
+    private $Enterprise;
+
+    /**
+     * @var \RecrutOnline\UserBundle\Entity\User
+     */
+    private $User;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return EnterpriseInvitationAdministrator
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     * @return EnterpriseInvitationAdministrator
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    
+        return $this;
+    }
+
+    /**
+     * Get roles
+     *
+     * @return array 
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * Set confirmation_token
+     *
+     * @param string $confirmationToken
+     * @return EnterpriseInvitationAdministrator
+     */
+    public function setConfirmationToken($confirmationToken)
+    {
+        $this->confirmation_token = $confirmationToken;
+    
+        return $this;
+    }
+
+    /**
+     * Get confirmation_token
+     *
+     * @return string 
+     */
+    public function getConfirmationToken()
+    {
+        return $this->confirmation_token;
+    }
+
+    /**
+     * Set created_at
+     *
+     * @param \DateTime $createdAt
+     * @return EnterpriseInvitationAdministrator
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->created_at = $createdAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get created_at
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set updated_at
+     *
+     * @param \DateTime $updatedAt
+     * @return EnterpriseInvitationAdministrator
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updated_at = $updatedAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get updated_at
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set Enterprise
+     *
+     * @param \RecrutOnline\EnterpriseBundle\Entity\Enterprise $enterprise
+     * @return EnterpriseInvitationAdministrator
+     */
+    public function setEnterprise(\RecrutOnline\EnterpriseBundle\Entity\Enterprise $enterprise = null)
+    {
+        $this->Enterprise = $enterprise;
+    
+        return $this;
+    }
+
+    /**
+     * Get Enterprise
+     *
+     * @return \RecrutOnline\EnterpriseBundle\Entity\Enterprise 
+     */
+    public function getEnterprise()
+    {
+        return $this->Enterprise;
+    }
+
+    /**
+     * Set User
+     *
+     * @param \RecrutOnline\UserBundle\Entity\User $user
+     * @return EnterpriseInvitationAdministrator
+     */
+    public function setUser(\RecrutOnline\UserBundle\Entity\User $user = null)
+    {
+        $this->User = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get User
+     *
+     * @return \RecrutOnline\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->User;
+    }
+}

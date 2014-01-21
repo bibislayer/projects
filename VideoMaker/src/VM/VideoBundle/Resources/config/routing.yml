@@ -1,0 +1,7 @@
+vm_video_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: VMVideoBundle:Default:index }
+
+mo_dashboard:
+    pattern:  /admin/videos
+    defaults: { _controller: VMVideoBundle:Default:index }

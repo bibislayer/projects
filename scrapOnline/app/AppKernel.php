@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new SO\MovieBundle\SOMovieBundle(),
+            new SO\CameraBundle\SOCameraBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

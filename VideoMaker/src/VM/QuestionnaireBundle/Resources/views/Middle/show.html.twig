@@ -1,0 +1,95 @@
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+<div class="grid_12">
+    <div class="border-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"><h1>Questionnaire : {{ questionnaire.name }}</h1></div>
+                <div class="block_content">
+                    <div class="grid_3">
+                        {% include 'VMQuestionnaireBundle:Form:questionnaire_form_menu.html.twig' with {'questionnaire': questionnaire} %}
+                    </div>
+                    <div class="grid_9">
+                        {% if questionnaire.questionnaireElement |length == 0 %}
+                            <div class="block-border">
+                                <div class="block_design">
+                                    <div class="block_header"><h3>Vous n'avez pas encore ajouté d'éléments à votre questionnaire</h3></div>
+                                    <div class="block_content">
+                                        <p>Pour ajouter des questions, <a href="{{ path ('mo_questionnaire_elements' , {'slug_ent':  enterprise.slug , 'slug_quest':questionnaire.slug   }) }}">accédez à l'édition du questionnaire</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif questionnaire.published != 1 %}
+                            <div class="block-border">
+                                <div class="block_design">
+                                    <div class="block_header "><h3>Votre questionnaire n'est pas encore accessible aux internautes, suivez les étapes ci-dessous</h3></div>
+                                    <div class="block_content finish">
+                                        <p>Afin de vous assurez du bon fonctionnement du questionnaire, <a  href="{{ path('fo_questionnaire_show', {'slug_quest': questionnaire.slug}) }}" target="_blank">tester le questionnaire en tant qu'utilisateur</a></p>
+
+                                        {% if questionnaire.QuestionnaireUser | length > 0 %}
+                                            <p class="bold"><a href="{{path('mo_questionnaire_user_respondants', {'slug_ent': enterprise.slug, 'slug_quest': questionnaire.slug, 'by_status' : 'test'})}}">Vous avez {{questionnaire.QuestionnaireUser | length}} répondant(s) test</a></p>
+                                        {% endif %}
+
+                                        <p>Si vous le souhaitez, vous avez encore la possibilité de <a href="{{ path ('mo_questionnaire_elements' , {'slug_ent':  enterprise.slug , 'slug_quest':questionnaire.slug   }) }}"> modifier votre questionnaire</a></p>
+
+                                        {#
+                                        <p><div class="img "></div><a  href="{{ path ('mo_questionnaire_invitation' , {'slug_ent':  enterprise.slug , 'slug_quest':questionnaire.slug  }) }}">Questionnaire invitation</a><div class="stop"></div></p>
+                                        #}
+
+                                        <p>Une fois votre <span class="bold">questionnaire testé</span>, <a href="{{ path('mo_questionnaire_status', {'slug_ent': enterprise.slug, 'slug_quest': questionnaire.slug, 'status': 'published' }) }}"> publier votre questionnaire </a> pour <span class="bold">permettre aux internautes d'y répondre</span> <br /><span class="italic">(Temps de validation maximum par nos équipes : 24heures)</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif questionnaire.approbation != 1 %}
+                            <div class="block-border">
+                                <div class="block_design finish">
+                                    <div class="block_header "><h3>Vous avez demandé la publication de votre questionnaire, nos équipes sont en train d'examiner sa conformité</h3></div>
+                                    <div class="block_content ">
+                                        <p>Afin de vous assurez du bon fonctionnement du questionnaire, <a  href="{{ path('fo_questionnaire_show', {'slug_quest': questionnaire.slug}) }}" target="_blank">tester le questionnaire en tant qu'utilisateur</a></p>
+
+                                        <p>Si vous souhaitez le modifier, vous devez au préalable <a href="{{ path('mo_questionnaire_status', {'slug_ent': enterprise.slug, 'slug_quest': questionnaire.slug, 'status': 'unpublished' }) }}">annuler sa publication</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif questionnaire.getQuestionnaireUserBy({'by_status':'no-test'}) |length == 0 %}
+                            <div class="block-border">
+                                <div class="block_design">
+                                    <div class="block_header"><h3>Vous n'avez pas encore reçu de participation pour ce questionnaire</h3></div>
+                                    <div class="block_content">
+                                        <p>Afin de commencer la réception de participants pour votre questionnaire, accédez à l'espace de diffusion/invitation</p>
+
+                                        {% if questionnaire.getQuestionnaireUserBy({'by_status':'test'}) |length > 0 %}
+                                            <p>Vous avez <a href="{{ path('mo_questionnaire_user_respondants', {'slug_ent': enterprise.slug, 'slug_quest': questionnaire.slug, 'by_status' : 3 }) }}">{{questionnaire.getQuestionnaireUserBy({'by_status':'test'})|length}} participant(s) test</a> à ce questionnaire</p>
+                                        {% endif %}
+
+                                        <p>Ou copier coller le lien ci-dessous</p>
+                                        <p><a href="{{url('fo_questionnaire_show', {'slug_quest': questionnaire.slug})}}" target="_blank">{{url('fo_questionnaire_show', {'slug_quest': questionnaire.slug})}}</a></p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+
+                        <div class="grid_12">
+                            <a class="btn_principal right" href="{{ path('mo_questionnaire_user_respondants', {'slug_ent': enterprise.slug, 'slug_quest': questionnaire.slug }) }}">Voir tous les candidats</a>
+                            {% set paramsBox = {'title': {'text' : 'Derniers candidats'}, 'design' : 'h1',
+                            'addLink' : {'url' : path('mo_questionnaire_user_respondants', {'slug_ent': enterprise.slug, 'slug_quest': questionnaire.slug }), 'text' : 'Tous les candidats acceptés'},
+                            'paramsQ' : {'by_questionnaire' : questionnaire.id, 'order_by':{'field' : 'created_at', 'sort' : 'desc'}}, 'urlPaginate' : {'route' : 'mo_questionnaire_users_list','params' : {'slug_ent' : enterprise.slug }} }
+                            %}
+                            {{ render(controller('VMQuestionnaireBundle:QuestionnaireUser:moRespondantsList', { 'params': paramsBox })) }}
+
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

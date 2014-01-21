@@ -1,0 +1,72 @@
+{% set env = app.request.get('_route')| slice(0,2) %}
+
+{% if env=='mo' %}
+<div class="grid_3">
+    {% include 'VMQuestionnaireBundle:Form:questionnaire_form_menu.html.twig' with {'questionnaire': object, 'location':'base_form'} %}
+</div>
+{% endif %}
+<div class="{{ env=='mo'? 'grid_9':'grid_12' }}">
+    <div class="form_design">
+    {{ form_row(form.name) }}
+
+    {% if form.enterprise is defined %}
+        {{ form_row(form.enterprise) }}
+    {% endif %}
+
+    {{ form_row(form.StdQuestionnaireType) }}
+
+    {#
+    {{ form_row(form.formule) }}
+
+    <div id="payment_box" class="input-main register">
+
+        <fieldset>
+            <legend>Informations de paiement</legend>
+        <div class="grid_4"> {{ form_row(form.payment_amount_before) }} </div>
+        <div class="grid_4">{{ form_row(form.payment_amount_after) }} </div>
+        <div class="grid_4">{{ form_row(form.payment_vat) }} </div>
+        <div class="grid_12">{{ form_row(form.text_payment) }}</div>
+        </fieldset>
+    </div>
+    #}
+    {{ form_row(form.anonymous) }}
+    {{ form_row(form.text_introduction) }}
+    {{ form_row(form.text_presentation) }}
+    {{ form_row(form.mail_invitation) }}
+
+    {{ form_row(form.mail_accepted) }}
+    {{ form_row(form.mail_refused) }}
+
+    {{ form_row(form._token) }}
+    <div class="text_center button_save">
+       {{ form_row(form.save ) }}
+    </div>
+    </div>
+</div>
+<div class="stop"></div>
+<script type="text/javascript">
+     $(document).ready(function(){        
+        $('#questionnaire_formule_1').change(function() {
+           if($(this).is(":checked")) {
+               $("#payment_box").fadeIn();
+           }
+        });
+        $('#questionnaire_formule_0').change(function() {
+           if($(this).is(":checked")) {
+               $("#payment_box").fadeOut();
+           }
+        });
+    });
+    
+    $(document).ready(function() {
+       if($('#questionnaire_formule_1').is(":checked")) {
+           $("#payment_box").show();
+       }
+       
+       if($('#questionnaire_formule_0').is(":checked")) {
+           $("#payment_box").hide();
+       }
+        
+    });
+    
+</script>

@@ -1,0 +1,124 @@
+{% extends 'VMGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_8">
+    <div class="block-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"> <h1>Questionnaire : {{questionnaire.name}}</h1></div>
+                <div class="block_content">
+                    <table>
+                        <tr>   
+                            <td><p>Nom de l’entreprise </p></td>
+                            {% if questionnaire.enterprise.name is defined %}
+                                <td><p><a href="{{ path('bo_enterprise_show',{'slug_ent':questionnaire.enterprise.slug})}}">{{ questionnaire.enterprise.name}}</a></p></td>
+                            {% else %}
+                                <td><p>&nbsp;</p></td>
+                            {% endif %}        
+                        </tr>
+                        
+                        <tr>    
+                            <td><p>Nom du questionnaire type </p></td>
+                            <td><p>{{questionnaire.StdQuestionnaireType.name}}</p></td>
+                        </tr>
+                        <tr>    
+                            <td><p>Formule</p></td>
+                            <td><p>{{ questionnaire.textPayment is null ? 'Gratuit' : ' Payent'}}</p></td>
+                        </tr>
+                        
+                        {% if questionnaire.textPayment %}
+                            <tr>    
+                                <td><p>Informations concernant le paiement</p></td>
+                                <td><p>{{questionnaire.textPayment}}</p></td>
+                            </tr>
+                            <tr>    
+                                <td><p>Prix d'achat questionnaire HT</p></td>
+                                <td><p>{{questionnaire.paymentAmountBefore}}</p></td>
+                            </tr>
+                            <tr>    
+                                <td><p>Prix de vente questionnaire HT</p></td>
+                                <td><p>{{questionnaire.paymentAmountAfter}}</p></td>
+                            </tr>
+                            <tr>    
+                                <td><p>Taux de TVA</p></td>
+                                <td><p>{{questionnaire.paymentVat}}%</p></td>
+                            </tr>
+                        {% endif %}
+                        <tr>    
+                            <td><p>Text d'introduction</p></td>
+                            <td><p>{{questionnaire.textIntroduction | striptags| raw}}</p></td>
+                        </tr>
+                        <tr>    
+                            <td><p>Présentation de votre questionnaire</p></td>
+                            <td><p>{{questionnaire.textPresentation | striptags| raw}}</p></td>
+                        </tr>
+                        <tr>    
+                            <td><p>Mail à envoyer lors d'une invitation</p></td>
+                            <td><p>{{questionnaire.mailInvitation}}</p></td>
+                        </tr>
+                        <tr>    
+                            <td><p>Mail à envoyer lors de l'acceptation d'un candidat</p></td>
+                            <td><p>{{questionnaire.mailAccepted}}</p></td>
+                        </tr>
+                        <tr>    
+                            <td><p>Mail à envoyer lors du refus d'un candidat</p></td>
+                            <td><p>{{questionnaire.mailRefused}}</p></td>
+                        </tr>
+                         <tr>    
+                            <td><p>Anonymous</p></td>
+                            <td><p>{{questionnaire.anonymous ? 'Oui':'Non'}}</p></td>
+                        </tr>
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid_4">
+    <div class="block-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"> <h1>Actions</h1></div>
+                <div class="block_content">
+                    <ul>
+                        <li><p><a href="{{ path('bo_questionnaire_edit',{'slug_quest':questionnaire.slug})}}"> Modifier </a></p></li>
+                        <li><p><a href="{{ path('bo_questionnaires')}}"> All Questionnaires </a></p></li>
+                        <li><p><a href="{{ path('bo_questionnaire_elements',{'slug_quest':questionnaire.slug})}}"> Elements </a></p></li>
+                      
+                        {% if questionnaire.approbation is defined and questionnaire.approbation==0 %}
+                           <li><p><a href="{{ path('bo_questionnaire_change_status',{'slug_quest':questionnaire.slug,'status':'approuve'}) }}">Approuver</a></p></li>
+                        {% elseif questionnaire.approbation is defined and questionnaire.approbation==1 %}
+                           <li><p><a href="{{ path('bo_questionnaire_change_status',{'slug_quest':questionnaire.slug,'status':'disapprouve'}) }}">Désaprouver</a></p></li>
+                        {% endif %}
+                            
+           
+                        {% if questionnaire.published is defined and questionnaire.published==0 %}
+                           <li><p><a href="{{ path('bo_questionnaire_change_status',{'slug_quest':questionnaire.slug,'status':'publish'}) }}">Publié</a></p></li>
+                        {% elseif questionnaire.published is defined and questionnaire.published==1 %}
+                           <li><p><a href="{{ path('bo_questionnaire_change_status',{'slug_quest':questionnaire.slug,'status':'depublish'}) }}">Dépublié</a></p></li>
+                        {% endif %}
+          
+                        <li><p><a href="{{ path('bo_questionnaire_user_respondants',{'slug_quest':questionnaire.slug}) }}">Repondants</a></p></li>   
+                        <li><p><a href="{{ path('bo_questionnaire_duplicate',{'slug_quest':questionnaire.slug}) }}">Duplicate</a></p></li>
+                        <li><p><a href="{{ path('bo_questionnaire_invitation',{'slug_quest':questionnaire.slug}) }}"> Send Invitation </a></p></li>
+                        {% if questionnaire.isModel==0 or questionnaire.isModel is null %} 
+                           <li><p><a href="{{ path('bo_questionnaire_duplicate',{'slug_quest':questionnaire.slug,'actionType':'createModel'}) }}">Create Model</a>  </p></li>   
+                        {% else %}
+                           <li><p><a href="{{ path('bo_questionnaire_duplicate',{'slug_quest':questionnaire.slug,'actionType':'exportModel'}) }}">Export Model</a> </p></li>
+                        {% endif %}
+                        {%if questionnaire.QuestionnaireUser|length%}
+                            <li><p><a href="{{ path('bo_questionnaire_user_remove_all',{'slug_quest':questionnaire.slug}) }}" onclick="if(!confirm('Are you sure want to remove all repondants.'))return false;">Remove all repondants</a></p></li>  
+                        {%endif%}
+                
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

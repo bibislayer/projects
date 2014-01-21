@@ -1,0 +1,47 @@
+{% if app.request.get('advert_type') is defined and app.request.get('advert_type')  %}
+    {{ form_row(form.name) }}
+    {% if form.Maker is defined %}
+        {{ form_row(form.Maker) }}
+    {% endif %}
+    {% if form.type is defined %}
+        {{ form_row(form.type) }}
+    {% endif %}
+    {{ form_row(form.period) }}
+    {{ form_row(form.start_date) }}
+    {% if form.wage_cost is defined %}
+        {{ form_row(form.wage_cost) }}
+    {% endif %}
+
+    {{ form_row(form.text_introduction) }}
+    {{ form_row(form.text_description) }}
+
+    {% if form.AdvertQuestionnaire is defined %}
+        {{ form_row(form.AdvertQuestionnaire) }}
+    {% endif %}
+
+    {{ form_row(form.advert_type) }}
+    {{ form_row(form._token) }}
+    <div class="text_center button_save">
+        {{ form_widget(form.save ) }}
+    </div>
+{% else %}
+    {{ form_row(form.advert_type) }}
+    <script type="text/javascript">
+        $("#advert_advert_type input[type=radio]").change(function () {
+            var route='',env='{{env}}',js_param=($(this).val()==2?'formation':'');
+            if(env=='mo_'){    
+                route="{{ path('mo_advert_new',{'advert_type':'recrutement','slug_ent':app.request.get('slug_ent')}) }}";
+            }else{
+                route="{{ path('bo_advert_new',{'advert_type':'recrutement'}) }}";
+                route+="{{ app.request.get('slug_ent') is defined and app.request.get('slug_ent')?'?slug_ent='~app.request.get('slug_ent'):'' }}";
+            }
+            if(js_param!=''){
+                route=route.replace('recrutement',js_param);
+            }
+            window.location.href =route;
+        });
+    </script>
+{% endif %}
+
+
+

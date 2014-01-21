@@ -1,0 +1,102 @@
+{% set page = app.request.attributes.get('_route') %}
+{% set env = page | slice(0,2) %}
+{% if page == 'mo_questionnaire_elements' or app.request.get('data_list')  %}
+    {% set action = 'edition' %}
+    {% set detect = 'detect' %}
+    {% set editLink = path('mo_questionnaire_element_update_ajax',{'id':element.id,'slug_ent':element.Questionnaire.Enterprise.slug,'slug_quest':element.questionnaire.slug}) %}
+{% else %}
+    {% set action = 'process' %}
+    {% set detect = 'no_detect' %}
+{% endif %}
+{% set list_id = "list_"~ ((element_id is defined) ? element_id : element.id )~((subchild_id is defined) ? '_'~ subchild_id~'' : '' )~((subsubchild_id is defined) ? '_'~ subsubchild_id~'' : '') %}
+<li style="border:none;" data-id = "{{element.id}}" id="{{list_id}}">
+
+    <div class="group_element description">
+        <h3 style="background-color:#ff9e00 !important"><p class="number left">{{element.position}} - </p><p class="left {{detect}} color_white" data-type="titleGroup" {{  (action=='edition')? "onclick=getForm('"~editLink~"',this);":'' }} > {{element.name}} </p>
+       {% if action == 'edition' %}
+            <span class="right option">  
+                <a class="tooltip" href="{{path(env~'_element_duplicate',{'slug_ent':element.Questionnaire.Enterprise.slug,'id':element.id,'slug_quest':element.questionnaire.slug,'type':'description'})}}"><div class="img duplicate"></div><span>Dupliquer</span> </a>
+                <!--<a class="tooltip" {{ element.level==0 ? 'style="display:block;"' : 'style="display:none;"' }}  href="javascript:void(0);" data-elem_id="{{element.id}}" data-type="time_limit" onclick="return display_config(this);"><div class="img"></div><span>Configuration</span> </a>-->
+                <a class="tooltip" href="javascript:void(0);" data-id="{{element.parent ? element.parent.id:''}}" data-action="edit" data-list_id="{{list_id}}" data-type="2" data-elem_id="{{element.id}}" onclick="return display_form(this);"><div class="img edit"></div><span>Editer</span></a>
+                <a class="tooltip" href="{{ path(env~'_questionnaire_element_delete',{'id':element.id,'slug_ent':element.Questionnaire.Enterprise.slug,'slug_quest':element.questionnaire.slug})}}" onclick="return confirm('Are you sure to delete?');"><div class="img close"></div><span>Supprimer</span> </a>
+            </span>
+       {% endif %}
+            <div class="stop"></div>
+        </h3>  
+        <div class="group-content">     
+            <div class="no_bold textMCE {{detect}} {{ (element.timeLimit and action == 'process') ? 'grid_9' : 'grid_12' }}"  id="element_description"  data-type="description" {{ (action=='edition')? "onclick=getForm('"~editLink~"',this);":'' }} >
+            {% if action == 'process' %}
+                {% if element.timeLimit %}
+                <p class="bold time"><div class="img timer"></div><span class="timer">{% trans with {'%time%': element.timeLimit} from 'front' %}questionnaire.question.options.textTimeLimit{% endtrans %}</span><div class="stop"></div></p>
+                {% endif %}
+            {% endif %}
+            {{ element.textDescription|raw|nl2br }}
+            </div>
+            {% if action == 'process' %}
+
+        {% if element.timeLimit %}
+            <div class="grid_3">
+                <div class="time" style="float:right;margin-right: 50px;">
+                    <p id="typeTimer">{% trans from 'front' %}questionnaire.question.options.timeLimit{% endtrans %}</p>
+                    <div class="green clock_webcam">
+                        <input name="timer_val" value="" type="hidden" id="timer_val">
+                        <canvas id="read_timer" width="100" height="100" data-seconds="{{ element.timeLimit }}"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="stop"></div>
+            <script type="text/javascript">
+
+                $(document).ready(function() {
+                    renderProgress('read');
+                });
+                function renderProgress(elem) {
+                    canvas = document.getElementById(elem + '_timer'),
+                            ctx = canvas.getContext('2d'),
+                            sec = (($('#timer_val').val() !== '') ? $('#timer_val').val() : $(canvas).data('seconds')) | 0,
+                            countdown = sec;
+
+                    ctx.lineWidth = 10;
+                    ctx.strokeStyle = "#f9f9f9";
+                    ctx.fillStyle = '#666666';
+                    ctx.textAlign = 'center';
+                    ctx.font = '20px Arial';
+                    var
+                            startAngle = (-Math.PI / 2),
+                            time = 0,
+                            intv = setInterval(function() {
+
+                                var endAngle = (Math.PI * time * 2 / sec) - Math.PI / 2;
+                                ctx.arc(50, 50, 42, startAngle, endAngle, false);
+                                startAngle = endAngle;
+                                ctx.stroke();
+
+                                ctx.clearRect(20, 30, 50, 50);
+                                ctx.fillText(countdown-- + ' s', 50, 58);
+
+                                $('#timer_val').val(countdown);
+
+                                if (++time > sec) {
+                                    clearInterval(intv);
+                                    isBlocked = false;
+                                    history.pushState({"position": 'pos'}, 'doc', document.location.href);
+                                    $("#process_form").append('<input type="hidden" name="timeout" value="timeout" />');
+                                    $('#process_form').submit();
+                                }
+
+                            }, 1000);
+
+                }
+            </script>
+
+        {% endif %}
+        {% endif %}
+            <div class="button"></div>
+            <div class="media_data">   
+          {% include 'VMQuestionnaireBundle:Middle:media_type_show.html.twig' with { element: element } %}
+                <div class="stop"></div>
+            </div>
+        </div>             
+    </div>
+</li>
+

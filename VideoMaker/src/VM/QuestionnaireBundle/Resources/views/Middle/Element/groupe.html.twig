@@ -1,0 +1,144 @@
+{% set page = app.request.attributes.get('_route') %}
+{% set env = page | slice(0,2) %}
+{% if page == 'mo_questionnaire_elements' or page == 'bo_questionnaire_elements' or app.request.get('data_list') %}
+    {% set action = 'edition' %}
+    {% set detect = 'detect' %}
+    {% set editLink = path(env~'_questionnaire_element_update_ajax',{'id':element.id,'slug_ent':element.Questionnaire.Enterprise.slug,'slug_quest':element.questionnaire.slug}) %}
+{% else %}
+    {% set action = 'process' %}
+    {% set detect = 'no_detect' %}
+{% endif %}
+{% set list_id = "list_"~ ((element_id is defined) ? element_id : element.id )~((subchild_id is defined) ? '_'~ subchild_id~'' : '' )~((subsubchild_id is defined) ? '_'~ subsubchild_id~'' : '') %}
+<li style="border:none;" data-id = "{{element.id}}" id="{{ list_id }}">
+    <div class="group_element groups">
+
+       {% set color = '#999'%}
+
+       {% if element.level == 1 %}
+       {% set color = '#666' %}
+       {% endif %}
+       {% if element.level == 2 %}
+       {% set color = '#999' %}
+       {% endif %}
+        <h3 style="{{ 'background-color: ' ~ color~' !important;' }} "><p class="left number" >{{element.position}} - </p><p class="left color_white {{detect}}" data-type="titleGroup" {{  (action=='edition')? "onclick=getForm('"~editLink~"',this);":'' }} >{{element.name}}</p>
+
+           {% if action == 'edition'  %}
+            <span class="right option">
+                <!--<a class="tooltip" {{ element.level==0 ? 'style="display:block;"' : 'style="display:none;"' }} href="javascript:void(0);" data-elem_id="{{element.id}}" data-type="time_limit" onclick="return display_config(this);"><div class="img"></div><span>configuration</span></a>-->
+                <a class="collapse tooltip"><div class="img dep"></div><span>Replier</span></a>
+                <a class="tooltip" href="{{path(env~'_element_duplicate',{'slug_ent':element.Questionnaire.Enterprise.slug,'id':element.id,'slug_quest':element.questionnaire.slug,'type':'groupe'})}}"><div class="img duplicate"></div><span>Dupliquer</span> </a>
+                <a class="tooltip" href="javascript:void(0);" data-id="{{element.parent ? element.parent.id:''}}" data-action="edit" data-list_id="{{list_id}}" data-type="1" data-elem_id="{{element.id}}" onclick="return display_form(this);"><div class="img edit"></div><span>Editer</span></a>
+
+                <a  class="tooltip" href="{{ path(env~'_questionnaire_element_delete',{'id':element.id,'slug_ent':element.Questionnaire.Enterprise.slug,'slug_quest':element.questionnaire.slug})}}" onclick="return confirm('Are you sure to delete?');"><div class="img close"></div><span>Supprimer</span></a>
+                <div class="stop"></div>
+            </span>
+
+           {% endif %}
+            <div class="stop"></div>
+        </h3>
+        {% if element.timeLimit and action == 'process'  %}
+        <div id="scrollingDivTime">
+            <div class="time" style="margin-right: 20px;">
+                <p id="typeTimer">{% trans from 'front' %}questionnaire.question.options.timeLimit{% endtrans %}</p>
+                <div class="green clock_webcam">
+                    <input name="timer_val" value="" type="hidden" id="timer_val">
+                    <canvas id="read_timer" width="100" height="100" data-seconds="{{ element.timeLimit }}"></canvas>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="group-content">
+            <div class="{{detect}} no_bold italic textMCE"  id="element_description"  data-type="description" {{  (action=='edition')? "onclick=getForm('"~editLink~"',this);":'' }} >{{ element.textDescription | raw }}</div>
+            <div class="media_data"> 
+             {% include 'VMQuestionnaireBundle:Middle:media_type_show.html.twig' with { element: element } %}
+          </div>
+
+        {% if element.StdQuestionnaireTypeElement.slug !='description' %}
+
+            <ul class="list-design-new ul_design" id="list_ul_{{(subchild_id is defined) ? '2': '1'}}" data-par= "list_{{ (element_id is defined) ? element_id : element.id }}{{ (subchild_id is defined) ? '_'~ subchild_id~'' : '' }}{{ (subsubchild_id is defined) ? '_'~ subsubchild_id~'' : '' }}" data-parent="{{ element.id }}" style="min-height:20px;">
+
+            {% if childArray[element.id] is defined and childArray[element.id] | length > 0 %}
+                {% for subchild in childArray[element.id] %}
+                    {% include 'VMQuestionnaireBundle:Middle:Element/' ~subchild.StdQuestionnaireTypeElement.slug~ '.html.twig' with { element_id: element.id, element: subchild, subchild_id: subchild.id } %}
+                {% endfor %}
+            {% endif %}
+
+            {% if subChildArray[element.id] is defined and subChildArray[element.id] | length >0 %}
+                {% for subsubchild in subChildArray[subchild.id] %}
+                    {% include 'VMQuestionnaireBundle:Middle:Element/' ~subsubchild.StdQuestionnaireTypeElement.slug~ '.html.twig' with { element_id: ((element_id is defined) ? element_id : element.id ), element: subsubchild,subchild_id: subchild.id, subsubchild_id: subsubchild.id } %}
+                {% endfor %}
+            {% endif %}
+
+            </ul>
+        {% endif %}
+                       
+        
+        {% if action == 'edition'  %}
+            {% include 'VMQuestionnaireBundle:Middle:Element/elements_menu.html.twig' with { element: element ,'list_id':list_id} %}
+        {% endif %}
+                  
+        </div>
+        <div class="stop"></div>      
+    </div>
+
+</li>
+   {% if action == 'process'  %}
+{% if element.timeLimit %}
+<script>
+    var positionElementInPage = $('#scrollingDivTime').offset().top;
+    $(window).scroll(
+
+            function() {
+                if ($(window).scrollTop() >= positionElementInPage) {
+
+                    // fixed
+                    $('#scrollingDivTime').addClass("floatable");
+                } else {
+                    // relative
+                    $('#scrollingDivTime').removeClass("floatable");
+                }
+            }
+    );
+    $(document).ready(function() {
+        renderProgress('read');
+    });
+    function renderProgress(elem) {
+        var canvas = new Array();
+        var ctx = new Array();
+        var countdown = new Array();
+        canvas[elem] = document.getElementById(elem + '_timer'),
+                ctx[elem] = canvas[elem].getContext('2d'),
+                sec = $(canvas[elem]).data('seconds') | 0,
+                countdown[elem] = sec;
+
+        ctx[elem].lineWidth = 10;
+        ctx[elem].strokeStyle = "#f9f9f9";
+        ctx[elem].fillStyle = '#666666';
+        ctx[elem].textAlign = 'center';
+        ctx[elem].font = '20px Arial';
+        var
+                startAngle = (-Math.PI / 2),
+                time = 0,
+                intv = setInterval(function() {
+
+                    var endAngle = (Math.PI * time * 2 / sec) - Math.PI / 2;
+                    ctx[elem].arc(50, 50, 42, startAngle, endAngle, false);
+                    startAngle = endAngle;
+                    ctx[elem].stroke();
+
+                    ctx[elem].clearRect(20, 30, 55, 45);
+                    ctx[elem].fillText(countdown[elem]-- + ' s', 50, 58);
+
+                    if (++time > sec || elem == 'clear') {
+                        clearInterval(intv);
+                        isBlocked = false;
+                        history.pushState({"position": 'pos'}, 'doc', document.location.href);
+                        $("#process_form").append('<input type="hidden" name="timeout" value="timeout" />');
+                        $('#process_form').submit();
+                    }
+
+                }, 1000);
+    }
+</script>
+{% endif %}
+{% endif %}

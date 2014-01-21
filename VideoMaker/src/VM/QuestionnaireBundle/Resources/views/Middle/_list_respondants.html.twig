@@ -1,0 +1,108 @@
+{% if elements | length  > 0 %}
+    {% if params.title is defined %}
+        <h2 class="titre_list">{{params.title}}</h2>
+    {% endif %}
+    <ul class="list-design ">
+        {% for element in elements %}
+            <li>
+                <a href="{{ path('mo_questionnaire_user_respondant_show', {'slug_ent': element.Questionnaire.Enterprise.slug, 'slug_quest': element.Questionnaire.slug, 'respondant_id': element.id}) }}">
+                    <div class="img_list profil"></div>
+                    <div class="contenu">
+                        <h3 class="titre">
+                            {% if element.firstname and element.lastname %}
+                                {{element.firstname}} {{element.lastname}}
+                            {% else %}
+                                {{element.email}}
+                            {% endif %}
+                        </h3>
+                        <div class="stop"></div>
+                        {% if element.status %}<p>Statut : {{element.status}}</p>{% endif %}
+                        <p>
+                            {% if element.getScore()[app.user.id] is defined %}
+                                Vous avez noté le répondant {{element.getScore()[app.user.id]}}
+                            {% else %}
+                                Vous n'avez pas encore noté le répondant
+                            {% endif %}
+                        </p>
+                        <p>Questionnaire : <span class="bold">{{element.Questionnaire.name}}</span></p>
+                        {#<span class="date"><div></div><span>du <span class="bold">12/10/2014</span> au <span class="bold">12/10/2014</span></span></span>#}
+                    </div>
+                    <div class="fleche"></div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    {% if params.inCaseNoResult is defined %}
+        {{params.inCaseNoResult}}
+    {% endif %}
+{% endif %}
+
+{#
+{% if params.design is defined and params.design == 'h1'%}
+    {% if params.title is defined %}
+        <h1 class="titre_list">{{params.title}}</h1>
+    {% endif %}
+    <ul class="list-design ">
+        {% for element in elements %}
+            <li>
+                <a href="{{ path('mo_questionnaire_user_respondant_show', {'slug_ent': element.Questionnaire.Enterprise.slug, 'slug_quest': element.Questionnaire.slug, 'respondant_id': element.id}) }}">
+                    <div class="img_list profil"></div>
+                    <div class="contenu">
+                        <h2 class="titre">{{element.firstname}} {{element.lastname}}</h2>
+                        <div class="stop"></div>
+                        <span class="date"><div></div><span>du <span class="bold">12/10/2014</span> au <span class="bold">12/10/2014</span></span></span>
+                    </div>
+                    <div class="fleche"></div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% elseif params.design is defined and params.design == 'ranking'%}
+    {% if params.title is defined %}
+        <h2 class="titre_sidebar">{{params.title}}</h2>
+    {% endif %}
+    <ul class="list-design sidebar">
+        {% for element in elements %}
+            <li>
+                <a  href="{{ path('mo_questionnaire_user_respondant_show', {'slug_ent': element.Questionnaire.Enterprise.slug, 'slug_quest': element.Questionnaire.slug, 'respondant_id': element.id}) }}">
+                    <div class="img_list number_1"></div>
+                    <div class="contenu">
+                        <h3 class="titre">{{element.firstname}} {{element.lastname}}</h3>
+                        <div class="score right">
+                            <span>Score :</span>
+                            <p>75</p>
+                        </div>
+                        <div class="stop"></div>
+                    </div>
+                    <div class="fleche"></div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    {% if params.title is defined %}
+        <h2 class="titre_list">{{params.title}}</h2>
+    {% endif %}
+    {% if elements|length > 0 %}
+        <ul class="list-design ">
+            {% for element in elements %}
+                <li>
+                    <a  href="{{ path('mo_questionnaire_user_respondant_show', {'slug_ent': element.Questionnaire.Enterprise.slug, 'slug_quest': element.Questionnaire.slug, 'respondant_id': element.id}) }}">
+                        <div class="img_list profil"></div>
+                        <div class="contenu">
+                            <h3 class="titre">{{element.firstname}} {{element.lastname}}</h3>
+                            <div class="stop"></div>
+                            <span class="date"><div></div><span>du <span class="bold">12/10/2014</span> au <span class="bold">12/10/2014</span></span></span>
+                        </div>
+                        <div class="fleche"></div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if params.addLink is defined %}
+        <a class="btn_principal right" href="{{params.addLink.url}}">{{ (params.addLink.text is defined) ? params.addLink.text : 'Voir tous' }}</a>
+    {% endif %}
+{% endif %}
+#}

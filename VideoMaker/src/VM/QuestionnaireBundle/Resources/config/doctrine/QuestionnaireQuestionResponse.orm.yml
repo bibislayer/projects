@@ -1,0 +1,47 @@
+VM\QuestionnaireBundle\Entity\QuestionnaireQuestionResponse:
+    type: entity
+    table: questionnaires_questions_responses
+    repositoryClass: VM\QuestionnaireBundle\Repository\QuestionnaireQuestionResponseRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        question_mark: { type: array, nullable: TRUE }
+        response: { type: text, nullable: TRUE }
+        enclosed_files : { type: string, lenght: 255, nullable: TRUE }
+        start_date: { type: string , nullable: TRUE}
+        end_date: { type: string , nullable: TRUE}
+        created_at:
+          type: date
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: create
+        updated_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: update
+    manyToOne:
+      QuestionnaireUser:
+        targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireUser
+        inversedBy: QuestionnaireQuestionResponse
+        joinColumns:
+          questionnaire_user_id:
+            referencedColumnName: id
+      Question:
+        targetEntity: VM\QuestionnaireBundle\Entity\Question
+        inversedBy: QuestionnaireQuestionResponse
+        joinColumns:
+          question_id:
+            referencedColumnName: id
+      QuestionnaireQuestionChoice:
+        targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireQuestionChoice
+        inversedBy: QuestionnaireQuestionResponse
+        joinColumns:
+          questionnaire_question_choice_id:
+            referencedColumnName: id
+    lifecycleCallbacks: {  }

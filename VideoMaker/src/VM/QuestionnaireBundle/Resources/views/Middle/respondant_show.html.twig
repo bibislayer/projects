@@ -1,0 +1,409 @@
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+{% set allResponse = true %}
+<div class="grid_12">
+    <div class="block_header">
+        <h1>Répondant : {{respondant.firstname}} {{respondant.lastname}}</h1>
+    </div>
+    <div class="user_show">
+        <div class="grid_8">
+            <p id="info_finish" class="color_green"></p>
+            <div class="input-main scoring " style="display: none">
+
+                <div class="label"> <label>Ajouter un commentaire aprés avoir noté toute les questions</label></div>
+                <div class="field">
+                    <textarea name="comments" id="comments" cols="35" rows="5" disabled="disabled">{{ respondant.comments is defined and respondant.comments[app.user.id] is defined?respondant.comments[app.user.id]:'' }}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="grid_4 text_center">
+            <input id="total_note" type="hidden" value="{{ (respondant.score['auto'] is defined) ? respondant.score['auto'] : 0  }}" name="total_note"/>
+            <p class=" note">Total : <span class="grandTotal">{{ (respondant.score['auto'] is defined) ? respondant.score['auto'] : 0 }}</span> / {{ (respondant.score['dividend'] is defined) ? respondant.score['dividend'] : 0 }}</p>
+             {% if respondant.score['auto'] is defined %}
+                 <p class=" auto_note">Total automatique : {{ respondant.score['auto'] }} / {{ respondant.score['dividend'] }}</p>
+             {% endif %}
+            <p class="text_center scoring" style="display: none">
+                <button data-type="total_note" class="btn_principal" onClick="saveData('{{ path('mo_questionnaire_user_response_total_note_ajax', {'slug_ent': app.request.get('slug_ent'), 'slug_quest': app.request.get('slug_quest'), 'repondant_id': respondant.id}) }}', this)">Valider ma notation</button>
+            </p>
+        </div>
+        <div class="stop"></div>
+    </div>
+</div>
+<div class="grid_12" >
+    <div class="user_show tuto" id="tuto_note">
+        <div class="grid_1">
+            <img class="_60_imp right" src="{{ asset('bundles/vmgeneral/images/arrow.png') }}" >
+        </div>
+        <div class="grid_11">
+            <div id="infoUser">
+                <p class="color_bleu">Cliquez sur une question pour faire apparaitre le résultat</p>
+            </div>
+            <p class="fifteenpx">Il vous reste <span id="nb_question_non_note" class="bold">x</span> question à noté sur <span id="nb_question" class="bold">x</span></p>
+        </div>
+        <div class="stop"></div>
+    </div>
+
+</div>
+<div class="grid_6">
+    <div class="block-main">
+        <div class="block_design">
+            <div class="block_content">
+                <ul class="list-design note">
+                        {% set total_note, dividend, i, oldQuestion = 0, 0, 1, '' %} 
+                        {% if questions_respondant is defined  and questions_respondant | length > 0 %}  
+                        {% for question in questions_respondant %}
+                          {% if (question.QuestionnaireQuestionResponse is defined ) and (question.QuestionnaireQuestionResponse | length > 0)%}
+                              {% for resp in question.QuestionnaireQuestionResponse %}
+                                 {% if respondant.id == resp.QuestionnaireUser.id  and oldQuestion != question.id%}
+                                    {% set oldQuestion = question.id%}
+                                    {% if resp.getQuestionMark() is not empty %}
+                                        {% set total_mark = resp.getQuestionMark()|length %}
+                                        {% if resp.getQuestionMark()[app.user.id] is defined %}
+                                            {% set question_mark = resp.getQuestionMark()[app.user.id] %}
+                                            {% set question_mark_a = 'null' %}
+                                            {% set total_note = total_note + (resp.getQuestionMark()[app.user.id] * question.Rankin) %}
+                                        {% else %}
+                                            {% set question_mark = 'null' %}
+                                            {% if resp.getQuestionMark()['auto'] is defined %}
+                                                {% set question_mark_a = resp.getQuestionMark()['auto'] %}
+                                                {% set question_mark = 'null' %}
+                                                {% set total_note = total_note + (resp.getQuestionMark()['auto'] * question.Rankin) %}
+                                            {% else %}
+                                                {% set question_mark_a = 'null' %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% else %}
+                                        {% set question_mark_a = 'null' %}
+                                        {% set question_mark = 'null' %}
+                                        {% set total_mark = 0 %}
+                                    {% endif %}
+                                    {% set dividend = dividend + (question.Rankin * 5) %}
+                    <li>
+                        <a class="open list{{ i }}" data-response="{{ question.id }}">
+                            <div class="contenu">
+                                <h3 class="titre">
+                                    <p class="question_h2 left {{(question_mark == '0' or question_mark != 'null') or (question_mark_a == '0' or question_mark_a != 'null')?'color_green':'color_orange'}}">Question n°{{ i }} :
+                                    <span class="color_black">{{ question.QuestionnaireElement.name }}</span></p>
+                                    <div class="stop"></div>
+                                    <p class="italic twelvepx left"><span>Type de question :</span>{{ question.StdQuestionType.name }}</p>
+                                    {% if question_mark == '0' or question_mark != 'null' %}
+                                    <p id="score_{{question.id}}" class="right note_result"> {{question_mark*question.Rankin}}/{{question.Rankin*5}}</p>
+                                    {% elseif question_mark_a == '0' or question_mark_a != 'null' %}
+                                    <p id="score_{{question.id}}" class="right note_result"> {{question_mark_a*question.Rankin}}/{{question.Rankin*5}}  </p>
+                                    {% else %}
+                                    <p id="score_{{question.id}}" class="right note_result"> Pas de note </p>
+                                    {% endif %}
+                                    <div class="stop"></div>
+                                 {#  <p class="lien">{% if resp.getQuestionMark()[app.user.id] is defined or resp.getQuestionMark()['auto'] is defined %}{% else %}{% set allResponse = false %}Vous n'avez pas encore noter cette question{% endif %}</p>  #}
+                                </h3>
+                            </div>
+                        </a>
+                    </li>
+                    <div id="reponse_{{ question.id }}" class="unfold_open">
+                        <h1 class="color_green bold twentypx">Question n°{{ i }} </h1>
+                        <div class="grid_12 register">
+                            <p>{{ question.QuestionnaireElement.name }}</p>
+                            {% if question.QuestionnaireElement.textDescription %}
+                                <div class="textMCE">{{ question.QuestionnaireElement.textDescription|raw }}</div>
+                            {% endif %}
+                            <fieldset>
+                                <span class="bold">Réponse utilisateur :</span>
+                                <p class="result">
+                                    {% set res = '' %}
+                                    {% set current_choice = {} %}
+                                      {% for response in question.QuestionnaireQuestionResponse %}
+                                        {% if response.question.id == resp.Question.id  and respondant.id == response.QuestionnaireUser.id  %}
+                                            {% if question.getStdQuestionType().template == 'open_question' or  question.getStdQuestionType().template == 'evaluation'%}
+                                                {%  set res = (response.response is not empty) ? response.response : '' %}
+                                            {% endif %}
+                                            {% set checked = false %}
+                                            {% set color = 'red' %}
+                                            {% if question.getStdQuestionType().template == 'choice' %}
+                                                    {% for choice in question.QuestionnaireQuestionChoice %}
+                                                        {% if current_choice[choice.name] is not defined or choice.name != current_choice[choice.name].name or choice.name == response.QuestionnaireQuestionChoice.name and current_choice[choice.name].checked != true %}
+                                                            {% if response.QuestionnaireQuestionChoice.name is defined and choice.name == response.QuestionnaireQuestionChoice.name %}
+                                                                {% if choice.goodResponse == 1 %}
+                                                                    {% set color = 'green' %}
+                                                                {% else %}
+                                                                    {% set color = 'red' %}
+                                                                {% endif %}
+                                                                {% set checked = true %}
+                                                            {% else %}
+                                                                {% if choice.goodResponse == 1 %}
+                                                                    {% set color = 'orange' %}
+                                                                {% else %}
+                                                                    {% set color = '' %}
+                                                                {% endif %}
+                                                                {% set checked = false %}
+                                                            {% endif %}
+                                                            {% set current_choice = current_choice|merge({(choice.name) :{'name':choice.name, 'checked': checked, 'color': color}}) %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                            {% endif %}
+                                             {% if question.getStdQuestionType().template == 'datetime' %}
+
+                                                   {% if question.options.DatetimeType.0 == 2 %}
+                                                      {%  set res = (((response.startDate is not empty) ? response.startDate  : 'N/A')~' To '~((response.endDate is not empty) ? response.endDate  : 'N/A')) %}
+                                                   {% else %}
+                                                       {%  set res = ((response.startDate is not empty) ? response.startDate  : 'N/A') %}
+                                                   {% endif %}
+                                             {% endif %}
+
+                                             {% if question.getStdQuestionType.template =='media' %}
+                                                 {% if response.enclosedFiles is not empty %}
+                                                    {% if response.QuestionnaireUser.User %}
+                                                       {% set file_name = response.enclosedFiles| split('/')[5] %}
+                                                    {% else %}
+                                                       {% set file_name = response.enclosedFiles| split('/')[6] %}
+                                                    {% endif %}
+                                                    {% set res = '<a href="'~app.request.server.get('host')~response.enclosedFiles~'">'~file_name~'</a>' %}
+                                                    {% set res = res ~ '<a href="'~path('mo_questionnaire_question_response_download',{'slug_ent':app.request.get('slug_ent'),'slug_quest':app.request.get('slug_quest'),'response_id':response.id})~'">Download</a>' %}
+
+                                                 {% endif %}
+                                             {% endif %}
+                                             {% if question.getStdQuestionType.template =='webcam' %}
+                                                {% if response.enclosedFiles is not empty %}
+                                                    {% set res = ' ' %}
+                                                    {% include 'VMQuestionnaireBundle:Middle:_videoplayer.html.twig' with {'video' : app.request.server.get('host')~response.enclosedFiles} only %}
+                                                 {% endif %}
+                                             {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if question.getStdQuestionType().template == 'choice' %}
+                                        {% set typeInputChoice = question.Options['ChoiceType'] == 1 ?'radio':'checkbox' %}
+                                        {% for choice in current_choice %}
+                                            {% set checked = (choice.checked) ? 'checked=checked' : '' %}
+                                            {% if question.Options['ChoiceType'] == 3 %}
+                                                {% set res = res  ~ '<input type="'~typeInputChoice~'" name="radio'~question.id~'" '~checked~' disabled="disabled" /><span class="color_'~choice.color~'">' ~ choice.name ~'</span><br/>'  %}
+                                            {% else %}
+                                                {% set classChoice = checked?'bold':''%}
+                                                {% set res = res  ~ '<input type="'~typeInputChoice~'" name="radio'~question.id~'" '~checked~' disabled="disabled" /><span class="'~classChoice~'">' ~ choice.name ~'</span><br/>'  %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {{ (res is not empty) ? stripSlashesTwig(res) | raw : 'Pas de réponse' }}
+                                        
+                                </p>
+                            </fieldset>
+                        </div>
+                        <div class="grid_12">
+
+                            <div class="input-main" style="padding:10px;">
+                                <span class="total fifteenpx left">Votre note :</span>
+                                <div class="input-block">
+                                    <div class="field">
+                                        {% set realMark = (question_mark != 'null' or question_mark == '0')?question_mark:question_mark_a%}
+                                        <select name="question_mark left" class="_60_imp">
+                                            {% set selectedOption = 'false' %}
+                                            {% for i in 0..5 %}
+                                                <option {% if realMark == i and (realMark != 'null' or realMark == '0') %}selected=selected{% set selectedOption = 'true' %}{% endif %} value="{{ i }}">{{ i }}</option>
+                                            {% endfor %}
+                                            {% if selectedOption == 'false' %}
+                                                <option selected=selected value="{{ realMark != 'null' ?realMark:'' }}">{{ realMark != 'null' ?realMark:'' }}</option>
+                                            {% endif %}
+                                        </select>
+                                        <button class="btn_principal right"  link_id="list{{i}}" data-id="{{question.id}}" data-rank = "{{question.Rankin}}" onClick="saveData('{{ path('mo_questionnaire_user_response_rankin_ajax', {'slug_ent': question.QuestionnaireElement.Questionnaire.Enterprise.slug, 'slug_quest': question.QuestionnaireElement.Questionnaire.slug, 'question_id': question.id, 'repondant_id': respondant.id}) }}', this)"> Sauvegarder</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stop"></div>
+                    </div>
+                                      {% endif %}
+                                     {% endfor %}
+                                    {% endif %}
+
+
+                        {% set i = i + 1 %}
+                        {% endfor %}                        
+                    {% else %}
+                    Attend the questionnaire but not gave answer for any question
+                    {% endif %}
+                    {% if total_note != 0 %}
+                    <script>
+                        $('.grandTotal').html('{{ total_note }}');
+                    </script>  
+                    {% endif %}
+                    {#
+
+                    <div class="img_list _20_imp" ><span>Total</span></div>
+                    <div class="contenu">
+                        <h3 class="titre"></h3>
+                        
+                        <div class="note_contenu">
+
+                            {% if allResponse == true %}
+                                <button data-type="total_note" class="btn_principal right" onClick="saveData('{{ path('mo_questionnaire_user_response_total_note_ajax', {'slug_ent': app.request.get('slug_ent'), 'slug_quest': app.request.get('slug_quest'), 'repondant_id': respondant.id}) }}', this)">Valider ma notation</button>
+                            {% endif %}
+                                <div class="right">
+                                    <div class="input-main">
+                                        <div class="field">
+                                            <input id="total_note" type="hidden" value="{{ total_note }}" name="total_note"/>
+                                        </div>
+                                    </div>
+                                    <p class="eighteenpx">Note : <span class="grandTotal note">{{ total_note }} / {{ dividend }}</span></p>
+                                </div>
+                            <div class="stop"></div>
+                        </div>
+                        <div class="note_contenu">
+                            <div class="input-main">
+                                <div class="field">
+                                    <textarea name="comments" id="comments" cols="35" rows="5">{{ respondant.comments is defined and respondant.comments[app.user.id] is defined?respondant.comments[app.user.id]:'' }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="unfold"></div>
+                    #}
+                    <li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="container_reponse" class="grid_6">
+    <p>Cliquez sur une question pour faire apparaitre le résultat</p>
+</div>
+<div class="stop"></div>
+
+<script>
+    $(document).ready(function() {
+        var items = 0;
+        var itemsNn = 0;
+        var loaded = 0;
+        var allScored = true;
+        $('.question_h2').each(function(index) {
+            if ($(this).attr('style') === 'color:#d94646') {
+                allScored = false;
+            }
+        });
+        if (allScored === true) {
+            $('#linkDecision').show();
+        }
+         $('li div.contenu h3.titre p.note_result').each(function() {
+            items++;
+            if($(this).html() == " Pas de note ")
+                itemsNn++;
+            if($(this).html() == " Pas de note " && loaded == 0){
+                var id = $(this).parent().parent().parent().attr('data-response');
+                var content = $('#reponse_' + id).html();
+                $('#container_reponse').html(content);
+                loaded = 1;
+            }
+        });
+        if(itemsNn == 0){
+            $('#info_finish').html('Bravo vous avez tout noté, vous pouvez maintenant valider votre note');
+            $('.scoring').show();
+            $('#tuto_note').hide();
+        }
+        $('#nb_question_non_note').html(itemsNn);
+        $('#nb_question').html(items);
+    });
+    $('.open').click(function() {
+        var id = $(this).attr('data-response');
+        var content = $('#reponse_' + id).html();
+        $('#container_reponse').html(content);
+        /*if ($(this).parent().next().is(':visible')) {
+         $(this).parent().next().hide('slide');
+         } else {
+         $(this).parent().next().show('slide');
+         } */
+    });
+
+    function saveData(url, that) {
+        var value;
+        var id = $(that).attr('data-id');
+        var rank = $(that).attr('data-rank');
+        var link_id = $(that).attr('link_id');
+        var type = $(that).attr('data-type');
+        var total = '';
+        var allScored = true;
+        if (type === "total_note") {
+            value = $('span.grandTotal').html();
+        } else {
+            value = $(that).parent().parent().find(":selected").text();
+            $('a.' + link_id + ' div.img_list').attr('style', 'background-color:#92BB00;');
+            $('a.' + link_id + ' p.lien').html('');
+            $('#score_'+id).html(value*rank+'/'+rank*5);
+            $('.unfold_open').hide();
+        }
+        $('div.img_list').each(function(index) {
+            if ($(this).attr('style') === 'background-color:#d94646') {
+                allScored = false;
+            }
+        });
+        if (allScored === true) {
+            $('#linkDecision').show();
+        }
+        var dataSet = {'value': value, 'comments': $('#comments').val()}, grand_total = 0, grand_max_total = 0, items = 0, loaded = 0, itemsNn = 0;
+        $('.' + link_id + ' .note_contenu .note').html((value * rank) + '/' + (rank * 5));
+
+        var total = parseInt($('#total_note').val()) + (value * 5);
+
+        $('#total_note').val(total);
+        //$('.grandTotal').html(total + '/' + dividend);
+        $('li div.contenu h3.titre p.note_result').each(function() {
+            items++;
+            if($(this).html() != " Pas de note "){
+                grand_total += parseInt((($(this).html()).split('/'))[0]);
+            }
+        });
+        $('#total_note').val(grand_total);
+        $('span.grandTotal').html(grand_total);
+        if (!type) {
+            dataSet['total'] = $('span.grandTotal').html();
+        }
+        dataSet['items'] = items;
+
+        divOpacity = $(that).closest('div#container_reponse');
+        $(divOpacity).css('opacity','O.5');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: dataSet,
+            success: function(data) {
+                var split_data = data.split(',');
+                total += (split_data[1] === 1 ? '1 note' : split_data[1] + ' note');
+                $('.' + link_id + ' .note_contenu .total').html(total);
+                $('li div.contenu h3.titre p.note_result').each(function() {
+                    if($(this).html() == " Pas de note ")
+                        itemsNn++;
+                    if($(this).html() == " Pas de note " && loaded == 0){
+                        var id = $(this).parent().parent().parent().attr('data-response');
+                        var content = $('#reponse_' + id).html();
+                        $('#container_reponse').html(content);
+                        loaded = 1;
+                    }
+                });
+                $(that).parent().parent().find("select option").removeAttr('selected');
+                $(that).parent().parent().find("select option[value=" + value +"]").attr('selected', 'selected');
+
+                $('#reponse_' + id).html($('#container_reponse').html());
+                if(loaded == 0){
+                    $('#container_reponse').html('<p>Cliquez sur une question pour faire apparaitre le résultat</p>');
+                    $('#info_finish').html('Bravo vous avez tout noté, vous pouvez maintenant valider votre note');
+                    $('.scoring').show();
+                    $('#tuto_note').hide();
+                }
+                if (type === "total_note") {
+                    document.location = '{{ path('mo_questionnaire_user_respondant_decisions', {'slug_quest': app.request.get('slug_quest'), 'slug_ent': app.request.get('slug_ent'), 'questionnaire_user_id': respondant.id}) }}'; 
+                }
+
+                $('#score_'+id).parent().find('p:first').removeClass('color_orange');
+                $('#score_'+id).parent().find('p:first').addClass('color_green');
+                $('#nb_question_non_note').html(itemsNn);
+                $('#nb_question').html(items);
+                $(divOpacity).css('opacity','1');
+            },
+            error: function(data) {
+                return 0;
+            }
+        });
+    }
+</script>
+{% endblock %}

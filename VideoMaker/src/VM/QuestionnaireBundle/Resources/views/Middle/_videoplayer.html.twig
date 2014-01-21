@@ -1,0 +1,17 @@
+
+<script src="{{ asset('bundles/vmgeneral/js/jwplayer/jwplayer.js') }}"></script>
+<script>jwplayer.key = "s3TKLpSOld7V25YJd/t2d5PfTPswwtdQP1d9Pg=="</script>
+<style>
+    #my-video_wrapper{margin: 0 auto;}
+</style>
+
+<div id='my-video-{{ video }}'></div>
+<script type='text/javascript'>
+    jwplayer('my-video-{{ video }}').setup({
+        file: '/uploads/streams/{{ video }}.flv',
+        width: '480',
+        height: '270',
+        autostart: true
+    });
+</script> 
+

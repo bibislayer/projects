@@ -1,0 +1,76 @@
+{% if action == 'edition' and element.Question.Options['ChoiceType'] is defined %}
+<p class="thirteenpx" style="margin-left:20px "><span class="bold">Type choix:</span>
+    {% if element.Question.Options['ChoiceType'] == 1 %}
+        Choix unique
+    {% elseif element.Question.Options['ChoiceType'] == 2 %}
+       Choix multiple
+    {% elseif element.Question.Options['ChoiceType'] == 3 %}
+        QCM
+    {% endif %}
+</p>
+{% endif %}
+<div class="input-main">
+    <div class="input-block">
+        <div class="field">
+            {% set uniFlag='' %}
+            {% set multiFlag='' %}
+            {% set selected = '' %}
+
+            {% set type = 'checkbox' %}
+            {% if element.Question.Options['ChoiceType'] is defined and (element.Question.Options['ChoiceType'] == 1 or element.Question.Options['ChoiceType'] == 4) %}
+                {% set type = 'radio' %}
+            {% endif %}
+            
+            {% for choice in element.Question.QuestionnaireQuestionChoice %}
+                {% set selectedMulti = '' %}
+                    {% if type == 'radio'%}   
+                      
+                        {% if values is defined and values[element.Question.id] is defined and values[element.Question.id] == choice.id %}
+                          {% set selected = 'checked=checked' %}
+                        {% else %}
+                          {% set selected = '' %} 
+                        {% endif %}
+                
+                        <p>
+                            {% if action == 'edition' %}
+                                <label class=" {{ (choice.goodResponse) ? 'color_green bold' : '' }}"><input {{ (choice.goodResponse) ? 'checked="checked"' : '' }} type="{{ type }}" name="unique_choice_question[{{ element.Question.id }}]" {{ selected }} value="{{ choice.id }}"/> {{ choice.name }}</label>
+                                {% if choice.ranking or choice.ranking == '0' %}
+                                   <span class="bold ranking ">{{choice.ranking}} / 5  </span>
+                                {% endif %}
+                            {% else %}
+                                <label><input type="{{ type }}" name="unique_choice_question[{{ element.Question.id }}]" {{ selected }} value="{{ choice.id }}"/> {{ choice.name }}</label>
+                            {% endif %}
+                        </p >
+                        {% set uniFlag = 1 %}
+                    {% else %}
+                        {% if values is defined and values[element.Question.id] is defined  and values[element.Question.id] | length > 0 %}
+                            {% for item in values[element.Question.id] %}
+                                {% if  item == choice.id %}
+                                    {% set selectedMulti = 'checked=checked' %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <p >
+                            {% if action == 'edition' %}
+                                <label class=" {{ (choice.goodResponse) ? 'color_green bold' : '' }} _90 left"><input type="{{ type }}" name="multi_choice_question[{{ element.Question.id }}][]" {{selectedMulti}} value="{{ choice.id }}" {{ (choice.goodResponse) ? 'checked="checked"' : '' }} disabled="true"/><span class="design_edit">{{ choice.name }}</span></label>
+                                {% if choice.ranking %}
+                                   <span class="bold ranking ">{{choice.ranking}} / 5  </span>
+                                {% endif %}
+                            {% else %}
+                                <label class="_90 left"><input type="{{ type }}" name="multi_choice_question[{{ element.Question.id }}][]" {{selectedMulti}} value="{{ choice.id }}" /><span class="design_edit">{{ choice.name }}</span></label>
+                            {% endif %}
+                        </p>
+                        {% set multiFlag = 1 %}
+                    {% endif %}
+            {% endfor %}
+
+            {% if uniFlag is defined and  uniFlag == 1%}
+                <input type="hidden" name="unique_choices[]" value="{{ element.Question.id }}">
+            {% endif %}
+            {% if multiFlag is defined and  multiFlag == 1%}
+                <input type="hidden" name="multi_choices[]" value="{{  element.Question.id }}">
+            {% endif %}
+            <p>{{ (errors is defined and errors[element.Question.id] is defined) ? errors[element.Question.id] : '' }}</p>
+        </div>
+    </div>
+</div>

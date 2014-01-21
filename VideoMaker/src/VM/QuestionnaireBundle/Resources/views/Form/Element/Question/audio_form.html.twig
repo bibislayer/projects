@@ -1,0 +1,12 @@
+<div>
+
+          {{ form_row(form.QuestionnaireElement.name)}}
+
+    
+        {% include 'VMQuestionnaireBundle:Form:Element/Question/question_option_form.html.twig' %}    
+ 
+      <div class="text_center button_save">
+        {{ form_widget(form.save ) }}
+         <div style="height:10px;">&nbsp;</div>
+      </div>      
+</div>

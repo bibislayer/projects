@@ -1,0 +1,74 @@
+{% extends 'VMGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_8">
+    <div class="block-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"> <h1>Utilisateur : {{ user.UserProfile.firstname is defined or user.UserProfile.lastname is defined?(user.UserProfile.firstname~' '~user.UserProfile.lastname)|capitalize:'' }}</h1></div>
+                <div class="block_content">
+                    <table class="table_backend" cellspacing="5" cellpadding="5" width="100%" style="text-align:left;">
+                        <tr>    
+                            <th><p>Username</p></th>
+                            <td><p>{{user.username}}</p></td>
+                        </tr>
+                        {% if user.UserProfile.firstname is defined %}
+                            <tr>    
+                                <th><p>Firstname </p></th>
+                                <td><p>{{ user.UserProfile.firstname }}</p></td>
+                            </tr>
+                        {% endif %}
+                        {% if user.UserProfile.lastname is defined %}
+                            <tr>    
+                                <th><p>Lastname </p></th>
+                                <td><p>{{ user.UserProfile.lastname }}</p></td>
+                            </tr>
+                        {% endif %}
+                        <tr>    
+                            <th><p>Email </p></th>
+                            <td><p>{{user.email}}</p></td>
+                        </tr>
+                        <tr>    
+                            <th><p>Last login</p></th>
+                            <td><p>{{ user.lastLogin is not null ?user.lastLogin.date:'' }}</p></td>
+                        </tr>
+                        <tr>    
+                            <th><p>Roles</p></th>
+                            <td><p>{%  if user.roles is defined %}
+                                        {% for role in user.roles %}
+                                            {{ role }} 
+                                                {% if role!='ROLE_USER' %}
+                                                    <a onclick="if(!confirm('Are you sure, you want to remove role.')) return false;" href="{{ path('bo_user_role_remove',{'id':user.id,'role':role}) }}">Remove</a>
+                                                {% endif %}    <br>
+                                        {% endfor %}
+                                    {% endif %}
+                            </p></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid_4">
+    <div class="block-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"> <h1>Actions</h1></div>
+                <div class="block_content">
+                    <ul>
+                        <li><p><a href="{{ path ('bo_users')}}">Tous les utilisateurs</a></p></li> 
+                        <li><p><a href="{{ path ('bo_user_role_edit' , {'user_id':  user.id  }) }}">{{ user.roles is defined?'Change':'Add' }} role</a></p></li> 
+                        {% if user.EnterpriseAdministrator|length==0 %}
+                            <li><p><a href="{{ path ('bo_customer_new' , {'user_id':  user.id  }) }}">New customer</a></p></li> 
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

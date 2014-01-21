@@ -1,0 +1,30 @@
+{# empty Twig template #}
+<div class="grid_12">
+<div class="border_table">
+<table class="table-backend">
+    <thead>
+    <tr>
+        <th>Nom de l'organisme</th>
+        <th>Note</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for element in elements %}
+    <tr class="">
+        <td class="center">
+            <a href="{{ path('bo_note_show',{'id':element.id}) }}">{{ element.Maker.name }}</a>
+        </td>
+        <td class="center">{{ element.note }}</td>
+
+                     
+        <td class="center">
+            
+        </td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    </div>
+</div>

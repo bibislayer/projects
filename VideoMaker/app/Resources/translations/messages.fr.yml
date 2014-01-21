@@ -1,0 +1,217 @@
+mo:
+    general:
+        title:
+            homepage: Tableau de Bord
+        menu:
+            collaborator: Gestion des Collaborateurs
+            questionnaire: Questionnaires
+            advert: Annonces
+            logout: Déconnexion
+    enterprise:
+        title:
+            show: Tableau de Bord %ent%
+            edit: Modifier l'entreprise %ent%
+        link:
+            edit: Modifier l'entreprise
+    collaborator:
+        title:
+            index: Collaborateurs de %ent%
+            new: Ajouter un collaborateur à %ent%
+        link:
+            add: Ajouter un collaborateur
+    advert:
+        link:
+            add: Ajouter une annonce
+    questionnaire:
+        title:
+            creation: Questionnaires en cours de création
+            index: Questionnaires de l'entreprise %ent%
+            last: Vos derniers questionnaires
+            new: Ajouter un questionnaire à %ent%
+            edit: Modifier %quest%
+        link:
+            add: Ajouter un questionnaire
+            index: Vos questionnaires
+    candidate:
+        title:
+            index: Tous les participants
+            index_quest: Tous les participants de %quest%
+            last: Les derniers participants
+            accepted: Candidats acceptés
+            refused: Candidats refusés
+            best: Meilleurs Candidats
+            waiting_rating: Candidats en attente de réponse
+bo:
+    collaborator:
+        title:
+            new:  Ajouter un collaborateur à %ent%
+    questionnaire:
+        title:
+            new: Ajouter un questionnaire
+            export: Export un questionnaire
+
+edit: Modifier
+new: Nouveau
+delete: Supprimer
+preview: Prévisualiser
+
+form:
+    questionnaire:
+          generalHelp: La création d'un questionnaire se fait en 2 étapes,<br> vous devez au préalable renseigner les informations et ensuite l'organiser
+          name: Nom du questionnaire
+          StdQuestionnaireType: Nom du questionnaire type
+          formule: Formule
+          enterprise: Nom de l’entreprise
+          text_payment: Informations concernant le paiement
+          payment_amount_before: Prix d'achat questionnaire HT
+          payment_amount_after: Prix de vente questionnaire HT
+          payment_vat:  Taux de TVA
+          text_introduction: Text d'introduction
+          text_presentation: Présentation de votre questionnaire
+          mail_invitation: Mail à envoyer lors d'une invitation
+          mail_accepted: Mail à envoyer lors de l'acceptation d'un candidat
+          mail_refused: Mail à envoyer lors du refus d'un candidat
+          anonymous: Souhaitez-vous obtenir les participants de manière anonyme?
+    QuestionnaireElement:
+          name: Titre
+          StdQuestionnaireTypeElement: Type de questionnaire element
+          text_description: Text de description
+          time_limit: Time Limit 
+          media_type: Nom du media Type un Element
+          media_embed: Embed Media
+          element_media_file: Upload Media
+          media_allow: Add Media Type
+    QuestionnaireExport:
+          enterprise: Nom de l’entreprise
+            
+    Question: 
+          StdQuestionType: Type de question
+          choice_type: Type de choix
+          datetime_type: Type de datetime question 
+          evaluation_type: Type de evaluation question
+          choice_name: Choix
+          format: Format
+          doc_type: Formats de document autorisé(s)
+          QuestionnaireElement:
+              name: Titre de la question
+              text_description: Text de description 
+              time_limit: Temps limite de réponse (en secondes)
+              media_embed: Embed Media
+              element_media_file: Upload Media
+              media_type: Nom du media Type un Element
+              media_allow: Add Media Type
+          QuestionOption:             
+              chars_limit: Limitation de caractères
+              question_time: Temps de lecture de la question
+              response_time: Temps de réponse de la question
+              other_option: Options
+              rankin: Pondération
+    questionnaireUser:
+              email: Email 
+              first_name: First Name
+              last_name: Last Name
+              phone_number: Phone Number
+    enterprise:
+          name: Nom de l’entreprise
+          company_name: Raison Sociale
+          logo: Logo
+          code_naf: Code naf
+          code_siret: Code siret
+          phone: Téléphone
+          fax: Fax
+          url_site: Site web
+          text_introduction: Text introduction
+          text_presentation: Présentation de votre entreprise    
+    feedback:
+          email: Email
+          text: Text
+          Question: Question          
+    advert:
+          name: Nom
+          Enterprise:  Entreprise
+          text_introduction:  Introduction
+          text_description:  Description
+          start_date:  Start date
+          period: Durée
+          advert_type:  Type d'annonce          
+    enterprise_invitation_administrator:
+          email:  Email    
+          roles:  Droits d'accès
+    mailer_category:
+          name: Nom    
+    mailer:
+          name: Nom
+          subject: Subject
+          description: Description
+          content: Content
+          template: Template
+          MailerCategory: Type    
+    help:
+          text: Text
+          std_question_type: Question type
+          std_questionnaire_type: Questionnaire type          
+    recrut_online_user_registration:
+          enterprise:
+            url_site: Site Internet
+            phone: Téléphone
+            logo: Logo entreprise
+            code_siret: Code siret
+            name: Nom de l'entreprise
+          user_profile:
+            firstname:  Prénom
+            lastname: Nom
+            gender: Gender
+            birthday: Birthday
+    recrut_online_user_change_email:
+          email_new:  Email
+    recrut_online_user_change_password:
+          current_password: Current password
+    recrut_online_user_group:
+          name: Groupe nom
+    recrut_online_user_role:
+          roles:  Roles
+    credits_histories:
+          credit: Credit
+          debit:  Debit
+    category:
+          name: Nom du secteur
+          presentation: Description longue du secteur
+          introduction: Description courte du secteur
+    std_questionnaire_type_element:
+          name: Nom
+    std_questionnaire_type:
+          name: Nom
+          Help: Help
+    std_question_type:
+          name: Nom
+          template: Template
+          Help: Help
+    enterprise_administrator:
+          Enterprise: Enterprise
+    enterprise_note:
+          type: Type
+          note: Note
+          date_recall:  Date de réalisation
+          is_close:  Cette action est-elle cloturée?
+          type_first: Type
+          note_first: Note
+          date_recall_first:  Date de réalisation
+          type_second: Type
+          note_second: Note
+          date_recall_second:  Date de réalisation
+    customer_filter:
+          by_commercial_status: Commercial status
+          by_special_status: Special status
+          by_with_collaborator: Collaborator
+          by_gestionnaire: Gestionnaire
+    questionnaireUser:
+        email: Email
+        first_name: Prénom
+        last_name: Nom
+        phone_number: Téléphone
+    login:
+        email: Adresse e-mail
+        password: Mot de passe
+        remember_me: Se souvenir de moi
+        forgot_password: Mot de passe oublié?
+        submit: Connexion

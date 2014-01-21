@@ -1,0 +1,17 @@
+
+
+{{ form_row(form.Maker) }}
+{{ form_row(form.roles) }}
+
+{{ form_row(form._token) }}
+<div class="text_center button_save">
+    {{ form_widget(form.save ) }}
+</div>
+<script>
+    $("form").submit(function(e) {
+        if($('#maker_administrator_Maker_id').val()==''){
+            alert('please add maker');
+            return false;
+        }
+    });
+</script>

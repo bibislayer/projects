@@ -1,0 +1,93 @@
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<style>
+    #tempo td{padding: 10px;margin:10px;border: solid 1px;}
+    #tempo th{padding: 10px;margin:10px;border: dashed 1px;}
+    #tempo {width: 100%;}
+</style>
+<div class="grid_12">
+    <div class="block-main">
+        <div class="block-simple">
+            <div class="block_design">
+                <div class="block_header"><h1>Récap notes administrateurs </h1></div>
+                <div class="block_content">
+                    <ul class="list-design decision">
+                        <li>
+                            <div class="contenu">
+                                <div class="grid_8">
+                                    <p class="bold eighteenpx">Utilisateur : {{ questionnare_user.email }} ( {{ questionnare_user.firstName }} {{ questionnare_user.lastName }} )</p>
+                                    <p><span class="bold">Date de participation :</span> {{ questionnare_user.updatedAt | localizeddate('long', 'short',app.request.locale) }}</p>
+                                    <p><span  class="bold">Répondant status : </span>{% if questionnare_user.status == 1 %} Accepte {% elseif questionnare_user.status == 2 %} Refuse {% else %} En attente de notation {% endif %}</p>
+                                    <p><span class="bold">Télephone :</span> {{ questionnare_user.phoneNumber }}</p>
+                                </div>
+                                {% set average = (questionnare_user.score.average is defined) ?  questionnare_user.score.average : 0 %}
+                                {% set dividend = (questionnare_user.score.dividend is defined) ?  questionnare_user.score.dividend : 0 %}
+                                <div class="grid_4 admin">
+                                         <div class="text_center">
+                                           <p class="bold sixteenpx ">Total ( moyenne )</p>
+                                            <p class="bold sixteenpx ">{{average}} / {{dividend}}</p>
+                                </div>
+
+                                    </table>
+                                    <p class="text_center">
+                                      <button href="{{ path('mo_questionnaire_user_respondant_show', {'slug_ent': app.request.get('slug_ent'), 'slug_quest': app.request.get('slug_quest'), 'respondant_id': questionnare_user.id}) }}" class="btn blue sixteenpx">commencer la notation</button>
+                                        {% if average > 0 %}
+                                            {% if questionnare_user.status == 2 or questionnare_user.status == 0 %}
+                                                <button class="btn green sixteenpx left" style="display:block; float:left; padding-right:10px; border-right: 2px solid #CCCCCC;" href="{{ path('mo_questionnaire_user_respondant_change_status', {'status':'accepte', 'slug_ent':app.request.get('slug_ent'),'slug_quest':app.request.get('slug_quest'), 'questionnaire_user_id':questionnare_user.id }) }}">Accepter le candidat</button>
+                                            {% elseif questionnare_user.status == 1 or questionnare_user.status == 0 %}
+                                                <button class="btn red sixteenpx left" style="display:block; float:left;padding-left: 10px;" href="{{ path('mo_questionnaire_user_respondant_change_status', {'status':'refuse', 'slug_ent':app.request.get('slug_ent'),'slug_quest':app.request.get('slug_quest'), 'questionnaire_user_id':questionnare_user.id }) }}">Refuser le candidat</button>
+                                            {% endif %}
+                                        {% endif %}
+                                    </p>
+                                 </div>
+                                <div class="stop"></div>
+
+                            </div>
+                            <div class="fleche"></div>
+                        </li>
+                    </ul>
+                    <div class="correction_user">
+                        <div class="border_table">
+                            {% if administrators | length > 0 %}
+                              <table class="table-block">
+                                  <thead>
+                                    <tr>
+                                        <th>Correcteur</th>
+                                        <th>Commentaires</th>
+                                        <th>Note</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                      {% for adm in administrators %}
+                                        <tr>
+                                            <td>{{adm.administrator.UserProfile.firstName}} {{adm.administrator.UserProfile.lastName}}</td>
+                                            <td>{{adm.comment is defined ?adm.comment: '<span class="italic">Pas de commentaire</span>'}}</td>
+                                            <td>{{adm.score}}/{{dividend}}</td>
+                                        </tr>
+
+                                      {% endfor %}
+                                  </tbody>
+                              </table>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+   $(document).ready(function(){
+       $('button').bind('click',function(){
+           var link = $(this).attr('href');
+           window.location = link;
+       });
+   });
+   
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% if element.id is defined %}
+{% set element_data_id = 'data-id='~element.id~' data-parent_id='~element.id~'' %} 
+{% else %}
+{% set element_data_id = '' %} 
+{% endif %}
+
+ <a class="btn_principal right" style="margin-right: 20px !important;" onclick="display_form(this);" data-type="3" {{ element_data_id }}><div class="img question"></div>Ajouter une question</a>
+
+<ul style="display:none;">
+    <ul>
+            {% for type_element in type_elements[2]['type'] %}
+            {% if (element_data_id == '') or (element_data_id!='' and type_element.template!='webcam') %}
+               <li><a onclick="return display_form(this);" data-type="3" data-question-type="{{ type_element.id }}" {{ element_data_id }}>{{ type_element.name }}</a> </li>
+            {% endif %}
+            {% endfor %}
+    </ul>
+    <ul>
+        <li class="titre">Autres</li>
+                {% for type_element in type_elements %} 
+                {% if (element.id is defined  and  type_element.slug=='groupe' and element.level < 1 ) or ( type_element.slug!='groupe') or ( element.id is not defined ) %}
+                  <li><a onclick="return display_form(this);" data-type="{{ type_element.id }}" {{ element_data_id }}>{{ type_element.name }}</a> </li>
+                {% endif %}
+                {% endfor %}
+    </ul>
+</ul>

@@ -1,0 +1,214 @@
+{% extends 'VMGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_12">
+    <div class="block-main">
+        <div class="block_design">
+            <div class="block_header">
+                <h1>Répondant : {{respondant.firstname}} {{respondant.lastname}}</h1>
+            </div>
+            <div class="block_content">
+                <ul class="list-design note">
+                        {% set total_note = 0 %}
+                        {% set dividend = 0 %}
+                        {% if questions_respondant is defined  and questions_respondant | length > 0 %}
+                        {% set i = 1 %} 
+                        {% set oldQuestion = '' %}    
+                        {% for question in questions_respondant %}
+
+                          {% if (question.QuestionnaireQuestionResponse is defined ) and (question.QuestionnaireQuestionResponse | length > 0)%}    
+                              {% for resp in question.QuestionnaireQuestionResponse %}
+                                 {% if respondant.id == resp.QuestionnaireUser.id  and oldQuestion != question.id%}
+                                    {% set oldQuestion = question.id%}
+                                    {% if resp.getQuestionMark() is not empty %}
+                                        {% set total_mark = resp.getQuestionMark()|length %}
+                                        {% if resp.getQuestionMark()[app.user.id] is defined %}
+                                            {% set question_mark = resp.getQuestionMark()[app.user.id] %}
+                                            {% set total_note = total_note + (resp.getQuestionMark()[app.user.id] * question.Rankin) %}
+                                        {% else %}
+                                            {% if resp.getQuestionMark()['auto'] is defined %}
+                                                {% set question_mark = resp.getQuestionMark()['auto'] %}
+                                                {% set total_note = total_note + (resp.getQuestionMark()['auto'] * question.Rankin) %}
+                                            {% else %}
+                                                {% set question_mark = 0 %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% else %}
+
+                                        {% set question_mark = 0 %}
+                                        {% set total_mark = 0 %}
+                                    {% endif %}
+                                    {% set dividend = dividend + (question.Rankin * 5) %}
+                    <li>
+
+                        <a class="open list{{ i }}">
+                            <div class="img_list" style="{% if resp.getQuestionMark()[app.user.id] is defined %}background-color:#92BB00{% else %}background-color:#d94646{% endif %}"><span>{{ i }}</span></div>
+                            <div class="contenu">
+                                <h3 class="titre">{{ question.QuestionnaireElement.name }}<p class="italic twelvepx"><span>Type de question :</span>{{ question.StdQuestionType.name }}</p>
+                                    <p class="lien">{% if resp.getQuestionMark()[app.user.id] is defined %}{% else %}Vous n'avez pas encore noter cette question{% endif %}</p>
+                                </h3>
+                                <div class="note_contenu">
+                                    <div class="right">
+                                        <p class="eighteenpx">Note : <span class="note">{{ question_mark  * (question.Rankin ? question.Rankin: 1) }}/{{ 5 * (question.Rankin ? question.Rankin: 1) }}</span></p>
+                                        <p  class="total">Total  : <span>{{ (total_mark|length > 1) ? total_mark~' notes' : total_mark~' note' }}</span></p>
+
+                                    </div>
+                                    <div class="stop"></div>
+                                </div>
+                            </div>
+                            <div class="unfold"></div>
+                        </a>
+                    </li>
+                    <li class="unfold_open">
+                        <div class="grid_6 register">
+                            <fieldset>
+                                <span class="bold">Réponse utilisateur :</span>
+                                <p class="result">
+                                            {% set res = '' %}
+
+                                              {% for response in question.QuestionnaireQuestionResponse %}                                                
+                                                {% if response.question.id == resp.Question.id  and respondant.id == response.QuestionnaireUser.id  %}
+                                                    {% if question.getStdQuestionType().template == 'open_question' or  question.getStdQuestionType().template == 'evaluation'%}
+                                                        {%  set res = (response.response is not empty) ? response.response : '' %}
+                                                    {% endif %}
+
+
+                                                    {% if question.getStdQuestionType().template == 'choice' %}
+                                                        {% if response.QuestionnaireQuestionChoice is not empty %}
+                                                            {% if response.question.options.ChoiceType==1 %} {# choice #}
+                                                                {% set res = res  ~ '<input type="radio" name="radio" disabled="disabled" checked="checked"/>' ~ response.QuestionnaireQuestionChoice.name ~'<br/>'  %}
+                                                            {% else %}
+                                                                {% set res = res  ~ '<input type="checkbox" name="checkbox" disabled="disabled" checked="checked"/>' ~ response.QuestionnaireQuestionChoice.name ~'<br/>'  %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endif %}
+
+                                                     {% if question.getStdQuestionType().template == 'datetime' %}
+
+                                                           {% if question.options.DatetimeType.0 == 2 %}
+                                                              {%  set res = (((response.startDate is not empty) ? response.startDate  : 'N/A')~' To '~((response.endDate is not empty) ? response.endDate  : 'N/A')) %}
+                                                           {% else %}
+                                                               {%  set res = ((response.startDate is not empty) ? response.startDate  : 'N/A') %}
+                                                           {% endif %} 
+                                                     {% endif %}
+
+                                                     {% if question.getStdQuestionType.template =='media' %}
+                                                         {% if response.enclosedFiles is not empty %}
+                                                            {% if response.QuestionnaireUser.User %}
+                                                               {% set file_name = response.enclosedFiles| split('/')[5] %}   
+                                                            {% else %}
+                                                               {% set file_name = response.enclosedFiles| split('/')[6] %}  
+                                                            {% endif %}
+                                                            {% set res = '<a href="'~app.request.server.get('host')~response.enclosedFiles~'">'~file_name~'</a>' %}                                                
+                                                            {% set res = res ~ '<a href="'~path('bo_questionnaire_question_response_download',{'slug_ent':app.request.get('slug_ent'),'slug_quest':app.request.get('slug_quest'),'response_id':response.id})~'">Download</a>' %}
+
+                                                         {% endif %}
+                                                         {% endif %}
+                                                {% endif %}
+                                            {% endfor %}  
+
+                                            {{ (res is not empty) ? res|raw  : 'Pas de réponse' }}
+                                </p>
+                            </fieldset>
+                        </div>
+                        <div class="grid_6">
+                            <span class="total _20 fifteenpx">Votre note :</span>
+                            <div class="input-main">
+                                <div class="input-block">
+                                    <div class="field">
+                                        <select name="question_mark" class="_70_imp left">
+                                                                {% for i in 0..5 %}
+                                            <option {{ (question_mark == i) ? 'selected=selected' : '' }} value="{{ i }}">{{ i }}</option>
+                                                                {% endfor %}
+                                        </select>
+                                        <button class="btn_principal"  link_id="list{{i}}" data-rank = "{{question.Rankin}}" onClick="saveData('{{ path('bo_questionnaire_user_response_rankin_ajax', {'slug_ent': question.QuestionnaireElement.Questionnaire.Enterprise.slug, 'slug_quest': question.QuestionnaireElement.Questionnaire.slug, 'question_id': question.id, 'repondant_id': respondant.id}) }}', this)"> Sauvegarder</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stop"></div>
+                    </li>
+                                      {% endif %}
+                                     {% endfor %}
+                                    {% endif %}
+
+
+                        {% set i = i + 1 %}
+                        {% endfor %}                        
+                    {% else %}
+                    Attend the questionnaire but not gave answer for any question
+                    {% endif %}
+                    <div class="img_list _20_imp" ><span>Total</span></div>
+                    <div class="contenu">
+                        <h3 class="titre"></h3>
+                        <div class="note_contenu">
+                            <a href="{{ path('bo_questionnaire_user_respondant_decisions',{'slug_ent':app.request.get('slug_ent'), 'slug_quest':app.request.get('slug_quest'), 'questionnaire_user_id':app.request.get('respondant_id') }) }}">Decision</a>
+                            <button data-type="total_note" class="btn_principal right" onClick="saveData('{{ path('bo_questionnaire_user_response_total_note_ajax', {'slug_ent': app.request.get('slug_ent'), 'slug_quest': app.request.get('slug_quest'), 'repondant_id': respondant.id}) }}', this)">Valider ma notation</button>
+                            <div class="right">
+                                <input id="total_note" type="hidden" value="{{ total_note }}" name="total_note"/>
+                                <p class="eighteenpx">Note : <span class="grandTotal note">{{ total_note }} / {{ dividend }}</span></p>
+                            </div>
+                            <div class="stop"></div>
+                        </div>
+                    </div>
+                    <div class="unfold"></div>
+                    <li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('.open').click(function() {
+        if ($(this).parent().next().is(':visible')) {
+            $(this).parent().next().hide('slide');
+        } else {
+            $(this).parent().next().show('slide');
+        }
+    });
+
+    function saveData(url, that) {
+        var value;
+        var rank = $(that).attr('data-rank');
+        var link_id = $(that).attr('link_id');
+        var type = $(that).attr('data-type');
+        var total = '';
+        if (type == "total_note") {
+            value = $('#total_note').val();
+            multi = 100 / {{ dividend }};
+            value = (value * multi)
+        } else {
+            value = $(that).prev().find(":selected").text();
+            $('a.' + link_id + ' div.img_list').attr('style', 'background-color:#92BB00;');
+            $('a.' + link_id + ' p.lien').html('');
+            $('.unfold_open').hide();
+        }
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {'value': value},
+            success: function(data) {
+                var split_data = data.split(','), grand_total = 0, grand_max_total = 0;
+                $('.' + link_id + ' .note_contenu .note').html((split_data[0] * rank) + '/' + (rank * 5));
+                total += (split_data[1] == 1 ? '1 note' : split_data[1] + ' note');
+                $('.' + link_id + ' .note_contenu .total').html(total);
+                $('li div.note_contenu span.note').each(function() {
+                    grand_total += parseInt((($(this).html()).split('/'))[0]);
+                    grand_max_total += parseInt((($(this).html()).split('/'))[1]);
+                });
+                $('#total_note').val(grand_total);
+                $('span.grandTotal').html(grand_total + ' / ' + grand_max_total);
+            },
+            error: function(data) {
+                return 0;
+            }
+        });
+    }
+</script>
+{% endblock %}

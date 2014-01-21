@@ -1,0 +1,24 @@
+VM\FeedbackBundle\Entity\Feedback:
+    type: entity
+    table: feedbacks
+    repositoryClass: VM\FeedbackBundle\Repository\FeedbackRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        email: { type: string, length: 255, nullable: TRUE }
+        text: { type: text, nullable: TRUE }
+        text_comment: { type: text, nullable: TRUE }
+        is_read: { type: boolean, nullable: TRUE }
+        responsed: { type: boolean, nullable: TRUE }
+        resolved: { type: boolean, nullable: TRUE }
+    manyToOne:
+      User:
+        targetEntity: VM\UserBundle\Entity\User
+        inversedBy: Feedback
+        joinColumns:
+          user_id:
+            referencedColumnName: id
+    lifecycleCallbacks: {  }

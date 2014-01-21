@@ -1,0 +1,31 @@
+parameters:
+#    recrut_online_general.example.class: VM\GeneralBundle\Example
+
+services:
+     index_paginate:
+        class: VM\GeneralBundle\Model\IndexPaginate
+        arguments:
+            - "@service_container"
+     form_model:
+        class: VM\GeneralBundle\Model\FormModel
+        arguments:
+            - "@service_container"
+     list_model:
+        class: VM\GeneralBundle\Model\ListModel
+        arguments:
+            - "@service_container"
+     form.type.tinyMCE:
+        class: VM\GeneralBundle\Form\Type\tinyMCEType
+        tags:
+            - { name: form.type, alias: tinyMCE }
+     form.type.autocomplete:
+        class: VM\GeneralBundle\Form\Type\AutocompleteType
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@service_container"
+        tags:
+            - { name: form.type, alias: autocomplete }
+     recrut_online.twig.recrut_online_extension:
+        class: VM\GeneralBundle\Twig\VMExtension
+        tags:
+            - { name: twig.extension }

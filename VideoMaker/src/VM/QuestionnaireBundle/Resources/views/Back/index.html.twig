@@ -1,0 +1,54 @@
+{# empty Twig template #}
+<div class="grid_12">
+<div class="border_table">
+<table class="table-backend">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Enterprise</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for element in elements %}
+    <tr class="">
+        <td class="center">  <a href="{{ path('bo_questionnaire_show',{'slug_quest':element.slug})}}"> {{ element.name }}</a></td>
+        <td class="center">
+          {{ element.Enterprise.name is defined ? element.Enterprise.name : ''}}
+        </td>                     
+        <td class="center">
+            {% if element.approbation is defined and element.approbation==0 %}
+                <a href="{{ path('bo_questionnaire_change_status',{'slug_quest':element.slug,'status':'approuve'}) }}">Approuver</a>
+            {% elseif element.approbation is defined and element.approbation==1 %}
+                <a href="{{ path('bo_questionnaire_change_status',{'slug_quest':element.slug,'status':'disapprouve'}) }}">Désaprouver</a>
+            {% endif %}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            {% if element.published is defined and element.published==0 %}
+                <a href="{{ path('bo_questionnaire_change_status',{'slug_quest':element.slug,'status':'publish'}) }}">Publié</a>
+            {% elseif element.published is defined and element.published==1 %}
+                <a href="{{ path('bo_questionnaire_change_status',{'slug_quest':element.slug,'status':'depublish'}) }}">Dépublié</a>
+            {% endif %}
+            
+            &nbsp;&nbsp;&nbsp;&nbsp;   
+               <a href="{{ path('bo_questionnaire_edit',{'slug_quest':element.slug}) }}">Modifier</a> 
+            &nbsp;&nbsp;&nbsp;&nbsp;   
+               <a href="{{ path('bo_questionnaire_elements',{'slug_quest':element.slug}) }}">Elements</a> 
+               
+            &nbsp;&nbsp;&nbsp;&nbsp;   
+               <a href="{{ path('bo_questionnaire_duplicate',{'slug_quest':element.slug}) }}">Duplicate</a>     
+            &nbsp;&nbsp;&nbsp;&nbsp;   
+            {% if element.isModel==0 or element.isModel is null %} 
+               
+               <a href="{{ path('bo_questionnaire_duplicate',{'slug_quest':element.slug,'actionType':'createModel'}) }}">Create Model</a>     
+            {% else %}
+                <a href="{{ path('bo_questionnaire_duplicate',{'slug_quest':element.slug,'actionType':'exportModel'}) }}">Export Model</a>     
+            {% endif %}
+                
+        </td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    </div>
+</div>

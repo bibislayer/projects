@@ -1,0 +1,84 @@
+{% extends 'VMGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_8">
+    <div class="block-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"> <h1>Maker : {{maker.name}}</h1></div>
+                <div class="block_content">
+                    <table class="table_backend">
+                        <tr>   
+                            <th>Logo :</th>
+                            <td><img class="left _10 " src="{{ asset(maker.logo) }}"></td>
+                        </tr>
+                        <tr>   
+                            <th>Nom de l’entreprise :</th>
+                            <td>{{maker.name}}</td>
+                        </tr>
+                        <tr>    
+                            <th>Raison Sociale :</th>
+                            <td>{{maker.companyName}}</td>
+                        </tr>
+                        <tr>    
+                            <th>Code naf :</th>
+                            <td>{{maker.codeNaf}}</td>
+                        </tr>
+                        <tr>    
+                            <th>Code siret :</th>
+                            <td>{{maker.codeSiret}}</td>
+                        </tr>
+                        <tr>    
+                            <th>Téléphone :</th>
+                            <td>{{maker.phone}}</td>
+                        </tr>
+                        <tr>    
+                            <th>Fax :</th>
+                            <td>{{maker.fax}}</td>
+                        </tr>
+                        <tr>    
+                            <th>Site web :</th>
+                            <td>{{maker.urlSite}}</td>
+                        </tr>
+                        <tr>    
+                            <th>Text introduction :</th>
+                            <td>{{maker.textIntroduction|raw}}</td>
+                        </tr>
+                        <tr>    
+                            <th>Présentation de votre entreprise :</th>
+                            <td>{{maker.textPresentation|raw}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {% set paramsBox = {'title': {'text' : 'Questionnaires'}, 'paramsQ' : {'by_ent_id' : maker.id, 'order_by' : {'field':'created_at', 'sort' : 'asc'} }, 'urlPaginate' : {'route' : 'bo_questionnaires_list'} } %}
+    {% render(controller('VMQuestionnaireBundle:Questionnaire:questionnaireList', { 'params': paramsBox })) %}
+</div>
+<div class="grid_4">
+    <div class="block-main">
+        <div class="block-border">
+            <div class="block_design">
+                <div class="block_header"> <h3>Actions</h3></div>
+                <div class="block_content">
+                    <ul>
+                        <li><p><a href="{{ path ('bo_maker_edit' , {'slug_ent':  maker.slug  }) }}">Modifier</a></p></li>
+                        <li><p><a href="{{ path('bo_maker_delete',{'id':  maker.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a></p></li>
+                        <li><p><a href="{{ path ('bo_makers')}}">All entreprises</a></p></li>
+                        <li><p><a href="{{ path ('bo_maker_questionnaire_new' , {'slug_ent':  maker.slug }) }}">Ajouter un questionnaire</a></p></li>
+                        <li><p><a href="{{ path ('bo_advert_new',{'advert_type':null,'slug_ent':maker.slug})}}">Ajouter un advert</a></p></li>
+                        <li><p><a href="{{ path ('bo_collaborator_new',{'slug_ent':maker.slug})}}">Ajouter un collaborateur</a></p></li>
+                        <li><p><a href="{{ path ('bo_credit_histories',{'slug_ent':maker.slug})}}">Maker credit history</a></p></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Scoring-Line{% endblock %}</title>
+        {% stylesheets 'bundles/vmgeneral/less/back.less' filter='lessphp' %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+
+        <script src="{{ asset('bundles/vmgeneral/js/jquery-1.9.1.js') }}"></script>
+        <script src="{{ asset('bundles/vmgeneral/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+        <script src="{{ asset('bundles/vmgeneral/js/tiny_mce/tiny_mce.js') }}"></script>
+        
+       {% set allowRouteArray = ['bo_questionnaire_process' ,'bo_questionnaire_elements'] %}
+       {% if app.request.get('_route') in allowRouteArray  %}
+            <script type="text/javascript" src="{{ asset('bundles/vmgeneral/js/jwplayer/jwplayer.js') }}" ></script>
+            <script type="text/javascript">jwplayer.key="5P9AYiVQwKb+96ImG+hfhjDFsPxpMFvEy2kE3g==";</script>
+       {% endif %}
+            
+    </head>
+    <body>
+        <header>
+            <div class="logo"><a href="#"><img src="{{ asset('bundles/vmgeneral/images/logo_front.png') }}" alt="VM" /></a></div>
+            <div class="stop"></div>
+        </header>
+        <ul id="menu">
+            <li><a href="{{ path('bo_enterprises') }}" data-clone="Entreprises">Entreprises</a>
+                <ul>
+                    <li><a href="{{path('bo_questionnaires')}}">Questionnaires</a></li>
+                    <li><a href="{{path('bo_questionnaire_users')}}">Répondants</a></li>
+                    <li><a href="{{ path('bo_adverts') }}">Annonces</a></li>
+                    <li><a href="{{ path('bo_collaborators') }}">Collaborateurs</a></li>
+                    <li><a href="{{ path('bo_adverts') }}">Offres d'emploi</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ path('bo_feedbacks') }}" data-clone="Feedbacks"> Feedbacks </a></li>
+            <li><a data-clone="Gestion des standards">Gestion des standards </a>
+                <ul>
+                    <li><a href="{{ path('bo_categories') }}">Catégories</a></li>
+                    <li><a href="{{ path('bo_type_questions') }}">Types de questions</a></li>
+                    <li><a href="{{ path('bo_type_questionnaires') }}">Types de questionnaires</a></li>
+                    <li><a href="{{ path('bo_type_questionnaire_elements') }}">Types d'éléments questions</a></li>
+                </ul>
+            </li>
+            <li><a  data-clone="Mailer">Mailer</a>
+                <ul>
+                    <li><a href="{{ path('bo_mailers') }}">Templates de Mail</a></li>
+                    <li><a href="{{ path('bo_mailer_categories') }}">Catégories de Mail</a></li>
+                </ul>
+            </li>
+            <li><a href="{{path('bo_users')}}" data-clone="Utilisateurs">Utilisateurs</a></li>
+            <li><a href="{{path('bo_customer_managements')}}" data-clone="Gestion Commerciale">Gestion Commerciale</a></li>
+        </ul>
+        <div class="stop"></div>
+        <div id="content">
+        {{ wo_render_breadcrumbs({'env':'bo'}) }}
+{% block content %}
+{% block fos_user_content %}{% endblock %}
+{% endblock %}
+            </div>
+            <footer>
+            </footer>
+        </body>
+    </html>

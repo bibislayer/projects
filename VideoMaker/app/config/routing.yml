@@ -1,0 +1,26 @@
+vm_video:
+    resource: "@VMVideoBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+vm_general:
+    resource: "@VMGeneralBundle/Resources/config/routing.yml"
+    prefix:   /
+
+vm_video:
+    resource: "@VMVideoBundle/Resources/config/routing.yml"
+    prefix:   /
+
+vm_feedback:
+    resource: "@VMFeedbackBundle/Resources/config/routing.yml"
+    prefix:   /
+
+vm_standard:
+    resource: "@VMStandardBundle/Resources/config/routing.yml"
+    prefix:   /
+
+vm_user:
+    resource: "@VMUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+fp_openid_security:
+    resource: "@FpOpenIdBundle/Resources/config/routing/security.xml"

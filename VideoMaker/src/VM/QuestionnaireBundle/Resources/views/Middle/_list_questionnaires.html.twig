@@ -1,0 +1,82 @@
+<ul class="list-design ">
+    {% for element in elements %}
+        <li>
+            <a href="{{ path('mo_questionnaire_show', {'slug_ent': element.Enterprise.slug, 'slug_quest' : element.slug }) }}">
+                <div class="img_list"></div>
+                <div class="contenu">
+                    <h3 class="titre">{{element.name}}</h3>
+                    <div class="stop"></div>
+                    <p> Statut :
+                        {% if element.isEndClose %}
+                            <span>Clotur&eacute;</span>
+                        {% elseif element.published != 1  and element.approbation != 1 %}
+                            <span class="orange">Cr&eacute;ation</span>
+                        {% elseif element.published == 1 and element.approbation != 1 %}
+                            <span class="orange">En cours de validation</span>
+                        {% elseif element.published == 1 and element.approbation == 1 %}
+                            <span class="green">En ligne</span>
+                        {% elseif element.published != 1 and element.approbation == 1 %}
+                            <span class="red">Dépublié</span>
+                        {% endif %}
+                    </p>
+                    <p>Participants : {{ element.questionnaireUser|length }}</p>
+                </div>
+                <div class="fleche"></div>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% if params.addLink is defined %}
+    <a class="btn_principal right" href="{{params.addLink.url}}">{{ (params.addLink.text is defined) ? params.addLink.text : 'Voir tous' }}</a>
+{% endif %}
+{#
+{% if params.design is defined and params.design == 'h1'%}
+    {% if params.title is defined %}
+        <h1 class="titre_list">{{params.title}}</h1>
+    {% endif %}
+    <ul class="list-design ">
+        {% for element in elements %}
+            <li>
+                <a href="{{ path('mo_questionnaire_show', {'slug_ent': element.Enterprise.slug, 'slug_quest' : element.slug }) }}">
+                    <div class="img_list"></div>
+                    <div class="contenu">
+                        <h2 class="titre">{{element.name}}</h2>
+                        <div class="stop"></div>
+                        <span class="date"><div></div><span>du <span class="bold">12/10/2014</span> au <span class="bold">12/10/2014</span></span></span>
+                    </div>
+                    <div class="fleche"></div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if params.addLink is defined %}
+        <a class="btn_principal right" href="{{params.addLink.url}}">{{ (params.addLink.text is defined) ? params.addLink.text : 'Voir tous' }}</a>
+    {% endif %}
+{% else %}
+    {% if params.title is defined %}
+        <h2 class="titre_list">{{params.title}}</h2>
+    {% endif %}
+    {% if elements|length > 0 %}
+        <ul class="list-design ">
+            {% for element in elements %}
+                <li>
+                    <a href="{{ path('mo_questionnaire_show', {'slug_ent': element.Enterprise.slug, 'slug_quest' : element.slug }) }}">
+                        <div class="img_list"></div>
+                        <div class="contenu">
+                            <h3 class="titre">{{element.name}}</h3>
+                            <div class="stop"></div>
+                            <span class="date"><div></div><span>du <span class="bold">12/10/2014</span> au <span class="bold">12/10/2014</span></span></span>
+                        </div>
+                        <div class="fleche"></div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        Pas de questionnaire
+    {% endif %}
+    {% if params.addLink is defined %}
+        <a class="btn_principal right" href="{{params.addLink.url}}">{{ (params.addLink.text is defined) ? params.addLink.text : 'Voir tous' }}</a>
+    {% endif %}
+{% endif %}
+#}

@@ -1,0 +1,14 @@
+
+{% if elements|length > 0 %}
+        {% for element in elements %}
+            <li>
+                <a href="{{ path('bo_questionnaire_show', {'slug_ent': element.Enterprise.slug, 'slug_quest' : element.slug }) }}">
+                    <div class="contenu">
+                        <h3 class="titre">{{element.name}}</h3>
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+{% else %}
+    Pas de questionnaire
+{% endif %}

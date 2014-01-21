@@ -1,0 +1,34 @@
+VM\QuestionnaireBundle\Entity\QuestionnaireElementPayment:
+    type: entity
+    table: questionnaires_elements_payments
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        payment: { type: boolean, nullable: TRUE }
+        text_payment: { type: text, nullable: TRUE }
+        payment_amount_before: { type: float, nullable: TRUE }
+        payment_amount_after: { type: float, nullable: TRUE }
+        payment_vat: { type: float, nullable: TRUE }
+        created_at:
+          type: date
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: create
+        updated_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: update
+    manyToOne:
+      QuestionnaireElement:
+        targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireElement
+        inversedBy: QuestionnaireElementPayment
+        joinColumns:
+          questionnaire_element_id:
+            referencedColumnName: id
+    lifecycleCallbacks: {  }

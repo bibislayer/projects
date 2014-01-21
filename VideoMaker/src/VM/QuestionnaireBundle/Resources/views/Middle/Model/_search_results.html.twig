@@ -1,0 +1,62 @@
+<div class="grid_2">
+    <div class="block-border">
+        <div class="block_design facet">
+            <div class="block_content ">
+                <div class="block_header "><h3>Affiner votre recherche</h3></div>
+                <form>
+                    <div class="input-main">
+
+                    <h4>Recherche par mots clés</h4>
+                        <div class="field">
+                            <input type="search"/>
+                        </div>
+                    <h4>Type de questionnaire</h4>
+                    <div class="field">
+                        <select>
+                             {% for facet, count in questionnaires.getFacetSet.getFacet('category') %}
+                               <option value="{{facet}}"> {{facet}} [ {{count}} ]</option>
+                             {% endfor %}
+                        </select>
+                    </div>
+                    <h4>Fonction recherchée</h4>
+                   
+                    <ul>
+                        <li><label><input type="checkbox"/>Comptabilité</label></li>
+                        <li><label><input type="checkbox"/>Recherche</label></li>
+                        <li><label><input type="checkbox"/>Ressources</label></li>
+                        <li><label><input type="checkbox"/>marketing</label></li>
+                        <li><label><input type="checkbox"/>Achats</label></li>
+                        <li><label><input type="checkbox"/>Direction</label></li>
+                        <li><label><input type="checkbox"/>Logistique</label></li>
+                    </ul>
+                    <h4>Expérience</h4>
+                    {% for facet, count in questionnaires.getFacetSet.getFacet('name') %}
+                     {{facet}} [ {{count}} ]<br/>
+                    {% endfor %}
+                    <ul>
+                        <li><label><input type="checkbox"/>Junior</label></li>
+                        <li><label><input type="checkbox"/>Confirmé</label></li>
+                        <li><label><input type="checkbox"/>Senior</label></li>
+                    </ul>
+                    </div>
+                </form>
+                <div class="stop"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid_10">
+    <div class="model_result">
+        {% for questionnaire in questionnaires %}
+        <div class="result">
+           <h3> {{questionnaire.name is defined ? questionnaire.name :''}}  {{questionnaire.id}} </h3>
+            <p>{{questionnaire.desc_s is defined ? questionnaire.desc_s :''}}</p>
+            <a class="right btn blue">Prévisualiser</a>
+            <a class="right btn green">Utiliser</a>
+            <div class="stop"></div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="stop"></div>
+</div>

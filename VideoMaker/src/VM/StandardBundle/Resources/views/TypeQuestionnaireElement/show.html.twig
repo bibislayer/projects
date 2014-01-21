@@ -1,0 +1,38 @@
+{% extends 'VMGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_8">
+    <div class="block_border">
+        <div class="block_design">
+            <div class="block_header"><h1>{{ typeQuestionnaireElement.name }}</h1></div>
+            <div class="block_content no_padding">
+                <table class="table-border">
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left; font-weight:bold;">Nom</td>
+                            <td class="center">{{ typeQuestionnaireElement.name }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid_4">
+    <div class="block_border">
+        <div class="block_design sidebar">
+            <div class="block_header"><h2>Actions</h2></div>
+            <div class="block_content no_padding">
+                <ul class="list no_margin">                    
+                    <li><a href="{{ path('bo_type_questionnaire_element_edit',{'id':typeQuestionnaireElement.id}) }}">Edit</a></li>
+                    <li><a href="{{ path('bo_type_questionnaire_element_delete',{'id':typeQuestionnaireElement.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a></li>                    
+                    <li><a href="{{ path('bo_type_questionnaire_elements') }}">All type questionnaire</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

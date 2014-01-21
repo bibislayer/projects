@@ -1,0 +1,16 @@
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+
+{% block content %}
+
+<div class="grid_12">
+    <div class="block-main">
+        <div class="block_border ">
+            <div class="block_design">
+                <div class="block_header"><h1>Mot de Passe Oublié</h1></div>
+
+                {% include "VMUserBundle:Resetting:request_content.html.twig" %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,74 @@
+    {# CSS CHANGE, UPDATE, CANCEL CLASS #}
+    {# CSS CHANGE, UPDATE, CANCEL CLASS #}
+    <div class="border_table">
+        <table class="table-block">
+            <thead>
+            <tr>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for element in elements %}
+                <tr>
+                    <td>{{ element.User.email }}</td>
+                    <td class="center roles">
+                            <div id="change_role_{{element.id}}">
+                                {{element.roles|join(', ')}}
+                                <a href="javascript:void(0);" class="change">Modifier</a>
+                            </div>
+                            <div id="div_update_role_{{element.id}}" style="display:none;">
+                                <select name="update_role_{{element.id}}" id="update_role_{{element.id}}">
+                                    <option value="">Tous</option>
+                                    <option value="ROLE_ADMIN" {{ "ROLE_ADMIN" in element.roles?'selected="selected"':''}}>Administrateur</option>
+                                    <option value="ROLE_EDITOR" {{ "ROLE_EDITOR" in element.roles?'selected="selected"':''}}>Créateur</option>
+                                    <option value="ROLE_MARKER" {{ "ROLE_MARKER" in element.roles?'selected="selected"':''}}>Correcteur</option>
+                                </select>
+                                <a href="javascript:void(0);" class="update">Mise à jour</a>
+                                <a href="javascript:void(0);" class="cancel">Annuler</a>
+                            </div>
+                    </td>
+                    <td class="center"><a href="{{ path('mo_collaborator_remove',{'slug_ent':app.request.get('slug_ent'),'id':element.id}) }}" onclick="if(!confirm('Are you sure want to remove.'))return false;">Supprimer</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<script>
+    $('td.roles a.change').click(function(){ 
+        var id = $(this).parents('div').attr('id').split('_').pop();
+        $('div#change_role_'+id).attr('style','display:none;');
+        $('div#div_update_role_'+id).attr('style','display:block;');
+    });
+    $('td.roles a.cancel').click(function(){ 
+        var id = $(this).parents('div').attr('id').split('_').pop();
+        $('div#change_role_'+id).attr('style','display:block;');
+        $('div#div_update_role_'+id).attr('style','display:none;');
+    });
+    $('td.roles a.update').click(function(){ 
+        var id = $(this).parents('div').attr('id').split('_').pop();
+        var role = $('#update_role_'+id).val();
+        if(role == ''){
+            alert('please select any role'); 
+            $('#update_role_'+id).attr('style','border:1px solid red;');
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: '{{ path('mo_collaborator_change_role',{'slug_ent':app.request.get('slug_ent')}) }}',
+            cache: false,
+            data: {'id':id,'role':role},
+            success: function(data) {
+                if(data=='success'){
+                    window.location.reload(true);
+                }else{
+                    alert(data);
+                }
+            },
+            error: function(data) {
+                return false;
+            }
+        });
+    });
+</script>

@@ -1,0 +1,74 @@
+{% if elements is defined and elements|length > 0 %}
+    {% set yoyiyu = uniqueTok %}
+    <div class="block-main {{yoyiyu}}">
+        <div class="block-design">
+            {% if title is defined %}
+                <div class="block_header">
+                    {% if title.type is defined %}{% set titleBalise = title.type %}{% else %}{% set titleBalise = 'h3' %}{% endif %}
+
+                    {% if title.text is defined %}
+                        <{{titleBalise}}>
+                            {{title.text}}
+                        </{{titleBalise}}>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <div class="block-content">
+                {% include view with {'elements':elements} %}
+            </div>
+            {% if pagination is defined %}
+                <div class="block-footer">
+                    {{ knp_pagination_render(elements, 'VMGeneralBundle:Default:listPaginate.html.twig') }}
+                    <div class="stop"></div>
+                </div>
+            {% endif %}
+        </div>
+        <script>
+            $('div.pagination a').click(function() {
+                var params = new Array();
+                params['url'] = $(this).attr('href');
+                params['obj'] = $(this).closest('div.block-main.{{yoyiyu}}');
+                params['data'] = { 'passedParams' : '{{postParams|raw}}' };
+                ajaxi('', params);
+                return false;
+            });
+
+            //This function is for sending ajax request using conditions
+            function ajaxi(that, params) {
+                var url, fancy, obj, dataType, title;
+                dataType = '';
+
+                url = params['url'];
+                obj = params['obj'];
+
+                if(params['dataType'] != undefined){
+                    dataType = params['dataType'] ;
+                }
+                //history.pushState({}, '', url);
+                fancy = false;
+
+                if (!params || params && !params['autocomplete'])
+                    $(obj).addClass('opacity');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: dataType,
+                    data: params['data'],
+                    success: function(data) {
+                        $(obj).removeClass('opacity');
+                        if (params && params['action']) {
+                            params['action'](data, params);
+                        } else {
+                            obj.html(data);
+                        }
+                    },
+                    error: function(data) {
+                        return 0;
+                    }
+                });
+                return false;
+            }
+        </script>
+    </div>
+{% endif %}

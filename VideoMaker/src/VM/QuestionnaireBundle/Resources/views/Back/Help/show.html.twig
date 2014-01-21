@@ -1,0 +1,58 @@
+{% extends 'VMGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_8">
+    <div class="block_border">
+        <div class="block_design">
+            <div class="block_header"><h1>{{ help.text }}</h1></div>
+            <div class="block_content no_padding">
+                <table class="table-border">
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left; font-weight:bold;">Text</td>
+                            <td class="center">{{ help.text }}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left; font-weight:bold;">Question type</td>
+                            <td class="center">
+                                {% if help.StdQuestionType is defined %}
+                                    {% for questionType in help.StdQuestionType %}
+                                        {{ questionType.name }}{{ help.StdQuestionType|length > 1 and loop.last != loop.index ? ', ' : '' }}
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left; font-weight:bold;">Questionnaire type</td>
+                            <td class="center">
+                                {% if help.StdQuestionnaireType is defined %}
+                                    {% for questionnaireType in help.StdQuestionnaireType %}
+                                        {{ questionnaireType.name }}{{ help.StdQuestionnaireType|length > 1 and loop.last != loop.index ? ', ' : '' }}
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid_4">
+    <div class="block_border">
+        <div class="block_design sidebar">
+            <div class="block_header">Actions</div>
+            <div class="block_content no_padding">
+                <ul class="list no_margin">                    
+                    <li><a href="{{ path('bo_help_edit',{'id':help.id}) }}">Edit</a></li>
+                    <li><a href="{{ path('bo_help_delete',{'id':help.id}) }}" onclick="return confirm('Are you sure?');">Supprimer</a></li>                    
+                    <li><a href="{{ path('bo_helps') }}">All help</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

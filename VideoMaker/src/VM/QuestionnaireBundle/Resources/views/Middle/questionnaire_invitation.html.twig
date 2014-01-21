@@ -1,0 +1,11 @@
+{# empty Twig template #}
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+   {% set params = { form_data: (form_data is defined ? form_data :''), env:'mo', success_msg: (success_msg is defined ? success_msg :'') , route:route }  %}
+  
+   {% include 'VMQuestionnaireBundle:Form:questionnaire_invitation_form.html.twig' with params %}
+{% endblock %}
