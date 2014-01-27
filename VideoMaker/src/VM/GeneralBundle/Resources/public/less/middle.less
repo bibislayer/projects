@@ -63,7 +63,7 @@
         padding-top:20px;
         padding-left:10px;
         height:32px;
-        img{width: 15%; float: left;padding-right: 15px;}
+        img{width: 15%; float: left;padding-right: 15px;max-height: 30px;}
     span{color: @black;font-style: normal;text-shadow: 0px 0px #999;margin-bottom: 5px;display: inline;}
     }
     .profil{
@@ -299,6 +299,14 @@
    font-size: 15px;
 
 }
+
+.btn.tel{
+    margin: 0;
+    margin-top: -30px;
+    padding: 10px;
+    width: 20%;
+    float: right;
+}
 /*********************** MESSAGE ***********************/
 .flash-notice,.flash-success,.flash-error{
   position: relative;
@@ -371,10 +379,23 @@
     .btn-medium{opacity:1;} 
     .img{background-image: url('../images/eye.png');width: 50px; height: 50px; background-size: 100%; float: left;margin-right:10px;margin-left:10px;
     &.publish{background-image: url('../images/publish.png');}}
-    a{margin-top: 22px;display: block;}
+    a{margin-top: 22px;display: inline;}
     min-height: 350px;
     p{font-size: 16px;}
  }
+ .invit{
+     padding: 10px;
+     border:1px solid #D9D9D9;
+     box-shadow: 0px 0px 10px -4px rgba(0,0,0,0.6) inset;
+     .border-radius(5px);
+     h3{ color: @green; border-left: 0px solid @green;margin: 10px 10px; font-size: 18px; font-weight: bold; }
+     .block{ border-bottom: 1px solid #D9D9D9;margin: 0 -10px;}
+     .btn-medium{opacity:1;}
+     .img{background-image: url('../images/eye.png');width: 50px; height: 50px; background-size: 100%; float: left;margin-right:10px;margin-left:10px;
+     &.publish{background-image: url('../images/publish.png');}}
+     a{margin-top: 22px;display: inline;}
+     p{font-size: 16px;}
+  }
   .creat{
      padding: 1%;
      border:1px solid #D9D9D9;
@@ -642,6 +663,17 @@
     h3{color: @black;padding:10px 3%; font-size: 16px;font-weight:bold;border-bottom:1px solid #333;margin:0 -2% }
 
 }
+.btn_ajout{.border-radius(5px); opacity:0.9; width:225px;margin:10px auto;display: block;text-shadow: none;height: 15px;padding:15px 20px 20px 20px;
+    background: #ffaf4b; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffaf4b 0%, #ff920a 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffaf4b), color-stop(100%,#ff920a)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #ffaf4b 0%,#ff920a 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #ffaf4b 0%,#ff920a 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #ffaf4b 0%,#ff920a 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #ffaf4b 0%,#ff920a 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a',GradientType=0 ); /* IE6-9 */
+    &:active{position: relative;top: 1px;}
+}
 .note_result {margin-top: -10px !important;}
 .select_total{margin-right: 25px;text-align: right;}
 .options_questionnaire {
@@ -661,4 +693,39 @@
 .choice_qcm {
     .label{width: auto; float:left;}
     input[type="radio"]:first-child{clear: both;}
+}
+    .box_entreprise{
+        border: 1px solid #D9D9D9;
+        padding: 10px;
+        -moz-box-shadow: inset 0px 0px 5px 0px #d9d9d9;
+        -webkit-box-shadow: inset 0px 5px 10px 0px #d9d9d9;
+        -o-box-shadow: inset 0px 0px 5px 0px #d9d9d9;
+        box-shadow: inset 0px 0px 5px 0px #d9d9d9;
+        border-radius: 5px;
+        .btn{background-color:@white;text-shadow: none;
+        opacity: 0.9;
+        color: #3B81BE !important;
+        background-color: none !important;
+        text-shadow: none;
+        font-size: 14px;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    p{margin: 0px;line-height: 25px;}
+    img{
+    max-height: 130px;
+    min-height: 10px;
+    max-width: 300px;
+    min-width: 10px;
+    }
+}
+.box_questionnaire{
+    border: 1px solid #D9D9D9;
+    padding: 10px;
+    -moz-box-shadow: inset 0px 0px 5px 0px #d9d9d9;
+    -webkit-box-shadow: inset 0px 5px 10px 0px #d9d9d9;
+    -o-box-shadow: inset 0px 0px 5px 0px #d9d9d9;
+    box-shadow: inset 0px 0px 5px 0px #d9d9d9;
+    border-radius: 5px;
 }

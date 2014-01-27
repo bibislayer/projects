@@ -97,6 +97,11 @@ class Questionnaire
     /**
      * @var boolean
      */
+    private $anonymous;
+
+    /**
+     * @var boolean
+     */
     private $approbation;
 
     /**
@@ -140,9 +145,14 @@ class Questionnaire
     private $QuestionnaireElement;
 
     /**
-     * @var \VM\EnterpriseBundle\Entity\Enterprise
+     * @var \Doctrine\Common\Collections\Collection
      */
-    private $Enterprise;
+    private $AdvertQuestionnaire;
+
+    /**
+     * @var \VM\MakerBundle\Entity\Maker
+     */
+    private $Maker;
 
     /**
      * @var \VM\StandardBundle\Entity\StdQuestionnaireType
@@ -168,6 +178,7 @@ class Questionnaire
         $this->QuestionnaireUser = new \Doctrine\Common\Collections\ArrayCollection();
         $this->QuestionnaireRestriction = new \Doctrine\Common\Collections\ArrayCollection();
         $this->QuestionnaireElement = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->AdvertQuestionnaire = new \Doctrine\Common\Collections\ArrayCollection();
         $this->QuestionnaireCategory = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
@@ -550,6 +561,29 @@ class Questionnaire
     }
 
     /**
+     * Set anonymous
+     *
+     * @param boolean $anonymous
+     * @return Questionnaire
+     */
+    public function setAnonymous($anonymous)
+    {
+        $this->anonymous = $anonymous;
+    
+        return $this;
+    }
+
+    /**
+     * Get anonymous
+     *
+     * @return boolean 
+     */
+    public function getAnonymous()
+    {
+        return $this->anonymous;
+    }
+
+    /**
      * Set approbation
      *
      * @param boolean $approbation
@@ -731,46 +765,6 @@ class Questionnaire
     }
 
     /**
-     * Get QuestionnaireUser
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getQuestionnaireUserBy($params = array())
-    {
-        $users = array();
-        foreach($this->QuestionnaireUser as $k => $user){
-            if(array_key_exists('by_status', $params)){
-                if($params['by_status'] == 'accepted'){
-                    if($user->getStatus() == 1 ){
-                        $users[$k] = $user;
-                    }
-                }
-                if($params['by_status'] == 'refused'){
-                    if($user->getStatus() == 2 ){
-                        $users[$k] = $user;
-                    }
-                }
-                if($params['by_status'] == 'test'){
-                    if($user->getStatus() == 3 ){
-                        $users[$k] = $user;
-                    }
-                }
-                if($params['by_status'] == 'no-test'){
-                    if($user->getStatus() != 3 ){
-                        $users[$k] = $user;
-                    }
-                }
-                if($params['by_status'] == 'new'){
-                    if($user->getStatus() == 0 || !$user->getStatus()){
-                        $users[$k] = $user;
-                    }
-                }
-            }
-        }
-        return $users;
-    }
-
-    /**
      * Add QuestionnaireRestriction
      *
      * @param \VM\QuestionnaireBundle\Entity\QuestionnaireRestriction $questionnaireRestriction
@@ -837,26 +831,59 @@ class Questionnaire
     }
 
     /**
-     * Set Enterprise
+     * Add AdvertQuestionnaire
      *
-     * @param \VM\EnterpriseBundle\Entity\Enterprise $enterprise
+     * @param \VM\MakerBundle\Entity\AdvertQuestionnaire $advertQuestionnaire
      * @return Questionnaire
      */
-    public function setEnterprise(\VM\EnterpriseBundle\Entity\Enterprise $enterprise = null)
+    public function addAdvertQuestionnaire(\VM\MakerBundle\Entity\AdvertQuestionnaire $advertQuestionnaire)
     {
-        $this->Enterprise = $enterprise;
+        $this->AdvertQuestionnaire[] = $advertQuestionnaire;
     
         return $this;
     }
 
     /**
-     * Get Enterprise
+     * Remove AdvertQuestionnaire
      *
-     * @return \VM\EnterpriseBundle\Entity\Enterprise 
+     * @param \VM\MakerBundle\Entity\AdvertQuestionnaire $advertQuestionnaire
      */
-    public function getEnterprise()
+    public function removeAdvertQuestionnaire(\VM\MakerBundle\Entity\AdvertQuestionnaire $advertQuestionnaire)
     {
-        return $this->Enterprise;
+        $this->AdvertQuestionnaire->removeElement($advertQuestionnaire);
+    }
+
+    /**
+     * Get AdvertQuestionnaire
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAdvertQuestionnaire()
+    {
+        return $this->AdvertQuestionnaire;
+    }
+
+    /**
+     * Set Maker
+     *
+     * @param \VM\MakerBundle\Entity\Maker $maker
+     * @return Questionnaire
+     */
+    public function setMaker(\VM\MakerBundle\Entity\Maker $maker = null)
+    {
+        $this->Maker = $maker;
+    
+        return $this;
+    }
+
+    /**
+     * Get Maker
+     *
+     * @return \VM\MakerBundle\Entity\Maker 
+     */
+    public function getMaker()
+    {
+        return $this->Maker;
     }
 
     /**
@@ -938,135 +965,31 @@ class Questionnaire
         return $this->QuestionnaireCategory;
     }
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \VM\MakerBundle\Entity\User
      */
-    private $AdvertQuestionnaire;
+    private $User;
 
 
     /**
-     * Add AdvertQuestionnaire
+     * Set User
      *
-     * @param \VM\EnterpriseBundle\Entity\AdvertQuestionnaire $advertQuestionnaire
+     * @param \VM\MakerBundle\Entity\User $user
      * @return Questionnaire
      */
-    public function addAdvertQuestionnaire(\VM\EnterpriseBundle\Entity\AdvertQuestionnaire $advertQuestionnaire)
+    public function setUser(\VM\MakerBundle\Entity\User $user = null)
     {
-        $this->AdvertQuestionnaire[] = $advertQuestionnaire;
+        $this->User = $user;
     
         return $this;
     }
 
     /**
-     * Remove AdvertQuestionnaire
+     * Get User
      *
-     * @param \VM\EnterpriseBundle\Entity\AdvertQuestionnaire $advertQuestionnaire
+     * @return \VM\MakerBundle\Entity\User 
      */
-    public function removeAdvertQuestionnaire(\VM\EnterpriseBundle\Entity\AdvertQuestionnaire $advertQuestionnaire)
+    public function getUser()
     {
-        $this->AdvertQuestionnaire->removeElement($advertQuestionnaire);
-    }
-
-    /**
-     * Get AdvertQuestionnaire
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAdvertQuestionnaire()
-    {
-        return $this->AdvertQuestionnaire;
-    }
-    /**
-     * @var boolean
-     */
-    private $anonymous;
-
-
-    /**
-     * Set anonymous
-     *
-     * @param boolean $anonymous
-     * @return Questionnaire
-     */
-    public function setAnonymous($anonymous)
-    {
-        $this->anonymous = $anonymous;
-    
-        return $this;
-    }
-
-    /**
-     * Get anonymous
-     *
-     * @return boolean 
-     */
-    public function getAnonymous()
-    {
-        return $this->anonymous;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $CreditHistory;
-
-
-    /**
-     * Add CreditHistory
-     *
-     * @param \VM\CustomerBundle\Entity\CreditHistory $creditHistory
-     * @return Questionnaire
-     */
-    public function addCreditHistory(\VM\CustomerBundle\Entity\CreditHistory $creditHistory)
-    {
-        $this->CreditHistory[] = $creditHistory;
-    
-        return $this;
-    }
-
-    /**
-     * Remove CreditHistory
-     *
-     * @param \VM\CustomerBundle\Entity\CreditHistory $creditHistory
-     */
-    public function removeCreditHistory(\VM\CustomerBundle\Entity\CreditHistory $creditHistory)
-    {
-        $this->CreditHistory->removeElement($creditHistory);
-    }
-
-    /**
-     * Get CreditHistory
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCreditHistory()
-    {
-        return $this->CreditHistory;
-    }
-    /**
-     * @var \VM\MakerBundle\Entity\Maker
-     */
-    private $Maker;
-
-
-    /**
-     * Set Maker
-     *
-     * @param \VM\MakerBundle\Entity\Maker $maker
-     * @return Questionnaire
-     */
-    public function setMaker(\VM\MakerBundle\Entity\Maker $maker = null)
-    {
-        $this->Maker = $maker;
-    
-        return $this;
-    }
-
-    /**
-     * Get Maker
-     *
-     * @return \VM\MakerBundle\Entity\Maker 
-     */
-    public function getMaker()
-    {
-        return $this->Maker;
+        return $this->User;
     }
 }

@@ -24,7 +24,7 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
-                login_path: /login_admin
+                login_path: /login
                 check_path: /admin/login_check
                 default_target_path: /admin
             context: my_context
@@ -66,5 +66,5 @@ security:
             
     access_control:
         #- { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
-        - { path: ^/admin, roles: ROLE_MANAGER }
+        - { path: ^/admin, roles: ROLE_USER }
         - { path: ^/backend, roles: ROLE_ADMIN }

@@ -1,3 +1,7 @@
+mo_dashboard:
+    pattern:  /admin
+    defaults: { _controller: VMUserBundle:User:dashboard }
+
 fo_login:
     pattern:   /login
     defaults:  { _controller: VMUserBundle:Login:login }

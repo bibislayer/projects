@@ -23,7 +23,6 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Nelmio\SolariumBundle\NelmioSolariumBundle(),
-            new VM\MakerBundle\VMMakerBundle(),
             new VM\UserBundle\VMUserBundle(), 
             new VM\StandardBundle\VMStandardBundle(),
             new VM\FeedbackBundle\VMFeedbackBundle(),

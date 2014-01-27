@@ -644,4 +644,57 @@ class User extends BaseUser {
     {
         return $this->MakerInvitationAdministrator;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $User;
+
+
+    /**
+     * Get User
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUser()
+    {
+        return $this->User;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $Questionnaire;
+
+
+    /**
+     * Add Questionnaire
+     *
+     * @param \VM\QuestionnaireBundle\Entity\Questionnaire $questionnaire
+     * @return User
+     */
+    public function addQuestionnaire(\VM\QuestionnaireBundle\Entity\Questionnaire $questionnaire)
+    {
+        $this->Questionnaire[] = $questionnaire;
+    
+        return $this;
+    }
+
+    /**
+     * Remove Questionnaire
+     *
+     * @param \VM\QuestionnaireBundle\Entity\Questionnaire $questionnaire
+     */
+    public function removeQuestionnaire(\VM\QuestionnaireBundle\Entity\Questionnaire $questionnaire)
+    {
+        $this->Questionnaire->removeElement($questionnaire);
+    }
+
+    /**
+     * Get Questionnaire
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getQuestionnaire()
+    {
+        return $this->Questionnaire;
+    }
 }

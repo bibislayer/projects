@@ -1,5 +1,16 @@
 
-
+   span.timer{display: block;padding-top:1px;font-weight: bold;color:@orange; font-size: 14px;}
+   .img{
+        &.timer{background-image: url('../images/timer.png') ;
+        width: 25px;
+        height: 25px;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: center center;
+        float: left;
+        margin-right: 5px;
+        }
+       }
 .element_display{
     padding-top: 8px;
     .input-main{padding-left:10px; }
@@ -14,12 +25,13 @@
        background-position: center center;
        float:left;
      &.timer{background-image: url('../images/timer.png')}
+     margin-right: 5px;
 
     }
 }
 #typeTimer{font-size: 14px; font-weight: bold; width: 100%;}
  .no_form{background-color: #ffffff;padding: 0 !important;margin: 0;border: 0px solid transparent !important;}
- span.option{text-transform: none; font-size: 16px; font-weight: normal;width:auto;margin-top:10px;
+ span.option{text-transform: none; font-size: 16px; font-weight: normal;width:auto;margin-top:0px;
      &.bold{display: block;float: left;margin-top: 10px;}
      .img{ width: 25px;
            height: 30px;
@@ -42,14 +54,13 @@
          }
      }
 .group_element{
-
       p.detect,span.detect{width:92.4%;font-weight: bold; margin: 0;margin-left: 20px;margin-top:7px;cursor: text;border: 1px solid transparent; margin-bottom: 24px;
                   height:auto;  padding: 5px; border: 1px solid transparent;box-shadow: 2px 2px 6px -4px rgba transparent;
                  &:hover{width: 92.4%; height: auto; border: 1px solid #d9d9d9; box-shadow: 2px 2px 6px -4px rgba(0,0,0,0.6) inset;-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: 5px;font-size: 15px;  }
              }
              div.detect{width:92.4%;font-weight: bold; margin: 0;margin-left: 20px;margin-top:7px;cursor: text;border: 1px solid transparent; margin-bottom: 24px;
-                                          height:auto;  padding: 5px; border: 1px solid transparent;box-shadow: 2px 2px 6px -4px rgba transparent;
-                                         &:hover{width: 92.4%; height: auto; border: 1px solid #d9d9d9; box-shadow: 2px 2px 6px -4px rgba(0,0,0,0.6) inset;-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: 5px;font-size: 15px;  }}
+              height:auto;  padding: 5px; border: 1px solid transparent;box-shadow: 2px 2px 6px -4px rgba transparent;
+              &:hover{width: 92.4%; height: auto; border: 1px solid #d9d9d9; box-shadow: 2px 2px 6px -4px rgba(0,0,0,0.6) inset;-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: 5px;font-size: 15px;  }}
            padding: 0;
            margin: 10px 1%;
                 h4,h3{padding:10px 10px 10px 10px; font-size: 16px;font-weight: bold; color: #555;border-bottom:3px solid #FFF;
@@ -129,9 +140,9 @@
             &:hover{width: 90%; height: auto; border: 1px solid #d9d9d9; box-shadow: 2px 2px 6px -4px rgba(0,0,0,0.6) inset;-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: 5px;font-size: 15px;  }
             }
             div.detect{font-weight: bold; margin: 0;margin-left: 10px;cursor: text;border: 1px solid transparent;
-                                    height:auto;  padding: 10px; border: 1px solid transparent;box-shadow: 2px 2px 6px -4px rgba transparent; float:left; width:90%;
-                                   &:hover{width: 90%; height: auto; border: 1px solid #d9d9d9; box-shadow: 2px 2px 6px -4px rgba(0,0,0,0.6) inset;-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: 10px;font-size: 15px;  }
-                                   }
+                height:auto;  padding: 10px; border: 1px solid transparent;box-shadow: 2px 2px 6px -4px rgba transparent; float:left; width:90%;
+               &:hover{width: 90%; height: auto; border: 1px solid #d9d9d9; box-shadow: 2px 2px 6px -4px rgba(0,0,0,0.6) inset;-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: 10px;font-size: 15px;  }
+               }
 
           padding: 0;
           margin: 10px 1%;
@@ -139,8 +150,8 @@
           border-bottom: 5px solid @green !important;
            h4,h3{padding:10px 10px 10px 10px; font-size: 16px;font-weight: bold; color: #555;border-bottom:3px solid #FFF;
                a{float: left;}
-               span{text-transform: none; font-size: 16px; font-weight: normal;width:auto; margin-top:5px;
-               &.bold{display: block;float: left;margin-top: 5px;}
+               span{text-transform: none; font-size: 16px; font-weight: normal;width:auto; margin-top:10px;
+               &.bold{display: block;float: left;margin-top: 13px;}
                .img{
                    width: 25px;
                      height: 30px;
@@ -160,7 +171,7 @@
                                   background-image: url('../images/duplicate.png');
                                   &:hover{background-image: url('../images/duplicate_hov.png')
                                   }
-                                  }
+                              }
                        }
                    }
                }
@@ -223,7 +234,7 @@
       margin:10px 1%;
       h3{padding: 10px 20px;; color:white;
       span{font-weight: bold;margin-top:7px;}
-      .detect{width:70%;float: left;margin: 0;color:white; font-size: 18px;padding: 10px 0;}
+      .detect{width:65%;float: left;margin: 0;color:white; font-size: 18px;padding: 10px 0;}
       }
       p.number{padding: 10px;border:1px solid transparent;color:white;margin: 0;font-size: 18px;
 
@@ -287,7 +298,7 @@
  .option_recap{
      background-color:#f9f9f9;
      border-top:3px solid #FFF;
-     p{margin: 5px; font-weight: bold;font-size: 16px;}
+     p{margin: 5px 10px;; font-weight: bold;font-size: 16px;}
      ul{
         li{float: left; display: block;padding:10px; margin: 10px; border: none;font-size: 12px; color: @black;.border-radius(5px;); box-shadow: 0px 0px 10px #C9C9C9;}
     }
@@ -424,12 +435,12 @@
          .off{opacity: 0.3;a{ &:hover{background-color:#FFF; color:#3B81BE; cursor:default; }}}
 
      }
-     .img{background-image: url('../../bundles/vmgeneral/images/eye.png');width: 30px; height: 30px; background-size: 100%; float: left;margin-right: 10px;margin-left: 10px;background-repeat: no-repeat; margin-top: -8px;
-         &.publish{background-image: url('../../bundles/vmgeneral/images/publish.png');}
-         &.edit{background-image: url('../../bundles/vmgeneral/images/edit_form.png');}
-         &.question{background-image: url('../../bundles/vmgeneral/images/question.png');}
-         &.send{background-image: url('../../bundles/vmgeneral/images/send_mail.png');}
-         &.notation{background-image: url('../../bundles/vmgeneral/images/note.png');}
+     .img{background-image: url('../../bundles/recrutonlinegeneral/images/eye.png');width: 30px; height: 30px; background-size: 100%; float: left;margin-right: 10px;margin-left: 10px;background-repeat: no-repeat; margin-top: -8px;
+         &.publish{background-image: url('../../bundles/recrutonlinegeneral/images/publish.png');}
+         &.edit{background-image: url('../../bundles/recrutonlinegeneral/images/edit_form.png');}
+         &.question{background-image: url('../../bundles/recrutonlinegeneral/images/question.png');}
+         &.send{background-image: url('../../bundles/recrutonlinegeneral/images/send_mail.png');}
+         &.notation{background-image: url('../../bundles/recrutonlinegeneral/images/note.png');}
          }
 
   }
@@ -444,8 +455,6 @@
    top: 10px;
    width: 18.2%;
  }
-
-
   #scrollingDivTime{
     position: absolute;
     right: 0;
@@ -461,7 +470,6 @@
      position: fixed;
      top: 10px;
   }
-
   @media screen and (max-width : 1270px) {
        #scrollingDivTime{
              background-color: rgba(255, 255, 255, 0.6);
@@ -476,7 +484,6 @@
             border-radius: 0 0 0px 10px;
             margin-top: -3px;
         }
-
    #scrollingDivTime.floatable{
        position: fixed;
        left:40%;
@@ -491,7 +498,6 @@
     }
 
   }
-
   .question_cam {
       width:100%;
       h2{background-color: @white;
@@ -524,4 +530,50 @@
 
   }
   .text_question{margin: 0 !important;}
-  div#element_description{margin-left:10px;margin-bottom: 10px; width: 97%;}
+  div#element_description{margin-left:10px;margin-bottom: 10px;}
+  #Question_QuestionnaireElement_time_limit_checkbox{margin-top: 10px;}
+
+
+  /************* webcam  **************/
+
+   canvas {
+          -webkit-transform: scale(0.99);
+          -moz-transform: scale(0.99);
+          border: 1px #d8d8d solid;
+          background-image: url('{{ asset('bundles/recrutonlinegeneral/images/circle.png') }}');
+          background-position: center;
+          margin: auto;
+          display: block;
+      }
+      #recorder{
+          display: block;
+          margin: 0 auto;
+      }
+
+      .time {
+          margin: auto;
+          float: right;
+          font-weight: bold;
+      }
+      #setupPanel {
+          width:400px;
+          height:30px;
+          margin:5px;
+      }
+      embed{
+          float: left;
+          margin-right: 1%;
+          margin-bottom: 20px;
+      }
+      #typeTimer,#typeTimer2{
+          text-align: center;
+          width:auto;
+      }
+      #recordStopButton  {
+          margin-left: 10px !important;
+      }
+      #recordStartButton {
+          float: left;
+      }
+
+      .group-content {padding-bottom:10px; }

@@ -49,11 +49,11 @@ VM\QuestionnaireBundle\Entity\Questionnaire:
                fields:
                 - name
     manyToOne:
-      Maker:
-        targetEntity: VM\MakerBundle\Entity\Maker
+      User:
+        targetEntity: VM\UserBundle\Entity\User
         inversedBy: Questionnaire
         joinColumns:
-          enterprise_id:
+          user_id:
             referencedColumnName: id
       StdQuestionnaireType:
             targetEntity: VM\StandardBundle\Entity\StdQuestionnaireType
@@ -68,22 +68,12 @@ VM\QuestionnaireBundle\Entity\Questionnaire:
           help_id:
             referencedColumnName: id
     oneToMany:
-         QuestionnaireAdministrator:
-            targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireAdministrator
-            mappedBy: Questionnaire
-         QuestionnaireUser:
-            targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireUser
-            mappedBy: Questionnaire
-         QuestionnaireRestriction:
+        QuestionnaireRestriction:
             targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireRestriction
             mappedBy: Questionnaire
-         QuestionnaireElement:
+        QuestionnaireElement:
             targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireElement
-            mappedBy: Questionnaire
-         AdvertQuestionnaire:
-            targetEntity: VM\MakerBundle\Entity\AdvertQuestionnaire
-            mappedBy: Questionnaire
-            cascade: [persist]        
+            mappedBy: Questionnaire    
     manyToMany:
         QuestionnaireCategory:
             targetEntity: VM\StandardBundle\Entity\StdCategory

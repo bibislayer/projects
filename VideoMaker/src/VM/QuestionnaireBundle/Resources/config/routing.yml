@@ -140,11 +140,11 @@ bo_questionnaire_element_reposition:
     
 ### Admin Side Questionnaire ###   
 mo_questionnaires:
-    pattern:  /admin/{slug_ent}/questionnaires
+    pattern:  /admin/questionnaires
     defaults: { _controller: VMQuestionnaireBundle:Questionnaire:moIndex }
 
 mo_questionnaire_creation:
-    pattern:  /admin/{slug_ent}/questionnaire/creation
+    pattern:  /admin/questionnaire/creation
     defaults: { _controller: VMQuestionnaireBundle:Form:questionnaireCreation }
 
 mo_questionnaire_models:
@@ -152,45 +152,45 @@ mo_questionnaire_models:
     defaults: { _controller: VMQuestionnaireBundle:QuestionnaireModel:index }
 
 mo_questionnaire_new:
-    pattern:  /admin/{slug_ent}/questionnaire/new
+    pattern:  /admin/questionnaire/new
     defaults: { _controller: VMQuestionnaireBundle:Form:questionnaireForm }
     
 mo_questionnaire_create:
-    pattern:  /admin/{slug_ent}/questionnaire/create
+    pattern:  /admin/questionnaire/create
     defaults: { _controller: VMQuestionnaireBundle:Form:questionnaireForm }
     
 mo_questionnaire_edit:
-    pattern:  /admin/{slug_ent}/questionnaire/edit/{slug_quest}
+    pattern:  /admin/questionnaire/edit/{slug_quest}
     defaults: { _controller: VMQuestionnaireBundle:Form:questionnaireForm }   
     
 mo_questionnaire_update:
-    pattern:  /admin/{slug_ent}/questionnaire/update/{slug_quest}
+    pattern:  /admin/questionnaire/update/{slug_quest}
     defaults: { _controller: VMQuestionnaireBundle:Form:questionnaireForm } 
     
 mo_questionnaire_show:
-    pattern:  /admin/{slug_ent}/questionnaire/{slug_quest}
+    pattern:  /admin/questionnaire/{slug_quest}
     defaults: { _controller: VMQuestionnaireBundle:Questionnaire:moShow }
     
 mo_questionnaire_duplicate:
-    pattern:  /admin/{slug_ent}/questionnaire/{slug_quest}/duplicate
+    pattern:  /admin/questionnaire/{slug_quest}/duplicate
     defaults: { _controller: VMQuestionnaireBundle:Duplicate:questionnaireDuplicate, actionType:duplicate }
     
 mo_questionnaire_invitation:
-    pattern:  /admin/{slug_ent}/questionnaire/{slug_quest}/invitation
+    pattern:  /admin/questionnaire/{slug_quest}/invitation
     defaults: { _controller: VMQuestionnaireBundle:Form:questionnaireInvitation }
 
 mo_questionnaire_status:
-    pattern:  /admin/{slug_ent}/questionnaire/{slug_quest}/status/{status}
+    pattern:  /admin/questionnaire/{slug_quest}/status/{status}
     defaults: { _controller: VMQuestionnaireBundle:Questionnaire:status }
 mo_questionnaire_preview_show:
-    pattern: /admin/{slug_ent}/questionnaire/{slug_quest}/preview/show
+    pattern: /admin/questionnaire/{slug_quest}/preview/show
     defaults: { _controller: VMQuestionnaireBundle:QuestionnaireUser:moQuestionnairePreviewShow }
 
 mo_questionnaire_process:
-   pattern:  /admin/{slug_ent}/questionnaire/{slug_quest}/preview/reponse
+   pattern:  /admin/questionnaire/{slug_quest}/preview/reponse
    defaults: { _controller: VMQuestionnaireBundle:QuestionnaireUser:moQuestionnaireProcess }
 mo_questionnaire_success:
-   pattern:  /admin/{slug_ent}/questionnaire/{slug_quest}/preview/success
+   pattern:  /admin/questionnaire/{slug_quest}/preview/success
    defaults: { _controller: VMQuestionnaireBundle:QuestionnaireUser:moQuestionnaireSuccess }
 
 ## LIST COMPONENT QUESTIONNAIRE

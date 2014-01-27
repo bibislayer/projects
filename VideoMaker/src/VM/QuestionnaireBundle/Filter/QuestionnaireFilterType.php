@@ -10,12 +10,6 @@ class QuestionnaireFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface  $builder, array $options)
     {        
-      
-      $builder->add('by_enterprise', 'autocomplete', array(
-        'url' => array('route' => 'bo_ac_enterprises'),
-        'mapped' => false
-        )
-      );
 
       $builder->add('by_type', 'entity', array(
             'class' => 'VMStandardBundle:StdQuestionnaireType',

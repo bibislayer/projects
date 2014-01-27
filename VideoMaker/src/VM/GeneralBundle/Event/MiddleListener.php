@@ -77,7 +77,7 @@ class MiddleListener
         }
 
         // IF USER IS IN ROUTE EXCEPT DASHBOARD
-        if (!in_array($this->route, array('mo_dashboard'))) {
+        /*if (!in_array($this->route, array('mo_dashboard'))) {
             $user = $this->context->getToken()->getUser();
             if ($this->request->get('slug_ent') == '') {
                 throw new AccessDeniedHttpException('Vous n\'êtes pas autorisé à accéder à cette partie');
@@ -112,7 +112,7 @@ class MiddleListener
                 }
             }
         }
-        $this->session->set('access_admin', $this->accessAdmin);
+        $this->session->set('access_admin', $this->accessAdmin);*/
     }
 
     /***

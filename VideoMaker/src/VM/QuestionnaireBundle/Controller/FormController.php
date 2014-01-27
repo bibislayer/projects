@@ -37,19 +37,7 @@ class FormController extends Controller {
         $formConf = $this->get('form_model');
         
         //getting environment
-        $env = $formConf->getEnv();
-        
-        //If session not set for Enterprise
-        if($request->get('slug_ent')){  
-               $entreprise = $this->get('enterprise_repository')->getElements(array('action'=>'one','by_slug'=>$request->get('slug_ent')));
-               $enterprise = array('name' =>$entreprise->getName(),'slug' =>$entreprise->getSlug()) ;            
-        }else{   
-            if($env=='mo'){
-              $access = $this->get('session')->get('access_admin');
-              $enterprise = $access['current'];
-            }
-        }
-        
+        $env = $formConf->getEnv();     
         
         $formConf->setView('VMQuestionnaireBundle:Form:questionnaire_form.html.twig');
  
@@ -64,24 +52,10 @@ class FormController extends Controller {
             $formConf->setElement('questionnaire');
         }
                
+        //if adding on index page of Backend   
+        $formConf->setUrlParams(array('slug_quest' => $slug_quest));
+        $breadcrumbs->addItem('Questionnaires', $this->get("router")->generate($env."_questionnaires"));  
         
-        //If enterprise is given in url 
-        if(!empty($enterprise) && array_key_exists('slug',$enterprise)){
-            $formConf->setUrlParams(array('slug_ent' => $enterprise['slug'], 'slug_quest' => $slug_quest));
-            $formConf->setFormClass('');
-
-            // BREADCRUMBS          
-            $breadcrumbs->addItem($enterprise['name'], $this->get("router")->generate($env."_enterprise_show", array('slug_ent' => $enterprise['slug'])));
-            
-            if($env=='mo')
-               $breadcrumbs->addItem('Questionnaires', $this->get("router")->generate($env."_questionnaires", array('slug_ent' => $enterprise['slug'])));
-            else
-               $breadcrumbs->addItem('Questionnaires', $this->get("router")->generate($env."_questionnaires"));  
-        }else{
-             //if adding on index page of Backend   
-             $formConf->setUrlParams(array('slug_quest' => $slug_quest));
-             $breadcrumbs->addItem('Questionnaires', $this->get("router")->generate($env."_questionnaires"));  
-        }
         
         // REDIRECTION PART
         if (in_array($formConf->getAction(), array('edit', 'update'))) {
@@ -91,8 +65,6 @@ class FormController extends Controller {
                     $formConf->setH1($this->get('translator')->trans('mo.questionnaire.title.edit', array('%quest%' => $object->getName())));
                     if($env=='mo')
                        $breadcrumbs->addItem($object->getName(), $this->get("router")->generate("mo_questionnaire_show", array('slug_ent' => $enterprise['slug'], 'slug_quest' => $object->getSlug())));
-                    else
-                        $breadcrumbs->addItem($object->getName(), $this->get("router")->generate("bo_questionnaire_show", array('slug_quest' => $object->getSlug()))); 
                     $breadcrumbs->addItem('Modifier');
                     
                     $formConf->setForm(new QuestionnaireType(), $object,array('formule'=>($object->getTextPayment()?2:1)));

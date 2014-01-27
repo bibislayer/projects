@@ -6,8 +6,8 @@ vm_general:
     resource: "@VMGeneralBundle/Resources/config/routing.yml"
     prefix:   /
 
-vm_video:
-    resource: "@VMVideoBundle/Resources/config/routing.yml"
+vm_questionnaire:
+    resource: "@VMQuestionnaireBundle/Resources/config/routing.yml"
     prefix:   /
 
 vm_feedback:

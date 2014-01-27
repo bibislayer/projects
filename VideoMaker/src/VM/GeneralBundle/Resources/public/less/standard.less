@@ -104,7 +104,7 @@ a:visited {color: #3B81BE;}
 a:hover {color: #b40a0a;text-decoration: none;}
 .text_left{text-align: left;}
 .text_right{text-align: right;}
-.text_center{text-align: center;}
+.text_center{text-align: center !important;}
 .justify{text-align: justify;}
 p{color: @black;}
 .color_orange{color: @orange!important; }
@@ -275,7 +275,7 @@ form.edit_question{background-color: #F0F0F0;border: 1px solid lightgray !import
             input{.input;width: 89.5% !important;}
             }
         }
-        .edit_question .field input[type="radio"],#question_form .field input[type="radio"],#question_form .field input[type="checkbox"]{float:left;width: auto;margin-top: 0px !important; margin-right: 10px;height: auto;margin-bottom: 0;}
+        .edit_question .field input[type="radio"],#question_form .field input[type="radio"],#question_form .field input[type="checkbox"]{float:left;width: auto;margin-top: 0px; margin-right: 10px;height: auto;margin-bottom: 0;}
 
 .input-main{
      input[type="range"] {
@@ -917,12 +917,12 @@ padding-top: 15px;background-color: white;-webkit-border-radius: 5px 5px 0 0;-mo
          height:100px;
       }
       .approuve{
-               background-image: url('../images/approuve.png');
-               background-repeat:no-repeat;
-               background-position: center center;
-               background-size:10%;
-               height:150px;
-            }
+       background-image: url('../images/approuve.png');
+       background-repeat:no-repeat;
+       background-position: center center;
+       background-size:10%;
+       height:150px;
+     }
       p{font-size: 18px;
       font-weight: bold;}
      }
@@ -943,14 +943,11 @@ padding-top: 15px;background-color: white;-webkit-border-radius: 5px 5px 0 0;-mo
 }
 
 /*********************** 404 ***********************/
-
 .page404{
     img{margin: 5%; width: 20%;}
 p{font-size: 30px; line-height: 60px; font-weight: bold; }
 a{margin: 20px 2%; font-size: 14px;}
 }
-
-
 
 /*********************** media queries ***********************/
 
@@ -968,7 +965,7 @@ a{margin: 20px 2%; font-size: 14px;}
 
 
 }
-@media screen and (max-width : 1850px) {
+/*@media screen and (max-width : 1850px) {
      .box_1,.box_2,.box_3{
         .grid_4{width: 100%;}
         .grid_3{width: 48%;}
@@ -976,11 +973,11 @@ a{margin: 20px 2%; font-size: 14px;}
     .box_2{
       .grid_3{width: 48%;margin-bottom: 20px;}
     }
-}
+}  */
 #container_reponse{
-    h1{margin-left: 10px;}
-    border-radius: 10px;
-    padding: 1%;
+   h1{margin-left: 10px;}
+   border-radius: 10px;
+   padding: 1%;
    width: 47%;
    margin-top: 10px;
    box-shadow: 0px 0px 10px -4px rgba(0,0,0,0.6) inset;
@@ -990,3 +987,46 @@ a{margin: 20px 2%; font-size: 14px;}
    .total{width: 85px;margin-top: 5px;}
  }
  p.result{padding:10px; }
+  .blocpres {
+      &.preview{
+      margin-top: 10px;
+      }
+      .show {
+          padding:10px;
+          img{float: right;margin: 0px;}
+      }
+     border: 1px solid #D9D9D9;
+     padding: 10px;
+     -moz-box-shadow: inset 0px 0px 5px 0px #d9d9d9;
+     -webkit-box-shadow: inset 0px 5px 10px 0px #d9d9d9;
+     -o-box-shadow: inset 0px 0px 5px 0px #d9d9d9;
+     box-shadow: inset 0px 0px 5px 0px #d9d9d9;
+     border-radius: 5px;
+     filter:progid:DXImageTransform.Microsoft.Shadow(color=#d9d9d9, Direction=NaN, Strength=5);
+     img{width:100%; float:right;max-width: 300px;float: left !important;margin-right: 10px;}
+     .principal_text{float: left;}
+     .btn_principal{border-radius:5px; background-color: @blue;}
+  }
+
+  .table-block th{
+         span.haut{
+             background-position: top center;
+             background-image: url("../images/dep.png");
+             background-size: 100%;
+             background-repeat: no-repeat;
+             width: 15px;
+             height: 15px;
+             float: right;
+             &:hover,&.on{background-image: url("../images/dep_hov.png");}
+         }
+         span.bas{
+             background-position: top center;
+             background-image: url("../images/dep_bas.png");
+             background-repeat: no-repeat;
+             background-size: 100%;
+             width: 15px;
+             height: 15px;
+             float: right;
+             &:hover,&.on{background-image: url("../images/dep_bas_hov.png");}
+         }
+  }

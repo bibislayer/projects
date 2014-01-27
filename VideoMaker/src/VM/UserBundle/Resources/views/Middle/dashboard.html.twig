@@ -1,0 +1,42 @@
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="grid_12">
+        <div class="border-main">
+            <div class="block-border">
+                <div class="block_design">
+                    <div class="block_header"><h1>{{'mo.general.title.homepage'|trans }}</h1></div>
+                    <div class="block_content">
+                        <table class="table-border">
+                            <ul class="list-design ">
+                                {% if questionnairesUser|length > 0 %}
+                                    {% for questionnaire in questionnairesUser %}
+                                        <li>
+                                            <a href="{{ path('mo_enterprise_show', {'slug_ent': questionnaire.slug}) }}">
+
+                                                <div class="contenu">
+                                                    <div class="titre_entreprise">
+                                                        {% if questionnaire.logo %}
+                                                            <img src="{{ asset(questionnaire.logo) }}" alt="logo_entreprise" />
+                                                        {% else %}
+                                                            <img src="{{ asset('bundles/recrutonlinegeneral/images/remplacement.png') }}" alt="logo_entreprise" />
+                                                        {% endif %}
+                                                        <h1 class="titre">{{ questionnaire.name }}</h1>
+                                                    </div>
+                                                 </div>
+                                                <div class="fleche"></div>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

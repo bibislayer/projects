@@ -85,7 +85,7 @@ class Video
     private $children;
 
     /**
-     * @var \VM\UserBundle\Entity\Userr
+     * @var \VM\UserBundle\Entity\User
      */
     private $User;
 
@@ -447,10 +447,10 @@ class Video
     /**
      * Set User
      *
-     * @param \VM\UserBundle\Entity\Userr $user
+     * @param \VM\UserBundle\Entity\User $user
      * @return Video
      */
-    public function setUser(\VM\UserBundle\Entity\Userr $user = null)
+    public function setUser(\VM\UserBundle\Entity\User $user = null)
     {
         $this->User = $user;
     
@@ -460,7 +460,7 @@ class Video
     /**
      * Get User
      *
-     * @return \VM\UserBundle\Entity\Userr 
+     * @return \VM\UserBundle\Entity\User 
      */
     public function getUser()
     {

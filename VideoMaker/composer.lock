@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "4b939ad4b106ce930b31aa585b93417a",
+    "hash": "a80bce7ad6e4aa8d8e25429b8849aceb",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -822,12 +822,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/formapro/FpOpenIdBundle.git",
-                "reference": "52f8ccd83e40be67ab1ed23c413b90112a64d0fc"
+                "reference": "05d35adb91521b0ee4136ad7407d6aaade3de128"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/formapro/FpOpenIdBundle/zipball/52f8ccd83e40be67ab1ed23c413b90112a64d0fc",
-                "reference": "52f8ccd83e40be67ab1ed23c413b90112a64d0fc",
+                "url": "https://api.github.com/repos/formapro/FpOpenIdBundle/zipball/05d35adb91521b0ee4136ad7407d6aaade3de128",
+                "reference": "05d35adb91521b0ee4136ad7407d6aaade3de128",
                 "shasum": ""
             },
             "require": {
@@ -874,7 +874,7 @@
                 "OpenId",
                 "security"
             ],
-            "time": "2013-11-28 11:31:18"
+            "time": "2014-01-20 08:02:36"
         },
         {
             "name": "friendsofsymfony/facebook-bundle",
@@ -943,12 +943,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "673a905395b391d9fa945d55a4434b3a5434ef6f"
+                "reference": "23d15ad680fe5b695df1565e7854342e608bc483"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/673a905395b391d9fa945d55a4434b3a5434ef6f",
-                "reference": "673a905395b391d9fa945d55a4434b3a5434ef6f",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/23d15ad680fe5b695df1565e7854342e608bc483",
+                "reference": "23d15ad680fe5b695df1565e7854342e608bc483",
                 "shasum": ""
             },
             "require": {
@@ -1003,7 +1003,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2014-01-17 22:23:44"
+            "time": "2014-01-26 23:20:11"
         },
         {
             "name": "garetjax/phpbrowscap",
@@ -1011,12 +1011,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/GaretJax/phpbrowscap.git",
-                "reference": "3ef579990aae725949782dc068ed0050d5bbc4d1"
+                "reference": "2f702870a9660fe51426d02136ea1f4d4b367a16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GaretJax/phpbrowscap/zipball/3ef579990aae725949782dc068ed0050d5bbc4d1",
-                "reference": "3ef579990aae725949782dc068ed0050d5bbc4d1",
+                "url": "https://api.github.com/repos/GaretJax/phpbrowscap/zipball/2f702870a9660fe51426d02136ea1f4d4b367a16",
+                "reference": "2f702870a9660fe51426d02136ea1f4d4b367a16",
                 "shasum": ""
             },
             "require": {
@@ -1046,7 +1046,7 @@
                 "get_browser",
                 "user agent"
             ],
-            "time": "2013-09-06 21:31:44"
+            "time": "2014-01-22 12:15:09"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1289,16 +1289,16 @@
         },
         {
             "name": "knplabs/knp-components",
-            "version": "1.2.4",
+            "version": "1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/knp-components.git",
-                "reference": "ae454fb43473127a7bdc0a777f962f64f94e2795"
+                "reference": "8803fdaa18bd24bd158143e3d9099f4b243a31dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/ae454fb43473127a7bdc0a777f962f64f94e2795",
-                "reference": "ae454fb43473127a7bdc0a777f962f64f94e2795",
+                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/8803fdaa18bd24bd158143e3d9099f4b243a31dd",
+                "reference": "8803fdaa18bd24bd158143e3d9099f4b243a31dd",
                 "shasum": ""
             },
             "require": {
@@ -1346,21 +1346,21 @@
                 "pager",
                 "paginator"
             ],
-            "time": "2013-12-23 13:48:48"
+            "time": "2014-01-09 16:23:31"
         },
         {
             "name": "knplabs/knp-paginator-bundle",
-            "version": "dev-master",
+            "version": "2.3.3",
             "target-dir": "Knp/Bundle/PaginatorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
-                "reference": "e817cbddfa13cb9a72bf1ddcaf6a36b99cda5c2d"
+                "reference": "ce6b7b36d3bed5cb6bfb9645018dd407395fce15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/e817cbddfa13cb9a72bf1ddcaf6a36b99cda5c2d",
-                "reference": "e817cbddfa13cb9a72bf1ddcaf6a36b99cda5c2d",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/ce6b7b36d3bed5cb6bfb9645018dd407395fce15",
+                "reference": "ce6b7b36d3bed5cb6bfb9645018dd407395fce15",
                 "shasum": ""
             },
             "require": {
@@ -1405,7 +1405,7 @@
                 "pagination",
                 "paginator"
             ],
-            "time": "2013-12-19 09:14:09"
+            "time": "2013-07-30 20:36:09"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -1942,12 +1942,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",
-                "reference": "9da4489322c5442ff021c4cd3f28dd79b2a8df07"
+                "reference": "cbec28d1ed6dce13b0c18c2dfd8f6af81e65cbae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/9da4489322c5442ff021c4cd3f28dd79b2a8df07",
-                "reference": "9da4489322c5442ff021c4cd3f28dd79b2a8df07",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/cbec28d1ed6dce13b0c18c2dfd8f6af81e65cbae",
+                "reference": "cbec28d1ed6dce13b0c18c2dfd8f6af81e65cbae",
                 "shasum": ""
             },
             "require": {
@@ -1995,7 +1995,7 @@
                 "translatable",
                 "tree"
             ],
-            "time": "2013-10-13 16:27:31"
+            "time": "2014-01-23 11:00:25"
         },
         {
             "name": "swiftmailer/swiftmailer",

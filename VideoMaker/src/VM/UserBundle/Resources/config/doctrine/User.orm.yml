@@ -25,15 +25,9 @@ VM\UserBundle\Entity\User:
         Video:
            targetEntity: VM\VideoBundle\Entity\Video
            mappedBy: User 
-        MakerAdministrator:
-           targetEntity: VM\MakerBundle\Entity\MakerAdministrator
+        Questionnaire:
+           targetEntity: VM\QuestionnaireBundle\Entity\Questionnaire
            mappedBy: User
-        MakerInvitationAdministrator:
-           targetEntity: VM\MakerBundle\Entity\MakerInvitationAdministrator
-           mappedBy: User
-        QuestionnaireAdministrator:
-          targetEntity: VM\QuestionnaireBundle\Entity\QuestionnaireAdministrator
-          mappedBy: User
         Feedback:
           targetEntity: VM\FeedbackBundle\Entity\Feedback
           mappedBy: User

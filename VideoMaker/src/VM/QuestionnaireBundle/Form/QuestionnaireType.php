@@ -24,13 +24,7 @@ class QuestionnaireType extends AbstractType {
                         $form->get('enterprise')->addError(new FormError('Please add enterprise')); 
                     }
                     
-               });
-              
-                $builder->add('enterprise', 'autocomplete', array(
-                      'url' => array('route' => 'bo_ac_enterprises'),
-                      'mapped' => false
-                      )
-                );          
+               });         
           }
           
           $builder->add('StdQuestionnaireType', 'entity', array(
