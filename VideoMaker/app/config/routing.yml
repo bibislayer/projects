@@ -6,14 +6,6 @@ vm_general:
     resource: "@VMGeneralBundle/Resources/config/routing.yml"
     prefix:   /
 
-vm_questionnaire:
-    resource: "@VMQuestionnaireBundle/Resources/config/routing.yml"
-    prefix:   /
-
-vm_feedback:
-    resource: "@VMFeedbackBundle/Resources/config/routing.yml"
-    prefix:   /
-
 vm_standard:
     resource: "@VMStandardBundle/Resources/config/routing.yml"
     prefix:   /

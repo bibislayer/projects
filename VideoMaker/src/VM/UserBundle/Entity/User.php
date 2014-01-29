@@ -73,42 +73,6 @@ class User extends BaseUser {
     }
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $enterprises;
-
-    //$this->Enterprises = new \Doctrine\Common\Collections\ArrayCollection();
-    /**
-     * Add Enterprise
-     *
-     * @param \VM\EnterpriseBundle\Entity\Enterprise $enterprise
-     * @return User
-     */
-    public function addEnterprise(\VM\EnterpriseBundle\Entity\Enterprise $enterprise) {
-        $this->enterprises[] = $enterprise;
-
-        return $this;
-    }
-
-    /**
-     * Remove Enterprise
-     *
-     * @param \VM\EnterpriseBundle\Entity\Enterprise $enterprise
-     */
-    public function removeEnterprise(\VM\EnterpriseBundle\Entity\Enterprise $enterprise) {
-        $this->enterprises->removeElement($enterprise);
-    }
-
-    /**
-     * Get Enterprises
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEnterprises() {
-        return $this->enterprises;
-    }
-
-    /**
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255)
@@ -332,36 +296,6 @@ class User extends BaseUser {
     }
 
     /**
-     * Add EnterpriseAdministrator
-     *
-     * @param \VM\EnterpriseBundle\Entity\Enterprise $enterpriseAdministrator
-     * @return User
-     */
-    public function addEnterpriseAdministrator(\VM\EnterpriseBundle\Entity\Enterprise $enterpriseAdministrator) {
-        $this->EnterpriseAdministrator[] = $enterpriseAdministrator;
-
-        return $this;
-    }
-
-    /**
-     * Remove EnterpriseAdministrator
-     *
-     * @param \VM\EnterpriseBundle\Entity\Enterprise $enterpriseAdministrator
-     */
-    public function removeEnterpriseAdministrator(\VM\EnterpriseBundle\Entity\Enterprise $enterpriseAdministrator) {
-        $this->EnterpriseAdministrator->removeElement($enterpriseAdministrator);
-    }
-
-    /**
-     * Get EnterpriseAdministrator
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEnterpriseAdministrator() {
-        return $this->EnterpriseAdministrator;
-    }
-
-    /**
      * Add QuestionnaireAdministrator
      *
      * @param \VM\QuestionnaireBundle\Entity\Questionnaire $questionnaireAdministrator
@@ -429,41 +363,6 @@ class User extends BaseUser {
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $EnterpriseInvitationAdministrator;
-
-    /**
-     * Add EnterpriseInvitationAdministrator
-     *
-     * @param \VM\EnterpriseBundle\Entity\EnterpriseInvitationAdministrator $enterpriseInvitationAdministrator
-     * @return User
-     */
-    public function addEnterpriseInvitationAdministrator(\VM\EnterpriseBundle\Entity\EnterpriseInvitationAdministrator $enterpriseInvitationAdministrator) {
-        $this->EnterpriseInvitationAdministrator[] = $enterpriseInvitationAdministrator;
-
-        return $this;
-    }
-
-    /**
-     * Remove EnterpriseInvitationAdministrator
-     *
-     * @param \VM\EnterpriseBundle\Entity\EnterpriseInvitationAdministrator $enterpriseInvitationAdministrator
-     */
-    public function removeEnterpriseInvitationAdministrator(\VM\EnterpriseBundle\Entity\EnterpriseInvitationAdministrator $enterpriseInvitationAdministrator) {
-        $this->EnterpriseInvitationAdministrator->removeElement($enterpriseInvitationAdministrator);
-    }
-
-    /**
-     * Get EnterpriseInvitationAdministrator
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEnterpriseInvitationAdministrator() {
-        return $this->EnterpriseInvitationAdministrator;
-    }
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     private $Feedback;
 
     /**
@@ -496,40 +395,6 @@ class User extends BaseUser {
         return $this->Feedback;
     }
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $EnterpriseNote;
-
-    /**
-     * Add EnterpriseNote
-     *
-     * @param \VM\EnterpriseBundle\Entity\EnterpriseNote $enterpriseNote
-     * @return User
-     */
-    public function addEnterpriseNote(\VM\EnterpriseBundle\Entity\EnterpriseNote $enterpriseNote) {
-        $this->EnterpriseNote[] = $enterpriseNote;
-
-        return $this;
-    }
-
-    /**
-     * Remove EnterpriseNote
-     *
-     * @param \VM\EnterpriseBundle\Entity\EnterpriseNote $enterpriseNote
-     */
-    public function removeEnterpriseNote(\VM\EnterpriseBundle\Entity\EnterpriseNote $enterpriseNote) {
-        $this->EnterpriseNote->removeElement($enterpriseNote);
-    }
-
-    /**
-     * Get EnterpriseNote
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEnterpriseNote() {
-        return $this->EnterpriseNote;
-    }
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -568,82 +433,7 @@ class User extends BaseUser {
     {
         return $this->Video;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $MakerAdministrator;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $MakerInvitationAdministrator;
-
-
-    /**
-     * Add MakerAdministrator
-     *
-     * @param \VM\EnterpriseBundle\Entity\EnterpriseAdministrator $makerAdministrator
-     * @return User
-     */
-    public function addMakerAdministrator(\VM\EnterpriseBundle\Entity\EnterpriseAdministrator $makerAdministrator)
-    {
-        $this->MakerAdministrator[] = $makerAdministrator;
     
-        return $this;
-    }
-
-    /**
-     * Remove MakerAdministrator
-     *
-     * @param \VM\EnterpriseBundle\Entity\EnterpriseAdministrator $makerAdministrator
-     */
-    public function removeMakerAdministrator(\VM\EnterpriseBundle\Entity\EnterpriseAdministrator $makerAdministrator)
-    {
-        $this->MakerAdministrator->removeElement($makerAdministrator);
-    }
-
-    /**
-     * Get MakerAdministrator
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getMakerAdministrator()
-    {
-        return $this->MakerAdministrator;
-    }
-
-    /**
-     * Add MakerInvitationAdministrator
-     *
-     * @param \VM\EnterpriseBundle\Entity\EnterpriseInvitationAdministrator $makerInvitationAdministrator
-     * @return User
-     */
-    public function addMakerInvitationAdministrator(\VM\EnterpriseBundle\Entity\EnterpriseInvitationAdministrator $makerInvitationAdministrator)
-    {
-        $this->MakerInvitationAdministrator[] = $makerInvitationAdministrator;
-    
-        return $this;
-    }
-
-    /**
-     * Remove MakerInvitationAdministrator
-     *
-     * @param \VM\EnterpriseBundle\Entity\EnterpriseInvitationAdministrator $makerInvitationAdministrator
-     */
-    public function removeMakerInvitationAdministrator(\VM\EnterpriseBundle\Entity\EnterpriseInvitationAdministrator $makerInvitationAdministrator)
-    {
-        $this->MakerInvitationAdministrator->removeElement($makerInvitationAdministrator);
-    }
-
-    /**
-     * Get MakerInvitationAdministrator
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getMakerInvitationAdministrator()
-    {
-        return $this->MakerInvitationAdministrator;
-    }
     /**
      * @var \Doctrine\Common\Collections\Collection
      */

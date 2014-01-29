@@ -24,10 +24,4 @@ VM\UserBundle\Entity\User:
     oneToMany:
         Video:
            targetEntity: VM\VideoBundle\Entity\Video
-           mappedBy: User 
-        Questionnaire:
-           targetEntity: VM\QuestionnaireBundle\Entity\Questionnaire
            mappedBy: User
-        Feedback:
-          targetEntity: VM\FeedbackBundle\Entity\Feedback
-          mappedBy: User

@@ -25,10 +25,8 @@ class AppKernel extends Kernel
             new Nelmio\SolariumBundle\NelmioSolariumBundle(),
             new VM\UserBundle\VMUserBundle(), 
             new VM\StandardBundle\VMStandardBundle(),
-            new VM\FeedbackBundle\VMFeedbackBundle(),
             new VM\GeneralBundle\VMGeneralBundle(),
             new VM\VideoBundle\VMVideoBundle(),
-            new VM\QuestionnaireBundle\VMQuestionnaireBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

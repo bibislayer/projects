@@ -1,94 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Scoring-Line{% endblock %}</title>
-        {% stylesheets 'bundles/vmgeneral/less/front.less' filter='lessphp' %}
-            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
-        {% endstylesheets %}
-        {% stylesheets 'bundles/vmgeneral/less/owl.carousel.css' %}
-            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}">
-        {% endstylesheets %}
-        {% stylesheets 'bundles/vmgeneral/less/owl.theme.css' %}
-            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}">
-        {% endstylesheets %}
-        {% stylesheets 'bundles/vmgeneral/less/jquery-ui-1.8.16.custom.css' filter='cssrewrite' %}
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
-        {% endstylesheets %}
-              <script src="{{ asset('bundles/vmgeneral/js/jquery-1.9.1.js') }}"></script>
-              <script src="{{ asset('bundles/vmgeneral/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
-              <script src="{{ asset('bundles/vmgeneral/js/owl.carousel.min.js') }}"></script>
-   
-        <script type="text/javascript">
-            var load_first = true;
-          </script>    
+        <meta charset="UTF-8"/>
+        <title>{% block title %}Video-Maker{% endblock %}</title>
+        <link href="{{ asset('bundles/vmgeneral/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/vmgeneral/font-awesome/css/font-awesome.css') }}"/>
+
+        <!-- Page-Level Plugin CSS - Tables -->
+        <link href="{{ asset('bundles/vmgeneral/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
+
+        <!-- SB Admin CSS - Include with every page -->
+        <link href="{{ asset('bundles/vmgeneral/css/sb-admin.css') }}" rel="stylesheet">
     </head>
+
     <body>
-    <header class="fixe">
-        
-        <div id="header_complet">
-            <div class="logo">
-                <a href="{{ path('fo_homepage') }}"><img src="{{ asset('bundles/vmgeneral/images/logo_front.png') }}" alt="VM" /></a>
-            </div>
-            <div class="navigation">
-            <ul>
-               
-                <li><a href="#top">Concept</a></li>
-                <li><a href="#fonct">Comment ça marche?</a></li>
-                <li><a href="#tarifs">Tarifs</a></li>
-                <li><a>Exemples</a></li>
-                <li><a>Qui sommes nous ?</a></li>
 
-            </ul>
-            </div>
-            <div class="connexion">
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {% if is_granted("ROLE_MANAGER") %}
-                <a class="" href="{{ path('mo_dashboard') }}">Accés entreprise</a>
-                {% endif %}
-            <a class="" href="{{ path('logout') }}">Déconnexion</a>
+        {% block content %}
+            {% block fos_user_content %}{% endblock %}
+        {% endblock %}
 
-            {% else %}
-                <a  href="{{ path('pro_register') }}">Inscription entreprise</a>
-                <a href="{{ path('mo_login') }}">Connexion </a>
 
-            {% endif %}
-            </div>
-            <div class="stop"></div>
-        </div>
+        <!-- Core Scripts - Include with every page -->
+        <script src="{{ asset('bundles/vmgeneral/js/jquery-1.10.2.js') }}"></script>
+        <script src="{{ asset('bundles/vmgeneral/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('bundles/vmgeneral/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
 
-    </header>
-        <div id="content">
-            {% if app.request.attributes.get('_route') != 'fo_homepage' %}
-                {{ wo_render_breadcrumbs({'env':'fo'}) }}
-            {% endif %}
-{% block content %}
-{% block fos_user_content %}{% endblock %}
-{% endblock %}
-            </div>
-            <footer>
+        <!-- Page-Level Plugin Scripts - Tables -->
+        <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
+        <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
 
-                {% if app.environment != 'dev' %}
-                    <script>
-                      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        <!-- SB Admin Scripts - Include with every page -->
+        <script src="{{ asset('bundles/vmgeneral/js/sb-admin.js') }}"></script>
 
-                      ga('create', 'UA-47178406-1', 'scoring-line.com');
-                      ga('send', 'pageview');
+        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+        <script>
+            $(document).ready(function() {
+                $('#dataTables-example').dataTable();
+            });
+        </script>
 
-                    </script>
-                {% endif %}
-            </footer>
-        </body>
-    </html>
-    <script>
-        $('a[href^="#"]').click(function(){
-        var the_id = $(this).attr("href");
-        $('html, body').animate({
-        scrollTop:$(the_id).offset().top
-        }, 'slow');
-        return false;
-        });
-    </script>
+    </body>
+
+</html>

@@ -1,177 +1,20 @@
-{% extends 'VMGeneralBundle:Front:layout.html.twig' %}
+{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
 {% block stylesheets %}
 {{ parent() }}
 {% endblock %}
 
 {% block content %}
-
-<div class="slide_home">
-    {#
-    <div id="owl-demo" class="owl-carousel owl-theme">
-
-        <div class="item" style="height: 400px;">
-                <div class="grid_6">
-                    <div class="img"></div>
-                </div>
-                <div class="grid_6">
-                    <p>Un concept innovant de recrutement</p>
-                    <p class="text">Responsables Ressources Humaines </p>
-                    <a class="btn blue" href="{{path('pro_register')}}">En savoir plus</a>
-                </div>
-                <div class="stop"></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Future index</h1>
             </div>
-        <div class="item" style="background-color: #666; height: 400px;"></div>
-        <div class="item" style="background-color: #999; height: 400px;"></div>
-    </div>
-    #}
-
-    <div class="block_content">
-    <div id="top"></div>
-        <div class="grid_12 back_blue">
-            <div class="box_1">
-
-                <h1>LE RECRUTEMENT ÉQUITABLE</h1>
-                <p>Améliorer la qualité et la productivité de vos recrutements en ne retenant que les candidats motivés et possédant les compétences du poste à pourvoir.</p>
-                        <div class="grid_4">
-                            <h3>Créer </h3>
-                            <div class="img"></div>
-                            <span>A partir de notre base de donnée ou de vos propres données vous créez un questionnaire permettant d’évaluer les compétences minimales nécessaires pour le poste</span>
-                        </div>
-                        <div class="grid_4">
-                            <h3>Diffuser</h3>
-                            <div class="img diff"></div>
-                            <span>Sur votre support d’annonce favori vous placez simplement un lien vers le questionnaire, plus besoin de demander de lettre de motivation ou de CV (il peux être demandé au cours du questionnaire).</span>
-                        </div>
-                        <div class="grid_4">
-                            <h3>Sélectionner</h3>
-                            <div class="img note"></div>
-                            <span>Grâce à notre outil de scoring  en ligne vous sélectionner les meilleurs candidats en les invitant à l’étape suivante du recrutement (par exemple un entretien) et vous informez ceux qui n’ont pas été sélectionnés.</span>
-                        </div>
-                <div class="stop"></div>
-            </div>
+            <!-- /.col-lg-12 -->
         </div>
-    </div>
-    <div class="block_content">
-
-        <div class="grid_12 back_green_2">
-            <div id="fonct"></div>
-            <div class="box_2">
-
-                <div class="grid_3">
-                    <h3>Inversion du processus de recrutement habituel</h3>
-                    <div class="content">
-                         <span>- Proposition d’un entretien à l’ensemble des candidats  </span>
-                         <span>- Évaluation des compétences minimum de chacun, pour le poste proposé</span>
-                         <span>- Au final, on n’examine uniquement les CV des candidats les  plus compétents et les plus motivés </span>
-                    </div>
-
-                </div>
-
-                <div class="grid_3">
-                    <h3>Un processus qui s'intègre naturellement dans un recrutement classique</h3>
-                    <div class="content">
-                       <span class="bold"> L’entretien peux être proposé de deux manières: </span>
-                        <span>- Dans l’annonce sous la forme d’un lien vers le questionnaire de compétences.</span>
-                        <span>- A réception des CV en indiquant aux candidats qu’ils ont été sélectionnés pour une deuxième étape. </span>
-                    </div>
-                </div>
-
-                <div class="grid_3">
-                    <h3><br />comment ça marche ?</h3>
-                    <div class="content">
-                        <span>1 - Définition du poste avec ses compétences  </span>
-                        <span>2 - Sélection d’un questionnaire dans notre base de donnée de questionnaires types </span>
-                        <span>3 - Adaptation du questionnaire aux compétences minimum requises pour le poste </span>
-                        <span>4 - Rédaction et diffusion de l’offre d’emploi avec un lien vers le questionnaire </span>
-                        <span>5 - Scoring (automatique et manuel)et sélection des meilleurs candidats pour un entretien. Réponses automatiques à ceux non retenus </span>
-                    </div>
-                </div>
-
-                <div class="grid_3">
-                    <h3><br />Recrutement équitable</h3>
-                    <div class="content">
-                        <span class="bold">Seuls critères retenus : </span>
-                        <span>- Les compétences </span>
-                        <span>- La motivation </span>
-                        <span class="bold"> Bénéfices pour les recruteurs : </span>
-                        <span> - Amélioration de la qualité des profils </span>
-                        <span> - Gains de productivité </span>
-                        <span> - Amélioration de l’image de l’entreprise </span>
-
-                    </div>
-                </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
             </div>
+            <!-- /.col-lg-12 -->
         </div>
-        <div class="stop"></div>
-        <div id="tarifs"></div>
-    </div>
-
-    <div class="block_content">
-
-        <div class="grid_12 back_white">
-            <div class="box_3">
-
-                {% set cost = 90 %}
-                {% set discount = {5:10, 15:15, 30:25} %}
-                <h2>Tarifs</h2>
-                
-
-                
-                <div class="table-origin">
-                    <div class=" grid_4"></div>
-                    <div class=" grid_4">
-                    <div class="first">
-                        <p>1 questionnaire</p>
-                        <p class="font"><span>Prix unitaire : </span>{{cost}}€</p>
-
-                    </div>
-                        <a>Inscription</a>
-
-                    </div>
-                    <div class=" grid_4"></div>
-                    <div class="stop"></div>
-                    {% for k, d in discount %}
-                   <div class=" grid_4">
-                       <div class="number">
-                            <p> {{k}} Questionnaires</p>
-                            <div class="arrow_price"> <p> -{{d}}% </p></div>
-                           
-                           <p class="font"><span>Prix unitaire : </span>{{cost*k*((100-d)/100)/k}}€</p>
-                       </div>
-
-                       <div class="cost">
-
-                            <p>Coût : {{cost*k*((100-d)/100)}}€  </p>
-
-                            <p>Vous économisez : {{cost*k - cost*k*((100-d)/100)}}€ </p>
-                       </div>
-                       <a>Inscription</a>
-                   </div>
-
-                    {% endfor %}
-
-                </div>
-            </div>
-        </div>
-        <div class="stop"></div>
-    </div>
-
-    <div class="stop"></div>
-</div>
-<!--<script type="text/javascript">
-var largeur_fenetre = $(window).width();
-var hauteur_fenetre = $(window).height();
-
-window.onload = function () {
-$('.back_blue,.back_green_2,.back_white').css('width', largeur_fenetre+'px');
-$('.back_blue,.back_green_2,.back_white').css('height', hauteur_fenetre+'px') ;
-
-}
-$(window).resize(function() {
-$('.back_blue,.back_green_2,.back_white').css('width', largeur_fenetre+'px');
-$('.back_blue,.back_green_2,.back_white').css('height', hauteur_fenetre+'px');;
-});
-
-</script> -->
-
+        <!-- /.row -->
 {% endblock %}

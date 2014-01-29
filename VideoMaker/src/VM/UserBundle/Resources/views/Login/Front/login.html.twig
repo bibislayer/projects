@@ -1,4 +1,4 @@
-{% extends "VMGeneralBundle::Middle/layout.html.twig" %}
+{% extends "VMGeneralBundle::Front/layout.html.twig" %}
 
 {% trans_default_domain 'FOSUserBundle' %}
 
@@ -7,46 +7,33 @@
 <div>{{ error|trans }}</div>
 {% endif %}
     <div class="container">
-        <div class="grid_8">
-            <div class="block_border">
-                <div class="block_design height_250">
-                    <div class="block_header"><h1>Connectez-vous</h1></div>
-                    <div class="block_content">
-                         <form action="{{ path("login_check_admin") }}" method="post" class="form_main">
-                             <div class="input-main">
-                                 <div class="input-block">
-                        <div class="grid _70 left ">
-                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-
-                                <div class="label"><label for="username">{{'form.login.email'|trans({}, "messages") }}</label></div>
-                                <div class="field"><input type="text" class="_90"  id="username" name="_username" value="{{ last_username }}" required="required" /> </div>
-
-                                <div class="label"><label for="password">{{ 'form.login.password'|trans({}, "messages") }}</label></div>
-                                <div class="field"><input type="password" class="_90"  id="password" name="_password" required="required" /> </div>
-                                <div class="stop"></div>
-
-                                <label class="left" for="remember_me">{{ 'form.login.remember_me'|trans({}, "messages") }}</label>
-                                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-                            <div class="line stop">
-                                <a href="{{ path('fos_user_resetting_request') }}">{{ 'form.login.forgot_password'|trans({}, "messages") }}</a>
-                            </div>
-
-                        </div>
-                        <div class="grid _30 left connexion_pro">                           
-                            <input class="btn _40" type="submit" id="_submit" name="_submit" value="{{ 'form.login.submit'|trans({}, "messages") }}" />
-
-                        </div>
-                             <div class="stop"></div>
-                                     </div>
-                                 </div>
-                        </form>
-
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please Sign In</h3>
                     </div>
-                    <div class="stop"></div>
-                    <div class="block_footer"></div>
-                </div>   
+                    <div class="panel-body">
+                        <form action="{{ path("login_check_admin") }}"  method="post" role="form">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                            <fieldset>
+                                <div class="form-group">
+                                     <input class="form-control" placeholder="Pseudo" type="text" class="_90"  id="username" name="_username" value="{{ last_username }}" required="required" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Password"  id="password" name="_password" required="required" />
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />Remember Me
+                                    </label>
+                                </div>
+                                <input class="btn btn-lg btn-success btn-block" type="submit" id="_submit" name="_submit" value="Login" />
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="stop"></div>
     </div>
 {% endblock fos_user_content %}
