@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				xmlns:util="org.red5.ui.*"
+				width="500" height="300" backgroundColor="white"
+				applicationComplete="init()" layout="absolute">
+	<mx:Script source="red5recorder.as" />
+	<mx:Style source="style.css" />
+	<mx:Canvas label="recorder" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" id="canvas2">
+		<util:VideoContainer id="videoContainer" height="240" width="320"/>
+		<mx:Button y="5" icon="@Embed('assets/webcamON.png')" height="20" width="30" id="cam1_btn" click="webcamParameters()" toolTip="Parameters" label="1" x="5"/>
+		<mx:ProgressBar label="volume" labelPlacement="center" horizontalGap="8" minimum="0" maximum="300" id="micLevel" mode="manual" visible="true" y="215" x="55"/>
+		<util:Blink y="5" x="230" text="Recording..." color="#FC0000" interval="1000" textAlign="right" fontWeight="bold" displayed="false" id="blink1"/>
+	</mx:Canvas>	
+</mx:Application>

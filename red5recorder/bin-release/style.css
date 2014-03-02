@@ -1,0 +1,50 @@
+/* CSS file */
+	.scrollBar {
+		thumb-icon: Embed(source="assets/circle.png"); 
+		thumb-up-skin: Embed(source="assets/circle.png"); 
+		thumb-down-skin: Embed(source="assets/circle.png"); 
+		thumb-over-skin: Embed(source="assets/circle.png"); 
+	}		
+    #cam1_btn {
+        backgroundAlpha: 1.0;
+        backgroundColor: haloBlue;
+        fontWeight: bold;
+        color: white;
+		fontFamily: ArialEmbedded;
+		font-size:13;
+		z-index: 10000;
+    }
+    #micLevel{
+		backgroundAlpha: 1.0;
+		backgroundColor: haloBlue;
+		fontWeight: bold;
+		color: white;
+		fontFamily: ArialEmbedded;
+		font-size:13;
+		z-index: 10000;
+	}
+	#blink1{
+		backgroundAlpha: 1.0;
+		backgroundColor: haloBlue;
+		fontWeight: bold;
+		color: white;
+		fontFamily: ArialEmbedded;
+		font-size:13;
+		z-index: 10000;
+	}
+    .arial16E {
+        fontFamily: "ArialEmbedded";
+        fontSize: 16;
+    }
+    .arial14E {
+        fontFamily: "ArialEmbedded";
+        fontSize: 14;
+    }        
+    .arial12E {
+        fontFamily: "ArialEmbedded";
+        fontSize: 12;
+    }
+    .arial10E {
+        fontFamily: "ArialEmbedded";
+        fontSize: 10;
+    }
