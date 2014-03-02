@@ -1,0 +1,58 @@
+{% extends 'VMGeneralBundle:Front:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Transformation de lien</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Lien PureVid</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form role="form" lass="form_main" action="" novalidate="" method="post">
+                                <div class="form-group">
+                                    <label for="make_link_link" class="required">Lien Purvide</label>
+                                    <span class="required_red" title="Ce champ est obligatoire">*</span>
+                                    <input type="text" id="make_link_link" name="make_link[link]" required="required" maxlength="255" class="form-control" placeholder="Lien">
+                                    <div class="error">
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="submit" id="make_link_save" name="make_link[save]" class="btn btn-success">Transformer</button>
+                                </div>        
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+    {% if flux is not empty %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Votre vidéo</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                           {{ flux|raw }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    {% endif %}
+</div>
+{% endblock %}

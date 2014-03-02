@@ -1,116 +1,16 @@
 {% if params.h1 is defined and params.h1 != '' %}
-    <div class="block_header"><h1>{{ params.h1 }}</h1></div>
+    <div class="panel-heading">{{ params.h1 }}</div>
 {% endif %}
-
-<div class="block_content">
-    {% if params.help is defined %}
-        <div class="title_finish">
-            <span class="img"></span>
-            {% if params.help == 'add' %}
-                {% set help = 'form.'~params.form.vars.name~'.generalHelp' %}
-                <p>{{ help|trans|raw }} </p>
-            {% else %}
-                <p>{{params.help}} </p>
-            {% endif %}
-            <div class="stop"></div>
-        </div>
-    {% endif %}
-    {% if params.extraParams.questType is not defined %}    
-        {% if params.errors is defined and params.errors|length > 0 %}
-
-        <ul class="error_list">
-            {% if params.errors[0] is defined %}
-            {% for error in params.errors %}
-            <li>{{ error.messageTemplate }}</li>
-            {% endfor %}
-            {% else %}
-            <li>{{ params.errors }}</li>
-            {% endif %}
-        </ul>
-        {% endif %}
-    {% endif %}    
+<div class="panel-body">
+    <div class="row">
+        <div class="col-lg-6">
     {% if (params.extraParams.withform is not defined )  or ( params.extraParams.withform != false) %}    
-    <form class="{{params.formClass}}" action="{{ params.url }}" novalidate method="post" {{ form_enctype(params.form) }}>
+    <form role="form" lass="{{params.formClass}}" action="{{ params.url }}" novalidate method="post" {{ form_enctype(params.form) }}>
      {% endif %}   
         {% include params.view with params only %}
      {% if (params.extraParams.withform is not defined) or (params.extraParams.withform != false) %}   
     </form>
     {% endif %}    
-        
-    
-<script>
-  /*$('div.block_content form').submit(function() {
-        var params = new Array();
-        params['url'] = $(this).attr('action');
-        params['data'] = new FormData($(this).closest('form'));
-        params['obj'] = $(this).closest('div.block_design');
-        ajaxi('', params);
-        return false;
-    });
-    //This function is for sending ajax request using conditions
-    function ajaxi(that, params) {
-        var url, fancy, obj, data, dataType;
-
-        dataType = '';
-
-        if (that) {
-            event.preventDefault();
-            url = $(that).attr('data-url');
-            if ($(that).attr('data-fancy'))
-                params['action'] = fctFancy;
-            obj = $('#' + $(that).attr('data-replace'));
-            //history.pushState({}, '', $(that).attr("href"));
-        } else {
-            url = params['url'];
-            obj = params['obj'];
-            if(params['data'] != undefined)
-                 data = params['data'];
-
-            if(params['dataType'] != undefined){
-                dataType = params['dataType'] ;
-            }
-            //history.pushState({}, '', url);
-            fancy = false;
-        }
-
-        if (!params || params && !params['autocomplete'])
-            $(obj).addClass('opacity');
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            dataType: dataType,
-            data: data,
-            success: function(data) {
-                if (isPartialUrl(data)){
-                    window.location.href = data;
-                    return false;
-                }else{
-                    $(obj).removeClass('opacity');
-                    if (params && params['action']) {
-                        params['action'](data, params);
-                    } else {
-                        obj.html(data);
-                    }
-                }
-                //history.pushState({}, '', this.url);
-            },
-            error: function(data) {
-                return 0;
-            }
-        });
-        return false;
-    }
-
-    //This function is for sending ajax request using conditions
-    function isPartialUrl(data) {
-        var urlPattern = new RegExp("^/[a-zA-Z0-9?&=/._-]*$");
-        if(urlPattern.test(data)){
-            return true;
-        }else{
-            return false;
-        }
-
-    }*/
-    </script>    
+        </div>
+    </div>
 </div>

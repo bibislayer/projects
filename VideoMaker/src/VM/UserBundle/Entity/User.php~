@@ -249,190 +249,6 @@ class User extends BaseUser {
     public function getEmailNew() {
         return $this->email_new;
     }
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $QuestionnaireUser;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $EnterpriseAdministrator;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $QuestionnaireAdministrator;
-
-    /**
-     * Add QuestionnaireUser
-     *
-     * @param \VM\QuestionnaireBundle\Entity\QuestionnaireUser $questionnaireUser
-     * @return User
-     */
-    public function addQuestionnaireUser(\VM\QuestionnaireBundle\Entity\QuestionnaireUser $questionnaireUser) {
-        $this->QuestionnaireUser[] = $questionnaireUser;
-
-        return $this;
-    }
-
-    /**
-     * Remove QuestionnaireUser
-     *
-     * @param \VM\QuestionnaireBundle\Entity\QuestionnaireUser $questionnaireUser
-     */
-    public function removeQuestionnaireUser(\VM\QuestionnaireBundle\Entity\QuestionnaireUser $questionnaireUser) {
-        $this->QuestionnaireUser->removeElement($questionnaireUser);
-    }
-
-    /**
-     * Get QuestionnaireUser
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getQuestionnaireUser() {
-        return $this->QuestionnaireUser;
-    }
-
-    /**
-     * Add QuestionnaireAdministrator
-     *
-     * @param \VM\QuestionnaireBundle\Entity\Questionnaire $questionnaireAdministrator
-     * @return User
-     */
-    public function addQuestionnaireAdministrator(\VM\QuestionnaireBundle\Entity\Questionnaire $questionnaireAdministrator) {
-        $this->QuestionnaireAdministrator[] = $questionnaireAdministrator;
-
-        return $this;
-    }
-
-    /**
-     * Remove QuestionnaireAdministrator
-     *
-     * @param \VM\QuestionnaireBundle\Entity\Questionnaire $questionnaireAdministrator
-     */
-    public function removeQuestionnaireAdministrator(\VM\QuestionnaireBundle\Entity\Questionnaire $questionnaireAdministrator) {
-        $this->QuestionnaireAdministrator->removeElement($questionnaireAdministrator);
-    }
-
-    /**
-     * Get QuestionnaireAdministrator
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getQuestionnaireAdministrator() {
-        return $this->QuestionnaireAdministrator;
-    }
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $Calendar;
-
-    /**
-     * Add Calendar
-     *
-     * @param \VM\CalendarBundle\Entity\Calendar $calendar
-     * @return User
-     */
-    public function addCalendar(\VM\CalendarBundle\Entity\Calendar $calendar) {
-        $this->Calendar[] = $calendar;
-
-        return $this;
-    }
-
-    /**
-     * Remove Calendar
-     *
-     * @param \VM\CalendarBundle\Entity\Calendar $calendar
-     */
-    public function removeCalendar(\VM\CalendarBundle\Entity\Calendar $calendar) {
-        $this->Calendar->removeElement($calendar);
-    }
-
-    /**
-     * Get Calendar
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCalendar() {
-        return $this->Calendar;
-    }
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $Feedback;
-
-    /**
-     * Add Feedback
-     *
-     * @param \VM\FeedbackBundle\Entity\Feedback $feedback
-     * @return User
-     */
-    public function addFeedback(\VM\FeedbackBundle\Entity\Feedback $feedback) {
-        $this->Feedback[] = $feedback;
-
-        return $this;
-    }
-
-    /**
-     * Remove Feedback
-     *
-     * @param \VM\FeedbackBundle\Entity\Feedback $feedback
-     */
-    public function removeFeedback(\VM\FeedbackBundle\Entity\Feedback $feedback) {
-        $this->Feedback->removeElement($feedback);
-    }
-
-    /**
-     * Get Feedback
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getFeedback() {
-        return $this->Feedback;
-    }
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $Video;
-
-
-    /**
-     * Add Video
-     *
-     * @param \VM\UserBundle\Entity\Video $video
-     * @return User
-     */
-    public function addVideo(\VM\UserBundle\Entity\Video $video)
-    {
-        $this->Video[] = $video;
-    
-        return $this;
-    }
-
-    /**
-     * Remove Video
-     *
-     * @param \VM\UserBundle\Entity\Video $video
-     */
-    public function removeVideo(\VM\UserBundle\Entity\Video $video)
-    {
-        $this->Video->removeElement($video);
-    }
-
-    /**
-     * Get Video
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getVideo()
-    {
-        return $this->Video;
-    }
     
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -452,39 +268,77 @@ class User extends BaseUser {
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $Questionnaire;
+    private $Video;
 
 
     /**
-     * Add Questionnaire
+     * Add Video
      *
-     * @param \VM\QuestionnaireBundle\Entity\Questionnaire $questionnaire
+     * @param \VM\VideoBundle\Entity\Video $video
      * @return User
      */
-    public function addQuestionnaire(\VM\QuestionnaireBundle\Entity\Questionnaire $questionnaire)
+    public function addVideo(\VM\VideoBundle\Entity\Video $video)
     {
-        $this->Questionnaire[] = $questionnaire;
+        $this->Video[] = $video;
     
         return $this;
     }
 
     /**
-     * Remove Questionnaire
+     * Remove Video
      *
-     * @param \VM\QuestionnaireBundle\Entity\Questionnaire $questionnaire
+     * @param \VM\VideoBundle\Entity\Video $video
      */
-    public function removeQuestionnaire(\VM\QuestionnaireBundle\Entity\Questionnaire $questionnaire)
+    public function removeVideo(\VM\VideoBundle\Entity\Video $video)
     {
-        $this->Questionnaire->removeElement($questionnaire);
+        $this->Video->removeElement($video);
     }
 
     /**
-     * Get Questionnaire
+     * Get Video
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getQuestionnaire()
+    public function getVideo()
     {
-        return $this->Questionnaire;
+        return $this->Video;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $RecordingSession;
+
+
+    /**
+     * Add RecordingSession
+     *
+     * @param \VM\RecordingSessionBundle\Entity\RecordingSession $recordingSession
+     * @return User
+     */
+    public function addRecordingSession(\VM\RecordingSessionBundle\Entity\RecordingSession $recordingSession)
+    {
+        $this->RecordingSession[] = $recordingSession;
+    
+        return $this;
+    }
+
+    /**
+     * Remove RecordingSession
+     *
+     * @param \VM\RecordingSessionBundle\Entity\RecordingSession $recordingSession
+     */
+    public function removeRecordingSession(\VM\RecordingSessionBundle\Entity\RecordingSession $recordingSession)
+    {
+        $this->RecordingSession->removeElement($recordingSession);
+    }
+
+    /**
+     * Get RecordingSession
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRecordingSession()
+    {
+        return $this->RecordingSession;
     }
 }

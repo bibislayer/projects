@@ -5,3 +5,7 @@ vm_video_homepage:
 mo_dashboard:
     pattern:  /admin/videos
     defaults: { _controller: VMVideoBundle:Default:index }
+    
+fo_make_link:
+    pattern:  /video/transform
+    defaults: { _controller: VMVideoBundle:Default:makeLink }

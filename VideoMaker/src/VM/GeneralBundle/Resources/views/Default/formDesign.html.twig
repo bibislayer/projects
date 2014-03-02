@@ -8,39 +8,31 @@
 {% endblock radio_widget %}
 
 {% block form_row %}
-<div class="form_row">
-    {#% set help = 'je suis le meyer'%#}
-    <div class="input-main grey">
-        <div class="input-block">
-            {{ form_label(form) }}
-            <div class="field">
-                {{ form_widget(form) }}
-                <div class="error">
-                    {{ form_errors(form) }}
-                </div>
-                {% if help is defined and help %}
-                    {% if help == 'TRUE' %}
-                        {% if form.parent is empty or form.parent.vars.name == '' %}
-                            {% set help = 'form.others.help.'~form.vars.name %}
-                        {% else %}
-                            {% if form.parent.parent is empty %}
-                                {% set help = 'form.'~form.parent.vars.name~'.help.'~form.vars.name %}
-                            {% else %}
-                                {% set help = 'form.'~form.parent.parent.vars.name~'.'~form.parent.vars.name~'.help.'~form.vars.name %}
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
-                {{ help|trans}}
-                {% endif %}
-            </div>
-        </div>
+<div class="form-group">
+    {{ form_label(form) }}
+    {{ form_widget(form) }}
+    <div class="error">
+        {{ form_errors(form) }}
     </div>
+    {% if help is defined and help %}
+        {% if help == 'TRUE' %}
+            {% if form.parent is empty or form.parent.vars.name == '' %}
+                {% set help = 'form.others.help.'~form.vars.name %}
+            {% else %}
+                {% if form.parent.parent is empty %}
+                    {% set help = 'form.'~form.parent.vars.name~'.help.'~form.vars.name %}
+                {% else %}
+                    {% set help = 'form.'~form.parent.parent.vars.name~'.'~form.parent.vars.name~'.help.'~form.vars.name %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {{ help|trans}}
+    {% endif %}
 </div>
 {% endblock form_row %}
 
 {% block form_label %}
     {% spaceless %}
-        <div class="label">
             {% if label is empty %}
                 {% if form.parent is empty or form.parent.vars.name == '' %}
                     {% set label = 'form'~'.others.'~form.vars.name|trans %}
@@ -54,9 +46,8 @@
             {% endif %}
         {{ parent() }}
         {% if required %}
-            <span class="required_red" title="Ce champ est obligatoire">*</span>
+<span class="required_red" title="Ce champ est obligatoire">*</span>
         {% endif %}
-        </div>
     {% endspaceless %}
 {% endblock form_label %}
 
@@ -69,122 +60,122 @@
 
     {% set ac_params = {'url' : form.vars.url}%}
 
-    <script type="text/javascript">
-        $(function() {
-            var cache = {};
-            $("#{{form.name.vars.id}}").autocomplete({
-                minLength: 2,
-                autoFocus : true,
-                source: function( request, response ) {
-                    var term = request.term;
-                    var data = {
-                        limit: 50,
-                        q: term
-                    };
-                    $("#{{form.id.vars.id}}").val('');
-                    if ( term in cache ) {
-                        response( cache[ term ] );
-                        return;
-                    }
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ ac_params.url }}",
-                        dataType: "jsonp",
-                        data: data,
-                        success: function(data) {
-                                //params['action'](data, params);
-                                (function(){
-                                    response($.map(data.success, function(i, item) {
-                                        return {
-                                            label: i.name ,
-                                            value: i.name,
-                                            id: i.id
-                                        }
-
-                                    }));
-                                })();
-                            }
-                    });
-                },
-                select: function( event, ui ) {
-                    jQuery("#{{form.id.vars.id}}").val(ui.item.id);
+<script type="text/javascript">
+    $(function() {
+        var cache = {};
+        $("#{{form.name.vars.id}}").autocomplete({
+            minLength: 2,
+            autoFocus: true,
+            source: function(request, response) {
+                var term = request.term;
+                var data = {
+                    limit: 50,
+                    q: term
+                };
+                $("#{{form.id.vars.id}}").val('');
+                if (term in cache) {
+                    response(cache[ term ]);
+                    return;
                 }
+                $.ajax({
+                    type: "GET",
+                    url: "{{ ac_params.url }}",
+                    dataType: "jsonp",
+                    data: data,
+                    success: function(data) {
+                        //params['action'](data, params);
+                        (function() {
+                            response($.map(data.success, function(i, item) {
+                                return {
+                                    label: i.name,
+                                    value: i.name,
+                                    id: i.id
+                                }
 
-            })
-        });
-    </script>
+                            }));
+                        })();
+                    }
+                });
+            },
+            select: function(event, ui) {
+                jQuery("#{{form.id.vars.id}}").val(ui.item.id);
+            }
+
+        })
+    });
+</script>
 
 {% endblock %}
 
 {% block multi_add_widget %}
          {% set config = config|merge({'multi_add': true }) %}
          {{ block('autocomplete_widget') }}
-         <input type="hidden" name="{{ name~'_multi_add'}}" value="1" /> 
-         <input type="button" id="ajout_{{ id }}" class="btn btn-primary _10_imp" value="Ajouter" data-type="{{ name }}" data-text-input-id="{{ id }}"
-        data-limit="{{ config.limit is defined? config.limit:5 }}">
-         <div class="{{ id }}_list" id="{{ id }}_list"> 
+<input type="hidden" name="{{ name~'_multi_add'}}" value="1" /> 
+<input type="button" id="ajout_{{ id }}" class="btn btn-primary _10_imp" value="Ajouter" data-type="{{ name }}" data-text-input-id="{{ id }}"
+       data-limit="{{ config.limit is defined? config.limit:5 }}">
+<div class="{{ id }}_list" id="{{ id }}_list"> 
             {% if config.objects is defined %}
                 {% for row in config.objects %}
-                    <div class="dynamic" id="{{ id }}_{{ row.id }}">
-                        <b>{{ loop.index }}</b>&nbsp;&nbsp;{{ row.name }}
+    <div class="dynamic" id="{{ id }}_{{ row.id }}">
+        <b>{{ loop.index }}</b>&nbsp;&nbsp;{{ row.name }}
                         {% if config.allow_delete is defined and config.allow_delete %}
-                            &nbsp;&nbsp;<a href="javascript:remove_{{ id }}({{ row.id }});">supprimer</a>
+        &nbsp;&nbsp;<a href="javascript:remove_{{ id }}({{ row.id }});">supprimer</a>
                         {% endif %}
-                        <input type="hidden" name="{{ name }}[]" id="{{ name }}_{{ row.id }}" value="{{ row.id }}">
-                    </div>
+        <input type="hidden" name="{{ name }}[]" id="{{ name }}_{{ row.id }}" value="{{ row.id }}">
+    </div>
                 {% endfor %}   
             {% endif %}
-        </div>
-    <script type="text/javascript">
-        $('#ajout_{{ id }}').click(function(){
-            var limit = $(this).attr('data-limit'),
+</div>
+<script type="text/javascript">
+    $('#ajout_{{ id }}').click(function() {
+        var limit = $(this).attr('data-limit'),
                 count = $("#{{ id }}_list div").length,
-                type='',exist = 0,auto_id=0;
+                type = '', exist = 0, auto_id = 0;
 
 
-            if($("#{{ id }}").val()==''){
-                alert("Please fill input value.");
-            }else{
-                if(count < limit){
-                    auto_id = $('#hidd_{{ id }}').val()!=''? $('#hidd_{{ id }}').val():0 ;
-                    type = $(this).attr('data-type');
-                    count++;
-                    if(auto_id){
-                        $('#{{ id }}_list input[name^="'+type+'[]"]').each(function(){        
-                            var value = $(this).val();       
-                            if(value == auto_id)
-                               exist = 1;
-                        });
-                        if(exist==0){
-                            var new_div = '<div class="dynamic" id="{{ id }}_'+auto_id+'"><b>'+count+'</b>&nbsp;&nbsp;'+($("#{{ id }}").val())+' {% if config.allow_delete is defined and config.allow_delete %} &nbsp;&nbsp;<a href="javascript:remove_{{ id }}('+auto_id+');">supprimer</a>{% endif %}
-                                            <input type="hidden" name="'+type+'[]" id="'+ type +'_'+auto_id+'" value="'+auto_id+'"></div>';
-                        }else{
-                            alert('Already Exists');
-                        }
-                        $('#{{ id }}_list').append(new_div);      
-                    }else{
-                        alert('Please select form autocomplete list');
-                    }
-
-                    $('#{{ id }}').val(""); 
-                    $('#hidd_{{ id }}').val(""); 
-
-                }else{
-                    alert("You can not add more than "+limit+" values");
-                }
-            }
-        });
-        remove_{{ id }}=function(id){
-                var delconfirm =confirm('Are you sure?');
-                if(delconfirm){
-                    $('#{{ id }}_'+id).remove();
-                    $('#{{ id }}_list .dynamic b').each(function(i,v){
-                        i++;
-                        $(this).html(i);                        
+        if ($("#{{ id }}").val() == '') {
+            alert("Please fill input value.");
+        } else {
+            if (count < limit) {
+                auto_id = $('#hidd_{{ id }}').val() != '' ? $('#hidd_{{ id }}').val() : 0;
+                type = $(this).attr('data-type');
+                count++;
+                if (auto_id) {
+                    $('#{{ id }}_list input[name^="' + type + '[]"]').each(function() {
+                        var value = $(this).val();
+                        if (value == auto_id)
+                            exist = 1;
                     });
+                    if (exist == 0) {
+                        var new_div = '<div class="dynamic" id="{{ id }}_' + auto_id + '"><b>' + count + '</b>&nbsp;&nbsp;' + ($("#{{ id }}").val()) + ' {% if config.allow_delete is defined and config.allow_delete %} &nbsp;&nbsp;<a href="javascript:remove_{{ id }}(' + auto_id + ');">supprimer</a>{% endif %}
+                                < input type = "hidden" name = "'+type+'[]" id = "'+ type +'_'+auto_id+'" value = "'+auto_id+'" > < /div>';
+                    } else {
+                        alert('Already Exists');
+                    }
+                    $('#{{ id }}_list').append(new_div);
+                } else {
+                    alert('Please select form autocomplete list');
                 }
+
+                $('#{{ id }}').val("");
+                $('#hidd_{{ id }}').val("");
+
+            } else {
+                alert("You can not add more than " + limit + " values");
+            }
         }
-    </script>
+    });
+    remove_{{ id }} = function(id) {
+        var delconfirm = confirm('Are you sure?');
+        if (delconfirm) {
+            $('#{{ id }}_' + id).remove();
+            $('#{{ id }}_list .dynamic b').each(function(i, v) {
+                i++;
+                $(this).html(i);
+            });
+        }
+    }
+</script>
 {% endblock %}
 
 {# block select_multiple_widget %}
@@ -270,8 +261,8 @@
 
 {% endspaceless %}
 {% endblock select_multiple_widget #}
-  
-       
+
+
 {# This block is making  nested select boxes#}
 {# block nested_select_widget %}
 {% spaceless %}
@@ -673,47 +664,47 @@
 {% endblock nested_select_widget #}
 
 {# This block is making tinyMCE editor#}
-  
+
 {% block tinyMCE_widget %}
  {% spaceless %}
      {% set entity_name = (full_name | explodeTwig('[') | first) %}         
      {% set editor_id =  entity_name~'_'~ name  %}
-    <textarea name="{{full_name}}" id="{{ editor_id }}">{{ data }}</textarea>
+<textarea name="{{full_name}}" id="{{ editor_id }}">{{ data }}</textarea>
 <script language="javascript" type="text/javascript">
-        tinyMCE.init({
-          theme : "advanced",
-          mode: "exact",
-          elements : "{{ editor_id }}",
-          theme_advanced_toolbar_location : "top",
-          theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,"
-          + "justifyleft,justifycenter,justifyright,justifyfull,backcolor ,forecolor,fontselect,fontsizeselect,"
-          + "bullist,numlist,outdent,indent,link,unlink,anchor,separator,"
-          +"undo,redo,cleanup,code,separator,sub,sup,charmap,",
-          removeformat_selector : 'b,strong,em,i,span,ins,p',
-          theme_advanced_buttons2 : "",
-          theme_advanced_buttons3 : "",
-          invalid_elements : "em/i,strike,u,strong/b,div[align],p , img, #p[align],-ol[type|compact],-ul[type|compact],-li",          
-          theme_advanced_font_sizes : "10px,12px,14px,16px,18px,24px,36px , 40px",
-          height:"{{config.height}}",
-          width:"100%",
-          theme_advanced_toolbar_align : "left",
-          theme_advanced_resizing : true,
-          paste_remove_styles : true,
-          paste_remove_spans : true,
-          paste_stip_class_attributes : "all",
-          force_br_newlines : true,
-          force_p_newlines : false,
-          forced_root_block : '' 
-       });
-       
-       
-     </script>
+    tinyMCE.init({
+        theme: "advanced",
+        mode: "exact",
+        elements: "{{ editor_id }}",
+        theme_advanced_toolbar_location: "top",
+        theme_advanced_buttons1: "bold,italic,underline,strikethrough,separator,"
+                + "justifyleft,justifycenter,justifyright,justifyfull,backcolor ,forecolor,fontselect,fontsizeselect,"
+                + "bullist,numlist,outdent,indent,link,unlink,anchor,separator,"
+                + "undo,redo,cleanup,code,separator,sub,sup,charmap,",
+        removeformat_selector: 'b,strong,em,i,span,ins,p',
+        theme_advanced_buttons2: "",
+        theme_advanced_buttons3: "",
+        invalid_elements: "em/i,strike,u,strong/b,div[align],p , img, #p[align],-ol[type|compact],-ul[type|compact],-li",
+        theme_advanced_font_sizes: "10px,12px,14px,16px,18px,24px,36px , 40px",
+        height: "{{config.height}}",
+        width: "100%",
+        theme_advanced_toolbar_align: "left",
+        theme_advanced_resizing: true,
+        paste_remove_styles: true,
+        paste_remove_spans: true,
+        paste_stip_class_attributes: "all",
+        force_br_newlines: true,
+        force_p_newlines: false,
+        forced_root_block: ''
+    });
+
+
+</script>
 
  {% endspaceless %}
 {% endblock tinyMCE_widget %}
 {# end block of tinyMCE editor#}
-     
-     
+
+
 {% block period_widget %}
 {% spaceless %}
 <div class="input-main">
@@ -734,49 +725,48 @@
         {% set ul_id = 'ul_'~name %}
         {% set add_new = 'add_'~name %}
 
-        <ul class="form_collection" id="{{ul_id}}" data-prototype="{{ form_widget(form.vars.prototype) | e }}">
+<ul class="form_collection" id="{{ul_id}}" data-prototype="{{ form_widget(form.vars.prototype) | e }}">
             {% for emailField in form %}
-            <li>
+    <li>
                 {{ form_errors(emailField) }}
                 {{ form_widget(emailField) }}
-            </li>
+    </li>
             {% endfor %}
-        </ul>
+</ul>
         {{ form_widget(form.vars.prototype)|e }}
-        <a href="#" id="{{add_new}}">Ajouter</a>
+<a href="#" id="{{add_new}}">Ajouter</a>
+<script type="text/javascript">
+    var emailCount = '{{ form | length }}';
 
-        <script type="text/javascript">
-            var emailCount = '{{ form | length }}';
+    $(document).ready(function() {
+        $('#{{add_new}}').click(function(e) {
+            e.preventDefault();
+            var emailList = jQuery('#{{ul_id}}');
+            var newWidget = emailList.attr('data-prototype');
+            newWidget = newWidget.replace(/__name__/g, emailCount);
+            emailCount++;
+            // créer une nouvelle liste d'éléments et l'ajoute à notre liste
+            var newLi = jQuery('<li></li>').html(newWidget);
+            newLi.appendTo(jQuery('#{{ul_id}}'));
+            addTagFormDeleteLink(newLi);
+        });
+        $('#{{ul_id}}').find('li').each(function() {
+            addTagFormDeleteLink($(this));
+        });
+    })
+    function addTagFormDeleteLink($tagFormLi) {
+        var $removeFormA = $('<a href="#">Supprimer ce tag</a>');
+        $tagFormLi.append($removeFormA);
 
-            jQuery(document).ready(function() {
-                jQuery('#{{add_new}}').click(function() {
-                    var emailList = jQuery('#{{ul_id}}');
-                    var newWidget = emailList.attr('data-prototype');
-                    newWidget = newWidget.replace(/__name__/g, emailCount);
-                    emailCount++;
-                    // créer une nouvelle liste d'éléments et l'ajoute à notre liste
-                    var newLi = jQuery('<li></li>').html(newWidget);
-                    newLi.appendTo(jQuery('#{{ul_id}}'));
-                    addTagFormDeleteLink(newLi);
-                    return false;
-                });
-                $('#{{ul_id}}').find('li').each(function() {
-                    addTagFormDeleteLink($(this));
-                });
-            })
-            function addTagFormDeleteLink($tagFormLi) {
-                var $removeFormA = $('<a href="#">Supprimer ce tag</a>');
-                $tagFormLi.append($removeFormA);
+        $removeFormA.on('click', function(e) {
+            // empêche le lien de créer un « # » dans l'URL
+            e.preventDefault();
 
-                $removeFormA.on('click', function(e) {
-                    // empêche le lien de créer un « # » dans l'URL
-                    e.preventDefault();
-
-                    // supprime l'élément li pour le formulaire de tag
-                    $tagFormLi.remove();
-                });
-            }
-        </script>
+            // supprime l'élément li pour le formulaire de tag
+            $tagFormLi.remove();
+        });
+    }
+</script>
 
     {% endspaceless %}
 

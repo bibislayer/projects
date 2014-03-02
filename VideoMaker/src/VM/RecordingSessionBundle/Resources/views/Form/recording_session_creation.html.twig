@@ -1,0 +1,43 @@
+{% extends 'RecrutOnlineGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="border-main">
+    <div class="block-border">
+        <div class="block_design">
+            <div class="block_header"><h1>Ajouter un questionnaire</h1></div>
+
+            <div class="block_content">
+                <p class="twentypx bold">Pour la création d'un questionnaire 2 choix s'offre à vous</p>
+                <div class="grid_6">
+                <div class="block-border">
+                    <div class="block_design creat">
+                        <div class="block_content ">
+                            <div class="block_header green"><h3>Création à partir d'un modèle</h3></div>
+                            <p>Grâce à notre librairie de questionnaire et trouvez celui qui correspond le plus en attente de recrutement. Vous aurez la possibilité d'affinez vos critères et de les tester.Une fois sélectionné vous pourrez le modifier à votre guise.</p>
+                            <a class="btn green" href="{{ path('mo_questionnaire_models', {'slug_ent': enterprise.slug }) }}">Création à partir d'un modèle</a>
+                            <div class="stop"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="grid_6">
+                    <div class="block-border">
+                        <div class="block_design creat">
+                            <div class="block_content ">
+                                <div class="block_header "><h3>Créez votre questionnaire de A à Z</h3></div>
+                                <p>Vous avez aussi la possibilité de créer votre questionnaire à partir d'un modèle vierge. Vous ajoutez les éléments dont vous avez besoin</p>
+                                <a class="btn blue" href="{{ path('mo_questionnaire_new', {'slug_ent': enterprise.slug }) }}">Création à partir d'un questionnaire vierge</a>
+                                <div class="stop"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        {% endblock %}

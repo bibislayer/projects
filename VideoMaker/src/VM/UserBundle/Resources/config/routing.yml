@@ -1,7 +1,3 @@
-mo_dashboard:
-    pattern:  /admin
-    defaults: { _controller: VMUserBundle:User:dashboard }
-
 fo_login:
     pattern:   /login
     defaults:  { _controller: VMUserBundle:Login:login }
@@ -10,6 +6,10 @@ mo_login:
     pattern:   /login_admin
     defaults:  { _controller: VMUserBundle:Login:login }
 
+mo_dashboard:
+    pattern:  /admin
+    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:dashboard }
+    
 bo_login:
     pattern:   /login_backend
     defaults:  { _controller: VMUserBundle:Login:login }

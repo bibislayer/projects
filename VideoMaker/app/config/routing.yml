@@ -1,3 +1,7 @@
+vm_recording_session:
+    resource: "@VMRecordingSessionBundle/Resources/config/routing.yml"
+    prefix:   /
+
 vm_video:
     resource: "@VMVideoBundle/Resources/config/routing.yml"
     prefix:   /

@@ -1,0 +1,29 @@
+VM\RecordingSessionBundle\Entity\RecordingSessionKeywordList:
+    type: entity
+    repositoryClass: VM\RecordingSessionBundle\Repository\RecordingSessionKeywordListRepository
+    table: recording_sessions_keywords_list
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name: { type: string, length: 255 }
+        slug:
+          type: string
+          length: 255
+          unique: TRUE
+          gedmo:           
+             slug:
+               separator: -
+               fields:
+                - name
+    manyToOne:
+      RecordingSession:
+        targetEntity: VM\RecordingSessionBundle\Entity\RecordingSession
+        inversedBy: RecordingSessionKeywordList
+        joinColumns:
+          recording_session_id:
+            referencedColumnName: id
+        cascade: ["persist"]
+    lifecycleCallbacks: {  }

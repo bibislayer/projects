@@ -1,0 +1,171 @@
+<script src="{{ asset('bundles/vmgeneral/js/AC_OETags.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/vmgeneral/js/excanvas.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+     var ladate=new Date();
+     var fileName = 'recording_'+ladate.getTime();
+    // -----------------------------------------------------------------------------
+    // Globals
+    // Major version of Flash required
+    var requiredMajorVersion = 9;
+    // Minor version of Flash required
+    var requiredMinorVersion = 0;
+    // Minor version of Flash required
+    var requiredRevision = 124;
+    // -----------------------------------------------------------------------------
+
+    // Version check for the Flash Player that has the ability to start Player Product Install (6.0r65)
+    var hasProductInstall = DetectFlashVer(6, 0, 65);
+
+    // Version check based upon the values defined in globals
+    var hasRequestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+
+    function showRecord() {
+        $("#recordStartButton").attr("disabled", false);
+    }
+
+    function startRecording() {
+        document.getElementById("red5recorder").startRecording();
+        $('#startButton').attr('disabled', 'disabled');
+        $('#submitButton').hide();
+        $('#stopButton').show();
+        $('#stopButton').removeAttr('disabled');
+        $('#message').html('<span style="color:red">Recording</span>');
+        var elem = $('#message');
+        setInterval(function() {
+            if (elem.css('visibility') == 'hidden') {
+                elem.css('visibility', 'visible');
+            } else {
+                elem.css('visibility', 'hidden');
+            }
+        }, 500);
+        // start the recording of the video
+    }
+    function stopRecording() {
+        document.getElementById("red5recorder").stopRecording();
+        $('#stopButton').attr('disabled', 'disabled');
+        $('#filename').val(fileName);
+        $('#submitButton').show();
+        $('#message').html('');
+        $('#replayButton').show();
+        $('#replayButton').removeAttr('disabled');
+        // stop the recording of the video
+    }
+    
+    function playRecording() {
+        document.getElementById("red5recorder").playRecording();
+        // stop the recording of the video
+        $('#startButton').removeAttr('disabled');
+    }
+
+    function errorCam() {
+        $('.question_cam').remove();
+        $('.submit_row p').html('<input id="next_link" type="submit" class="btn primary" value="Suivant"  style="float: right; margin-right: 20px;margin-bottom:15px;"/>');
+    }
+</script>
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Votre vidéo
+        </div>
+        <!-- /.panel-heading -->
+        <div id="webcam" class="panel-body">
+{% if 'e' == 'edition' %}
+            <img class="_100_imp" style="margin: 0 !important;" src="{{ asset('bundles/recrutonlinegeneral/images/cam.png') }}" >
+{% else %}
+            <script type="text/javascript"> 
+                $(document).ready(function() {
+                    $('embed').attr('style', 'margin: 0 auto;display: block;');
+                })
+                if (hasProductInstall && !hasRequestedVersion) {
+                    // DO NOT MODIFY THE FOLLOWING FOUR LINES
+                    // Location visited after installation is complete if installation is required
+                    var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
+                    var MMredirectURL = window.location;
+                    document.title = document.title.slice(0, 47) + " - Flash Player Installation";
+                    var MMdoctitle = document.title;
+
+                    AC_FL_RunContent(
+                            "src", "playerProductInstall",
+                            "FlashVars", "MMredirectURL=" + MMredirectURL + '&MMplayerType=' + MMPlayerType + '&MMdoctitle=' + MMdoctitle + "",
+                            "width", "100%",
+                            "height", "100%",
+                            "align", "middle",
+                            "id", "red5recorder",
+                            "quality", "high",
+                            "bgcolor", "#869ca7",
+                            "name", "red5recorder",
+                            "allowScriptAccess", "sameDomain",
+                            "type", "application/x-shockwave-flash",
+                            "pluginspage", "http://www.adobe.com/go/getflashplayer"
+                            );
+                } else if (hasRequestedVersion) {
+                    // if we've detected an acceptable version
+                    // embed the Flash Content SWF when all tests are passed
+                    AC_FL_RunContent(
+                            "src", "{{ asset('bundles/vmgeneral/js/red5recorder') }}",
+                            "width", "320px",
+                            "height", "270px",
+                            "align", "middle",
+                            "id", "red5recorder",
+                            "FlashVars", "fileName="+fileName+"&streamer=rtmp://zone-developpeur.dyndns.org/red5recorder",
+                            "quality", "high",
+                            "bgcolor", "#869ca7",
+                            "name", "red5recorder",
+                            "allowScriptAccess", "sameDomain",
+                            "type", "application/x-shockwave-flash",
+                            "pluginspage", "http://www.adobe.com/go/getflashplayer",
+                            "show_area", "webcam"
+                            );
+
+                } else {  // flash is too old or we can't detect the plugin
+                    var alternateContent = 'Alternate HTML content should be placed here. '
+                            + 'This content requires the Adobe Flash Player. '
+                            + '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
+                    document.write(alternateContent);  // insert non-flash content
+                }// start the recording of the video
+
+
+            </script>
+            <input type="hidden" id="filename" name="filename" />
+    {% endif %}
+            <div id="message" style="position: relative; width: 75px; margin: 0 auto;"></div>
+            <center>
+                <br />
+                <button type="button" onClick="startRecording()" id="startButton" class="btn btn-success">Start</button>
+                <button style="display: none;" type="button" onClick="stopRecording()" id="stopButton"  class="btn btn-danger">Stop</button>
+                <button style="display: none;" type="button" onClick="playRecording()" id="replayButton"  class="btn btn-warning">Re-voir</button>
+            </center>
+        </div>
+    </div>
+</div>
+<script>
+    {% if app.request.attributes.get('_browser').Browser == 'Chrome' %}
+    if (window.navigator.vendor != "Google Inc.") {
+        $('#chrome').hide();
+    } else {
+        $('#opera').hide();
+    }
+    {% endif %}
+</script>
+<noscript>
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+        id="red5recorder" width="320px" height="240px"
+        codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
+    <param name="movie" value="red5recorder.swf" />
+    <param name="quality" value="high" />
+    <param name="bgcolor" value="#869ca7" />
+    <param name="allowScriptAccess" value="sameDomain" />
+    <embed src="red5recorder.swf" quality="high" bgcolor="#869ca7"
+           width="100%" height="100%" name="red5recorder" align="middle"
+           play="true"
+           loop="false"
+           quality="high"
+           allowScriptAccess="sameDomain"
+           type="application/x-shockwave-flash"
+           pluginspage="http://www.adobe.com/go/getflashplayer" />
+
+</object>
+</noscript>
+<div id="mediaplayer" style="display:none;"></div>
+<p>{{ (errors is defined and errors[element.question.id] is defined) ? errors[element.question.id] : '' }}</p>
+

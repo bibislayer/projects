@@ -1,0 +1,17 @@
+parameters:
+#    vm_recording_session.example.class: VM\RecordingSessionBundle\Example
+
+services:
+#    vm_recording_session.example:
+#        class: %vm_recording_session.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    recording_session_repository:
+        class: VM\RecordingSessionBundle\Repository\RecordingSessionRepository
+        arguments: [VMRecordingSessionBundle:RecordingSession]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+    recording_session_user_repository:
+        class: VM\RecordingSessionBundle\Repository\RecordingSessionUserRepository
+        arguments: [VMRecordingSessionBundle:RecordingSessionUser]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository

@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new VM\StandardBundle\VMStandardBundle(),
             new VM\GeneralBundle\VMGeneralBundle(),
             new VM\VideoBundle\VMVideoBundle(),
+            new VM\RecordingSessionBundle\VMRecordingSessionBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

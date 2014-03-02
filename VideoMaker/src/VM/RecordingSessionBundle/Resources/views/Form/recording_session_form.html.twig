@@ -1,0 +1,9 @@
+{% set env = app.request.get('_route')| slice(0,2) %}   
+
+{{ form_row(form.name) }}
+{{ form_row(form.text_introduction) }}
+{{ form_row(form.text_presentation) }}
+{{ form_row(form.RecordingSessionKeywordList) }}
+{{ form_row(form._token) }}
+
+{{ form_row(form.save ) }}

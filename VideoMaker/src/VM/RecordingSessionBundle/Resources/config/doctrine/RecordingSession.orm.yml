@@ -1,0 +1,53 @@
+VM\RecordingSessionBundle\Entity\RecordingSession:
+    type: entity
+    repositoryClass: VM\RecordingSessionBundle\Repository\RecordingSessionRepository
+    table: recording_sessions
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name: { type: string, length: 255 }
+        text_introduction: { type: text, nullable: TRUE }
+        text_presentation: { type: text, nullable: TRUE } 
+        published: { type: boolean, nullable: TRUE }
+        published_at: { type: datetime, nullable: TRUE }
+        approbation: { type: boolean, nullable: TRUE }
+        created_at:
+          type: date
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: create
+        updated_at:
+          type: datetime
+          nullable: TRUE
+          gedmo:
+            timestampable:
+              on: update
+        slug:
+          type: string
+          length: 255
+          unique: TRUE
+          gedmo:           
+             slug:
+               separator: -
+               fields:
+                - name
+    manyToOne:
+      User:
+        targetEntity: VM\UserBundle\Entity\User
+        inversedBy: RecordingSession
+        joinColumns:
+          user_id:
+            referencedColumnName: id
+    oneToMany:
+      RecordingSessionKeywordList:
+        targetEntity: VM\RecordingSessionBundle\Entity\RecordingSessionKeywordList
+        mappedBy: RecordingSession
+        cascade: ["persist"]
+      RecordingSessionUser:
+        targetEntity: VM\RecordingSessionBundle\Entity\RecordingSessionUser
+        mappedBy: RecordingSession
+    lifecycleCallbacks: {  }

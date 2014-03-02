@@ -25,3 +25,6 @@ VM\UserBundle\Entity\User:
         Video:
            targetEntity: VM\VideoBundle\Entity\Video
            mappedBy: User
+        RecordingSession:
+           targetEntity: VM\RecordingSessionBundle\Entity\RecordingSession
+           mappedBy: User
