@@ -1,0 +1,324 @@
+{% extends 'PokerGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<style>
+    #table{background-image: url("{{ asset('bundles/pokergeneral/images/table.png') }}");height: 330px;width: 655px;margin: 0 auto;margin-top: 10%;}
+    .player{background-image: url("{{ asset('bundles/pokergeneral/images/player.png') }}");height: 82px;width: 83px;cursor:pointer;}
+    .user{margin: 2px 11px;}
+    .playerName{text-align: center;position: absolute;top: -23px;left: 19px;}
+    .card{background-image: url("{{ asset('bundles/pokergeneral/images/Svg-cards-2.0.mini.png') }}");height: 89px;width: 62px;margin-left: 10px; background-position: -1722px -358px;}
+    .usercard{position: absolute;top: 84px; left:327px;}
+    .tablecard{left: 12.5%;bottom: 161%;}
+    .content_time{position: absolute;top: 30px;left: 18px;display:none;color:white;}
+    #pot{position: relative;bottom: 129%;height: 30px;color: white;font-size: 17px;text-align: center;width: 84%;}
+    canvas{position: absolute;left: -7px;bottom: -8px;}
+    .activePlayer{box-shadow: 1px 1px 20px #000;-moz-box-shadow:1px 1px 20px #000;-webkit-box-shadow:1px 1px 20px #000;width: 82px;height: 82px;border-radius: 42px;-moz-border-radius: 42px;-webkit-border-radius: 42px}
+    #player1{position: relative;left: 10%;top: -7%;}
+    #player2{position: relative;left: 43%;top: -35%;}
+    #player3{position: relative;left: 77%;bottom: 57%;}
+    #player4{position: relative;left: 93%;bottom: 37%;}
+    #player5{position: relative;left: 78%;bottom: 14%;}
+    #player6{position: relative;left: 43%;bottom: 34%;}
+    #player7{position: relative;left: 12%;bottom: 61%;}
+    #player8{position: relative;left: -5%;bottom: 134%;}
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Table {{ table.name }}</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-7">
+        <div id="table">
+            {% for i in 1..8 %}
+            {% set activePlayer = (player and i == player.place ) ? 'activePlayer' : '' %}
+            <div class="player {{ activePlayer }}" data-id="{{ i }}" id="player{{ i }}">
+                <canvas id="canvas_timer_{{ i }}" width="98" height="98"></canvas>
+                <div class="content_time" id="content_time_{{ i }}">
+                    <p><span class="mins"></span> : <span class="secs"></span></p>
+                </div>
+                <div class="infoUser" style="display:none;"> 
+                    <p class="playerName" ></p>
+                    <img class="user" src="{{ asset('bundles/pokergeneral/images/user.png') }}" />
+                </div>
+            </div>
+            {% endfor %}
+            <div class="col-lg-8 tablecard">
+                    {% for card in table.cards %}
+                <div class="col-lg-2 card card{{ card }}" data-card="{{ card }}"></div>
+                    {% endfor %}
+            </div>
+            <div id="pot">Total pot : <span></span></div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        {% if player is not empty %}
+        <div id="player_panel" class="panel panel-success">
+            <div class="panel-heading">
+                Vos cartes
+            </div>
+            <div class="panel-body" style="max-height:120px;">
+                <div class="col-lg-12">    
+                    <input type="hidden" name=""/>
+                    {% for card in player.cards %}
+                    <div class="col-lg-3 card card{{ card }}" data-card="{{ card }}"></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="panel-heading">
+                Mise     <i style="font-size:12px;">(total : {{ player.moneyUsed }})</i>
+            </div>
+            <div class="panel-body" style="height:120px;">
+                <input type="hidden" name=""/>
+                <div class="col-lg-12" id="miseAction">
+                    <p>
+                        <button type="button" onClick="miser()" class="btn btn-outline btn-success">Miser : <span id="player_mise"></span> / <span id="player_total_money">{{ player.money }}</span></button>
+                        <button type="button" onClick="" class="btn btn-outline btn-warning">Checker</button>
+                        <button type="button" onClick="" class="btn btn-outline btn-danger">Se coucher</button>
+                    </p>
+                    <br />
+                    <div id="slider" style="width:200px;margin-top: 5px;margin-left:15px;"></div>
+                </div>
+            </div>
+            <div class="panel-heading">Meilleur combinaison ( <span id="combName">Carte la pus forte</span> )</div>
+            <div class="panel-body" style="max-height:120px;">
+                <input type="hidden" name=""/>
+                <div class="col-lg-12 comb" style="overflow: auto;width: 100%;">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="player_panel" class="panel panel-success">
+            <div class="panel-heading">
+                Info poker
+            </div>
+            <div class="panel-body" style="max-height:120px;">
+                <p>
+                    La quinte royale
+                    Il s'agit d'une quinte flush du 10 à l'As.
+                </p>
+                <p>
+                    La quinte flush
+                    Une quinte flush est une suite dont toutes les cartes sont de la même couleur.
+                </p>
+                <p>
+                    Le carré
+                    Un carré est composé de quatre cartes de même rang.
+                </p>
+                <p>
+
+                    Le full
+                    Un full est composé d'un brelan et d'une paire.
+                </p>
+                <p>
+                    La couleur
+                    Une couleur est composée de cinq cartes de la même couleur et de n'importe quel rang.
+                </p>
+                <p>
+                    La quinte
+                    La quinte est une suite de cinq cartes. Toute quinte contient obligatoirement un 5 ou un 10.
+                </p>
+                <p>
+                    Le brelan
+                    Un brelan est constitué de trois cartes de même rang.
+                </p>
+                <p>
+                    La double paire
+                    Une double paire est constituée de deux cartes de même rang et d'une autre paire de deux cartes d'un autre rang.
+                </p>
+                <p>
+                    La paire
+                    Une paire est constituée de deux cartes de même valeur.
+                </p>
+                <p>
+                    La carte haute
+                    La main possédant la(les) plus haute(s) carte(s) est gagnante.
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script>
+                            var playerTable = [];
+                            $(document).ready(function() {
+                                $('.card').each(function() {
+                                    var coor = $(this).attr('data-card');
+                                    var x = coor.split('-')[0];
+                                    var y = coor.split('-')[1];
+                                    var j = y * 89.6;
+                                    var i = x * 61.4;
+                                    // console.log(i + " " + j);
+                                    $(".card" + x + "-" + y).css({backgroundPosition: "-" + i + "px -" + j + "px"});
+                                });
+        {% set player_exist = 0 %}
+        {% if table.PokerUser %}
+            {% for user in table.PokerUser %}
+                                $('#player{{ user.place }}').find('.infoUser').find('.playerName').html("{{ user.User.username }}")
+                                $('#player{{ user.place }}').find('.infoUser').toggle('slow');
+            {% endfor %}
+        {% endif %}
+        {% if player is empty %}
+                                $(".player").click(function() {
+                                    var user = $(this).find('.infoUser:first');
+                                    if ($(user).attr('style') === 'display:none;') {
+                                        var id = $(this).attr('data-id');
+                                        $(this).find('.user').show();
+                                        $.ajax({
+                                            data: {'place': id, 'table_id': {{ app.request.get('id_table') }}},
+                                            url: './pokerUser/setPlayerPlace',
+                                            success: function(data) {
+                                                $('#MainForm').html(data);
+                                                $(this).find('.user').toggle('slow');
+                                            }
+                                        });
+                                    }
+                                });
+        {% else %}
+                                $("#slider").slider({
+                                    range: "min",
+                                    value: 1,
+                                    min: 1,
+                                    max: {{ player.money }},
+                                    slide: function(event, ui) {
+                                        $("#player_mise").text(ui.value);
+                                    }
+                                });
+                                $("#player_mise").text($("#slider").slider("value"));
+        {% endif %}
+
+        {% set first = 1 %}
+        {% for user in table.PokerUser %}
+            {% if user.smallBlind %}
+               {% set first = user.place %}
+            {% endif %}
+            {% if user.moneyUsed %}
+                                if (!parseInt($('#pot span').text())) {
+                                    var totalPot = {{ user.moneyUsed }};
+                                } else {
+                                    var totalPot = parseInt($('#pot span').text()) + {{ user.moneyUsed }};
+                                }
+                                $('#pot span').text(totalPot);
+            {% endif %}
+
+                                playerTable.push({{user.place}});
+        {% endfor %}
+            {% if player is not empty %}
+                            var placePlayer = {{ (player and player.place) ? player.place : 1 }};
+                            JBCountDown({
+                                id: {{first}},
+                                selector: 'canvas_timer_',
+                                secondsColor: "#f9f9f9",
+                                secondsGlow: "#666666",
+                                timeLimit: 5
+                            });
+                            {% endif %}
+                            });
+                            {% if player is not empty %}
+                            var id = '';
+                            var j = 0;
+                            var first = true;
+                            function miser() {
+                                $.ajax({
+                                    data: {'player_mise': parseInt($('#player_mise').text()), 'table_id': {{ app.request.get('id_table') }}},
+                                    url: './pokerUser/mise',
+                                    success: function(data) {
+                                        $("#slider").slider({
+                                            range: "min",
+                                            value: parseInt($('#player_mise').text()),
+                                            min: 1,
+                                            max: data,
+                                            slide: function(event, ui) {
+                                                $("#player_mise").text(ui.value);
+                                            }
+                                        });
+                                        $('#player_total_money').text(data);
+                                        if (!parseInt($('#pot span').text())) {
+                                            var totalPot = parseInt($('#player_mise').text());
+                                        } else {
+                                            var totalPot = parseInt($('#pot span').text()) + parseInt($('#player_mise').text());
+                                        }
+                                        $('#pot span').text(totalPot);
+                                    }
+                                });
+                            }
+                            function next() {
+                                clearInterval(cdown);
+                                playerTable.sort();
+                                var currentPlace = playerTable[j];
+                                $.ajax({
+                                    data: {'table_id': {{ app.request.get('id_table') }}, 'player_place': currentPlace},
+                                    url: './player/timeOut',
+                                    success: function(data) {
+                                        data = JSON.parse(data);
+                                        if (currentPlace === {{ player.place }}) {
+                                            $('#player_total_money').text(data.money);
+                                        }
+                                        if (!parseInt($('#pot span').text())) {
+                                            var totalPot = data.mise;
+                                        } else {
+                                            var totalPot = parseInt($('#pot span').text()) + data.mise;
+                                        }
+                                        $('#pot span').text(totalPot);
+                                    }
+                                });
+                                if (playerTable[j] == {{ first }}) {
+                                    $.ajax({
+                                        data: {'table_id': {{ app.request.get('id_table') }}},
+                                        url: './cards/setCardsTable',
+                                        success: function(data) {
+                                            data = JSON.parse(data);
+                                            //console.log(data);
+                                            var cardsTable = data.table;
+                                            var comb = data.comb.cards;
+                                            $('#combName').text(data.comb.name);
+                                            $('.tablecard').html('');
+                                            for (var count = 0; count < cardsTable.length; count++) {
+                                                $('.tablecard').append('<div class="col-lg-2 card card' + cardsTable[count] + '" data-card="' + cardsTable[count] + '"></div>');
+                                                var x = cardsTable[count].split('-')[0];
+                                                var y = cardsTable[count].split('-')[1];
+                                                var j = y * 89.6;
+                                                var i = x * 61.4;
+                                                $(".card" + x + "-" + y).css({backgroundPosition: "-" + i + "px -" + j + "px"});
+                                            }
+
+                                            $('.comb').html('');
+                                            for (var count2 = 0; count2 < comb.length; count2++) {
+                                                $('.comb').append('<div class="col-lg-2 card card' + comb[count2] + '" data-card="' + comb[count2] + '"></div>');
+                                                var x = comb[count2].split('-')[0];
+                                                var y = comb[count2].split('-')[1];
+                                                var j = y * 89.6;
+                                                var i = x * 61.4;
+                                                $(".card" + x + "-" + y).css({backgroundPosition: "-" + i + "px -" + j + "px"});
+                                            }  
+                                        }
+                                    });
+                                }
+                                j++;
+                                if (j >= playerTable.length)
+                                    j = 0;
+
+                                $("div.player").attr('class', 'player');
+                                $("#player" + playerTable[j]).addClass('activePlayer');
+
+                                JBCountDown({
+                                    id: playerTable[j],
+                                    selector: 'canvas_timer_',
+                                    secondsColor: "#f9f9f9",
+                                    secondsGlow: "#666666",
+                                    timeLimit: 5
+                                });
+                            }
+                            {% endif %}
+</script>
+{% endblock %}

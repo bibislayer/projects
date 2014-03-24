@@ -1,0 +1,15 @@
+{% extends 'PokerGeneralBundle:Middle:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_12">
+    <div class="block-main">
+        <div class="block_design">
+            {% set paginationParameters = {'params': params} %}
+            {% include 'PokerGeneralBundle:Default:list.html.twig' with params only %}
+        </div>
+    </div>
+</div>
+{% endblock %}

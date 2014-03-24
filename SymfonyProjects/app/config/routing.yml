@@ -1,0 +1,18 @@
+poker_poker_table:
+    resource: "@PokerPokerTableBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+Poker_general:
+    resource: "@PokerGeneralBundle/Resources/config/routing.yml"
+    prefix:   /
+
+Poker_standard:
+    resource: "@PokerStandardBundle/Resources/config/routing.yml"
+    prefix:   /
+
+Poker_user:
+    resource: "@PokerUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+fp_openid_security:
+    resource: "@FpOpenIdBundle/Resources/config/routing/security.xml"

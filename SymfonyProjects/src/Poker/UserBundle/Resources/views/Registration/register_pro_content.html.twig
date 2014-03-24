@@ -1,0 +1,47 @@
+{% trans_default_domain 'FOSUserBundle' %}
+    <div class="grid _100">
+        <div class="block_border">
+            <div class="block_design">
+                <div class="block_header"><h1>Création de votre compte entreprise</h1></div>
+                <div class=" block_content register">
+                
+                <form  action="{{ path('user_register') }}pro{{ app.request.get('email')!=''?'?email='~app.request.get('email')~'&confirm_token='~app.request.get('confirm_token'):''}}" novalidate  {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form_main">
+                    <div class="line">
+                    <div class="grid_6 " >{{ form_row(form.user_profile.firstname)}} </div>
+                    <div class="grid_6 " >{{ form_row(form.user_profile.lastname)}}  </div>
+
+                    <div class="grid_12" >{{ form_row(form.email, {'attr': { 'autocomplete': 'off', 'value': app.request.get('email') } })}} </div>
+                    <div class="grid_6 " > {{ form_row(form.plainPassword.first)}} </div>
+                    <div class="grid_6 " > {{ form_row(form.plainPassword.second)}} </div>
+                    <div class="stop"></div>
+
+                {% if form.enterprise is defined %}
+                     <fieldset>
+                         <legend>Information entreprise</legend>
+                        {{ form_row(form.enterprise.name)}}
+                        {{ form_row(form.enterprise.logo)}}
+                        {% if entity is defined %}
+                            {% set logo = (old_logo is defined and old_logo !=''  ? old_logo : (entity is defined and entity.logo is defined  ? entity.logo :'')) %}  
+                            <div class="form_row">
+                               <div class="field">
+                                       <img class="left _10 " src="{{ asset('uploads/gallery/enterprise/'~ entity.id ~'/pictures/'~logo ) }}" >
+                               </div>
+                               <div class="stop"></div>
+                            </div>
+                             <div class="grid_6"><input value="{{ logo }}" type='hidden' name='logo_hidden'></div>
+                        {% endif %}
+                         <div class="grid_6 "> {{ form_row(form.enterprise.phone)}}  </div>
+                         <div class="grid_6 "> {{ form_row(form.enterprise.url_site)}}</div>
+                         <div class="stop"></div>
+                         <div class="grid_6">{{ form_row(form.enterprise.code_siret)}}</div>
+                    </fieldset>
+                {% endif %}
+                    {{ form_widget(form._token)}}
+                    <input class="btn _50_imp" type="submit" value="{{ 'registration.submit'|trans }}" />
+                    </div>
+                </form>
+                </div>
+           </div>
+        </div>
+    </div>
+

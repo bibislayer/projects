@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>{% block title %}Site de poker online{% endblock %}</title>
+        <link href="{{ asset('bundles/pokergeneral/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/pokergeneral/font-awesome/css/font-awesome.css') }}"/>
+
+        <!-- Page-Level Plugin CSS - Tables -->
+        <link href="{{ asset('bundles/pokergeneral/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
+
+        <!-- SB Admin CSS - Include with every page -->
+        <link href="{{ asset('bundles/pokergeneral/css/sb-admin.css') }}" rel="stylesheet">
+        <script src="{{ asset('bundles/pokergeneral/js/jquery-1.10.2.js') }}"></script>
+    </head>
+
+    <body>
+
+        {% block content %}
+            {% block fos_user_content %}{% endblock %}
+        {% endblock %}
+
+
+        <!-- Core Scripts - Include with every page -->
+        <script src="{{ asset('bundles/pokergeneral/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('bundles/pokergeneral/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
+
+        <!-- Page-Level Plugin Scripts - Tables -->
+        <script src="{{ asset('bundles/pokergeneral/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
+        <script src="{{ asset('bundles/pokergeneral/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
+
+        <!-- SB Admin Scripts - Include with every page -->
+        <script src="{{ asset('bundles/pokergeneral/js/sb-admin.js') }}"></script>
+
+        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+        <script>
+            $(document).ready(function() {
+                $('#dataTables-example').dataTable();
+            });
+        </script>
+
+    </body>
+
+</html>

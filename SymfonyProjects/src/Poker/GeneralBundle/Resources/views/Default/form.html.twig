@@ -1,0 +1,16 @@
+{% if params.h1 is defined and params.h1 != '' %}
+    <div class="panel-heading">{{ params.h1 }}</div>
+{% endif %}
+<div class="panel-body">
+    <div class="row">
+        <div class="col-lg-6">
+    {% if (params.extraParams.withform is not defined )  or ( params.extraParams.withform != false) %}    
+    <form role="form" lass="{{params.formClass}}" action="{{ params.url }}" novalidate method="post" {{ form_enctype(params.form) }}>
+     {% endif %}   
+        {% include params.view with params only %}
+     {% if (params.extraParams.withform is not defined) or (params.extraParams.withform != false) %}   
+    </form>
+    {% endif %}    
+        </div>
+    </div>
+</div>

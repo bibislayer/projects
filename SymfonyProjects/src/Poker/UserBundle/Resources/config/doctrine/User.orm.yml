@@ -1,0 +1,30 @@
+Poker\UserBundle\Entity\User:
+    type:  entity
+    table: users
+    repositoryClass: Poker\UserBundle\Repository\UserRepository
+    fields:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+            id: true
+        facebookId:
+            type: string
+            nullable: true
+            length: 255
+        email_new:
+            type: string
+            nullable: true
+            length: 255
+    oneToOne:
+      UserProfile:
+        targetEntity:  Poker\UserBundle\Entity\UserProfile
+        mappedBy: User
+        cascade: ["persist", "merge"]
+    oneToMany:
+      PokerUser:
+        targetEntity: Poker\PokerTableBundle\Entity\PokerUser
+        mappedBy: User
+        cascade: ["persist", "merge"]
+
+    lifecycleCallbacks: {  }

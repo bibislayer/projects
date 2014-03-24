@@ -1,0 +1,25 @@
+<div class="connexion">
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    <a href="{{ path('logout') }}"><span>{{'mo.general.menu.logout'|trans }}</span></a>
+        {% if app.request.attributes.get('_route') != 'mo_dashboard' and app.session.get('access_admin').current.id is defined %}
+    <p class="entreprise">
+        <span>
+                    {% if app.session.get('access_admin').current.logo %}
+            <img src="{{ asset(app.session.get('access_admin').current.logo) }}" alt="logo_entreprise" />
+                    {% else %}
+            <img src="{{ asset('bundles/Pokergeneral/images/remplacement.png') }}" alt="logo_entreprise" />
+                    {% endif %}
+        </span>
+        <span class="text"> {{app.session.get('access_admin').current.name}}</span>
+    </p>
+        {% endif %}
+
+    <p class="profil"><img src="{{ asset('bundles/Pokergeneral/images/list_image/profil_list.png') }}" alt="logo_entreprise" /><span>{{ app.user.UserProfile.firstname is defined or app.user.UserProfile.lastname is defined?app.user.UserProfile.firstname~' '~app.user.UserProfile.lastname: ''}}</span><span>Sondeur</span></p>
+        {% if app.request.attributes.get('_route') != 'mo_dashboard' and app.session.get('access_admin').current.id is defined %}
+    <p class="cards"><a href="{{ path('mo_credit_histories', {'slug_ent': app.request.get('slug_ent')}) }}"><img style="width: 25px;margin-top: -3px;" src="{{ asset('bundles/Pokergeneral/images/list_image/credit_cards.png') }}" alt="credit" /><span>{{ (app.session.get('access_admin').credits) ? app.session.get('access_admin').credits|number_format(0, '.', ' ') : 0 }} </span><span>crédits</span></a></p>
+    {% endif %}
+{% else %}
+
+    <a  href="{{ path('mo_login') }}"><span>Connexion</span></a>
+    {% endif %}
+</div>

@@ -1,0 +1,18 @@
+{% extends 'PokerGeneralBundle:Questionnaire:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_12">
+    <div class="block-main">
+        <div class="block_border ">
+            <div class="block_design">
+                {% set par = {'params': params} %}
+                {% include 'PokerGeneralBundle:Default:form.html.twig' with par only %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="stop"></div>
+{% endblock %}

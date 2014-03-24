@@ -1,0 +1,24 @@
+{% extends 'PokerGeneralBundle:Middle:layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script src="{{ asset('bundles/Pokergeneral/js/tiny_mce/tiny_mce.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Session d'enregistrement</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            {% set par = {'params': params} %}
+            {% include 'PokerGeneralBundle:Default:form.html.twig' with par only %}
+        </div>
+    </div>
+</div>  
+{% endblock %}

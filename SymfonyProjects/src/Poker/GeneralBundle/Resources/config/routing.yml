@@ -1,0 +1,23 @@
+fo_homepage:
+    pattern:  /
+    defaults: { _controller: PokerGeneralBundle:Front:index }
+
+fo_404:
+    pattern:  /404
+    defaults: { _controller: PokerGeneralBundle:Default:page404 }
+    
+fo_presentation:
+    pattern:  /presentation
+    defaults: { _controller: PokerGeneralBundle:Front:presentation }
+    
+mo_presentation:
+    pattern:  /admin/presentation
+    defaults: { _controller: PokerGeneralBundle:Middle:presentation }
+    
+bo_dashboard:
+    pattern:  /backend
+    defaults: { _controller: PokerGeneralBundle:Back:dashboard }
+
+change_language:
+    pattern:  /change-language/{locale}
+    defaults: { _controller: PokerGeneralBundle:Default:changeLanguage }

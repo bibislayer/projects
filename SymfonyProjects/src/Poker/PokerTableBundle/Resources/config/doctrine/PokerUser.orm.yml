@@ -1,0 +1,32 @@
+Poker\PokerTableBundle\Entity\PokerUser:
+    type:  entity
+    table: poker_users
+    repositoryClass: Poker\PokerTableBundle\Repository\PokerUserRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        place: { type: integer, nullable: TRUE }
+        money: { type: integer, nullable: TRUE }
+        money_used: { type: integer, nullable: TRUE }
+        cards: { type: array, nullable: TRUE }
+        big_blind: { type: boolean, nullable: TRUE }
+        small_blind: { type: boolean, nullable: TRUE }
+        status: { type: integer, nullable: TRUE }
+    manyToOne:
+      PokerTable:
+        targetEntity: Poker\PokerTableBundle\Entity\PokerTable
+        inversedBy: PokerUser
+        joinColumns:
+          table_id:
+            referencedColumnName: id
+      User:
+        targetEntity: Poker\UserBundle\Entity\User
+        inversedBy: PokerUser
+        joinColumns:
+          user_id:
+            referencedColumnName: id
+
+    lifecycleCallbacks: {  }

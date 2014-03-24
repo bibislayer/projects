@@ -1,0 +1,31 @@
+parameters:
+#    poker_general.example.class: Poker\GeneralBundle\Example
+
+services:
+     index_paginate:
+        class: Poker\GeneralBundle\Model\IndexPaginate
+        arguments:
+            - "@service_container"
+     form_model:
+        class: Poker\GeneralBundle\Model\FormModel
+        arguments:
+            - "@service_container"
+     list_model:
+        class: Poker\GeneralBundle\Model\ListModel
+        arguments:
+            - "@service_container"
+     form.type.tinyMCE:
+        class: Poker\GeneralBundle\Form\Type\tinyMCEType
+        tags:
+            - { name: form.type, alias: tinyMCE }
+     form.type.autocomplete:
+        class: Poker\GeneralBundle\Form\Type\AutocompleteType
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@service_container"
+        tags:
+            - { name: form.type, alias: autocomplete }
+     poker.twig.poker_extension:
+        class: Poker\GeneralBundle\Twig\PokerExtension
+        tags:
+            - { name: twig.extension }

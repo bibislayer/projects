@@ -1,0 +1,58 @@
+Poker\StandardBundle\Entity\StdCategory:
+    type: entity
+    table: std_categories
+    repositoryClass: Poker\StandardBundle\Repository\StdCategoryRepository
+    gedmo:
+      tree:
+        type: nested
+    fields:
+         id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+         name: { type: string, lenght: 255 }
+         introduction: { type: text, nullable: true }
+         presentation: { type: text, nullable: true }
+         approbation: { type: integer, nullable: true }
+         published: { type: integer, nullable: true }
+         published_at: { type: datetime, nullable: true  }
+         lft:
+          type: integer
+          gedmo:
+            - treeLeft
+         rgt:
+           type: integer
+           gedmo:
+             - treeRight
+         root_id:
+           type: integer
+           gedmo:
+             - treeRoot
+         level:
+           type: integer
+           gedmo:
+             - treeLevel
+         slug:
+           type: string
+           length: 255
+           unique: true
+           gedmo:
+             slug:
+               separator: -
+               fields:
+                 - name
+    oneToMany:
+      children:
+        targetEntity: Poker\StandardBundle\Entity\StdCategory
+        mappedBy: parent
+    manyToOne:
+      parent:
+        targetEntity: Poker\StandardBundle\Entity\StdCategory
+        inversedBy: children
+        gedmo:
+          - treeParent
+        joinColumns:
+          parent_id:
+            referencedColumnName: id  
+    lifecycleCallbacks: {  }

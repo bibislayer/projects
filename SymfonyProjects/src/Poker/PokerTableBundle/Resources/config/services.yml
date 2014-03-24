@@ -1,0 +1,14 @@
+parameters:
+#    poker_poker_table.example.class: Poker\PokerTableBundle\Example
+
+services:
+    poker_table_repository:
+        class: Poker\PokerTableBundle\Repository\PokerTableRepository
+        arguments: [PokerPokerTableBundle:PokerTable]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+    poker_user_repository:
+        class: Poker\PokerTableBundle\Repository\PokerUserRepository
+        arguments: [PokerPokerTableBundle:PokerUser]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository

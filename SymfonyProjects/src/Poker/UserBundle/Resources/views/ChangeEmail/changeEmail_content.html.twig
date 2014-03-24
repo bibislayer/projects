@@ -1,0 +1,10 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<form action="{{ path('fos_user_change_email') }}" novalidate {{ form_enctype(form) }} method="POST" class="fos_user_change_email">
+    <div class="M_auto grid_8 form_login">
+    {{ form_errors(form) }}
+    {{ form_row(form.email_new) }}
+    {{ form_row(form._token) }}
+        <input type="submit" class="btn _30_imp right" value="{{ 'change_email.submit'|trans }}" />
+    </div>
+</form>

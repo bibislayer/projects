@@ -1,0 +1,19 @@
+{% extends 'PokerGeneralBundle:Middle:layout.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+{% block content %}
+<div class="grid_12">
+    <div class="block-main">
+        <div class="block_border ">
+            <div class="block_design">
+                <div class="block_header"><h1>Envoi de votre nouveau mot de passe</h1></div>
+                <div class="block_content">
+                    <p>{{ 'resetting.check_email'|trans({'%email%': email}) }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

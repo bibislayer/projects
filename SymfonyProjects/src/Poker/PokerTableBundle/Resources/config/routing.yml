@@ -1,0 +1,19 @@
+fo_poker_poker_table_homepage:
+    pattern:  /table/{id_table}
+    defaults: { _controller: PokerPokerTableBundle:Default:index }
+    
+fo_set_player_place:
+    pattern:  /table/pokerUser/setPlayerPlace
+    defaults: { _controller: PokerPokerTableBundle:Default:createPlayer }
+
+fo_time_out:
+    pattern:  /table/player/timeOut
+    defaults: { _controller: PokerPokerTableBundle:Default:timeOut }
+  
+fo_mise_player:
+    pattern: /table/pokerUser/mise
+    defaults: { _controller: PokerPokerTableBundle:Default:misePlayer }
+    
+fo_set_table_cards:
+    pattern: /table/cards/setCardsTable
+    defaults: { _controller: PokerPokerTableBundle:Default:setCardsTable }

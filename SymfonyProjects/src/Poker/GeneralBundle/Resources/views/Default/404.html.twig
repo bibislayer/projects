@@ -1,0 +1,14 @@
+{% extends 'PokerGeneralBundle:Questionnaire:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+   <div class="text_center grid_12 page404">
+
+       <img src="{{ asset('bundles/Pokergeneral/images/404.png') }}" />
+      <p >Cette page n’est malheureusement pas disponible. <p>
+      <p > Le lien que vous avez suivi peut être incorrect ou la page peut avoir été supprimée.</p>
+       <p><a href="">Retour a la page précedente</a><a href="http://www.scoring-line.com">Retour à la page d'accueil</a></p>
+   </div>
+{% endblock %}

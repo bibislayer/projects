@@ -1,0 +1,101 @@
+mo:
+    recording_session:
+        title:
+            creation: Session d'enregistrement en cours de création
+            index: Vos sessions d'enregistrements
+            last: Vos derniers questionnaires
+            new: Ajouter une session d'enregistrement
+            edit: Modifier %sess%
+        link:
+            add: Ajouter une session d'enregistrement
+            index: Vos session d'enregistrement
+edit: Modifier
+new: Nouveau
+delete: Supprimer
+preview: Prévisualiser
+
+form:
+    recording_session:
+          name: Nom du questionnaire
+          text_introduction: Text d'introduction
+          text_presentation: Présentation de votre questionnaire
+    recording_session_user:
+          email: Adresse e-mail
+    mailer_category:
+          name: Nom    
+    mailer:
+          name: Nom
+          subject: Subject
+          description: Description
+          content: Content
+          template: Template
+          MailerCategory: Type    
+    help:
+          text: Text
+          std_question_type: Question type
+          std_questionnaire_type: Questionnaire type          
+    v_m_user_registration:
+          enterprise:
+            url_site: Site Internet
+            phone: Téléphone
+            logo: Logo entreprise
+            code_siret: Code siret
+            name: Nom de l'entreprise
+          user_profile:
+            firstname:  Prénom
+            lastname: Nom
+            gender: Gender
+            birthday: Birthday
+    v_m_user_change_email:
+          email_new:  Email
+    v_m_user_change_password:
+          current_password: Current password
+    v_m_user_group:
+          name: Groupe nom
+    v_m_user_role:
+          roles:  Roles
+    credits_histories:
+          credit: Credit
+          debit:  Debit
+    category:
+          name: Nom du secteur
+          presentation: Description longue du secteur
+          introduction: Description courte du secteur
+    std_questionnaire_type_element:
+          name: Nom
+    std_questionnaire_type:
+          name: Nom
+          Help: Help
+    std_question_type:
+          name: Nom
+          template: Template
+          Help: Help
+    enterprise_administrator:
+          Enterprise: Enterprise
+    enterprise_note:
+          type: Type
+          note: Note
+          date_recall:  Date de réalisation
+          is_close:  Cette action est-elle cloturée?
+          type_first: Type
+          note_first: Note
+          date_recall_first:  Date de réalisation
+          type_second: Type
+          note_second: Note
+          date_recall_second:  Date de réalisation
+    customer_filter:
+          by_commercial_status: Commercial status
+          by_special_status: Special status
+          by_with_collaborator: Collaborator
+          by_gestionnaire: Gestionnaire
+    questionnaireUser:
+        email: Email
+        first_name: Prénom
+        last_name: Nom
+        phone_number: Téléphone
+    login:
+        email: Adresse e-mail
+        password: Mot de passe
+        remember_me: Se souvenir de moi
+        forgot_password: Mot de passe oublié?
+        submit: Connexion

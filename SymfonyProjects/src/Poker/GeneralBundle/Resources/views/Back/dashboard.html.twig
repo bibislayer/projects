@@ -1,0 +1,25 @@
+{% extends 'PokerGeneralBundle:Back:layout.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="grid_12">
+    <div class="border_table">
+        {% set paramsBox = {'name':'note_agee','title': 'bo.note_agee.title'|trans} %}
+        {{ render(controller('PokerCustomerBundle:Note:boNoteAgeeList', { 'params': paramsBox })) }}
+    </div>
+</div>
+    <ul>
+        <li>
+            <a  href="{{ path('bo_enterprises') }}">Entreprises</a>
+            <ul>
+                <li>- <a href="{{ path('bo_collaborators') }}">Collaborateurs</a></li>
+                <li>- <a href="{{ path('bo_adverts') }}">Offres d'emploi</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ path('bo_standards') }}"> Standards</a>
+        </li>
+    </ul>
+{% endblock %}

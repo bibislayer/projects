@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Scoring-Line{% endblock %}</title>
+    {% stylesheets 'bundles/Pokergeneral/less/front.less' filter='cssrewrite' %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+    <script src="{{ asset('bundles/Pokergeneral/js/jquery-1.9.1.js') }}"></script>
+
+    <script src="{{ asset('bundles/Pokergeneral/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+    <script src="{{ asset('bundles/Pokergeneral/js/tiny_mce/tiny_mce.js') }}"></script>
+    {% set allowRouteArray = ['fo_questionnaire_process'] %}
+    {% if app.request.get('_route') in allowRouteArray  %}
+         <script type="text/javascript" src="{{ asset('bundles/Pokergeneral/js/jwplayer/jwplayer.js') }}" ></script>
+         <script type="text/javascript">jwplayer.key="5P9AYiVQwKb+96ImG+hfhjDFsPxpMFvEy2kE3g==";</script>
+    {% endif %}
+         
+</head>
+<body>
+<header class="ques">
+   
+    <div class="logo ques"><a href="{{ path('fo_homepage') }}"><img src="{{ asset('bundles/Pokergeneral/images/logo_front.png') }}" alt="Poker" /></a><div class="stop"></div></div>
+    <div class="flag right">
+        <select class="changeLanguage" java>
+        <option value="fr" {{ app.request.locale == 'fr' ? 'selected="selected"' : '' }}>Français</option>
+        <option value="en" {{ app.request.locale == 'en' ? 'selected="selected"' : '' }}>English</option>
+        </select>
+            
+        <p>{% trans from 'front' %}language{% endtrans %} :</p>
+
+        <script>
+            $( ".changeLanguage" ).change(function() {
+              lang = $(this).val();
+              url = "{{ path('change_language', {'locale' : 'toModify' }) }}";
+              url = url.replace("toModify", lang);
+              window.location.href = url;
+            });
+            var isBlocked = true;
+        </script>
+    </div>
+    <div class="stop"></div>
+</header>
+<div id="wrap">
+    {# FLASH BAG MANAGEMENT #}
+    <div id="content" class="_70_imp">
+        {{ wo_render_breadcrumbs({'env':'mo'}) }}
+        {% block content %}
+        {% block fos_user_content %}{% endblock %}
+        {% endblock %}
+    </div>
+</div>
+<div class="stop"></div>
+
+{% if app.environment != 'dev' %}
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-47178406-1', 'scoring-line.com');
+      ga('send', 'pageview');
+
+    </script>
+{% endif %}
+<footer class="ques">
+    Changer de Langue <a href="#"> Français </a> - <a href="#"> Anglais </a>
+</footer>
+</body>
+</html>

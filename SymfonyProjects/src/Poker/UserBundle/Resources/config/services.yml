@@ -1,0 +1,38 @@
+parameters:
+#    poker_user.example.class: Poker\UserBundle\Example
+ # we used an EntityManager, so don't forget it in dependency injection
+        # you may want to adapt it, only the IdentityManager is mandatory
+services:            
+    poker.user.openid_user_manager:
+        class: Poker\UserBundle\Security\OpenIdUserManager
+        arguments: ["@fp_openid.identity_manager", "@doctrine.orm.entity_manager", "@fos_user.user_manager"]
+    my.facebook.user:
+        class: Poker\UserBundle\Security\Provider\FacebookProvider
+        arguments:
+            facebook: "@fos_facebook.api"
+            userManager: "@fos_user.user_manager"
+            validator: "@validator"
+    poker_user.registration.form.type:
+        class: Poker\UserBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: poker_user_registration }
+    poker_user.profile.form.type:
+        class: Poker\UserBundle\Form\Type\ProfileFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: poker_user_profile }
+    poker_user.change_email.form.type:
+        class: Poker\UserBundle\Form\Type\ChangeEmailFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: poker_user_change_email }      
+    user_repository:
+        class: Poker\UserBundle\Repository\UserRepository
+        arguments: [PokerUserBundle:User]
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository       
+    auto_login:
+        class: Poker\UserBundle\Controller\LoginController
+        arguments:
+            - "@service_container"      

@@ -1,0 +1,19 @@
+Poker\StandardBundle\Entity\StdCategory:
+   properties:
+        name:
+            - NotBlank: ~
+
+Poker\StandardBundle\Entity\StdQuestionType:
+   properties:
+        name:
+            - NotBlank: ~
+
+Poker\StandardBundle\Entity\StdQuestionnaireType:
+   properties:
+        name:
+            - NotBlank: ~
+
+Poker\StandardBundle\Entity\StdQuestionnaireTypeElement:
+   properties:
+        name:
+            - NotBlank: ~

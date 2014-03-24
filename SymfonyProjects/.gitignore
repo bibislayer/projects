@@ -1,0 +1,13 @@
+# Bootstrap
+app/bootstrap*
+
+.DS_Store
+/nbproject/
+*/logs/*
+*/cache/*
+vendor/*
+.idea
+web/bundles/*
+web/uploads/*
+web/css/*
+app/config/parameters.yml
