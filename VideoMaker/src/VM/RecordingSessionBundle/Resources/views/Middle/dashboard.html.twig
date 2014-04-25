@@ -33,7 +33,7 @@
                             {% if recordingSessions|length > 0 %}
                                 {% for record in recordingSessions %}
                                     <tr class="odd gradeX">
-                                        <td><a href="{{ path('mo_recording_session_dashboard', {'slug_sess': record.slug }) }}">{{ record.name }}</a></td>
+                                        <td><a href="{{ path('fo_recording_session_show', {'slug_sess': record.slug }) }}">{{ record.name }}</a></td>
                                         <td>{{ record.textIntroduction }}</td>
                                     </tr>
                                 {% endfor %}
