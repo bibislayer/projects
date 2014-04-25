@@ -27,7 +27,7 @@ mo_recording_session_show:
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moShow }
     
 fo_recording_session_show:
-    pattern:  /admin/session_enregistrement/{slug_sess}
+    pattern:  /session_enregistrement/{slug_sess}
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:foShow }
 
 mo_recording_session_dashboard:
