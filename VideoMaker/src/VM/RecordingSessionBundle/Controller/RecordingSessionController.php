@@ -19,7 +19,7 @@ class RecordingSessionController extends Controller {
         return $this->render('VMRecordingSessionBundle:Middle:dashboard.html.twig', array('recordingSessions' => $recording_sessions));
     }
 
-    public function moShowAction($slug_sess) {
+    public function foShowAction($slug_sess) {
         $request = $this->getRequest();
         $session = $request->getSession();
         if (!$session->get('session_user') || $session->get('session_user') == null) {
@@ -36,6 +36,17 @@ class RecordingSessionController extends Controller {
                 return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
         }
         return $this->render('VMRecordingSessionBundle:Default:show.html.twig', array('recordingSession' => $recording_session));
+    }
+    
+    public function moShowAction($slug_sess) {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
+        if ($request->getMethod() == 'POST') {
+                
+        }
+        return $this->render('VMRecordingSessionBundle:Middle:show.html.twig', array('recordingSession' => $recording_session));
     }
     
     public function moSessionUserDeleteAction($slug_sess){
@@ -59,7 +70,7 @@ class RecordingSessionController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         if ($session->get('session_user') != null) {
-            $this->redirect($this->generateUrl('mo_recording_session_show', array('slug_sess' => $slug_sess)));
+            $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
         }     
           
         $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));

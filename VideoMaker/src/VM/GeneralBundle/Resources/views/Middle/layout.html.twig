@@ -89,6 +89,11 @@
                             <a href="{{ path('fo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Tester</a>
                         </li> 
                     {% endif %}  
+                    {% if app.request.attributes.get('_route') == 'mo_recording_session_dashboard' %}
+                        <li>
+                            <a href="{{ path('mo_recording_session_dashboard', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Voir les enregistrements</a>
+                        </li> 
+                    {% endif %} 
                     </ul>
                     <!-- /#side-menu -->
                 </div>

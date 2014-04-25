@@ -25,14 +25,14 @@ mo_recording_session_user_delete:
 mo_recording_session_show:
     pattern:  /admin/session_enregistrement/{slug_sess}
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moShow }
-
-mo_recording_session_dashboard:
-    pattern:  /admin/session_enregistrement/dashboard/{slug_sess}
-    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moSessionDashboard }
     
 fo_recording_session_show:
-    pattern:  /session_enregistrement/{slug_sess}
-    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moShow } 
+    pattern:  /admin/session_enregistrement/{slug_sess}
+    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:foShow }
+
+mo_recording_session_dashboard:
+    pattern:  /admin/session_enregistrement/{slug_sess}/enregistrements
+    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moSessionDashboard }
     
 session_login:
     pattern:  /session_enregistrement/{slug_sess}/login
