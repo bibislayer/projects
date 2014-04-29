@@ -1,6 +1,48 @@
 {% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
+    <style>
+        .edit:hover {
+            position: relative;
+            background-color: #fff;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.25), 0 0 50px rgba(0,0,0,0.1) inset;
+            border-radius: 0%     0%     1%     0% /     0%     0%     20%     0%;
+        }
+        .box:before {
+            z-index: -1;
+            position: absolute;
+            content: "";
+            width: 98%;
+            height: 96%;
+            bottom: 0px;
+            right: 0px;
+            background: #eee;
+            border: 1px solid #ccc;
+            box-shadow: 1px 1px 8px rgba(0,0,0,0.1);
+            -webkit-transform: skew(2deg,2deg) translate(3px,8px);
+            -moz-transform: skew(2deg,2deg) translate(3px,8px);
+            -ms-transform: skew(2deg,2deg) translate(3px,8px);
+            -o-transform: skew(2deg,2deg) translate(3px,8px);
+            transform: skew(2deg,2deg) translate(3px,8px);
+        }
+        .box:after {
+            z-index: -1;
+            position: absolute;
+            content: "";
+            width: 98%;
+            height: 96%;
+            bottom: 0px;
+            right: 0px;
+            background: #eee;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            -webkit-transform: skew(2deg,2deg) translate(-1px,2px);
+            -moz-transform: skew(2deg,2deg) translate(-1px,2px);
+            -ms-transform: skew(2deg,2deg) translate(-1px,2px);
+            -o-transform: skew(2deg,2deg) translate(-1px,2px);
+            transform: skew(2deg,2deg) translate(-1px,2px);
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -85,7 +127,7 @@
             })
         });
         function save(type) {
-            $("#" + type).submit(function(e){
+            $("#" + type).submit(function(e) {
                 var postData = $(this).serializeArray();
                 var formURL = $(this).attr("action");
                 $.ajax({
@@ -94,7 +136,7 @@
                     data: postData,
                     success: function(data, textStatus, jqXHR)
                     {
-                        var formDiv = $('*[data-type="'+type+'"]');
+                        var formDiv = $('*[data-type="' + type + '"]');
                         formDiv.html(data);
                         formDiv.removeClass('active-edit');
                         formDiv.addClass('edit');
