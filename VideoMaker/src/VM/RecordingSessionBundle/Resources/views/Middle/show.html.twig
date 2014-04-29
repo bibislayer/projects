@@ -79,18 +79,36 @@
                 if (!$(this).hasClass('active-edit')) {
                     $(this).removeClass('edit');
                     $(this).addClass('active-edit');
-                    $(this).html('<form method="post" action="{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="'+$(this).attr('data-type')+'" id="'+$(this).attr('data-type')+'"><textarea style="width:100%" onblur="save(\''+$(this).attr('data-type')+'\')">' + trim($(this).html()) + '</textarea></form>');
+                    $(this).html('<form method="post" action="{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="' + $(this).attr('data-type') + '" id="' + $(this).attr('data-type') + '"><textarea style="width:100%" onblur="save(\'' + $(this).attr('data-type') + '\')">' + trim($(this).html()) + '</textarea></form>');
                     $(this).find('textarea').focus();
                 }
             })
         });
         function save(type) {
-            $("#"+type).submit();
+            $("#" + type).submit(function(e){
+                var postData = $(this).serializeArray();
+                var formURL = $(this).attr("action");
+                $.ajax(
+                        {
+                            url: formURL,
+                            type: "POST",
+                            data: postData,
+                            success: function(data, textStatus, jqXHR)
+                            {
+                                console.log(data);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown)
+                            {
+                                //if fails     
+                            }
+                        });
+                e.preventDefault(); //STOP default action
+                e.unbind(); //unbind. to stop multiple form submit.
+            });
         }
-        function trim (myString)
-        {
-            return myString.replace(/^\s+/g,'').replace(/\s+$/g,'')
-        } 
+        function trim(myString) {
+            return myString.replace(/^\s+/g, '').replace(/\s+$/g, '')
+        }
     </script>
     {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
     {% endif %}

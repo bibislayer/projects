@@ -112,7 +112,7 @@ class RecordingSessionController extends Controller {
         return $this->render('VMRecordingSessionBundle:Default:login.html.twig', array('form' => $form->createView()));
     }
 
-    public function moAjaxSaveForm($slug_sess) {
+    public function moAjaxSaveFormAction($slug_sess) {
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             print_r($request->request);
