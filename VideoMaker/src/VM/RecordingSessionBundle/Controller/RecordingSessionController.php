@@ -115,15 +115,24 @@ class RecordingSessionController extends Controller {
     public function moAjaxSaveFormAction($slug_sess) {
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
-            print_r($request->request);
-            exit;
-            $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
-            $em = $this->getDoctrine()->getManager();
-            
-            $recording_session->setFilename($recording_session);
-            $em->persist($session_user);
-            $em->flush();
-            return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
+            if ($request->request->get('text') && $request->request->get('type')) {
+                $text = $request->request->get('text');
+                $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
+                $em = $this->getDoctrine()->getManager();
+                if ($request->request->get('type') == "name") {
+                    $recording_session->setName($text);
+                }
+                if ($request->request->get('type') == "introduction") {
+                    $recording_session->setTextIntroduction($text);
+                }
+                if ($request->request->get('type') == "presentation") {
+                    $recording_session->setTextPresentation($text);
+                }
+                $em->persist($recording_session);
+                $em->flush();
+                echo $text;
+                exit;
+            }
         }
     }
 
