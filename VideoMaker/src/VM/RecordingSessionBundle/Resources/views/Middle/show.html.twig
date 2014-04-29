@@ -76,9 +76,8 @@
     <script>
         $(document).ready(function(){
            $('.edit').click(function(){
-               var content = $(this).html();
                $(this).removeClass('edit');
-               $(this).html('<textarea width="100%" onBlur="save(this)">'+content+'</textarea>');
+               $(this).html('<textarea width="100%" onBlur="save(this)">'+$(this).html()+'</textarea>');
            })
         });
         function save(){
