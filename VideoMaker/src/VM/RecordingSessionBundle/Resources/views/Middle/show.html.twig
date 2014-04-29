@@ -79,7 +79,8 @@
                 if (!$(this).hasClass('active-edit')) {
                     $(this).removeClass('edit');
                     $(this).addClass('active-edit');
-                    $(this).html('<textarea style="width:100%" onblur="alert(\'blur\')">' + trim($(this).html()) + '</textarea>');
+                    $(this).html('<textarea style="width:100%" onblur="save(this)">' + trim($(this).html()) + '</textarea>');
+                    $(this).('textarea').focus();
                 }
             })
         });
