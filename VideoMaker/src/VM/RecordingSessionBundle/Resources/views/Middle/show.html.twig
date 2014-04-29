@@ -94,6 +94,10 @@
                     data: postData,
                     success: function(data, textStatus, jqXHR)
                     {
+                        var formDiv = document.querySelector("[data-type='"+type+"']");
+                        formDiv.html(data);
+                        formDiv.removeClass('active-edit');
+                        formDiv.addClass('edit');
                         console.log(data);
                     },
                     error: function(jqXHR, textStatus, errorThrown)
