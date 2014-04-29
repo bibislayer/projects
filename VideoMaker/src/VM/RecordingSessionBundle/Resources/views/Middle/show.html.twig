@@ -74,13 +74,16 @@
         </div>
     </div>
     <script>
-        $(document).ready(function(){
-           $('.edit').click(function(){
-               $(this).removeClass('edit');
-               $(this).html('<textarea width="100%" onBlur="save(this)">'+$(this).html()+'</textarea>');
-           })
+        $(document).ready(function() {
+            $('.edit').click(function() {
+                if (!$(this).hasClass('active-edit')) {
+                    $(this).removeClass('edit');
+                    $(this).addClass('active-edit');
+                    $(this).html('<textarea style="width:100%" onBlur="save(this)">' + trim($(this).html()) + '</textarea>');
+                }
+            })
         });
-        function save(){
+        function save() {
             console.log('onblur');
         }
     </script>
