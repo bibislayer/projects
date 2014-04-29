@@ -77,9 +77,13 @@
         $(document).ready(function(){
            $('.edit').click(function(){
                var content = $(this).html();
-               $(this).html('<textarea>'+content+'</textarea>');
+               $(this).removeClass('edit');
+               $(this).html('<textarea wdith="100%" onBlur="save(this)">'+content+'</textarea>');
            })
         });
+        function save(){
+            console.log('onblur');
+        }
     </script>
     {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
     {% endif %}
