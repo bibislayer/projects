@@ -86,6 +86,10 @@
         function save() {
             console.log('onblur');
         }
+        function trim (myString)
+        {
+            return myString.replace(/^\s+/g,'').replace(/\s+$/g,'')
+        } 
     </script>
     {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
     {% endif %}
