@@ -169,7 +169,7 @@
             {% endfor %}
         {% endif %}
         {% if player is empty %}
-                                $(".player").click(function() {
+                                $(".player").click(function(e) {
                                     var user = $(this).find('.infoUser:first');
                                     if ($(user).attr('style') === 'display:none;') {
                                         var id = $(this).attr('data-id');
