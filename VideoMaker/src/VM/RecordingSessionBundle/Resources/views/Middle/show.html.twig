@@ -4,6 +4,10 @@
 {% endblock %}
 
 {% block content %}
+    <script src="{{ asset('bundles/vmgeneral/js/video.js') }}"></script>
+    <script>
+        videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
+    </script>
     <style>
         .edit{
             cursor: pointer;
@@ -64,7 +68,38 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body edit" data-type="introduction">
-                        {{ recordingSession.textIntroduction }}
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Textuel
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body edit" data-type="introduction">
+                                    {{ recordingSession.textIntroduction }}
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                        <!-- /.col-lg-6 -->
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Vidéo
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                           poster=""
+                                           data-setup="{}">
+                                        <source src="/uploads/montage vidéo maman.wmv" type='video/flv' />
+                                    </video>
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                        <!-- /.col-lg-6 -->
                     </div>
                     <!-- /.panel-body -->
                 </div>
