@@ -1,8 +1,8 @@
 <script src="{{ asset('bundles/vmgeneral/js/AC_OETags.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/vmgeneral/js/excanvas.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
-     var ladate=new Date();
-     var fileName = 'recording_'+ladate.getTime();
+    var ladate = new Date();
+    var fileName = 'recording_' + ladate.getTime();
     // -----------------------------------------------------------------------------
     // Globals
     // Major version of Flash required
@@ -50,7 +50,7 @@
         $('#replayButton').removeAttr('disabled');
         // stop the recording of the video
     }
-    
+
     function playRecording() {
         document.getElementById("red5recorder").playRecording();
         // stop the recording of the video
@@ -61,73 +61,137 @@
         $('.question_cam').remove();
         $('.submit_row p').html('<input id="next_link" type="submit" class="btn primary" value="Suivant"  style="float: right; margin-right: 20px;margin-bottom:15px;"/>');
     }
+    function validCam(){
+        $('#verifCam').hide();
+        $('#verifConf').show();
+    }
+    function validConf(){
+        $('#verifConf').hide();
+        $('#recorder').show();
+    }
+    function helpConfStep3(){
+        $('#verifConf').hide();
+        $('#verifConf2').show();  
+    }
 </script>
 <div class="col-md-6">
-    <div class="panel panel-default">
+
+    <div id="verifCam" class="panel panel-default">
+        <div class="panel-heading">
+            <span class="color_orange">Etape 1 :</span> Vérification du matériel
+        </div>
+        <div class="panel-body">
+            <p class="bold">Vous êtes sur le point de répondre à une question webcam, pour se faire, possédez vous une webcam ?</p>
+            <p  class="btn_webcam"><a href="javascript:void(0)" onclick="validCam()" class="btn_principal left">Oui</a><a onclick="alert('Il vous faut obligatoirement une webcam pour participer :(')"  type="submit" class="btn_principal left" >Non</a></p>  
+        </div>
+    </div>
+
+    <div id="verifConf" class="panel panel-default" style="display:none">
+        <div class="panel-heading">
+            <span class="color_orange">Etape 2 :</span> Activation de votre Webcam
+        </div>
+        <div class="panel-body">
+            <p class="bold">Si vous ne vous voyez pas dans le petit écran à gauche, merci de suivre les instructions ci-dessous :</p>
+            <div class="tuto_etape">
+                <p>Cliquez sur autoriser et puis attendez quelques secondes que la camera s'active</p>
+                <div><img class="etape" src="{{ asset('bundles/vmgeneral/images/tuto/etape3.png') }}" alt="etape3"> </div>
+            </div>
+            <div class="question_tuto">
+                <p class="bold">Avez vous réussi à configurer votre webcam ? vous devez vous voir dans le petit écran !</p>
+                <p class="btn_webcam"><a href="javascript:void(0)" onclick="validConf()" class="btn_principal left">oui</a><a type="submit" onclick="helpConfStep3()" class="btn_principal left">non</a></p>
+                <div class="stop"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="verifConf2" class="panel panel-default">
+        <div class="panel-heading">
+            <span class="color_orange">Etape 2-1 :</span> Activation de votre Webcam
+        </div>
+        <div class="panel-body">
+            <div class="tuto_etape">
+                <p class="bold">Dans certains cas, vous devrez autoriser votre navigateur à enregistrer la vidéo (message en haut de votre votre écran)</p>
+                {% set browser = app.request.attributes.get('_browser').Browser %}
+                {% if browser == 'Chrome' %}
+                    <div id="chrome"><img src="{{ asset('bundles/vmgeneral/images/tuto/chrome_tuto.gif') }}" alt="tuto_chrome" /> </div>
+                    <div id="opera"><img class="opera" src="{{ asset('bundles/vmgeneral/images/tuto/opera_tuto.gif') }}" alt="tuto_opera" /></div>
+                {% elseif browser == 'Default Browser' %}
+                    <div><img class="firefox" src="{{ asset('bundles/vmgeneral/images/tuto/firefox_tuto.gif') }}" alt="tuto_firefox" /></div>
+                {% endif %}
+            </div>
+            <div class="question_tuto">
+                <p class="bold">Avez vous réussi à configurer votre webcam ? vous devez vous voir dans le petit écran !</p>
+                <p class="btn_webcam"><a href="javascript:void(0)" data-fct="validConf" class="btn_principal left">oui</a></p>
+                <div class="stop"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="recorder" class="panel panel-default" style="display:none">
         <div class="panel-heading">
             Votre vidéo
         </div>
         <!-- /.panel-heading -->
         <div id="webcam" class="panel-body">
-{% if 'e' == 'edition' %}
-            <img class="_100_imp" style="margin: 0 !important;" src="{{ asset('bundles/recrutonlinegeneral/images/cam.png') }}" >
-{% else %}
-            <script type="text/javascript"> 
-                $(document).ready(function() {
-                    $('embed').attr('style', 'margin: 0 auto;display: block;');
-                })
-                if (hasProductInstall && !hasRequestedVersion) {
-                    // DO NOT MODIFY THE FOLLOWING FOUR LINES
-                    // Location visited after installation is complete if installation is required
-                    var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
-                    var MMredirectURL = window.location;
-                    document.title = document.title.slice(0, 47) + " - Flash Player Installation";
-                    var MMdoctitle = document.title;
+            {% if 'e' == 'edition' %}
+                <img class="_100_imp" style="margin: 0 !important;" src="{{ asset('bundles/recrutonlinegeneral/images/cam.png') }}" >
+            {% else %}
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $('embed').attr('style', 'margin: 0 auto;display: block;');
+                    })
+                    if (hasProductInstall && !hasRequestedVersion) {
+                        // DO NOT MODIFY THE FOLLOWING FOUR LINES
+                        // Location visited after installation is complete if installation is required
+                        var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
+                        var MMredirectURL = window.location;
+                        document.title = document.title.slice(0, 47) + " - Flash Player Installation";
+                        var MMdoctitle = document.title;
 
-                    AC_FL_RunContent(
-                            "src", "playerProductInstall",
-                            "FlashVars", "MMredirectURL=" + MMredirectURL + '&MMplayerType=' + MMPlayerType + '&MMdoctitle=' + MMdoctitle + "",
-                            "width", "100%",
-                            "height", "100%",
-                            "align", "middle",
-                            "id", "red5recorder",
-                            "quality", "high",
-                            "bgcolor", "#869ca7",
-                            "name", "red5recorder",
-                            "allowScriptAccess", "sameDomain",
-                            "type", "application/x-shockwave-flash",
-                            "pluginspage", "http://www.adobe.com/go/getflashplayer"
-                            );
-                } else if (hasRequestedVersion) {
-                    // if we've detected an acceptable version
-                    // embed the Flash Content SWF when all tests are passed
-                    AC_FL_RunContent(
-                            "src", "{{ asset('bundles/vmgeneral/js/red5recorder') }}",
-                            "width", "320px",
-                            "height", "270px",
-                            "align", "middle",
-                            "id", "red5recorder",
-                            "FlashVars", "fileName="+fileName+"&streamer=rtmp://rc-beta.no-ip.org/red5recorder/",
-                            "quality", "high",
-                            "bgcolor", "#869ca7",
-                            "name", "red5recorder",
-                            "allowScriptAccess", "sameDomain",
-                            "type", "application/x-shockwave-flash",
-                            "pluginspage", "http://www.adobe.com/go/getflashplayer",
-                            "show_area", "webcam"
-                            );
+                        AC_FL_RunContent(
+                                "src", "playerProductInstall",
+                                "FlashVars", "MMredirectURL=" + MMredirectURL + '&MMplayerType=' + MMPlayerType + '&MMdoctitle=' + MMdoctitle + "",
+                                "width", "100%",
+                                "height", "100%",
+                                "align", "middle",
+                                "id", "red5recorder",
+                                "quality", "high",
+                                "bgcolor", "#869ca7",
+                                "name", "red5recorder",
+                                "allowScriptAccess", "sameDomain",
+                                "type", "application/x-shockwave-flash",
+                                "pluginspage", "http://www.adobe.com/go/getflashplayer"
+                                );
+                    } else if (hasRequestedVersion) {
+                        // if we've detected an acceptable version
+                        // embed the Flash Content SWF when all tests are passed
+                        AC_FL_RunContent(
+                                "src", "{{ asset('bundles/vmgeneral/js/red5recorder') }}",
+                                "width", "320px",
+                                "height", "270px",
+                                "align", "middle",
+                                "id", "red5recorder",
+                                "FlashVars", "fileName=" + fileName + "&streamer=rtmp://rc-beta.no-ip.org/red5recorder/",
+                                "quality", "high",
+                                "bgcolor", "#869ca7",
+                                "name", "red5recorder",
+                                "allowScriptAccess", "sameDomain",
+                                "type", "application/x-shockwave-flash",
+                                "pluginspage", "http://www.adobe.com/go/getflashplayer",
+                                "show_area", "webcam"
+                                );
 
-                } else {  // flash is too old or we can't detect the plugin
-                    var alternateContent = 'Alternate HTML content should be placed here. '
-                            + 'This content requires the Adobe Flash Player. '
-                            + '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
-                    document.write(alternateContent);  // insert non-flash content
-                }// start the recording of the video
+                    } else {  // flash is too old or we can't detect the plugin
+                        var alternateContent = 'Alternate HTML content should be placed here. '
+                                + 'This content requires the Adobe Flash Player. '
+                                + '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
+                        document.write(alternateContent);  // insert non-flash content
+                    }// start the recording of the video
 
 
-            </script>
-            <input type="hidden" id="filename" name="filename" />
-    {% endif %}
+                </script>
+                <input type="hidden" id="filename" name="filename" />
+            {% endif %}
             <div id="message" style="position: relative; width: 75px; margin: 0 auto;"></div>
             <center>
                 <br />
@@ -140,11 +204,11 @@
 </div>
 <script>
     {% if app.request.attributes.get('_browser').Browser == 'Chrome' %}
-    if (window.navigator.vendor != "Google Inc.") {
-        $('#chrome').hide();
-    } else {
-        $('#opera').hide();
-    }
+        if (window.navigator.vendor != "Google Inc.") {
+            $('#chrome').hide();
+        } else {
+            $('#opera').hide();
+        }
     {% endif %}
 </script>
 <noscript>
