@@ -29,6 +29,8 @@ class RecordingSessionController extends Controller {
         if ($request->getMethod() == 'POST') {
             $session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
             $em = $this->getDoctrine()->getManager();
+            echo $request->get('filename');
+            exit;
             $session_user->setFilename($request->get('filename'));
             $em->persist($session_user);
             $em->flush();
