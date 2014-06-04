@@ -38,6 +38,27 @@ class RecordingSessionController extends Controller {
         }
         return $this->render('VMRecordingSessionBundle:Default:show.html.twig', array('recordingSession' => $recording_session));
     }
+    
+    public function foSaveRecordAction($slug_sess) {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        if (!$session->get('session_user') || $session->get('session_user') == null) {
+            return $this->redirect($this->generateUrl('session_login', array('slug_sess' => $slug_sess)));
+        }
+        $user = $this->get('security.context')->getToken()->getUser();
+        $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
+        if ($request->getMethod() == 'POST') {
+            $session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
+            $em = $this->getDoctrine()->getManager();
+            echo $request->get('filename');
+            exit;
+            $session_user->setFilename($request->get('filename'));
+            $em->persist($session_user);
+            $em->flush();
+            return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
+        }
+        return $this->render('VMRecordingSessionBundle:Default:show.html.twig', array('recordingSession' => $recording_session));
+    }
 
     public function moShowAction($slug_sess) {
         $request = $this->getRequest();

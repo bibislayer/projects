@@ -33,6 +33,10 @@ mo_ajax_form_save:
 fo_recording_session_show:
     pattern:  /session_enregistrement/{slug_sess}
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:foShow }
+    
+fo_recording_session_save_record:
+    pattern:  /session_enregistrement/{slug_sess}/save_record
+    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:foSaveRecord }
 
 mo_recording_session_dashboard:
     pattern:  /admin/session_enregistrement/{slug_sess}/enregistrements
