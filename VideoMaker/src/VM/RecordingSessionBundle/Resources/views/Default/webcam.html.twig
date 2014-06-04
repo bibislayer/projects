@@ -61,28 +61,102 @@
         $('.question_cam').remove();
         $('.submit_row p').html('<input id="next_link" type="submit" class="btn primary" value="Suivant"  style="float: right; margin-right: 20px;margin-bottom:15px;"/>');
     }
-    function validCam(){
+    function validCam() {
         $('#verifCam').hide();
         $('#verifConf').show();
     }
-    function validConf(){
+    function validConf() {
         $('#verifConf').hide();
-        $('#recorder').show();
+        $('#startButton').show();
     }
-    function helpConfStep3(){
+    function helpConfStep3() {
         $('#verifConf').hide();
-        $('#verifConf2').show();  
+        $('#verifConf2').show();
     }
-    function validConf2(){
+    function validConf2() {
         $('#verifConf2').hide();
-        $('#recorder').show();
+        $('#startButton').show();
     }
-    function fail(){
+    function fail() {
         alert('Il vous faut obligatoirement une webcam pour participer :(');
         $('#verifConf2').hide();
         $('#verifCam').show();
     }
 </script>
+<div class="col-md-6">
+    <div class="panel-heading">
+        Votre vidéo
+    </div>
+    <!-- /.panel-heading -->
+    <div id="webcam" class="panel-body">
+        {% if 'e' == 'edition' %}
+            <img class="_100_imp" style="margin: 0 !important;" src="{{ asset('bundles/recrutonlinegeneral/images/cam.png') }}" >
+        {% else %}
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('embed').attr('style', 'margin: 0 auto;display: block;');
+                })
+                if (hasProductInstall && !hasRequestedVersion) {
+                    // DO NOT MODIFY THE FOLLOWING FOUR LINES
+                    // Location visited after installation is complete if installation is required
+                    var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
+                    var MMredirectURL = window.location;
+                    document.title = document.title.slice(0, 47) + " - Flash Player Installation";
+                    var MMdoctitle = document.title;
+
+                    AC_FL_RunContent(
+                            "src", "playerProductInstall",
+                            "FlashVars", "MMredirectURL=" + MMredirectURL + '&MMplayerType=' + MMPlayerType + '&MMdoctitle=' + MMdoctitle + "",
+                            "width", "100%",
+                            "height", "100%",
+                            "align", "middle",
+                            "id", "red5recorder",
+                            "quality", "high",
+                            "bgcolor", "#869ca7",
+                            "name", "red5recorder",
+                            "allowScriptAccess", "sameDomain",
+                            "type", "application/x-shockwave-flash",
+                            "pluginspage", "http://www.adobe.com/go/getflashplayer"
+                            );
+                } else if (hasRequestedVersion) {
+                    // if we've detected an acceptable version
+                    // embed the Flash Content SWF when all tests are passed
+                    AC_FL_RunContent(
+                            "src", "{{ asset('bundles/vmgeneral/js/red5recorder') }}",
+                            "width", "320px",
+                            "height", "270px",
+                            "align", "middle",
+                            "id", "red5recorder",
+                            "FlashVars", "fileName=" + fileName + "&streamer=rtmp://rc-beta.no-ip.org/red5recorder/",
+                            "quality", "high",
+                            "bgcolor", "#869ca7",
+                            "name", "red5recorder",
+                            "allowScriptAccess", "sameDomain",
+                            "type", "application/x-shockwave-flash",
+                            "pluginspage", "http://www.adobe.com/go/getflashplayer",
+                            "show_area", "webcam"
+                            );
+
+                } else {  // flash is too old or we can't detect the plugin
+                    var alternateContent = 'Alternate HTML content should be placed here. '
+                            + 'This content requires the Adobe Flash Player. '
+                            + '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
+                    document.write(alternateContent);  // insert non-flash content
+                }// start the recording of the video
+
+
+            </script>
+            <input type="hidden" id="filename" name="filename" />
+        {% endif %}
+        <div id="message" style="position: relative; width: 75px; margin: 0 auto;"></div>
+        <center>
+            <br />
+            <button style="display: none;" type="button" onClick="startRecording()" id="startButton" class="btn btn-success">Start</button>
+            <button style="display: none;" type="button" onClick="stopRecording()" id="stopButton"  class="btn btn-danger">Stop</button>
+            <button style="display: none;" type="button" onClick="playRecording()" id="replayButton"  class="btn btn-warning">Re-voir</button>
+        </center>
+    </div>
+</div>
 <div class="col-md-6">
 
     <div id="verifCam" class="panel panel-default">
@@ -129,9 +203,9 @@
                 {% if browser == 'Chrome' %}
                     <div id="chrome"><img src="{{ asset('bundles/vmgeneral/images/tuto/chrome_tuto.gif') }}" alt="tuto_chrome" /> </div>
                     <div id="opera"><img class="opera" src="{{ asset('bundles/vmgeneral/images/tuto/opera_tuto.gif') }}" alt="tuto_opera" /></div>
-                {% elseif browser == 'Default Browser' %}
+                    {% elseif browser == 'Default Browser' %}
                     <div><img class="firefox" src="{{ asset('bundles/vmgeneral/images/tuto/firefox_tuto.gif') }}" alt="tuto_firefox" /></div>
-                {% endif %}
+                    {% endif %}
             </div>
             <div class="question_tuto">
                 <p class="bold">Avez vous réussi à configurer votre webcam ? vous devez vous voir dans le petit écran !</p>
@@ -140,81 +214,6 @@
                     <button type="button" onclick="fail()"  class="btn btn-outline btn-warning">Non</button>
                 </p>
             </div>
-        </div>
-    </div>
-
-    <div id="recorder" class="panel panel-default" style="display:none">
-        <div class="panel-heading">
-            Votre vidéo
-        </div>
-        <!-- /.panel-heading -->
-        <div id="webcam" class="panel-body">
-            {% if 'e' == 'edition' %}
-                <img class="_100_imp" style="margin: 0 !important;" src="{{ asset('bundles/recrutonlinegeneral/images/cam.png') }}" >
-            {% else %}
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        $('embed').attr('style', 'margin: 0 auto;display: block;');
-                    })
-                    if (hasProductInstall && !hasRequestedVersion) {
-                        // DO NOT MODIFY THE FOLLOWING FOUR LINES
-                        // Location visited after installation is complete if installation is required
-                        var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
-                        var MMredirectURL = window.location;
-                        document.title = document.title.slice(0, 47) + " - Flash Player Installation";
-                        var MMdoctitle = document.title;
-
-                        AC_FL_RunContent(
-                                "src", "playerProductInstall",
-                                "FlashVars", "MMredirectURL=" + MMredirectURL + '&MMplayerType=' + MMPlayerType + '&MMdoctitle=' + MMdoctitle + "",
-                                "width", "100%",
-                                "height", "100%",
-                                "align", "middle",
-                                "id", "red5recorder",
-                                "quality", "high",
-                                "bgcolor", "#869ca7",
-                                "name", "red5recorder",
-                                "allowScriptAccess", "sameDomain",
-                                "type", "application/x-shockwave-flash",
-                                "pluginspage", "http://www.adobe.com/go/getflashplayer"
-                                );
-                    } else if (hasRequestedVersion) {
-                        // if we've detected an acceptable version
-                        // embed the Flash Content SWF when all tests are passed
-                        AC_FL_RunContent(
-                                "src", "{{ asset('bundles/vmgeneral/js/red5recorder') }}",
-                                "width", "320px",
-                                "height", "270px",
-                                "align", "middle",
-                                "id", "red5recorder",
-                                "FlashVars", "fileName=" + fileName + "&streamer=rtmp://rc-beta.no-ip.org/red5recorder/",
-                                "quality", "high",
-                                "bgcolor", "#869ca7",
-                                "name", "red5recorder",
-                                "allowScriptAccess", "sameDomain",
-                                "type", "application/x-shockwave-flash",
-                                "pluginspage", "http://www.adobe.com/go/getflashplayer",
-                                "show_area", "webcam"
-                                );
-
-                    } else {  // flash is too old or we can't detect the plugin
-                        var alternateContent = 'Alternate HTML content should be placed here. '
-                                + 'This content requires the Adobe Flash Player. '
-                                + '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
-                        document.write(alternateContent);  // insert non-flash content
-                    }// start the recording of the video
-
-
-                </script>
-                <input type="hidden" id="filename" name="filename" />
-            {% endif %}
-            <div id="message" style="position: relative; width: 75px; margin: 0 auto;"></div>
-            <center>
-                <br />
-                <button type="button" onClick="startRecording()" id="startButton" class="btn btn-success">Start</button>
-                <button style="display: none;" type="button" onClick="stopRecording()" id="stopButton"  class="btn btn-danger">Stop</button>
-                <button style="display: none;" type="button" onClick="playRecording()" id="replayButton"  class="btn btn-warning">Re-voir</button>
-            </center>
         </div>
     </div>
 </div>
