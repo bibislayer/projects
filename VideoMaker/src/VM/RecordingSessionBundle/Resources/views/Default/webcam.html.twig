@@ -73,22 +73,34 @@
         $('#verifConf').hide();
         $('#verifConf2').show();  
     }
+    function validConf2(){
+        $('#verifConf2').hide();
+        $('#recorder').show();
+    }
+    function fail(){
+        alert('Il vous faut obligatoirement une webcam pour participer :(');
+        $('#verifConf2').hide();
+        $('#verifCam').show();
+    }
 </script>
 <div class="col-md-6">
 
     <div id="verifCam" class="panel panel-default">
         <div class="panel-heading">
-            <span class="color_orange">Etape 1 :</span> Vérification du matériel
+            <strong>Etape 1 :</strong> Vérification du matériel
         </div>
         <div class="panel-body">
             <p class="bold">Vous êtes sur le point de répondre à une question webcam, pour se faire, possédez vous une webcam ?</p>
-            <p  class="btn_webcam"><a href="javascript:void(0)" onclick="validCam()" class="btn_principal left">Oui</a><a onclick="alert('Il vous faut obligatoirement une webcam pour participer :(')"  type="submit" class="btn_principal left" >Non</a></p>  
+            <p  class="btn_webcam">
+                <button type="button" onclick="validCam()" class="btn btn-outline btn-success">Oui</button>  
+                <button type="button" onclick="alert('Il vous faut obligatoirement une webcam pour participer :(')"  class="btn btn-outline btn-warning">Non</button>
+            </p>  
         </div>
     </div>
 
     <div id="verifConf" class="panel panel-default" style="display:none">
         <div class="panel-heading">
-            <span class="color_orange">Etape 2 :</span> Activation de votre Webcam
+            <strong>Etape 2 :</strong> Activation de votre Webcam
         </div>
         <div class="panel-body">
             <p class="bold">Si vous ne vous voyez pas dans le petit écran à gauche, merci de suivre les instructions ci-dessous :</p>
@@ -98,15 +110,17 @@
             </div>
             <div class="question_tuto">
                 <p class="bold">Avez vous réussi à configurer votre webcam ? vous devez vous voir dans le petit écran !</p>
-                <p class="btn_webcam"><a href="javascript:void(0)" onclick="validConf()" class="btn_principal left">oui</a><a type="submit" onclick="helpConfStep3()" class="btn_principal left">non</a></p>
-                <div class="stop"></div>
+                <p class="btn_webcam">
+                    <button type="button" onclick="validConf()" class="btn btn-outline btn-success">Oui</button>  
+                    <button type="button" onclick="helpConfStep3()"  class="btn btn-outline btn-warning">Non</button>
+                </p>
             </div>
         </div>
     </div>
 
-    <div id="verifConf2" class="panel panel-default">
+    <div id="verifConf2" class="panel panel-default" style="display:none">
         <div class="panel-heading">
-            <span class="color_orange">Etape 2-1 :</span> Activation de votre Webcam
+            <strong>Etape 2-1 :</strong> Activation de votre Webcam
         </div>
         <div class="panel-body">
             <div class="tuto_etape">
@@ -121,8 +135,10 @@
             </div>
             <div class="question_tuto">
                 <p class="bold">Avez vous réussi à configurer votre webcam ? vous devez vous voir dans le petit écran !</p>
-                <p class="btn_webcam"><a href="javascript:void(0)" data-fct="validConf" class="btn_principal left">oui</a></p>
-                <div class="stop"></div>
+                <p class="btn_webcam">
+                    <button type="button" onclick="validConf2()" class="btn btn-outline btn-success">Oui</button>  
+                    <button type="button" onclick="fail()"  class="btn btn-outline btn-warning">Non</button>
+                </p>
             </div>
         </div>
     </div>
