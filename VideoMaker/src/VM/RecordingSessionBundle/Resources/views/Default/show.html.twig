@@ -1,116 +1,128 @@
 {% extends 'VMGeneralBundle:Front:layout.html.twig' %}
 {% block stylesheets %}
-{{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="{{ path('fo_homepage') }}">Video Maker</a>
-    </div>
-    <!-- /.navbar-header -->
-
-    <ul class="nav navbar-top-links navbar-right">
-
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-user">
-                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                </li>
-                <li class="divider"></li>
-                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        {% else %}
-                <li><a href="{{ path('fo_login') }}"><i class="fa fa-sign-in fa-fw"></i> Login</a>
-                        {% endif %}                       
-                </li>
-            </ul>
-            <!-- /.dropdown-user -->
-        </li>
-        <!-- /.dropdown -->
-    </ul>
-    <!-- /.navbar-top-links -->
-
-</nav>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header edit" data-type="name">{{ recordingSession.name }}</h1>
+    <script src="{{ asset('bundles/vmgeneral/js/video.js') }}"></script>
+    <script>
+        videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
+    </script>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path('fo_homepage') }}">Video Maker</a>
         </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
-    <div class="row">  
-        <div class="col-md-12">
-            <div class="panel panel-default">
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        {% else %}
+                        <li><a href="{{ path('fo_login') }}"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+                        {% endif %}                       
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header edit" data-type="name">{{ recordingSession.name }}</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">  
+            <div class="col-md-12">
                 <div class="panel-heading">
                     Introduction
                 </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body edit" data-type="introduction">
-                {{ recordingSession.textIntroduction }}
-                </div>
-                <!-- /.panel-body -->
-            </div>
-            <!-- /.panel -->
-        </div>
-        <!-- /.col-lg-6 -->
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Les mots à utiliser
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                {% for word in recordingSession.recordingSessionKeywordList %}
-                    <button type="button" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>  
-                {% endfor %}
-                </div>
-                <!-- /.panel-body -->
-            </div>
-            <!-- /.panel -->
-        </div>
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">Enregistrement vidéo</div>
                 <div class="panel-body">
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
-                                Comment ca marche admin
-                {% else %}
-                                Comment ca marche user
-                {% endif %}
+                                Textuel
                             </div>
                             <!-- /.panel-heading -->
-                            <div class="panel-body edit" data-type="presentation">
-                        {{ recordingSession.textPresentation }}
+                            <div class="panel-body edit" data-type="introduction">
+                                {{ recordingSession.textIntroduction }}
                             </div>
+                            <!-- /.panel-body -->
                         </div>
+                        <!-- /.panel -->
                     </div>
-                    <form action="{{ path('mo_recording_session_show', {'slug_sess' : app.request.get('slug_sess')}) }}" method="post" name="session_user">
                     <!-- /.col-lg-6 -->
-                {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
-                    <center>
-                        <input type="submit" id="submitButton" style="display:none;" type="button" class="btn btn-outline btn-success btn-lg btn-block" value="Validez votre vidéo" />
-                    </center>
-                    </form>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Vidéo
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <center>
+                                    <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                           poster=""
+                                           data-setup="{}">
+                                        <source src="/uploads/video.flv" type='video/flv' />
+                                    </video>
+                                </center>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                    <!-- /.col-lg-6 -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-6 -->
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Les mots à utiliser
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        {% for word in recordingSession.recordingSessionKeywordList %}
+                            <button type="button" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>  
+                        {% endfor %}
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Enregistrement vidéo</div>
+                    <div class="panel-body">
+                        {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %} 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
-{% endif %}
+    {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
+    {% endif %}
 {% endblock %}

@@ -26,6 +26,7 @@ class RecordingSessionController extends Controller {
         }
         $user = $this->get('security.context')->getToken()->getUser();
         $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
+
         if ($request->getMethod() == 'POST') {
             $session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
             $em = $this->getDoctrine()->getManager();

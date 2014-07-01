@@ -4,6 +4,10 @@
 {% endblock %}
 
 {% block content %}
+    <script src="{{ asset('bundles/vmgeneral/js/video.js') }}"></script>
+    <script>
+        videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
+    </script>
     <style>
         .edit{
             cursor: pointer;
@@ -63,8 +67,41 @@
                         Introduction
                     </div>
                     <!-- /.panel-heading -->
-                    <div class="panel-body edit" data-type="introduction">
-                        {{ recordingSession.textIntroduction }}
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Textuel
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body edit" data-type="introduction">
+                                    {{ recordingSession.textIntroduction }}
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                        <!-- /.col-lg-6 -->
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Vidéo
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <center>
+                                        <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                               poster=""
+                                               data-setup="{}">
+                                            <source src="/uploads/video.flv" type='video/flv' />
+                                        </video>
+                                    </center>
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                        <!-- /.col-lg-6 -->
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -89,29 +126,8 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">Enregistrement vidéo</div>
-                    <div class="panel-body">
-                        <div class="col-md-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
-                                        Comment ca marche admin
-                                    {% else %}
-                                        Comment ca marche user
-                                    {% endif %}
-                                </div>
-                                <!-- /.panel-heading -->
-                                <div class="panel-body edit" data-type="presentation">
-                                    {{ recordingSession.textPresentation }}
-                                </div>
-                            </div>
-                        </div>
-                        <form action="{{ path('mo_recording_session_show', {'slug_sess' : app.request.get('slug_sess')}) }}" method="post" name="session_user">
-                            <!-- /.col-lg-6 -->
-                            {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
-                            <center>
-                                <input type="submit" id="submitButton" style="display:none;" type="button" class="btn btn-outline btn-success btn-lg btn-block" value="Validez votre vidéo" />
-                            </center>
-                        </form>
+                    <div class="panel-body"> 
+                        {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
                     </div>
                 </div>
             </div>
