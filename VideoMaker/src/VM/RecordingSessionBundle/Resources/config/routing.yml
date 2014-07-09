@@ -30,6 +30,14 @@ mo_ajax_form_save:
     pattern:  /admin/session_enregistrement/{slug_sess}/ajax/save
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moAjaxSaveForm }
     
+mo_ajax_word_save:
+    pattern:  /admin/session_enregistrement/{slug_sess}/ajax/word/save
+    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moAjaxSaveXord }
+  
+mo_ajax_word_del:
+    pattern:  /admin/session_enregistrement/{slug_sess}/ajax/word/del
+    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moAjaxDelWord }
+    
 fo_recording_session_show:
     pattern:  /session_enregistrement/{slug_sess}
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:foShow }

@@ -112,8 +112,10 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         {% for word in recordingSession.recordingSessionKeywordList %}
-                            <button type="button" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>  
+                            <button type="button" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>
+                            <button type="button" onclick="deleteWord('{{ word.name }}')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>
                         {% endfor %}
+                        <button type="button" onclick="addWord()" class="btn btn-success btn-circle"><span class="fa"> + </span></button>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -139,7 +141,44 @@
                     $(this).find('textarea').focus();
                 }
             })
+            $("#saveWord").submit(function(e) {
+                var postData = $(this).serializeArray();
+                var formURL = $(this).attr("action");
+                $.ajax({
+                    url: formURL,
+                    type: "POST",
+                    data: postData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        $('#saveWord').remove();
+                        $('.panel-body').append('<button type="button" class="btn btn-outline btn-primary btn-xs">'+ data +'</button><button type="button" onclick="deleteWord(\''+ data +'\')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        //if fails     
+                    }
+                });
+                e.preventDefault(); //STOP default action
+            });
         });
+        function deleteWord(word){
+            $.ajax({
+                    url: "{{ path('mo_ajax_word_del', {'slug_sess' : app.request.get('slug_sess')}) }}",
+                    type: "POST",
+                    data: {'word': word},
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        //if fails     
+                    }
+                });
+        }
+        function addWord(){
+            $('.panel-body').append('<form method="post" action="{{ path('mo_ajax_word_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="saveWord" id="saveWord"><input type="text" name="word"/><input type="submit" value="Send"/></form>')
+        }
         function save(type) {
             $("#" + type).submit(function(e) {
                 var postData = $(this).serializeArray();

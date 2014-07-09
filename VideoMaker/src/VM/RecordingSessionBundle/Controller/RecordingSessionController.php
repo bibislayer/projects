@@ -4,7 +4,8 @@ namespace VM\RecordingSessionBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use VM\RecordingSessionBundle\Entity\RecordingSessionUser;
-use VM\RecordingSessionBundle\Form\RecordingSessionUserType;
+use VM\RecordingSessionBundle\Form\RecordingSessionUserType,
+    VM\RecordingSessionBundle\Entity\RecordingSessionKeywordList;
 
 class RecordingSessionController extends Controller {
 
@@ -114,6 +115,48 @@ class RecordingSessionController extends Controller {
     }
 
     public function moAjaxSaveFormAction($slug_sess) {
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST') {
+            if ($request->request->get('word')) {
+                $text = $request->request->get('word');
+                $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
+                $recording_session_word = new RecordingSessionKeywordList();
+                $recording_session_word->setName($text);
+                $recording_session_word->setRecordingSession($recording_session);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($recording_session_word);
+                $em->flush();
+                echo $text;
+                exit;
+            }
+        }
+    }
+    
+    public function moAjaxSaveWordAction($slug_sess) {
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST') {
+            if ($request->request->get('text') && $request->request->get('type')) {
+                $text = $request->request->get('text');
+                $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
+                $em = $this->getDoctrine()->getManager();
+                if ($request->request->get('type') == "name") {
+                    $recording_session->setName($text);
+                }
+                if ($request->request->get('type') == "introduction") {
+                    $recording_session->setTextIntroduction($text);
+                }
+                if ($request->request->get('type') == "presentation") {
+                    $recording_session->setTextPresentation($text);
+                }
+                $em->persist($recording_session);
+                $em->flush();
+                echo $text;
+                exit;
+            }
+        }
+    }
+    
+    public function moAjaxDelWordAction($slug_sess) {
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             if ($request->request->get('text') && $request->request->get('type')) {
