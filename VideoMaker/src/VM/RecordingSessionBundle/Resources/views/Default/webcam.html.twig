@@ -17,15 +17,6 @@
         $('#submitButton').hide();
         $('#stopButton').show();
         $('#stopButton').removeAttr('disabled');
-        $('#message').html('<span style="color:red">Recording</span>');
-        var elem = $('#message');
-        setInterval(function() {
-            if (elem.css('visibility') == 'hidden') {
-                elem.css('visibility', 'visible');
-            } else {
-                elem.css('visibility', 'hidden');
-            }
-        }, 500);
         // start the recording of the video
     }
     function stopRecording() {
@@ -33,7 +24,6 @@
         $('#stopButton').attr('disabled', 'disabled');
         $('#filename').val(fileName);
         $('#submitButton').show();
-        $('#message').html('');
         $('#replayButton').show();
         $('#replayButton').removeAttr('disabled');
         // stop the recording of the video
