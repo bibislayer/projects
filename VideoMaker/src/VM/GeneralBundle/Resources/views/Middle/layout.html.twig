@@ -15,6 +15,9 @@
 
         <script src="{{ asset('bundles/vmgeneral/js/jquery-1.10.2.js') }}"></script>
         <script src="{{ asset('bundles/vmgeneral/js/video.js') }}"></script>
+        <script>
+            videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
+        </script>
         <style>
             .floatable {
                 position: fixed;
@@ -51,11 +54,11 @@
                             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                             </li>
                             <li class="divider"></li>
-                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                            <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        {% else %}
-                            <li><a href="{{ path('fo_login') }}"><i class="fa fa-sign-in fa-fw"></i> Login</a>
-                        {% endif %}                       
+                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                                {% else %}
+                                <li><a href="{{ path('fo_login') }}"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+                                {% endif %}                       
                             </li>
                         </ul>
                         <!-- /.dropdown-user -->
@@ -84,21 +87,21 @@
                         <li>
                             <a href="{{ path('mo_dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>   
-                    {% if app.request.attributes.get('_route') == 'mo_recording_session_dashboard' or app.request.attributes.get('_route') == 'mo_recording_session_show' %}
-                        <li>
-                            <a href="{{ path('fo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Tester</a>
-                        </li> 
-                    {% endif %}  
-                    {% if app.request.attributes.get('_route') == 'fo_recording_session_show' or app.request.attributes.get('_route') == 'mo_recording_session_show' %}
-                        <li>
-                            <a href="{{ path('mo_recording_session_dashboard', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Voir les enregistrements</a>
-                        </li> 
-                    {% endif %} 
-                    {% if app.request.attributes.get('_route') == 'mo_recording_session_dashboard' or app.request.attributes.get('_route') == 'fo_recording_session_show' %}
-                        <li>
-                            <a href="{{ path('mo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Apérçu</a>
-                        </li> 
-                    {% endif %} 
+                        {% if app.request.attributes.get('_route') == 'mo_recording_session_dashboard' or app.request.attributes.get('_route') == 'mo_recording_session_show' %}
+                            <li>
+                                <a href="{{ path('fo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Tester</a>
+                            </li> 
+                        {% endif %}  
+                        {% if app.request.attributes.get('_route') == 'fo_recording_session_show' or app.request.attributes.get('_route') == 'mo_recording_session_show' %}
+                            <li>
+                                <a href="{{ path('mo_recording_session_dashboard', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Voir les enregistrements</a>
+                            </li> 
+                        {% endif %} 
+                        {% if app.request.attributes.get('_route') == 'mo_recording_session_dashboard' or app.request.attributes.get('_route') == 'fo_recording_session_show' %}
+                            <li>
+                                <a href="{{ path('mo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Apérçu</a>
+                            </li> 
+                        {% endif %} 
                     </ul>
                     <!-- /#side-menu -->
                 </div>
@@ -107,54 +110,54 @@
             <!-- /.navbar-static-side -->
 
             <div id="page-wrapper">
-            {% block content %}
+                {% block content %}
                 {% block fos_user_content %}{% endblock %}
             {% endblock %}
-            </div>
-            <!-- /#page-wrapper -->
-
         </div>
-        <!-- /#wrapper -->
-        <script>
-           /*var positionElementInPage = $("nav.navbar-static-side").offset().top;
-            $(window).scroll(
-                    function() {
-                        if ($(window).scrollTop() >= positionElementInPage) {
-                            // fixed
-                            $("nav.navbar-static-side").addClass("floatable");
-                            $("nav.navbar-static-top").addClass("floatable");
-                            if($(window).width() >= 752){
-                                $('nav.navbar-static-side').css('width', '100%');
-                            }else{
-                                $('nav.navbar-static-side').css('width', '250px');
-                            }
-                        } else {
-                            // relative
-                            $("nav.navbar-static-side").removeClass("floatable");
-                            $("nav.navbar-static-top").removeClass("floatable");
-                        }
-                    }
-            );*/
-        </script>
-        <!-- Core Scripts - Include with every page -->
+        <!-- /#page-wrapper -->
 
-        <script src="{{ asset('bundles/vmgeneral/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('bundles/vmgeneral/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
+    </div>
+    <!-- /#wrapper -->
+    <script>
+        /*var positionElementInPage = $("nav.navbar-static-side").offset().top;
+         $(window).scroll(
+         function() {
+         if ($(window).scrollTop() >= positionElementInPage) {
+         // fixed
+         $("nav.navbar-static-side").addClass("floatable");
+         $("nav.navbar-static-top").addClass("floatable");
+         if($(window).width() >= 752){
+         $('nav.navbar-static-side').css('width', '100%');
+         }else{
+         $('nav.navbar-static-side').css('width', '250px');
+         }
+         } else {
+         // relative
+         $("nav.navbar-static-side").removeClass("floatable");
+         $("nav.navbar-static-top").removeClass("floatable");
+         }
+         }
+         );*/
+    </script>
+    <!-- Core Scripts - Include with every page -->
 
-        <!-- Page-Level Plugin Scripts - Tables -->
-        <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
-        <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/vmgeneral/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/vmgeneral/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
 
-        <!-- SB Admin Scripts - Include with every page -->
-        <script src="{{ asset('bundles/vmgeneral/js/sb-admin.js') }}"></script>
+    <!-- Page-Level Plugin Scripts - Tables -->
+    <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
 
-        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-        <script>
-            $(document).ready(function() {
-                $('#dataTables-example').dataTable();
-            });
-        </script>
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="{{ asset('bundles/vmgeneral/js/sb-admin.js') }}"></script>
 
-    </body>
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+        $(document).ready(function() {
+            $('#dataTables-example').dataTable();
+        });
+    </script>
+
+</body>
 
 </html>

@@ -4,6 +4,7 @@
         <meta charset="UTF-8"/>
         <title>{% block title %}Video-Maker{% endblock %}</title>
         <link href="{{ asset('bundles/vmgeneral/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/vmgeneral/css/video-js.css') }}" rel="stylesheet">
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/vmgeneral/font-awesome/css/font-awesome.css') }}"/>
 
         <!-- Page-Level Plugin CSS - Tables -->
@@ -13,33 +14,34 @@
         <link href="{{ asset('bundles/vmgeneral/css/sb-admin.css') }}" rel="stylesheet">
         <script src="{{ asset('bundles/vmgeneral/js/jquery-1.10.2.js') }}"></script>
         <script src="{{ asset('bundles/vmgeneral/js/video.js') }}"></script>
+        <script>
+            videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
+        </script>
     </head>
 
     <body>
-<div id="page-wrapper">
         {% block content %}
-            {% block fos_user_content %}{% endblock %}
-        {% endblock %}
-    </div>
+        {% block fos_user_content %}{% endblock %}
+    {% endblock %}
 
-        <!-- Core Scripts - Include with every page -->
-        <script src="{{ asset('bundles/vmgeneral/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('bundles/vmgeneral/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
+    <!-- Core Scripts - Include with every page -->
+    <script src="{{ asset('bundles/vmgeneral/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/vmgeneral/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
 
-        <!-- Page-Level Plugin Scripts - Tables -->
-        <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
-        <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
+    <!-- Page-Level Plugin Scripts - Tables -->
+    <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
 
-        <!-- SB Admin Scripts - Include with every page -->
-        <script src="{{ asset('bundles/vmgeneral/js/sb-admin.js') }}"></script>
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="{{ asset('bundles/vmgeneral/js/sb-admin.js') }}"></script>
 
-        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-        <script>
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
             $(document).ready(function() {
                 $('#dataTables-example').dataTable();
             });
-        </script>
+    </script>
 
-    </body>
+</body>
 
 </html>
