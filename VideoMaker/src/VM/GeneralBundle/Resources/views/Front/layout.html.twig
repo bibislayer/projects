@@ -12,6 +12,10 @@
         <!-- SB Admin CSS - Include with every page -->
         <link href="{{ asset('bundles/vmgeneral/css/sb-admin.css') }}" rel="stylesheet">
         <script src="{{ asset('bundles/vmgeneral/js/jquery-1.10.2.js') }}"></script>
+        <script src="{{ asset('bundles/vmgeneral/js/video.js') }}"></script>
+        <script>
+        videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
+        </script>
     </head>
 
     <body>
