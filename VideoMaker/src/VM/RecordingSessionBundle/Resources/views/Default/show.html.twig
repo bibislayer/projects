@@ -1,4 +1,4 @@
-{% extends 'VMGeneralBundle:Middle:layout.html.twig' %}
+{% extends 'VMGeneralBundle:Front:layout.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
@@ -8,50 +8,6 @@
     <script>
         videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
     </script>
-    <style>
-        .edit{
-            cursor: pointer;
-        }
-        .edit:hover {
-            background-color: #fff;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.15), 0 0 50px rgba(0,0,0,0.04) inset;
-            border-radius: 0%     0%     1%     0% /     0%     0%     20%     0%;
-        }
-        .edit:before {
-            z-index: -1;
-            position: absolute;
-            content: "";
-            width: 98%;
-            height: 96%;
-            bottom: 0px;
-            right: 0px;
-            background: #eee;
-            border: 1px solid #ccc;
-            box-shadow: 1px 1px 8px rgba(0,0,0,0.1);
-            -webkit-transform: skew(2deg,2deg) translate(3px,8px);
-            -moz-transform: skew(2deg,2deg) translate(3px,8px);
-            -ms-transform: skew(2deg,2deg) translate(3px,8px);
-            -o-transform: skew(2deg,2deg) translate(3px,8px);
-            transform: skew(2deg,2deg) translate(3px,8px);
-        }
-        .edit:after {
-            z-index: -1;
-            position: absolute;
-            content: "";
-            width: 98%;
-            height: 96%;
-            bottom: 0px;
-            right: 0px;
-            background: #eee;
-            border: 1px solid #ccc;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
-            -webkit-transform: skew(2deg,2deg) translate(-1px,2px);
-            -moz-transform: skew(2deg,2deg) translate(-1px,2px);
-            -ms-transform: skew(2deg,2deg) translate(-1px,2px);
-            -o-transform: skew(2deg,2deg) translate(-1px,2px);
-            transform: skew(2deg,2deg) translate(-1px,2px);
-        }
-    </style>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -74,7 +30,7 @@
                                     Textuel
                                 </div>
                                 <!-- /.panel-heading -->
-                                <div class="panel-body edit" data-type="introduction">
+                                <div class="panel-body" data-type="introduction">
                                     {{ recordingSession.textIntroduction }}
                                 </div>
                                 <!-- /.panel-body -->
@@ -133,46 +89,6 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('.edit').click(function() {
-                if (!$(this).hasClass('active-edit')) {
-                    $(this).removeClass('edit');
-                    $(this).addClass('active-edit');
-                    $(this).html('<form method="post" action="{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="' + $(this).attr('data-type') + '" id="' + $(this).attr('data-type') + '"><input type="hidden" name="type" value="' + $(this).attr('data-type') + '" /><textarea name="text" style="width:100%" onblur="save(\'' + $(this).attr('data-type') + '\')">' + trim($(this).html()) + '</textarea></form>');
-                    $(this).find('textarea').focus();
-                }
-            })
-        });
-        function save(type) {
-            $("#" + type).submit(function(e) {
-                var postData = $(this).serializeArray();
-                var formURL = $(this).attr("action");
-                $.ajax({
-                    url: formURL,
-                    type: "POST",
-                    data: postData,
-                    success: function(data, textStatus, jqXHR)
-                    {
-                        var formDiv = $('*[data-type="' + type + '"]');
-                        formDiv.html(data);
-                        formDiv.removeClass('active-edit');
-                        formDiv.addClass('edit');
-                        console.log(data);
-                    },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
-                        //if fails     
-                    }
-                });
-                e.preventDefault(); //STOP default action
-            });
-            $("#" + type).submit();
-        }
-        function trim(myString) {
-            return myString.replace(/^\s+/g, '').replace(/\s+$/g, '')
-        }
-    </script>
     {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
     {% endif %}
 {% endblock %}
