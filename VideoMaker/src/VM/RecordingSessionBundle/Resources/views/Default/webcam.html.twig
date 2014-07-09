@@ -3,13 +3,15 @@
 <script type="text/javascript">
     var ladate = new Date();
     var fileName = 'recording_' + ladate.getTime();
-
+    $(document).ready(function() {
+        cam = document.getElementsByName("webcam")[0];
+    });
     function showRecord() {
         $("#recordStartButton").attr("disabled", false);
     }
 
     function startRecording() {
-        document.getElementById("red5recorder").startRecording();
+        cam.startRecording();
         $('#startButton').attr('disabled', 'disabled');
         $('#submitButton').hide();
         $('#stopButton').show();
@@ -26,7 +28,7 @@
         // start the recording of the video
     }
     function stopRecording() {
-        document.getElementById("red5recorder").stopRecording();
+        cam.stopRecording();
         $('#stopButton').attr('disabled', 'disabled');
         $('#filename').val(fileName);
         $('#submitButton').show();
@@ -37,7 +39,7 @@
     }
 
     function playRecording() {
-        document.getElementById("red5recorder").playRecording();
+        cam.playRecording();
         // stop the recording of the video
         $('#startButton').removeAttr('disabled');
     }
@@ -84,13 +86,13 @@
                 {% else %}
                     <script type="text/javascript">
                         $(document).ready(function() {
-                            
+
                             $('embed').attr('style', 'margin: 0 auto;display: block;');
-                            
+
                         })
                         if (AC_FL_RunContent == 0) {
                             alert("This page requires AC_RunActiveContent.js.");
-                        } else {  
+                        } else {
                             AC_FL_RunContent(
                                     "src", "{{ asset('bundles/vmgeneral/js/webcam') }}",
                                     "width", "320px",
@@ -193,11 +195,11 @@
 </div>
 <script>
     /* if app.request.attributes.get('_browser').Browser == 'Chrome' %}
-        if (window.navigator.vendor != "Google Inc.") {
-            $('#chrome').hide();
-        } else {
-            $('#opera').hide();
-        }
+     if (window.navigator.vendor != "Google Inc.") {
+     $('#chrome').hide();
+     } else {
+     $('#opera').hide();
+     }
      endif */
 </script>
 <noscript>
