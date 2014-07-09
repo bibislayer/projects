@@ -5,6 +5,7 @@
     var fileName = 'recording_' + ladate.getTime();
     $(document).ready(function() {
         cam = document.getElementsByName("webcam")[0];
+        $('embed').attr('style', 'margin: 0 auto;display: block;');
     });
     function showRecord() {
         $("#recordStartButton").attr("disabled", false);
@@ -85,11 +86,6 @@
                     <img class="_100_imp" style="margin: 0 !important;" src="{{ asset('bundles/recrutonlinegeneral/images/cam.png') }}" >
                 {% else %}
                     <script type="text/javascript">
-                        $(document).ready(function() {
-
-                            $('embed').attr('style', 'margin: 0 auto;display: block;');
-
-                        })
                         if (AC_FL_RunContent == 0) {
                             alert("This page requires AC_RunActiveContent.js.");
                         } else {
@@ -99,7 +95,7 @@
                                     "height", "220px",
                                     "align", "middle",
                                     "id", "webcam",
-                                    "FlashVars", "fileName=test&streamer=rtmp://dev-monkey.org/webcamrecording",
+                                    "FlashVars", "fileName=" + fileName + "&streamer=rtmp://dev-monkey.org/webcamrecording",
                                     "quality", "high",
                                     "bgcolor", "#869ca7",
                                     "name", "webcam",
