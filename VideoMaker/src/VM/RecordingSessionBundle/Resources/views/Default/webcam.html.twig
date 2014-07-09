@@ -158,19 +158,19 @@
     </div>
 
     <div id="verifConf2" class="panel panel-default" style="display:none">
-        <div class="panel-heading">
+        <!--<div class="panel-heading">
             <strong>Etape 2-1 :</strong> Activation de votre Webcam
         </div>
         <div class="panel-body">
             <div class="tuto_etape">
                 <p class="bold">Dans certains cas, vous devrez autoriser votre navigateur à enregistrer la vidéo (message en haut de votre votre écran)</p>
-                {% set browser = app.request.attributes.get('_browser').Browser %}
-                {% if browser == 'Chrome' %}
+                set browser = app.request.attributes.get('_browser').Browser
+                 if browser == 'Chrome' %}
                     <div id="chrome"><img src="{{ asset('bundles/vmgeneral/images/tuto/chrome_tuto.gif') }}" alt="tuto_chrome" /> </div>
                     <div id="opera"><img class="opera" src="{{ asset('bundles/vmgeneral/images/tuto/opera_tuto.gif') }}" alt="tuto_opera" /></div>
-                    {% elseif browser == 'Default Browser' %}
+                     elseif browser == 'Default Browser' %}
                     <div><img class="firefox" src="{{ asset('bundles/vmgeneral/images/tuto/firefox_tuto.gif') }}" alt="tuto_firefox" /></div>
-                    {% endif %}
+                     endif %}
             </div>
             <div class="question_tuto">
                 <p class="bold">Avez vous réussi à configurer votre webcam ? vous devez vous voir dans le petit écran !</p>
@@ -179,7 +179,7 @@
                     <button type="button" onclick="fail()"  class="btn btn-outline btn-warning">Non</button>
                 </p>
             </div>
-        </div>
+        </div>-->
     </div>
 
     <div id="success" class="panel panel-default" style="display:none">
@@ -192,13 +192,13 @@
     </div>
 </div>
 <script>
-    {% if app.request.attributes.get('_browser').Browser == 'Chrome' %}
+    /* if app.request.attributes.get('_browser').Browser == 'Chrome' %}
         if (window.navigator.vendor != "Google Inc.") {
             $('#chrome').hide();
         } else {
             $('#opera').hide();
         }
-    {% endif %}
+     endif */
 </script>
 <noscript>
 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
