@@ -5,7 +5,7 @@
 
 {% block content %}
     <script>
-        videojs.dispose()
+        videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
     </script>
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
