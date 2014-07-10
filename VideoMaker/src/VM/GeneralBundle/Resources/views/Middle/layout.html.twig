@@ -92,22 +92,10 @@
                                 <a target="_blank" href="{{ path('fo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Tester</a>
                             </li> 
                             <li class="{{ app.request.attributes.get('_route') == 'mo_recording_session_dashboard' ? 'active' : '' }}">
-                                {% if app.request.attributes.get('_route') != 'mo_recording_session_dashboard' %}
-                                    <a href="{{ path('mo_recording_session_dashboard', {'slug_sess': app.request.get('slug_sess')} ) }}">
-                                {% endif %}
-                                <i class="fa fa-fw"></i>-- Voir les enregistrements
-                                {% if app.request.attributes.get('_route') != 'mo_recording_session_dashboard' %}
-                                    </a>
-                                {%endif %}
+                                <a href="{{ path('mo_recording_session_dashboard', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Voir les enregistrements</a>
                             </li> 
                             <li class="{{ app.request.attributes.get('_route') == 'mo_recording_session_show' ? 'active' : '' }}">
-                                {% if app.request.attributes.get('_route') != 'mo_recording_session_show' %}
-                                    <a href="{{ path('mo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}">
-                                {%endif %}
-                                <i class="fa fa-fw"></i>-- Apérçu
-                                {% if app.request.attributes.get('_route') != 'mo_recording_session_show' %}
-                                    </a>
-                                {% endif %}
+                                <a href="{{ path('mo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Apérçu </a>
                             </li> 
                         {% endif %} 
                     </ul>
