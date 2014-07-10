@@ -18,8 +18,8 @@
             $(document).ready(function(){
                 {% if app.session.get('flag') %}
                         $('#successAlert span').html("{{ app.session.get('flag') }}");
-                        $('#successAlert').toggle('slow');
-                        setTimeout(function(){$('#successAlert').toggle('slow')}, 3000);
+                        $('#successAlert').slideToggle('slow');
+                        setTimeout(function(){$('#successAlert').slideToggle('slow')}, 3000);
                 {% endif %}
             })
             videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
