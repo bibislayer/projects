@@ -151,6 +151,7 @@
                 }
             })
             $("#saveWord").submit(function(e) {
+                e.preventDefault(); //STOP default action
                 var postData = $(this).serializeArray();
                 var formURL = $(this).attr("action");
                 $.ajax({
@@ -167,7 +168,6 @@
                         //if fails     
                     }
                 });
-                e.preventDefault(); //STOP default action
             });
         });
         function deleteWord(word) {
