@@ -17,8 +17,10 @@
         <script src="{{ asset('bundles/vmgeneral/js/video.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/vmgeneral/js/tinymce/tinymce.min.js') }}"></script>
         <script>
-            tinymce.init({selector: "textarea"});
-            videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
+            $(document).ready(function(){
+                tinymce.init({selector: "textarea"});
+                videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
+            })
         </script>
         <style>
             .floatable {
