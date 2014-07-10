@@ -84,6 +84,7 @@
                                         </div>';
                     $(this).html('<form method="post" action="{{ path('mo_ajax_success_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="success" id="success">'+textarea+'<button onClick="saveSuccess()" type="button" class="btn btn-default">Enregistrer</button></form>');
                     $(this).find('textarea').focus();
+                    wakeUpTiny();
                 }
             })
         })
