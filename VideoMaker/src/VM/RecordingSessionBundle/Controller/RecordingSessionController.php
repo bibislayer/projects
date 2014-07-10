@@ -104,14 +104,15 @@ class RecordingSessionController extends Controller {
         $session_user = $this->get('recording_session_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
 
         if ($request->getMethod() == 'POST') {
-
+            $cmd = 'ffmpeg -y -i '.$recording_session.'.flv -s 640x480 -ar 44100 -pass 1 -b 1400k -r 30 -ab 128k -f avi '.$recording_session.'.avi';
+            pclose(popen("nohup " . $cmd . " & ", "r"));
+            
             $em = $this->getDoctrine()->getManager();
             $session_user->setFilename($recording_session);
             $em->persist($session_user);
             $em->flush();
             $kernel = $this->get('kernel');
-            $cmd = 'ffmpeg -y -i '.$recording_session.'.flv -s 640x480 -ar 44100 -pass 1 -b 1400k -r 30 -ab 128k -f avi '.$recording_session.'.avi';
-            pclose(popen("nohup " . $cmd . " & ", "r"));
+            
             return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
         }
         return $this->render('VMRecordingSessionBundle:Default:login.html.twig', array('form' => $form->createView()));
