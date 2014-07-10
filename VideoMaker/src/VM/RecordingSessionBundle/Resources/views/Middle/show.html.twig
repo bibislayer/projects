@@ -118,7 +118,7 @@
                     <div class="panel-heading">
                         Les mots à utiliser <button type="button" onclick="addWord()" class="btn btn-success btn-circle"><span class="fa"> + </span></button> 
                         <div class="form-group input-group">
-                            <input type="text" name="word" class="form-control">
+                            <input type="text" name="word" id="word" class="form-control">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" onClick="saveWord()" type="button">Ok</button>
                             </span>
@@ -157,11 +157,11 @@
             })
         });
 
-        function saveWord(word) {
+        function saveWord() {
             $.ajax({
                 url: "{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}",
                         type: "POST",
-                data: {word: word},
+                data: {word: $('#word').text()},
                 success: function(data, textStatus, jqXHR)
                 {
                     $('#saveWord').remove();
