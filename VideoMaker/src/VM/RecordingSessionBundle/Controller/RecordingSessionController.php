@@ -44,6 +44,7 @@ class RecordingSessionController extends Controller {
             return $this->redirect($this->generateUrl('session_login', array('slug_sess' => $slug_sess)));
         }
         $user = $this->get('security.context')->getToken()->getUser();
+        $userSession = $session->get('session_user');
         $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
         $kernel = $this->get('kernel');
         $streamsPath = $kernel->getRootDir() . '/../web/uploads/streams/';
@@ -63,8 +64,8 @@ class RecordingSessionController extends Controller {
             $session_user->setFilename($request->get('filename'));
             $em->persist($session_user);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('fo_recording_session_success', array('slug_sess' => $slug_sess)));
+            $userSession->set('flag', 'Votre enregistrement à bien était transmis à notre serveur ;)');
+            return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
         }
         return $this->render('VMRecordingSessionBundle:Default:show.html.twig', array('recordingSession' => $recording_session));
     }
