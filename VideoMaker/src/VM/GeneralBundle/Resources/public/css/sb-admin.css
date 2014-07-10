@@ -34,7 +34,7 @@
     border-bottom: 1px solid #e7e7e7;
 }
 
-.navbar-static-side ul li .active {
+.navbar-static-side ul li.active {
   background-color: #eeeeee;
 }
 
