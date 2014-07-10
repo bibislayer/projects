@@ -30,8 +30,8 @@
             }
             videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
             $(document).ready(function(){
-                {% if app.session.get('session_user').get('flag') %}
-                        $('#successAlert').html("{{ app.session.get('session_user').get('flag') }}");
+                {% if app.session.session_user.flag %}
+                        $('#successAlert').html("{{ app.session.session_user.flag }}");
                         $('#successAlert').toggle();
                 {% endif %}
             })
