@@ -166,15 +166,17 @@ class RecordingSessionController extends Controller {
         exit;
     }
 
-    public function moAjaxDelWordAction($slug_sess, $name) {
+    public function moAjaxDelWordAction($slug_sess) {
         $request = $this->getRequest();
-        if ($request->request->get('text')) {
-            $text = $request->request->get('text');
-            $recording_session_word = $this->get('recording_session_keyword_list_repository')->getElements(array('by_recording_session' => $slug_sess,
-                'by_name' => $name, 'action' => 'one'));
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($recording_session_word);
-            $em->flush();
+        if ($request->getMethod() == 'POST') {
+            if ($request->request->get('word')) {
+                $name = $request->request->get('word');
+                $recording_session_word = $this->get('recording_session_keyword_list_repository')->getElements(array('by_recording_session' => $slug_sess,
+                    'by_name' => $name, 'action' => 'one'));
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($recording_session_word);
+                $em->flush();
+            }
         }
         exit;
     }
