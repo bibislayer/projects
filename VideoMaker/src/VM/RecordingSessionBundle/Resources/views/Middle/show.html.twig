@@ -159,7 +159,7 @@
 
         function saveWord(word) {
             $.ajax({
-                url:{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }},
+                url: "{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}",
                         type: "POST",
                 data: {'word': word},
                 success: function(data, textStatus, jqXHR)
