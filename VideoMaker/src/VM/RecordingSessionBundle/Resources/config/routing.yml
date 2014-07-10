@@ -39,7 +39,7 @@ mo_ajax_word_save:
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moAjaxSaveWord }
   
 mo_ajax_word_del:
-    pattern:  /admin/session_enregistrement/{slug_sess}/ajax/word/del
+    pattern:  /admin/session_enregistrement/{slug_sess}/ajax/delword/{name}
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moAjaxDelWord }
     
 fo_recording_session_show:

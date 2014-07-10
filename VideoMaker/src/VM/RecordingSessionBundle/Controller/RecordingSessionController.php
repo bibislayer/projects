@@ -29,7 +29,7 @@ class RecordingSessionController extends Controller {
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', "application/force-download");
         $response->headers->set('Content-Disposition', sprintf('attachment;filename=recording_' . $movie_code . '.avi', $fichier, 'force-download'));
-         $response->setContent(file_get_contents($fichier));
+        $response->setContent(file_get_contents($fichier));
         $response->setCharset('UTF-8');
 
         // prints the HTTP headers followed by the content
@@ -84,7 +84,7 @@ class RecordingSessionController extends Controller {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
-        $session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $id, 'action' => 'one'));
+        $session_user = $this->get('recording_session_keyword_list_repository')->getElements(array('by_id' => $id, 'action' => 'one'));
         $em->remove($session_user);
         $em->flush();
 
@@ -150,7 +150,6 @@ class RecordingSessionController extends Controller {
 
     public function moAjaxSaveWordAction($slug_sess) {
         $request = $this->getRequest();
-        print_r($request->request);
         if ($request->getMethod() == 'POST') {
             if ($request->request->get('word')) {
                 $text = $request->request->get('word');
@@ -167,31 +166,20 @@ class RecordingSessionController extends Controller {
         exit;
     }
 
-    public function moAjaxSaveFormAction($slug_sess) {
+    public function moAjaxDelWordAction($slug_sess, $name) {
         $request = $this->getRequest();
-        if ($request->getMethod() == 'POST') {
-            if ($request->request->get('text') && $request->request->get('type')) {
-                $text = $request->request->get('text');
-                $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
-                $em = $this->getDoctrine()->getManager();
-                if ($request->request->get('type') == "name") {
-                    $recording_session->setName($text);
-                }
-                if ($request->request->get('type') == "introduction") {
-                    $recording_session->setTextIntroduction($text);
-                }
-                if ($request->request->get('type') == "presentation") {
-                    $recording_session->setTextPresentation($text);
-                }
-                $em->persist($recording_session);
-                $em->flush();
-                echo $text;
-            }
+        if ($request->request->get('text')) {
+            $text = $request->request->get('text');
+            $recording_session_word = $this->get('recording_session_keyword_list_repository')->getElements(array('by_recording_session' => $slug_sess,
+                'by_name' => $name, 'action' => 'one'));
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($recording_session_word);
+            $em->flush();
         }
         exit;
     }
 
-    public function moAjaxDelWordAction($slug_sess) {
+    public function moAjaxSaveFormAction($slug_sess) {
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             if ($request->request->get('text') && $request->request->get('type')) {
