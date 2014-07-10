@@ -19,6 +19,13 @@
         <script>
             $(document).ready(function(){
                 tinymce.init({selector: "textarea"});
+                $('textarea').tinymce({
+                    setup: function(ed) {
+                        ed.onClick.add(function(ed, e) {
+                            alert('Editor was clicked: ' + e.target.nodeName);
+                        });
+                    }
+                });
                 videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
             })
         </script>
