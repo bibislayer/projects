@@ -40,17 +40,19 @@
                                 <td><a href="#">{{ user.email }}</a></td>
                                 <td>
                         <center>
-                            <video id="example_video_{{ user.id }}" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                                   poster=""
-                                   data-setup="{}">
-                                <source src="/uploads/streams/{{ user.filename }}.flv" type='video/flv' />
-                            </video>
+                            {% for filename in user.filename %}
+                                {% set movie_code = user.filename|split('_') %}
+                                {% set movie_code = movie_code[1] %}
+                                {% set movie_code = movie_code|split('.') %}
+                                {% set movie_code = movie_code[0] %}
+                                <video id="example_video_{{ movie_code }}" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                       poster=""
+                                       data-setup="{}">
+                                    <source src="/uploads/streams/{{ filename }}.flv" type='video/flv' />
+                                </video>
                             <br />
-                            {% set movie_code = user.filename|split('_') %}
-                            {% set movie_code = movie_code[1] %}
-                            {% set movie_code = movie_code|split('.') %}
-                            {% set movie_code = movie_code[0] %}
                             <strong><a href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" >Télécharger : {{ user.filename }}</a></strong>
+                            {% endfor %}
                         </center>
                         </td>
                         <td>

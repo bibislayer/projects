@@ -11,7 +11,7 @@ VM\RecordingSessionBundle\Entity\RecordingSessionUser:
         email: { type: string, length: 255 }
         firstname: { type: text, nullable: TRUE }
         lastname: { type: text, nullable: TRUE }
-        filename: { type: text, nullable: TRUE }
+        filename: { type: array, nullable: TRUE }
         created_at:
           type: date
           nullable: TRUE

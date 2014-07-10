@@ -61,7 +61,12 @@ class RecordingSessionController extends Controller {
             }
             $session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
             $em = $this->getDoctrine()->getManager();
-            $session_user->setFilename($request->get('filename'));
+            if($session_user->getFilename() != 'N;'){
+                $files = $session_user->getFilename();
+            }else{
+                $files = array();
+            }
+            $session_user->setFilename($files+array($request->get('filename')));
             $em->persist($session_user);
             $em->flush();
             $session->set('flag', 'Votre enregistrement à bien était transmis à notre serveur ;)');
