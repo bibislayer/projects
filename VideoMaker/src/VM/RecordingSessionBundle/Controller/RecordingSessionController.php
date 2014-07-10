@@ -33,11 +33,11 @@ class RecordingSessionController extends Controller {
             $cmd = 'ffmpeg -y -i '.$streamsPath.$request->get('filename').'.flv -s 640x480 -ar 44100 -pass 1 -b 1400k -r 30 -ab 128k -f avi '.$streamsPath.$request->get('filename').'.avi';
             exec($cmd);
             pclose(popen("nohup " . $cmd . " & ", "r"));
-            $session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
+            /*$session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
             $em = $this->getDoctrine()->getManager();
             $session_user->setFilename($request->get('filename'));
             $em->persist($session_user);
-            $em->flush();
+            $em->flush();*/
             echo $streamsPath.$request->get('filename').'.flv';
             exit;
             return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
