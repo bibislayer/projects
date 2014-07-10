@@ -127,8 +127,8 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body" id="contentWord">
                         {% for word in recordingSession.recordingSessionKeywordList %}
-                            <button type="button" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>
-                            <button type="button" onclick="deleteWord('{{ word.name }}')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>
+                            <button type="button" id="btn{{ word.name }}" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>
+                            <button type="button" id="btnd{{ word.name }}" onclick="deleteWord('{{ word.name }}')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>
                         {% endfor %}
                     </div>
                     <!-- /.panel-body -->
@@ -181,7 +181,8 @@
                 data: {'word': word},
                 success: function(data, textStatus, jqXHR)
                 {
-
+                    $('#btn'+word).remove();
+                    $('#btna'+word).remove();
                 },
                 error: function(jqXHR, textStatus, errorThrown)
                 {
