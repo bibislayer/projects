@@ -47,6 +47,15 @@
             -o-transform: skew(2deg,2deg) translate(-1px,2px);
             transform: skew(2deg,2deg) translate(-1px,2px);
         }
+        .btn-circle {
+            width: 20px;
+            height: 20px;
+            padding: 0px 0;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 0.428571;
+        }
     </style>
     <div class="container">
         <div class="row">
@@ -110,7 +119,7 @@
                         Les mots à utiliser
                     </div>
                     <!-- /.panel-heading -->
-                    <div class="panel-body">
+                    <div class="panel-body" id="contentWord">
                         {% for word in recordingSession.recordingSessionKeywordList %}
                             <button type="button" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>
                             <button type="button" onclick="deleteWord('{{ word.name }}')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>
@@ -151,7 +160,7 @@
                     success: function(data, textStatus, jqXHR)
                     {
                         $('#saveWord').remove();
-                        $('.panel-body').append('<button type="button" class="btn btn-outline btn-primary btn-xs">'+ data +'</button><button type="button" onclick="deleteWord(\''+ data +'\')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>');
+                        $('#contentWord').append('<button type="button" class="btn btn-outline btn-primary btn-xs">' + data + '</button><button type="button" onclick="deleteWord(\'' + data + '\')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>');
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
@@ -161,22 +170,22 @@
                 e.preventDefault(); //STOP default action
             });
         });
-        function deleteWord(word){
+        function deleteWord(word) {
             $.ajax({
-                    url: "{{ path('mo_ajax_word_del', {'slug_sess' : app.request.get('slug_sess')}) }}",
-                    type: "POST",
-                    data: {'word': word},
-                    success: function(data, textStatus, jqXHR)
-                    {
-                        
-                    },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
-                        //if fails     
-                    }
-                });
+                url: "{{ path('mo_ajax_word_del', {'slug_sess' : app.request.get('slug_sess')}) }}",
+                type: "POST",
+                data: {'word': word},
+                success: function(data, textStatus, jqXHR)
+                {
+
+                },
+                error: function(jqXHR, textStatus, errorThrown)
+                {
+                    //if fails     
+                }
+            });
         }
-        function addWord(){
+        function addWord() {
             $('.panel-body').append('<form method="post" action="{{ path('mo_ajax_word_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="saveWord" id="saveWord"><input type="text" name="word"/><input type="submit" value="Send"/></form>')
         }
         function save(type) {
