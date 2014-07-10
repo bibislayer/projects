@@ -34,6 +34,10 @@
     border-bottom: 1px solid #e7e7e7;
 }
 
+.navbar-static-side ul li.active {
+  background-color: #e8e8e8;
+}
+
 /* Navigation */
 
 /* ------------------------------- */
