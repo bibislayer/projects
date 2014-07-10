@@ -151,8 +151,8 @@ class RecordingSessionController extends Controller {
     public function moAjaxSaveWordAction($slug_sess) {
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
-            if ($request->request->get('word')) {
-                $text = $request->request->get('word');
+            if ($request->get('word')) {
+                $text = $request->get('word');
                 $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
                 $recording_session_word = new RecordingSessionKeywordList();
                 $recording_session_word->setName($text);
