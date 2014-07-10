@@ -61,7 +61,7 @@ class RecordingSessionController extends Controller {
             }
             $session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
             $em = $this->getDoctrine()->getManager();
-            if($session_user->getFilename() != 'N;'){
+            if($session_user->getFilename()){
                 $files = $session_user->getFilename();
             }else{
                 $files = array();
