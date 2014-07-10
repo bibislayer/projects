@@ -28,7 +28,7 @@ class RecordingSessionController extends Controller {
         $response = new Response();
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', "application/force-download");
-        $response->headers->set('Content-Disposition', sprintf('attachment;filename="%s"', $fichier, 'force-download'));
+        $response->headers->set('Content-Disposition', sprintf('attachment;filename=recording_' . $movie_code . '.avi', $fichier, 'force-download'));
          $response->setContent(file_get_contents($fichier));
         $response->setCharset('UTF-8');
 
