@@ -116,8 +116,8 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Les mots à utiliser <button type="button" onclick="formWord()" class="btn btn-success btn-circle"><span class="fa"> + </span></button> 
-                        <div id="formWord" style="width: 150px;margin-top: 18px;display:none;" class="form-group input-group">
+                        Les mots à utiliser <button title="Ajouter un mot." type="button" onclick="formWord()" class="btn btn-success btn-circle info"><span class="fa"> + </span></button> 
+                        <div id="formWord" style="width:250px;margin-top:18px;display:none;" class="form-group input-group">
                             <input type="text" name="word" id="word" class="form-control">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" onClick="saveWord()" type="button">Ok</button>
@@ -147,6 +147,12 @@
     </div>
     <script>
         $(document).ready(function() {
+            $('.info').tooltip({
+                animation: true,
+                html: true,
+                placement: 'top'
+            });
+
             $('.edit').click(function() {
                 if (!$(this).hasClass('active-edit')) {
                     $(this).removeClass('edit');
@@ -156,16 +162,16 @@
                 }
             })
         });
-
         function saveWord() {
             $.ajax({
                 url: "{{ path('mo_ajax_word_save', {'slug_sess' : app.request.get('slug_sess')}) }}",
-                        type: "POST",
+                type: "POST",
                 data: {word: $('#word').val()},
                 success: function(data, textStatus, jqXHR)
                 {
+                    $('#word').val('');
                     formWord();
-                    $('#contentWord').append('<button type="button" class="btn btn-outline btn-primary btn-xs">' + data + '</button><button type="button" onclick="deleteWord(\'' + data + '\')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>');
+                    $('#contentWord').append('<button type="button" class="btn btn-outline btn-primary btn-xs">' + data + '</button> <button type="button" onclick="deleteWord(\'' + data + '\')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button> ');
                 },
                 error: function(jqXHR, textStatus, errorThrown)
                 {
@@ -181,8 +187,8 @@
                 data: {'word': word},
                 success: function(data, textStatus, jqXHR)
                 {
-                    $('#btn'+word).remove();
-                    $('#btnd'+word).remove();
+                    $('#btn' + word).remove();
+                    $('#btnd' + word).remove();
                 },
                 error: function(jqXHR, textStatus, errorThrown)
                 {
