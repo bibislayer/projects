@@ -46,9 +46,9 @@
                                 <source src="/uploads/streams/{{ user.filename }}.flv" type='video/flv' />
                             </video>
                             <br />
-                            {% set movie_code = user.filename|slpit('_') %}
+                            {% set movie_code = user.filename|split('_') %}
                             {% set movie_code = movie_code[1] %}
-                            {% set movie_code = movie_code|slpit('.') %}
+                            {% set movie_code = movie_code|split('.') %}
                             {% set movie_code = movie_code[0] %}
                             <strong><a href="{{ path('mo_recording_session_download', {'slug_sess': app.request.slug_sess, 'movie_code': movie_code }) }}" target="_blank" >Télécharger : {{ movie_code }}</a></strong>
                         </center>
