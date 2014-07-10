@@ -74,7 +74,7 @@ class RecordingSessionController extends Controller {
         $session = $request->getSession();
         $user = $this->get('security.context')->getToken()->getUser();
         $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
-        return $this->render('VMRecordingSessionBundle:Default:success.html.twig', array('recordingSession' => $recording_session));
+        return $this->render('VMRecordingSessionBundle:Middle:success.html.twig', array('recordingSession' => $recording_session));
     }
     
      public function foSuccessAction($slug_sess) {
