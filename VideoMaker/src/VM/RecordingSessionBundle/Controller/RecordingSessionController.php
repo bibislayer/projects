@@ -110,7 +110,7 @@ class RecordingSessionController extends Controller {
             $em->persist($session_user);
             $em->flush();
             $kernel = $this->get('kernel');
-            $cmd = 'ffmpeg -y -i '.$recording_session.'.flv -s 640x480 -ar 44100 -pass 1 -b 1400k -r 30 -ab 128k -f avi '.$recording_session.'.avi 2>&1';
+            $cmd = 'ffmpeg -y -i '.$recording_session.'.flv -s 640x480 -ar 44100 -pass 1 -b 1400k -r 30 -ab 128k -f avi '.$recording_session.'.avi';
             pclose(popen("nohup " . $cmd . " & ", "r"));
             return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
         }
