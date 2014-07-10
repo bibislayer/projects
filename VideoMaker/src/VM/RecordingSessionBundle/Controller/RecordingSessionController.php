@@ -7,6 +7,7 @@ use VM\RecordingSessionBundle\Entity\RecordingSessionUser;
 use VM\RecordingSessionBundle\Form\RecordingSessionUserType,
     VM\RecordingSessionBundle\Entity\RecordingSessionKeywordList;
 use Symfony\Component\Process\Process;
+use Symfony\Component\HttpFoundation\Response;
 
 class RecordingSessionController extends Controller {
 
@@ -24,7 +25,6 @@ class RecordingSessionController extends Controller {
         $kernel = $this->get('kernel');
         $streamsPath = $kernel->getRootDir() . '/../web/uploads/streams/';
         $fichier = $streamsPath . 'recording_' . $movie_code . '.avi';
-
         $response = new Response();
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', "application/force-download");
