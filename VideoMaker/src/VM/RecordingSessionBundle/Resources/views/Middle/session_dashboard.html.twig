@@ -51,7 +51,7 @@
                                     <source src="/uploads/streams/{{ filename }}.flv" type='video/flv' />
                                 </video>
                             <br />
-                            <strong><a href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" >Télécharger : {{ user.filename }}</a></strong>
+                            <strong><a href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" >Télécharger : {{ filename }}</a></strong>
                             {% endfor %}
                         </center>
                         </td>
