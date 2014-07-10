@@ -31,7 +31,7 @@
             videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
             $(document).ready(function(){
                 {% if app.session.get('flag') %}
-                        $('#successAlert').html("{{ app.session.get('flag') }}");
+                        $('#successAlert span').html("{{ app.session.get('flag') }}");
                         $('#successAlert').toggle();
                 {% endif %}
             })
