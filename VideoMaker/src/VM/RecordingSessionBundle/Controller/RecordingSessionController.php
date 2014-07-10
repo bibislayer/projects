@@ -66,7 +66,7 @@ class RecordingSessionController extends Controller {
             }else{
                 $files = array();
             }
-            $session_user->setFilename($files+array($request->get('filename')));
+            $session_user->setFilename(array_merge($files, array($request->get('filename'))));
             $em->persist($session_user);
             $em->flush();
             $session->set('flag', 'Votre enregistrement à bien était transmis à notre serveur ;)');
