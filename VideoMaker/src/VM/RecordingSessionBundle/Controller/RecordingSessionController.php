@@ -29,29 +29,24 @@ class RecordingSessionController extends Controller {
         $user = $this->get('security.context')->getToken()->getUser();
         $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
         $kernel = $this->get('kernel');
-        $streamsPath = $kernel->getRootDir().'/../web/uploads/streams/';
+        $streamsPath = $kernel->getRootDir() . '/../web/uploads/streams/';
         if ($request->getMethod() == 'POST') {
-        $cmd = 'ffmpeg -y -i '.$streamsPath.$request->get('filename').'.flv -s 640x480 -ar 44100 -b 1400k -r 30 -ab 128k -f avi '.$streamsPath.$request->get('filename').'.avi >> '.$kernel->getRootDir().'/logs/encoder.txt';
-        //$cmd = 'touch '.$streamsPath.'test.txt';
-        $process = new Process($cmd);
-        $process->run();
+            //print $process->getOutput();
+            $cmd = 'ffmpeg -y -i ' . $streamsPath . $request->get('filename') . '.flv -s 640x480 -ar 44100 -b 1400k -r 30 -ab 128k -f avi ' . $streamsPath . $request->get('filename') . '.avi >> ' . $kernel->getRootDir() . '/logs/encoder.txt';
+            //$cmd = 'touch '.$streamsPath.'test.txt';
+            $process = new Process($cmd);
+            $process->run();
 
-        // executes after the command finishes
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
-        }
-
-        print $process->getOutput();
-            
-           // exec($cmd);
-           // pclose(popen("nohup " . $cmd . " & ", "r"));
-            /*$session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
+            // executes after the command finishes
+            if (!$process->isSuccessful()) {
+                throw new \RuntimeException($process->getErrorOutput());
+            }
+            $session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
             $em = $this->getDoctrine()->getManager();
             $session_user->setFilename($request->get('filename'));
             $em->persist($session_user);
-            $em->flush();*/
-            echo $cmd;
-            exit;
+            $em->flush();
+
             return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
         }
         return $this->render('VMRecordingSessionBundle:Default:show.html.twig', array('recordingSession' => $recording_session));
@@ -122,15 +117,15 @@ class RecordingSessionController extends Controller {
         $session_user = $this->get('recording_session_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
 
         if ($request->getMethod() == 'POST') {
-            $cmd = 'ffmpeg -y -i '.$recording_session.'.flv -s 640x480 -ar 44100 -pass 1 -b 1400k -r 30 -ab 128k -f avi '.$recording_session.'.avi';
+            $cmd = 'ffmpeg -y -i ' . $recording_session . '.flv -s 640x480 -ar 44100 -pass 1 -b 1400k -r 30 -ab 128k -f avi ' . $recording_session . '.avi';
             pclose(popen("nohup " . $cmd . " & ", "r"));
-            
+
             $em = $this->getDoctrine()->getManager();
             $session_user->setFilename($recording_session);
             $em->persist($session_user);
             $em->flush();
             $kernel = $this->get('kernel');
-            
+
             return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
         }
         return $this->render('VMRecordingSessionBundle:Default:login.html.twig', array('form' => $form->createView()));
@@ -153,7 +148,7 @@ class RecordingSessionController extends Controller {
             }
         }
     }
-    
+
     public function moAjaxSaveWordAction($slug_sess) {
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
@@ -177,7 +172,7 @@ class RecordingSessionController extends Controller {
             }
         }
     }
-    
+
     public function moAjaxDelWordAction($slug_sess) {
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
