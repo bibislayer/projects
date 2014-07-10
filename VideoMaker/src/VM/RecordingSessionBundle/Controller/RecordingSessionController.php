@@ -20,6 +20,23 @@ class RecordingSessionController extends Controller {
         return $this->render('VMRecordingSessionBundle:Middle:dashboard.html.twig', array('recordingSessions' => $recording_sessions));
     }
 
+    public function moDownloadMovieAction($movie_code) {
+        $kernel = $this->get('kernel');
+        $streamsPath = $kernel->getRootDir() . '/../web/uploads/streams/';
+        $fichier = $streamsPath . 'recording_' . $movie_code . '.avi';
+
+        $response = new Response();
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', "application/force-download");
+        $response->headers->set('Content-Disposition', sprintf('attachment;filename="%s"', $fichier, 'force-download'));
+         $response->setContent(file_get_contents($fichier));
+        $response->setCharset('UTF-8');
+
+        // prints the HTTP headers followed by the content
+        $response->send();
+        return $response;
+    }
+
     public function foShowAction($slug_sess) {
         $request = $this->getRequest();
         $session = $request->getSession();

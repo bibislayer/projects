@@ -19,8 +19,12 @@ mo_recording_session_update:
     defaults: { _controller: VMRecordingSessionBundle:Form:recordingSessionForm }
 
 mo_recording_session_user_delete:
-    pattern:  /admin/session_enregistrement/{slug_sess}/session_user
+    pattern:  /admin/session_enregistrement/{slug_sess}/del/session_user
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moSessionUserDelete }
+
+mo_recording_session_download:
+    pattern:  /admin/session_enregistrement/{slug_sess}/download/{movie_code}
+    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moDownloadMovie }    
     
 mo_recording_session_show:
     pattern:  /admin/session_enregistrement/{slug_sess}
