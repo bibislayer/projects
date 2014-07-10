@@ -186,7 +186,7 @@
             });
         }
         function addWord() {
-            $('.panel-body').append('<form method="post" action="{{ path('mo_ajax_word_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="saveWord" id="saveWord"><input type="text" name="word"/><input type="submit" value="Send"/></form>')
+            $('#contentWord').append('<form method="post" action="{{ path('mo_ajax_word_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="saveWord" id="saveWord"><input type="text" name="word"/><input type="submit" value="Send"/></form>')
         }
         function save(type) {
             $("#" + type).submit(function(e) {
