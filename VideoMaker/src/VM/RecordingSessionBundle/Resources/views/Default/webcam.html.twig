@@ -72,8 +72,8 @@
             <!-- /.panel-heading -->
             <div id="webcam" class="panel-body">
 
-                {% if 'e' == 'edition' %}
-                    <img class="_100_imp" style="margin: 0 !important;" src="{{ asset('bundles/recrutonlinegeneral/images/cam.png') }}" >
+                {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
+                    <img class="_100_imp" style="margin: 0 !important;" src="{{ asset('bundles/vmgeneral/images/cam.png') }}" >
                 {% else %}
                     <script type="text/javascript">
                         if (AC_FL_RunContent == 0) {
