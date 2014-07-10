@@ -10,7 +10,8 @@ VM\RecordingSessionBundle\Entity\RecordingSession:
                 strategy: AUTO
         name: { type: string, length: 255 }
         text_introduction: { type: text, nullable: TRUE }
-        text_presentation: { type: text, nullable: TRUE } 
+        text_presentation: { type: text, nullable: TRUE }
+        success: { type: text, nullable: TRUE } 
         published: { type: boolean, nullable: TRUE }
         published_at: { type: datetime, nullable: TRUE }
         approbation: { type: boolean, nullable: TRUE }

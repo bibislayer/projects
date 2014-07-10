@@ -29,10 +29,18 @@ mo_recording_session_download:
 mo_recording_session_show:
     pattern:  /admin/session_enregistrement/{slug_sess}
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moShow }
+    
+mo_recording_session_success:
+    pattern:  /admin/session_enregistrement/{slug_sess}/success
+    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moSuccess }
 
 mo_ajax_form_save:
     pattern:  /admin/session_enregistrement/{slug_sess}/ajax/save
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moAjaxSaveForm }
+    
+mo_ajax_success_save:
+    pattern:  /admin/session_enregistrement/{slug_sess}/ajax/success/save
+    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moAjaxSaveSuccess }
     
 mo_ajax_word_save:
     pattern:  /admin/session_enregistrement/{slug_sess}/ajax/word/save
@@ -41,6 +49,10 @@ mo_ajax_word_save:
 mo_ajax_word_del:
     pattern:  /admin/session_enregistrement/{slug_sess}/ajax/delword
     defaults: { _controller: VMRecordingSessionBundle:RecordingSession:moAjaxDelWord }
+
+fo_recording_session_success:
+    pattern:  /session_enregistrement/{slug_sess}/success
+    defaults: { _controller: VMRecordingSessionBundle:RecordingSession:foSuccess }
     
 fo_recording_session_show:
     pattern:  /session_enregistrement/{slug_sess}

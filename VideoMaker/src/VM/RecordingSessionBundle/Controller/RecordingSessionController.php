@@ -64,19 +64,32 @@ class RecordingSessionController extends Controller {
             $em->persist($session_user);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
+            return $this->redirect($this->generateUrl('fo_recording_session_success', array('slug_sess' => $slug_sess)));
         }
         return $this->render('VMRecordingSessionBundle:Default:show.html.twig', array('recordingSession' => $recording_session));
     }
-
+    
+    public function moSuccessAction($slug_sess) {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
+        return $this->render('VMRecordingSessionBundle:Default:success.html.twig', array('recordingSession' => $recording_session));
+    }
+    
+     public function foSuccessAction($slug_sess) {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
+        return $this->render('VMRecordingSessionBundle:Default:success.html.twig', array('recordingSession' => $recording_session));
+    }
+    
     public function moShowAction($slug_sess) {
         $request = $this->getRequest();
         $session = $request->getSession();
         $user = $this->get('security.context')->getToken()->getUser();
         $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
-        if ($request->getMethod() == 'POST') {
-            
-        }
         return $this->render('VMRecordingSessionBundle:Middle:show.html.twig', array('recordingSession' => $recording_session));
     }
 
@@ -147,6 +160,22 @@ class RecordingSessionController extends Controller {
         }
         return $this->render('VMRecordingSessionBundle:Default:login.html.twig', array('form' => $form->createView()));
     }
+    
+     public function moAjaxSaveSuccessAction($slug_sess) {
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST') {
+            if ($request->request->get('text')) {
+                $text = $request->request->get('text');
+                $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
+                $em = $this->getDoctrine()->getManager();
+                $recording_session->setSuccess($text);
+                $em->persist($recording_session);
+                $em->flush();
+                echo $text;
+            }
+        }
+        exit;
+    }
 
     public function moAjaxSaveWordAction($slug_sess) {
         $request = $this->getRequest();
@@ -204,5 +233,4 @@ class RecordingSessionController extends Controller {
         }
         exit;
     }
-
 }

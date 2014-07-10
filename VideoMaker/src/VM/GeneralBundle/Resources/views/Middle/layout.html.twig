@@ -96,7 +96,10 @@
                             </li> 
                             <li class="{{ app.request.attributes.get('_route') == 'mo_recording_session_show' ? 'active' : '' }}">
                                 <a href="{{ path('mo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Apérçu </a>
-                            </li> 
+                            </li>
+                            <li class="{{ app.request.attributes.get('_route') == 'mo_recording_session_show' ? 'active' : '' }}">
+                                <a href="{{ path('mo_recording_session_success', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Remerciements </a>
+                            </li>
                         {% endif %} 
                     </ul>
                     <!-- /#side-menu -->
