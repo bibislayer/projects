@@ -64,7 +64,7 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body edit">
-                        {{ recordingSession.success }}
+                        {{ recordingSession.success|raw }}
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -79,7 +79,7 @@
                     $(this).removeClass('edit');
                     $(this).addClass('active-edit');
                     var textarea = '<div class="form-group">\
-                                            <label>Text area</label>\
+                                            <label>Remerciements</label>\
                                             <textarea id="text" class="form-control" rows="9">' + trim($(this).html()) + '</textarea>\
                                         </div>';
                     $(this).html('<form method="post" action="{{ path('mo_ajax_success_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="success" id="success">'+textarea+'<button onClick="saveSuccess()" type="button" class="btn btn-default">Enregistrer</button></form>');
