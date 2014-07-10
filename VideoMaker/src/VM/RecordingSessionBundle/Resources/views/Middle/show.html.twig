@@ -128,7 +128,7 @@
                     <div class="panel-body" id="contentWord">
                         {% for word in recordingSession.recordingSessionKeywordList %}
                             <button type="button" id="btn{{ word.name }}" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>
-                            <button type="button" id="btnd{{ word.name }}" onclick="deleteWord('{{ word.name }}')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>
+                            <button title="Supprimer {{ word.name }}." type="button" id="btnd{{ word.name }}" onclick="deleteWord('{{ word.name }}')" class="btn btn-danger btn-circle info"><span class="fa"> - </span></button>
                         {% endfor %}
                     </div>
                     <!-- /.panel-body -->
