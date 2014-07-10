@@ -116,7 +116,7 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Les mots à utiliser
+                        Les mots à utiliser <button type="button" onclick="addWord()" class="btn btn-success btn-circle"><span class="fa"> + </span></button>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body" id="contentWord">
@@ -124,7 +124,6 @@
                             <button type="button" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>
                             <button type="button" onclick="deleteWord('{{ word.name }}')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>
                         {% endfor %}
-                        <button type="button" onclick="addWord()" class="btn btn-success btn-circle"><span class="fa"> + </span></button>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -149,27 +148,32 @@
                     $(this).html('<form method="post" action="{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="' + $(this).attr('data-type') + '" id="' + $(this).attr('data-type') + '"><input type="hidden" name="type" value="' + $(this).attr('data-type') + '" /><textarea name="text" style="width:100%" onblur="save(\'' + $(this).attr('data-type') + '\')">' + trim($(this).html()) + '</textarea></form>');
                     $(this).find('textarea').focus();
                 }
-            })
-            $("#saveWord").submit(function(e) {
-                e.preventDefault(); //STOP default action
-                var postData = $(this).serializeArray();
-                var formURL = $(this).attr("action");
-                $.ajax({
-                    url: formURL,
-                    type: "POST",
-                    data: postData,
-                    success: function(data, textStatus, jqXHR)
-                    {
-                        $('#saveWord').remove();
-                        $('#contentWord').append('<button type="button" class="btn btn-outline btn-primary btn-xs">' + data + '</button><button type="button" onclick="deleteWord(\'' + data + '\')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>');
-                    },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
-                        //if fails     
-                    }
-                });
-            });
+            }) 
         });
+        
+        function saveWord() {
+                $("#saveWord").submit(function(e) {
+                    e.preventDefault(); //STOP default action
+                    var postData = $(this).serializeArray();
+                    var formURL = $(this).attr("action");
+                    $.ajax({
+                        url: formURL,
+                        type: "POST",
+                        data: postData,
+                        success: function(data, textStatus, jqXHR)
+                        {
+                            $('#saveWord').remove();
+                            $('#contentWord').append('<button type="button" class="btn btn-outline btn-primary btn-xs">' + data + '</button><button type="button" onclick="deleteWord(\'' + data + '\')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>');
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
+                        {
+                            //if fails     
+                        }
+                    });
+                });
+                $("#saveWord").submit();
+            }
+            
         function deleteWord(word) {
             $.ajax({
                 url: "{{ path('mo_ajax_word_del', {'slug_sess' : app.request.get('slug_sess')}) }}",
@@ -186,7 +190,7 @@
             });
         }
         function addWord() {
-            $('#contentWord').append('<form method="post" action="{{ path('mo_ajax_word_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="saveWord" id="saveWord"><input type="text" name="word"/><input type="submit" value="Send"/></form>')
+            $('#contentWord').append('<form method="post" action="{{ path('mo_ajax_word_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="saveWord" id="saveWord"><input type="text" name="word"/><button onClick="saveWord()" value="Send"/></form>')
         }
         function save(type) {
             $("#" + type).submit(function(e) {
