@@ -15,6 +15,12 @@
         <script src="{{ asset('bundles/vmgeneral/js/jquery-1.10.2.js') }}"></script>
         <script src="{{ asset('bundles/vmgeneral/js/video.js') }}"></script>
         <script>
+            $(document).ready(function(){
+                {% if app.session.get('flag') %}
+                        $('#successAlert').html("{{ app.session.get('flag') }}");
+                        $('#successAlert').toggle();
+                {% endif %}
+            })
             videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
         </script>
     </head>
