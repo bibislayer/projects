@@ -38,6 +38,8 @@ class RecordingSessionController extends Controller {
             $session_user->setFilename($request->get('filename'));
             $em->persist($session_user);
             $em->flush();
+            echo $streamsPath.$request->get('filename').'.flv';
+            exit;
             return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
         }
         return $this->render('VMRecordingSessionBundle:Default:show.html.twig', array('recordingSession' => $recording_session));
