@@ -41,7 +41,7 @@
                                 <td>
                         <center>
                             {% for filename in user.filename %}
-                                {% set movie_code = user.filename|split('_') %}
+                                {% set movie_code = filename|split('_') %}
                                 {% set movie_code = movie_code[1] %}
                                 {% set movie_code = movie_code|split('.') %}
                                 {% set movie_code = movie_code[0] %}
