@@ -110,7 +110,7 @@ class RecordingSessionController extends Controller {
             $em->persist($session_user);
             $em->flush();
             $kernel = $this->get('kernel');
-            exec("ffmpeg -y -i ".$recording_session.".flv -s 640x480 -ar 44100 -pass 1 -b 1400k -r 30 -ab 128k -f avi ".$recording_session.".avi >> " . $kernel->getRootDir() . "/logs/encoder.log 2>&1");
+            exec("ffmpeg -y -i ".$recording_session.".flv -s 640x480 -ar 44100 -pass 1 -b 1400k -r 30 -ab 128k -f avi ".$recording_session.".avi");
             return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
         }
         return $this->render('VMRecordingSessionBundle:Default:login.html.twig', array('form' => $form->createView()));
