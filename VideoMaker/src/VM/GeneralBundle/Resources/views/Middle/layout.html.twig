@@ -114,7 +114,7 @@
                                 <a href="{{ path('mo_recording_session_dashboard', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Voir les enregistrements</a>
                             </li> 
                             <li class="{{ app.request.attributes.get('_route') == 'mo_recording_session_show' ? 'active' : '' }}">
-                                <a href="{{ path('mo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Apérçu </a>
+                                <a href="{{ path('mo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Aperçu </a>
                             </li>
                         {% endif %} 
                     </ul>
@@ -157,6 +157,7 @@
     <!-- Core Scripts - Include with every page -->
 
     <script src="{{ asset('bundles/vmgeneral/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/vmgeneral/js/modal.js') }}"></script>
     <script src="{{ asset('bundles/vmgeneral/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
 
     <!-- Page-Level Plugin Scripts - Tables -->
