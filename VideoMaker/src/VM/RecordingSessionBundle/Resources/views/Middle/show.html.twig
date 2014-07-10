@@ -116,8 +116,8 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Les mots à utiliser <button type="button" onclick="addWord()" class="btn btn-success btn-circle"><span class="fa"> + </span></button> 
-                        <div class="form-group input-group">
+                        Les mots à utiliser <button type="button" onclick="formWord()" class="btn btn-success btn-circle"><span class="fa"> + </span></button> 
+                        <div id="formWord" style="width: 150px;margin-top: 18px;display:none;" class="form-group input-group">
                             <input type="text" name="word" id="word" class="form-control">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" onClick="saveWord()" type="button">Ok</button>
@@ -164,7 +164,7 @@
                 data: {word: $('#word').val()},
                 success: function(data, textStatus, jqXHR)
                 {
-                    $('#saveWord').remove();
+                    formWord();
                     $('#contentWord').append('<button type="button" class="btn btn-outline btn-primary btn-xs">' + data + '</button><button type="button" onclick="deleteWord(\'' + data + '\')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button>');
                 },
                 error: function(jqXHR, textStatus, errorThrown)
@@ -189,8 +189,8 @@
                 }
             });
         }
-        function addWord() {
-            $('#contentWord').append('<form method="post" action="{{ path('mo_ajax_word_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="saveWord" id="saveWord"><input type="text" name="word"/></form><button onClick="saveWord()">Send</button>')
+        function formWord() {
+            $('#formWord').toggle();
         }
         function save(type) {
             $("#" + type).submit(function(e) {
