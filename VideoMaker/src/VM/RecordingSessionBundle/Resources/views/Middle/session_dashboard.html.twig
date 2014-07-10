@@ -50,7 +50,7 @@
                             {% set movie_code = movie_code[1] %}
                             {% set movie_code = movie_code|split('.') %}
                             {% set movie_code = movie_code[0] %}
-                            <strong><a href="{{ path('mo_recording_session_download', {'slug_sess': app.request.slug_sess, 'movie_code': movie_code }) }}" target="_blank" >Télécharger : {{ movie_code }}</a></strong>
+                            <strong><a href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" >Télécharger : {{ movie_code }}</a></strong>
                         </center>
                         </td>
                         <td>
