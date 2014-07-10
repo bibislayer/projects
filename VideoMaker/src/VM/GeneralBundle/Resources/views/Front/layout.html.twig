@@ -19,7 +19,7 @@
                 {% if app.session.get('flag') %}
                         $('#successAlert span').html("{{ app.session.get('flag') }}");
                         $('#successAlert').toggle();
-                        setTimeout($('#successAlert').toggle(), 3000);
+                        setTimeout(function(){$('#successAlert').toggle()}, 3000);
                 {% endif %}
             })
             videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
