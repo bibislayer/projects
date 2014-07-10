@@ -148,7 +148,7 @@ class RecordingSessionController extends Controller {
         return $this->render('VMRecordingSessionBundle:Default:login.html.twig', array('form' => $form->createView()));
     }
 
-    public function moAjaxSaveFormAction($slug_sess) {
+    public function moAjaxSaveWordAction($slug_sess) {
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             if ($request->request->get('word')) {
@@ -161,12 +161,12 @@ class RecordingSessionController extends Controller {
                 $em->persist($recording_session_word);
                 $em->flush();
                 echo $text;
-                exit;
             }
         }
+        exit;
     }
 
-    public function moAjaxSaveWordAction($slug_sess) {
+    public function moAjaxSaveFormAction($slug_sess) {
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             if ($request->request->get('text') && $request->request->get('type')) {
@@ -185,9 +185,9 @@ class RecordingSessionController extends Controller {
                 $em->persist($recording_session);
                 $em->flush();
                 echo $text;
-                exit;
             }
         }
+        exit;
     }
 
     public function moAjaxDelWordAction($slug_sess) {
@@ -209,9 +209,9 @@ class RecordingSessionController extends Controller {
                 $em->persist($recording_session);
                 $em->flush();
                 echo $text;
-                exit;
             }
         }
+        exit;
     }
 
 }
