@@ -42,11 +42,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <center>
-                                        <video autoplay id="div_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                                               poster=""
-                                               data-setup="{}">
-                                            <source id="my_src" src="test" type="video/flv" />
-                                        </video>
+                                       
                                     </center>
                                 </div>
                                 <div class="modal-footer">
@@ -101,7 +97,12 @@
         function loadVideo(filename) {
             $('#myModalLabel').html('<center>' + filename + '</center>');
             var video = $('#div_video');
-            video.html('<source id="my_src" src="/uploads/streams/' + filename + '.flv" type="video/flv" />');
+            $('#myModal.modal-body').html('<video autoplay id="div_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"\
+                                               poster=""\
+                                               data-setup="{}">\
+                                            <source id="my_src" src="/uploads/streams/' + filename + '.flv" type="video/flv" />\
+                                        </video>')
+            //video.html('<source id="my_src" src="/uploads/streams/' + filename + '.flv" type="video/flv" />');
             video.load();
             /*videojs("div_video", {}, function() {
              // Player (this) is initialized and ready.
