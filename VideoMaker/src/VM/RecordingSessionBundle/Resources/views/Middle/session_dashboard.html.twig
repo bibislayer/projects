@@ -94,16 +94,21 @@
     </div>
     <script>
         var video = $('#div_video');
+        $(document).ready(function() {
+            $("button").click(function() {
+                //alert("Test");
+                console.log($("source:nth-child(1)").attr("src"));
+            })
+        })
         video.find('source').each(function() {
             console.log($(this).attr('src'));
         })
         function loadVideo(filename) {
             $('#myModalLabel').html('<center>' + filename + '</center>');
             var video = $('#div_video');
-            var source = document.getElementById('my_src');
             video.find('source').each(function() {
-            console.log($(this).attr('src'));
-        })
+                console.log($(this).attr('src'));
+            })
             $("#div_video source:nth-child(1)").attr("src", "/uploads/streams/" + filename + ".flv");
             video.load();
             /*videojs("div_video", {}, function() {
