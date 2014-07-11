@@ -98,7 +98,7 @@
             var video = document.getElementById('div_video');
             var source = document.getElementById('my_src');
             console.log(source);
-            source.src = "src", "/uploads/streams/" + filename + ".flv";
+            $("#div_video source:nth-child(1)").attr("src","/uploads/streams/" + filename + ".flv");
             video.load();
             /*videojs("div_video", {}, function() {
                 // Player (this) is initialized and ready.
