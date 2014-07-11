@@ -94,7 +94,8 @@
     </div>
     <script>
         $(document).ready(function() {
-           console.log(video.find('source:first').attr("src"));
+            var video = $('#div_video');
+            console.log(video.find('source:first').attr("src"));
         })
         function loadVideo(filename) {
             $('#myModalLabel').html('<center>' + filename + '</center>');
