@@ -97,9 +97,11 @@
             $('#myModalLabel').html('<center>'+filename+'</center>');
             alert($("#my_src").attr("src"));
             $("#my_src").attr("src", "/uploads/streams/" + filename + ".flv");
-            videojs("div_video", {}, function() {
+            var video_block = $('#div_video');
+            video_block.load();
+            /*videojs("div_video", {}, function() {
                 // Player (this) is initialized and ready.
-            });
+            });*/
             $('#myModal').modal();
         }
         function delSessionUser(id) {
