@@ -59,7 +59,7 @@
                                             {% set movie_code = movie_code|split('.') %}
                                             {% set movie_code = movie_code[0] %}
                                             <span>
-                                                Video {{ i }} <button type="button" role="button" onClick="loadVideo('{{ filename }}')" class="btn" data-toggle="modal" class="btn btn-outline btn-primary btn-xs">Voir</button> <button type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</button>
+                                                Video {{ i }} <button type="button" role="button" onClick="loadVideo('{{ filename }}')" data-toggle="modal" class="btn btn-outline btn-primary btn-xs">Voir</button> <button type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</button>
                                             </span>
                                             <hr />
                                             {% set i = i + 1 %}
@@ -97,7 +97,13 @@
                                                 <source src="/uploads/streams/' + filename + '.flv" type="video/flv" />\
                                             </video>';
             $('#myModal.modal-body').html(videoPlayer);
-            videojs.play();
+            videojs(filename).ready(function() {
+                var myPlayer = this;
+
+                // EXAMPLE: Start playing the video.
+                myPlayer.play();
+
+            });
         }
         function delSessionUser(id) {
             if (confirm("Voulez-vous vraiment supprimer cette utilisateur ?")) { // Clic sur OK
