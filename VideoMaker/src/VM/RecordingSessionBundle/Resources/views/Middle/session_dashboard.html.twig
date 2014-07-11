@@ -95,14 +95,13 @@
         
         function loadVideo(filename) {
             $('#myModalLabel').html('<center>' + filename + '</center>');
-            $('#myModal .modal-body').html('<center><video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="div_video" class="video-js vjs-default-skin" controls\
+            $('#myModal .modal-body').html('<center><video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="' + filename + '" class="video-js vjs-default-skin" controls\
                                                   preload="none" width="360" height="240" poster="" data-setup="{}">\
-                                                  <source id="my_src" src="/uploads/streams/' + filename + '.mp4" type="video/mp4" /></video></center>')
-            videojs("div_video", {}, function() {
+                                                  <source id="my_src" src="/uploads/streams/' + filename + '.flv" type="video/flv" /></video></center>')
+            videojs(filename, {}, function() {
                 vidPlayer = this;
                 vidPlayer.play();
             });
-            $('#div_video').load();
             $('#myModal').modal();
         }
         function delSessionUser(id) {
