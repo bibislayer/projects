@@ -51,22 +51,19 @@
                                     <tr class="odd gradeX" id="session_user_{{ user.id }}">
                                         <td><a href="#">{{ user.email }}</a></td>
                                         <td>
-                                    <center>
-                                        {% set i = 1 %}
-                                        {% for filename in user.filename %}
-                                            {% set movie_code = filename|split('_') %}
-                                            {% set movie_code = movie_code[1] %}
-                                            {% set movie_code = movie_code|split('.') %}
-                                            {% set movie_code = movie_code[0] %}
+                                            {% set i = 1 %}
                                             <span>
-                                                Video {{ i }} <button type="button" onClick="loadVideo('{{ filename }}')" class="btn btn-outline btn-primary btn-xs">Voir</button> <a type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</a>
+                                                {% for filename in user.filename %}
+                                                    {% set movie_code = filename|split('_') %}
+                                                    {% set movie_code = movie_code[1] %}
+                                                    {% set movie_code = movie_code|split('.') %}
+                                                    {% set movie_code = movie_code[0] %}
+                                                    Video {{ i }} <button type="button" onClick="loadVideo('{{ filename }}')" class="btn btn-outline btn-primary btn-xs">Voir</button> <a type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</a> {{ (user.filename|length-i) <= 0) ? '||' : '' }}
+                                                    {% set i = i + 1 %}
+                                                {% endfor %}
                                             </span>
-                                            <hr />
-                                            {% set i = i + 1 %}
-                                        {% endfor %}
-                                    </center>
-                                    </td>
-                                    <td>
+                                        </td>
+                                        <td>
                                     <center>
                                         <a href="javascript:void(0)" onClick="delSessionUser('{{ user.id }}')" title="supprimer" alt="supprimer"><img src="{{ asset('bundles/vmgeneral/images/supprimer.png') }}" title="supprimer" alt="supprimer"></a>
                                     </center>
@@ -86,13 +83,13 @@
         <!-- /.col-lg-12 -->
     </div>
     <script>
-        
-        function closeVideo(){
+
+        function closeVideo() {
             $('#myModal .modal-body').html('');
         }
-        
+
         function loadVideo(filename) {
-            var id = "rand"+Math.floor((Math.random() * 10000) + 1);
+            var id = "rand" + Math.floor((Math.random() * 10000) + 1);
             $('#myModalLabel').html('<center>' + filename + '</center>');
             $('#myModal .modal-body').html('<center><video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls\
                                                   preload="none" width="360" height="240" poster="" data-setup="{}">\
