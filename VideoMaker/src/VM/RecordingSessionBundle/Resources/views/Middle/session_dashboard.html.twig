@@ -92,7 +92,7 @@
         }
         
         function loadVideo(filename) {
-            var id = Math.floor((Math.random() * 10000) + 1);
+            var id = "rand"+Math.floor((Math.random() * 10000) + 1);
             $('#myModalLabel').html('<center>' + filename + '</center>');
             $('#myModal .modal-body').html('<center><video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls\
                                                   preload="none" width="360" height="240" poster="" data-setup="{}">\
