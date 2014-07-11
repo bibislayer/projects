@@ -97,13 +97,7 @@
             $('#myModalLabel').html('<center>' + filename + '</center>');
             var video = $('#div_video');
             var source = document.getElementById('my_src');
-            console.log($("video source").attr('src'));
-            $('video source').each(function(num, val) {
-                console.log($(this).attr('src'));        // i am not getting this..
-                alert($(this).attr('src'));
-                $(this).attr('src', 'changed ' + num);
-                alert($(this).attr('src'));
-            })
+            console.log($('video').find('source:first').attr('src'));
             $("#div_video source:nth-child(1)").attr("src", "/uploads/streams/" + filename + ".flv");
             video.load();
             /*videojs("div_video", {}, function() {
