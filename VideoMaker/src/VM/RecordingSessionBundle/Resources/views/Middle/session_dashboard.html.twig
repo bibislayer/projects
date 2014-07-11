@@ -58,7 +58,7 @@
                                                     {% set movie_code = movie_code[1] %}
                                                     {% set movie_code = movie_code|split('.') %}
                                                     {% set movie_code = movie_code[0] %}
-                                                    Video {{ i }} <button type="button" onClick="loadVideo('{{ filename }}')" class="btn btn-outline btn-primary btn-xs">Voir</button> <a type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</a> {{ (user.filename|length-i) <= 0) ? '||' : '' }}
+                                                    Video {{ i }} <button type="button" onClick="loadVideo('{{ filename }}')" class="btn btn-outline btn-primary btn-xs">Voir</button> <a type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</a> {{ (user.filename|length-i <= 0) ? '||' : '' }}
                                                     {% set i = i + 1 %}
                                                 {% endfor %}
                                             </span>
