@@ -52,7 +52,7 @@
                                         <td><a href="#">{{ user.email }}</a></td>
                                         <td>
                                             {% set i = 1 %}
-                                            <span>
+                                            <span style="margin-bottom:10px;">
                                                 {% for filename in user.filename %}
                                                     {% set movie_code = filename|split('_') %}
                                                     {% set movie_code = movie_code[1] %}
