@@ -86,6 +86,7 @@
         <!-- /.col-lg-12 -->
     </div>
     <script>
+        videojs.players = {};
         function loadVideo(filename) {
             $('#myModalLabel').html('<center>' + filename + '</center>');
             $('#myModal .modal-body').html('<center><video id="div_video" class="video-js vjs-default-skin" controls\
