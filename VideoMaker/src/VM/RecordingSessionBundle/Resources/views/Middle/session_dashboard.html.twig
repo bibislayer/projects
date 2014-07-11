@@ -93,16 +93,8 @@
         <!-- /.col-lg-12 -->
     </div>
     <script>
-        var video = $('#div_video');
         $(document).ready(function() {
-            $("button").click(function() {
-                //alert("Test");
-                console.log(video.find('source:first').attr("src"));
-            })
-            console.log($("source:nth-child(1)").attr("src"));
-        })
-        video.find('source').each(function() {
-            //console.log($(this).attr('src'));
+           console.log(video.find('source:first').attr("src"));
         })
         function loadVideo(filename) {
             $('#myModalLabel').html('<center>' + filename + '</center>');
