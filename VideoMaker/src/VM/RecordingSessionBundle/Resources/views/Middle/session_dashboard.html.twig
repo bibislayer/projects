@@ -88,6 +88,7 @@
     <script>
         videojs.players = {};
         function loadVideo(filename) {
+            $('#myModal .modal-body').html('');
             $('#myModalLabel').html('<center>' + filename + '</center>');
             $('#myModal .modal-body').html('<center><video id="div_video" class="video-js vjs-default-skin" controls\
                                                   preload="none" width="360" height="240" poster="" data-setup="{}">\
