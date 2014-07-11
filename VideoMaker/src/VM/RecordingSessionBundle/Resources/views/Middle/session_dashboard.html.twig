@@ -41,6 +41,11 @@
                                     <h3 id="myModalLabel"></h3>
                                 </div>
                                 <div class="modal-body">
+                                    <video id="div_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                           poster=""
+                                           data-setup="{}">
+                                        <source src="" type="video/flv" />
+                                    </video>
                                 </div>
                                 <div class="modal-footer">
                                     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -91,19 +96,11 @@
         })
         function loadVideo(filename) {
             $('#myModalLabel').html(filename);
-            var videoPlayer = '<video id="' + filename + '" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"\
-                                                   poster=""\
-                                                   data-setup="{}">\
-                                                <source src="/uploads/streams/' + filename + '.flv" type="video/flv" />\
-                                            </video>';
+            var videoPlayer = '';
             $('#myModal.modal-body').html(videoPlayer);
-            videojs(filename).ready(function() {
-                var myPlayer = this;
-
-                // EXAMPLE: Start playing the video.
-                myPlayer.play();
-
-            });
+            var vid_obj = $("#div_video");
+            $("video:nth-child(1)").attr("src","/uploads/streams/"+filename+".flv");
+            vid_obj.load();
         }
         function delSessionUser(id) {
             if (confirm("Voulez-vous vraiment supprimer cette utilisateur ?")) { // Clic sur OK
