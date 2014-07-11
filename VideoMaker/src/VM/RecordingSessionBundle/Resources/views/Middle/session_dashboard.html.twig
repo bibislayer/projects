@@ -97,7 +97,7 @@
             $('#myModalLabel').html('<center>'+filename+'</center>');
             var videoPlayer = '';
             $('#myModal.modal-body').html(videoPlayer);
-            $("#my_src)").attr("src", "/uploads/streams/" + filename + ".flv");
+            $("#my_src").attr("src", "/uploads/streams/" + filename + ".flv");
             videojs("div_video", {}, function() {
                 // Player (this) is initialized and ready.
             });
