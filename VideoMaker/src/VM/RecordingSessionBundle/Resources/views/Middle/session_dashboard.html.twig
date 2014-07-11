@@ -97,7 +97,7 @@
             $('#myModalLabel').html('<center>'+filename+'</center>'); 
             var video = $('#div_video');
             var source = document.getElementById('my_src');
-            console.log(source);
+            console.log($("#div_video source:nth-child(1)"));
             $("#div_video source:nth-child(1)").attr("src","/uploads/streams/" + filename + ".flv");
             video.load();
             /*videojs("div_video", {}, function() {
