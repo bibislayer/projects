@@ -52,16 +52,17 @@
                                         <td><a href="#">{{ user.email }}</a></td>
                                         <td>
                                             {% set i = 1 %}
-                                            <span style="margin-bottom:10px;">
-                                                {% for filename in user.filename %}
-                                                    {% set movie_code = filename|split('_') %}
-                                                    {% set movie_code = movie_code[1] %}
-                                                    {% set movie_code = movie_code|split('.') %}
-                                                    {% set movie_code = movie_code[0] %}
+
+                                            {% for filename in user.filename %}
+                                                {% set movie_code = filename|split('_') %}
+                                                {% set movie_code = movie_code[1] %}
+                                                {% set movie_code = movie_code|split('.') %}
+                                                {% set movie_code = movie_code[0] %}
+                                                <span style="margin-bottom:10px;margin-top:10px;">
                                                     Video {{ i }} <button type="button" onClick="loadVideo('{{ filename }}')" class="btn btn-outline btn-primary btn-xs">Voir</button> <a type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</a> {{ (user.filename|length-i <= 0) ? '' : '||' }}
                                                     {% set i = i + 1 %}
-                                                {% endfor %}
-                                            </span>
+                                                </span>
+                                            {% endfor %}
                                         </td>
                                         <td>
                                     <center>
