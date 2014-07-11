@@ -102,9 +102,8 @@
             $('#myModalLabel').html('<center>' + filename + '</center>');
             var video = $('#div_video');
             video.find('source').each(function() {
-                console.log($(this).attr('src'));
+                $(this).attr('src', "/uploads/streams/" + filename + ".flv")
             })
-            $("#div_video source:nth-child(1)").attr("src", "/uploads/streams/" + filename + ".flv");
             video.load();
             /*videojs("div_video", {}, function() {
              // Player (this) is initialized and ready.
