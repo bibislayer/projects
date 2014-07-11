@@ -94,11 +94,12 @@
     </div>
     <script>
         function loadVideo(filename) {
-            $('#myModalLabel').html('<center>'+filename+'</center>');
-            alert($("#my_src").attr("src"));
-            $("#div_video").find("#my_src").attr("src", "/uploads/streams/" + filename + ".flv");
-            var video_block = $('#div_video');
-            video_block.load();
+            $('#myModalLabel').html('<center>'+filename+'</center>'); 
+            var video = $('#div_video');
+            var sources = video.getElementsByTagName('source');
+            alert(sources[0].src);
+            sources[0].src = "src", "/uploads/streams/" + filename + ".flv";
+            video.load();
             /*videojs("div_video", {}, function() {
                 // Player (this) is initialized and ready.
             });*/
