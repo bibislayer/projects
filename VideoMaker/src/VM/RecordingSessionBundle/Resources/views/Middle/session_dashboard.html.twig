@@ -45,7 +45,7 @@
                                         <video id="div_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
                                                poster=""
                                                data-setup="{}">
-                                            <source src="/uploads/streams/test.flv" type="video/flv" />
+                                            <source id="my_src" src="" type="video/flv" />
                                         </video>
                                     </center>
                                 </div>
@@ -97,8 +97,7 @@
             $('#myModalLabel').html('<center>'+filename+'</center>');
             var videoPlayer = '';
             $('#myModal.modal-body').html(videoPlayer);
-            alert($("video:nth-child(1)").html());
-            $("video:nth-child(1)").attr("src", "/uploads/streams/" + filename + ".flv");
+            $("#my_src)").attr("src", "/uploads/streams/" + filename + ".flv");
             videojs("div_video", {}, function() {
                 // Player (this) is initialized and ready.
             });
