@@ -95,9 +95,10 @@
             $('#myModalLabel').html(filename);
             var videoPlayer = '';
             $('#myModal.modal-body').html(videoPlayer);
-            var vid_obj = $("#div_video");
             $("video:nth-child(1)").attr("src","/uploads/streams/"+filename+".flv");
-            vid_obj.dispose();
+            videojs("div_video", {}, function(){
+                // Player (this) is initialized and ready.
+              });
             $('#myModal').modal();
         }
         function delSessionUser(id) {
