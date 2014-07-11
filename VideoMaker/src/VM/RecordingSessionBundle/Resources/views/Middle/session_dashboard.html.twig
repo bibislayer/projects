@@ -41,11 +41,13 @@
                                     <h3 id="myModalLabel"></h3>
                                 </div>
                                 <div class="modal-body">
-                                    <video id="div_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                                           poster=""
-                                           data-setup="{}">
-                                        <source src="" type="video/flv" />
-                                    </video>
+                                    <center>
+                                        <video id="div_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                               poster=""
+                                               data-setup="{}">
+                                            <source src="/uploads/streams/test.flv" type="video/flv" />
+                                        </video>
+                                    </center>
                                 </div>
                                 <div class="modal-footer">
                                     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -92,13 +94,14 @@
     </div>
     <script>
         function loadVideo(filename) {
-            $('#myModalLabel').html(filename);
+            $('#myModalLabel').html('<center>'+filename+'</center>');
             var videoPlayer = '';
             $('#myModal.modal-body').html(videoPlayer);
-            $("video:nth-child(1)").attr("src","/uploads/streams/"+filename+".flv");
-            videojs("div_video", {}, function(){
+            alert($("video:nth-child(1)").html());
+            $("video:nth-child(1)").attr("src", "/uploads/streams/" + filename + ".flv");
+            videojs("div_video", {}, function() {
                 // Player (this) is initialized and ready.
-              });
+            });
             $('#myModal').modal();
         }
         function delSessionUser(id) {
