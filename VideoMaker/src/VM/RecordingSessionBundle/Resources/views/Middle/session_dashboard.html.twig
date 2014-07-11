@@ -94,15 +94,21 @@
     </div>
     <script>
         function loadVideo(filename) {
-            $('#myModalLabel').html('<center>'+filename+'</center>'); 
+            $('#myModalLabel').html('<center>' + filename + '</center>');
             var video = $('#div_video');
             var source = document.getElementById('my_src');
             console.log($("video source").attr('src'));
-            $("#div_video source:nth-child(1)").attr("src","/uploads/streams/" + filename + ".flv");
+            $('video source').each(function(num, val) {
+                console.log($(this).attr('src'));        // i am not getting this..
+                alert($(this).attr('src'));
+                $(this).attr('src', 'changed ' + num);
+                alert($(this).attr('src'));
+            })
+            $("#div_video source:nth-child(1)").attr("src", "/uploads/streams/" + filename + ".flv");
             video.load();
             /*videojs("div_video", {}, function() {
-                // Player (this) is initialized and ready.
-            });*/
+             // Player (this) is initialized and ready.
+             });*/
             $('#myModal').modal();
         }
         function delSessionUser(id) {
