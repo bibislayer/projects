@@ -97,7 +97,7 @@
         function loadVideo(filename) {
             $('#myModalLabel').html('<center>' + filename + '</center>');
             var video = $('#div_video');
-            $('#myModal.modal-body').html('<video autoplay id="div_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"\
+            $('#myModal .modal-body').html('<video autoplay id="div_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"\
                                                poster=""\
                                                data-setup="{}">\
                                             <source id="my_src" src="/uploads/streams/' + filename + '.flv" type="video/flv" />\
