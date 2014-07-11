@@ -95,8 +95,7 @@
     <script>
         function loadVideo(filename) {
             $('#myModalLabel').html('<center>'+filename+'</center>');
-            var videoPlayer = '';
-            $('#myModal.modal-body').html(videoPlayer);
+            alert($("#my_src").attr("src"));
             $("#my_src").attr("src", "/uploads/streams/" + filename + ".flv");
             videojs("div_video", {}, function() {
                 // Player (this) is initialized and ready.
