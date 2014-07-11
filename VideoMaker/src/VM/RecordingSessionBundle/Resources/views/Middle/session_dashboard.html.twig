@@ -102,6 +102,7 @@
         })
         function loadVideo(filename) {
             $('#myModalLabel').html('<center>' + filename + '</center>');
+            var video = $('#div_video');
             var source = document.getElementById('my_src');
             console.log($('video').find('source:first').attr('src'));
             $("#div_video source:nth-child(1)").attr("src", "/uploads/streams/" + filename + ".flv");
