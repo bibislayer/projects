@@ -41,9 +41,6 @@
                                     <h3 id="myModalLabel"></h3>
                                 </div>
                                 <div class="modal-body">
-                                    <center>
-                                       
-                                    </center>
                                 </div>
                                 <div class="modal-footer">
                                     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -91,12 +88,12 @@
     <script>
         function loadVideo(filename) {
             $('#myModalLabel').html('<center>' + filename + '</center>');
-            var video = $('#div_video');
-            video.src('/uploads/streams/' + filename + '.flv');
-            video.load();
-            /*videojs("div_video", {}, function() {
+            $('#myModal .modal-body').html('<center><video id="div_video" class="video-js vjs-default-skin" controls\
+                                                  preload="none" width="360" height="240" poster="" data-setup="{}">\
+                                                  <source id="my_src" src="/uploads/streams/' + filename + '.flv" type="video/flv" /></video></center>')
+            videojs("div_video", {}, function() {
              // Player (this) is initialized and ready.
-             });*/
+            });
             $('#myModal').modal();
         }
         function delSessionUser(id) {
