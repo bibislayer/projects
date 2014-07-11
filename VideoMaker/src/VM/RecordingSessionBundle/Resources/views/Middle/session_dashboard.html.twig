@@ -34,19 +34,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <a href="#myModal" role="button" class="btn" data-toggle="modal">Launch demo modal</a>
-                            <!-- Modal -->
+                                <!-- Modal -->
                             <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    <h3 id="myModalLabel">Modal header</h3>
+                                    <h3 id="myModalLabel"></h3>
                                 </div>
                                 <div class="modal-body">
-                                    <p>One fine body…</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                    <button class="btn btn-primary">Save changes</button>
                                 </div>
                             </div>
                             {% if recordingSession.RecordingSessionUser %}
@@ -55,19 +52,17 @@
                                         <td><a href="#">{{ user.email }}</a></td>
                                         <td>
                                     <center>
+                                        {% set i = 1 %}
                                         {% for filename in user.filename %}
                                             {% set movie_code = filename|split('_') %}
                                             {% set movie_code = movie_code[1] %}
                                             {% set movie_code = movie_code|split('.') %}
                                             {% set movie_code = movie_code[0] %}
-
-                                            <video id="example_video_{{ movie_code }}" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                                                   poster=""
-                                                   data-setup="{}">
-                                                <source src="/uploads/streams/{{ filename }}.flv" type='video/flv' />
-                                            </video>
-                                            <br />
-                                            <strong><a href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" >Télécharger : {{ filename }}</a></strong>
+                                            <span>
+                                                Video {{ i }} <button type="button" role="button" onClick="loadVideo('{{ filename }}')" class="btn" data-toggle="modal" class="btn btn-outline btn-primary btn-xs">Voir</button> <button type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'movie_code': movie_code }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</button>
+                                            </span>
+                                            <hr />
+                                            {% set i = i + 1 %}
                                         {% endfor %}
                                     </center>
                                     </td>
@@ -94,8 +89,15 @@
         $(document).ready(function() {
             //$('#myModal').modal();
         })
-        function loadVideo() {
-
+        function loadVideo(filename) {
+            $('#myModalLabel').html(filename);
+            var videoPlayer = '<video id="' + filename + '" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"\
+                                                   poster=""\
+                                                   data-setup="{}">\
+                                                <source src="/uploads/streams/' + filename + '.flv" type="video/flv" />\
+                                            </video>';
+            $('#myModal.modal-body').html(videoPlayer);
+            videojs.play();
         }
         function delSessionUser(id) {
             if (confirm("Voulez-vous vraiment supprimer cette utilisateur ?")) { // Clic sur OK
