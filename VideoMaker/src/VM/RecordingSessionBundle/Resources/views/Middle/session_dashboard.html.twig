@@ -93,7 +93,8 @@
                                                   preload="none" width="360" height="240" poster="" data-setup="{}">\
                                                   <source id="my_src" src="/uploads/streams/' + filename + '.flv" type="video/flv" /></video></center>')
             videojs("div_video", {}, function() {
-             // Player (this) is initialized and ready.
+                vidPlayer = this;
+                vidPlayer.play();
             });
             $('#myModal').modal();
         }
