@@ -80,7 +80,7 @@
                                 </div>
                                 <!-- /.panel-heading -->
                                 <div title="Cliquez pour éditer" class="panel-body edit info" data-type="introduction">
-                                    {{ recordingSession.textIntroduction }}
+                                    {{ recordingSession.textIntroduction|raw }}
                                 </div>
                                 <!-- /.panel-body -->
                             </div>
@@ -123,7 +123,7 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body edit" data-type="presentation">
-                        {{ recordingSession.textPresentation }}
+                        {{ recordingSession.textPresentation|raw }}
                     </div>
                     <!-- /.panel-body -->
                 </div>

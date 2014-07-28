@@ -31,7 +31,7 @@
                                 </div>
                                 <!-- /.panel-heading -->
                                 <div class="panel-body" data-type="introduction">
-                                    {{ recordingSession.textIntroduction }}
+                                    {{ recordingSession.textIntroduction|raw }}
                                 </div>
                                 <!-- /.panel-body -->
                             </div>
@@ -58,6 +58,19 @@
                             <!-- /.panel -->
                         </div>
                         <!-- /.col-lg-6 -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                            Comment ca marche
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body edit" data-type="presentation">
+                        {{ recordingSession.textPresentation|raw }}
                     </div>
                     <!-- /.panel-body -->
                 </div>
