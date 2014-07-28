@@ -111,6 +111,23 @@
                     <!-- /.panel-body -->
                 </div>
                 <!-- /.panel -->
+            </div> 
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
+                            Comment ca marche admin
+                        {% else %}
+                            Comment ca marche user
+                        {% endif %}
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body edit" data-type="presentation">
+                        {{ recordingSession.textPresentation }}
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
             </div>
             <!-- /.col-lg-6 -->
             <div class="col-md-12">
@@ -135,6 +152,7 @@
                 </div>
                 <!-- /.panel -->
             </div>
+
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">Enregistrement vidéo</div>
