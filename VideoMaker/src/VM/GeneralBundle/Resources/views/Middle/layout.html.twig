@@ -23,16 +23,21 @@
                     selector: "textarea",
                     plugins: "autoresize",
                     menubar: "",
-                    toolbar: "bold italic | alignleft aligncenter alignright alignjustify"
+                    toolbar: "bold italic | alignleft aligncenter alignright alignjustify",
+                    setup: function(editor) {
+                        editor.on('blur', function(e) {
+                            console.log('blur event', e);
+                        });
+                    }
                 });
             }
             videojs.options.flash.swf = "{{ asset('bundles/vmgeneral/js/video-js.swf') }}";
-            $(document).ready(function(){
-                {% if app.session.get('flag') %}
+            $(document).ready(function() {
+            {% if app.session.get('flag') %}
                         $('#successAlert span').html("{{ app.session.get('flag') }}");
                         $('#successAlert').toggle();
-                {% endif %}
-            })
+            {% endif %}
+                    })
         </script>
         <style>
             .floatable {
@@ -105,72 +110,72 @@
                         </li>   
                         {% if app.request.attributes.get('_route') == 'fo_recording_session_show' or app.request.attributes.get('_route') == 'mo_recording_session_dashboard'
                            or app.request.attributes.get('_route') == 'mo_recording_session_show' or app.request.attributes.get('_route') == 'mo_recording_session_success' %}
-                            <li>
-                                <a target="_blank" href="{{ path('fo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Tester</a>
-                            </li> 
-                            <li class="{{ app.request.attributes.get('_route') == 'mo_recording_session_dashboard' ? 'active' : '' }}">
-                                <a href="{{ path('mo_recording_session_dashboard', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Voir les enregistrements</a>
-                            </li> 
-                            <li class="{{ app.request.attributes.get('_route') == 'mo_recording_session_show' ? 'active' : '' }}">
-                                <a href="{{ path('mo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Aperçu </a>
-                            </li>
+                        <li>
+                            <a target="_blank" href="{{ path('fo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Tester</a>
+                        </li> 
+                        <li class="{{ app.request.attributes.get('_route') == 'mo_recording_session_dashboard' ? 'active' : '' }}">
+                            <a href="{{ path('mo_recording_session_dashboard', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Voir les enregistrements</a>
+                        </li> 
+                        <li class="{{ app.request.attributes.get('_route') == 'mo_recording_session_show' ? 'active' : '' }}">
+                            <a href="{{ path('mo_recording_session_show', {'slug_sess': app.request.get('slug_sess')} ) }}"><i class="fa fa-fw"></i>-- Aperçu </a>
+                        </li>
                         {% endif %} 
-                    </ul>
-                    <!-- /#side-menu -->
-                </div>
-                <!-- /.sidebar-collapse -->
-            </nav>
-            <!-- /.navbar-static-side -->
+                        </ul>
+                        <!-- /#side-menu -->
+                    </div>
+                    <!-- /.sidebar-collapse -->
+                </nav>
+                <!-- /.navbar-static-side -->
 
-            <div id="page-wrapper">
-                {% block content %}
-                {% block fos_user_content %}{% endblock %}
-            {% endblock %}
+                <div id="page-wrapper">
+                    {% block content %}
+                    {% block fos_user_content %}{% endblock %}
+                {% endblock %}
+            </div>
+            <!-- /#page-wrapper -->
+
         </div>
-        <!-- /#page-wrapper -->
+        <!-- /#wrapper -->
+        <script>
+            /*var positionElementInPage = $("nav.navbar-static-side").offset().top;
+             $(window).scroll(
+             function() {
+             if ($(window).scrollTop() >= positionElementInPage) {
+             // fixed
+             $("nav.navbar-static-side").addClass("floatable");
+             $("nav.navbar-static-top").addClass("floatable");
+             if($(window).width() >= 752){
+             $('nav.navbar-static-side').css('width', '100%');
+             }else{
+             $('nav.navbar-static-side').css('width', '250px');
+             }
+             } else {
+             // relative
+             $("nav.navbar-static-side").removeClass("floatable");
+             $("nav.navbar-static-top").removeClass("floatable");
+             }
+             }
+             );*/
+        </script>
+        <!-- Core Scripts - Include with every page -->
 
-    </div>
-    <!-- /#wrapper -->
-    <script>
-        /*var positionElementInPage = $("nav.navbar-static-side").offset().top;
-         $(window).scroll(
-         function() {
-         if ($(window).scrollTop() >= positionElementInPage) {
-         // fixed
-         $("nav.navbar-static-side").addClass("floatable");
-         $("nav.navbar-static-top").addClass("floatable");
-         if($(window).width() >= 752){
-         $('nav.navbar-static-side').css('width', '100%');
-         }else{
-         $('nav.navbar-static-side').css('width', '250px');
-         }
-         } else {
-         // relative
-         $("nav.navbar-static-side").removeClass("floatable");
-         $("nav.navbar-static-top").removeClass("floatable");
-         }
-         }
-         );*/
-    </script>
-    <!-- Core Scripts - Include with every page -->
+        <script src="{{ asset('bundles/vmgeneral/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('bundles/vmgeneral/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
 
-    <script src="{{ asset('bundles/vmgeneral/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('bundles/vmgeneral/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
+        <!-- Page-Level Plugin Scripts - Tables -->
+        <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
+        <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
 
-    <!-- Page-Level Plugin Scripts - Tables -->
-    <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
-    <script src="{{ asset('bundles/vmgeneral/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
+        <!-- SB Admin Scripts - Include with every page -->
+        <script src="{{ asset('bundles/vmgeneral/js/sb-admin.js') }}"></script>
 
-    <!-- SB Admin Scripts - Include with every page -->
-    <script src="{{ asset('bundles/vmgeneral/js/sb-admin.js') }}"></script>
+        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+        <script>
+            $(document).ready(function() {
+                $('#dataTables-example').dataTable();
+            });
+        </script>
 
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-        $(document).ready(function() {
-            $('#dataTables-example').dataTable();
-        });
-    </script>
-
-</body>
+    </body>
 
 </html>
