@@ -29,8 +29,7 @@
                         editor.on('blur', function(e) {
                             this.save();
                             save();
-                            //tinymce.execCommand('mceAddControl',true,'area');
-                            tinymce.execCommand('mceRemoveControl',true,'area');
+                            tinyMCE.get('area').remove();
                             console.log('blur event', e);
                         });
                     }
