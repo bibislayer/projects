@@ -175,7 +175,7 @@
                 if (!$(this).hasClass('active-edit')) {
                     $(this).removeClass('edit');
                     $(this).addClass('active-edit');
-                    $(this).html('<form method="post" action="{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="' + $(this).attr('data-type') + '" id="' + $(this).attr('data-type') + '"><input type="hidden" name="type" value="' + $(this).attr('data-type') + '" /><textarea name="text" style="width:100%" onblur="save(\'' + $(this).attr('data-type') + '\')">' + trim($(this).html()) + '</textarea></form>');
+                    $(this).html('<form method="post" action="{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="' + $(this).attr('data-type') + '" id="' + $(this).attr('data-type') + '"><input type="hidden" name="type" value="' + $(this).attr('data-type') + '" /><textarea name="text" style="width:100%" data-type="' +$(this).attr('data-type')+ '">' + trim($(this).html()) + '</textarea></form>');
                     //$(this).find('textarea').focus();
                     wakeUpTiny();
                 }
@@ -219,6 +219,7 @@
             $('#formWord').toggle();
         }
         function save(type) {
+            
             $("#" + type).submit(function(e) {
                 var postData = $(this).serializeArray();
                 var formURL = $(this).attr("action");
