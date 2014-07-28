@@ -71,14 +71,18 @@
                     <div class="panel-heading">
                         Introduction
                     </div>
-                    <div title="Cliquez pour éditer" class="panel-body edit info" data-type="introduction">
-                        {{ recordingSession.textIntroduction|raw }}
+                    <div class="panel-body info">
+                        <div class="pull-right">
+                            <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                   poster=""
+                                   data-setup="{}">
+                                <source src="/uploads/video.flv" type='video/flv' />
+                            </video>
+                        </div>
+                        <div title="Cliquez pour éditer" class="pull-right edit" data-type="introduction">
+                            {{ recordingSession.textIntroduction|raw }}
+                        </div>
                     </div>
-                    <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                           poster=""
-                           data-setup="{}">
-                        <source src="/uploads/video.flv" type='video/flv' />
-                    </video>
                 </div>
                 <!-- /.panel-body -->
             </div>
