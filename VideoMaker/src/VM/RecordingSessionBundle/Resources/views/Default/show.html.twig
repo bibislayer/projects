@@ -22,14 +22,19 @@
                     <div class="panel-heading">
                         Introduction
                     </div>
-                    <div class="panel-body" data-type="introduction">
-                        {{ recordingSession.textIntroduction|raw }}
-                        <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                               poster=""
-                               data-setup="{}">
-                            <source src="/uploads/video.flv" type='video/flv' />
-                        </video>
+                    <div class="panel-body info">
+                        <div class="pull-right">
+                            <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                   poster=""
+                                   data-setup="{}">
+                                <source src="/uploads/video.flv" type='video/flv' />
+                            </video>
+                        </div>
+                        <div class="media-body" data-type="introduction">
+                            {{ recordingSession.textIntroduction|raw }}
+                        </div>
                     </div>
+                </div>
                     <!-- /.panel-body -->
                 </div>
                 <!-- /.panel -->
