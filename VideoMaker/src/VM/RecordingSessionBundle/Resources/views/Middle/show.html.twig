@@ -141,6 +141,9 @@
 </div>
 <script>
     $(document).ready(function() {
+        videojs("example_video").ready(function() {
+            var myPlayer = this;
+        });
         $('.info').tooltip({
             animation: true,
             html: true,
@@ -222,9 +225,6 @@
         });
         $("#" + type).submit();
         $('#infovideo').show();
-        videojs("example_video").ready(function() {
-            var myPlayer = this;   
-        });
     }
     function trim(myString) {
         return myString.replace(/^\s+/g, '').replace(/\s+$/g, '')
