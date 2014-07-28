@@ -208,6 +208,7 @@
                 data: postData,
                 success: function(data, textStatus, jqXHR)
                 {
+                    tinymce.execCommand('mceRemoveControl',true,'area'+type);
                     var formDiv = $('*[data-type="' + type + '"]');
                     formDiv.html(data);
                     formDiv.removeClass('active-edit');
