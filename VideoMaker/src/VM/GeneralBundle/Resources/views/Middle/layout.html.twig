@@ -26,6 +26,7 @@
                     toolbar: "bold italic | alignleft aligncenter alignright alignjustify",
                     setup: function(editor) {
                         editor.on('blur', function(e) {
+                            save();
                             console.log('blur event', e);
                         });
                     }
