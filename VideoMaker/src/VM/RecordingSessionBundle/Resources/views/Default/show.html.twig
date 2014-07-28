@@ -22,42 +22,13 @@
                     <div class="panel-heading">
                         Introduction
                     </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <div class="col-md-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Textuel
-                                </div>
-                                <!-- /.panel-heading -->
-                                <div class="panel-body" data-type="introduction">
-                                    {{ recordingSession.textIntroduction|raw }}
-                                </div>
-                                <!-- /.panel-body -->
-                            </div>
-                            <!-- /.panel -->
-                        </div>
-                        <!-- /.col-lg-6 -->
-                        <div class="col-md-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Vidéo
-                                </div>
-                                <!-- /.panel-heading -->
-                                <div class="panel-body">
-                                    <center>
-                                        <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                                               poster=""
-                                               data-setup="{}">
-                                            <source src="/uploads/video.flv" type='video/flv' />
-                                        </video>
-                                    </center>
-                                </div>
-                                <!-- /.panel-body -->
-                            </div>
-                            <!-- /.panel -->
-                        </div>
-                        <!-- /.col-lg-6 -->
+                    <div class="panel-body" data-type="introduction">
+                        {{ recordingSession.textIntroduction|raw }}
+                        <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                               poster=""
+                               data-setup="{}">
+                            <source src="/uploads/video.flv" type='video/flv' />
+                        </video>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -66,7 +37,7 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                            Comment ca marche
+                        Comment ca marche
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body edit" data-type="presentation">

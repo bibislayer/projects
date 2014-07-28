@@ -71,182 +71,154 @@
                     <div class="panel-heading">
                         Introduction
                     </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <div class="col-md-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Textuel
-                                </div>
-                                <!-- /.panel-heading -->
-                                <div title="Cliquez pour éditer" class="panel-body edit info" data-type="introduction">
-                                    {{ recordingSession.textIntroduction|raw }}
-                                </div>
-                                <!-- /.panel-body -->
-                            </div>
-                            <!-- /.panel -->
-                        </div>
-                        <!-- /.col-lg-6 -->
-                        <div class="col-md-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Vidéo
-                                </div>
-                                <!-- /.panel-heading -->
-                                <div class="panel-body">
-                                    <center>
-                                        <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                                               poster=""
-                                               data-setup="{}">
-                                            <source src="/uploads/video.flv" type='video/flv' />
-                                        </video>
-                                    </center>
-                                </div>
-                                <!-- /.panel-body -->
-                            </div>
-                            <!-- /.panel -->
-                        </div>
-                        <!-- /.col-lg-6 -->
+                    <div title="Cliquez pour éditer" class="panel-body edit info" data-type="introduction">
+                        {{ recordingSession.textIntroduction|raw }}
                     </div>
-                    <!-- /.panel-body -->
+                    <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                           poster=""
+                           data-setup="{}">
+                        <source src="/uploads/video.flv" type='video/flv' />
+                    </video>
                 </div>
-                <!-- /.panel -->
-            </div> 
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
-                            Comment ca marche admin
-                        {% else %}
-                            Comment ca marche user
-                        {% endif %}
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body edit" data-type="presentation">
-                        {{ recordingSession.textPresentation|raw }}
-                    </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
+                <!-- /.panel-body -->
             </div>
-            <!-- /.col-lg-6 -->
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Les mots à utiliser <button title="Ajouter un mot." type="button" onclick="formWord()" class="btn btn-success btn-circle info"><span class="fa"> + </span></button> 
-                        <div id="formWord" style="width:250px;margin-top:18px;display:none;" class="form-group input-group">
-                            <input type="text" name="word" id="word" class="form-control">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" onClick="saveWord()" type="button">Ok</button>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body" id="contentWord">
-                        {% for word in recordingSession.recordingSessionKeywordList %}
-                            <button type="button" id="btn{{ word.name }}" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>
-                            <button title="Supprimer" type="button" id="btnd{{ word.name }}" onclick="deleteWord('{{ word.name }}')" class="btn btn-danger btn-circle info"><span class="fa"> - </span></button>
-                        {% endfor %}
-                    </div>
-                    <!-- /.panel-body -->
+            <!-- /.panel -->
+        </div> 
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
+                        Comment ca marche admin
+                    {% else %}
+                        Comment ca marche user
+                    {% endif %}
                 </div>
-                <!-- /.panel -->
+                <!-- /.panel-heading -->
+                <div class="panel-body edit" data-type="presentation">
+                    {{ recordingSession.textPresentation|raw }}
+                </div>
+                <!-- /.panel-body -->
             </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Les mots à utiliser <button title="Ajouter un mot." type="button" onclick="formWord()" class="btn btn-success btn-circle info"><span class="fa"> + </span></button> 
+                    <div id="formWord" style="width:250px;margin-top:18px;display:none;" class="form-group input-group">
+                        <input type="text" name="word" id="word" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" onClick="saveWord()" type="button">Ok</button>
+                        </span>
+                    </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body" id="contentWord">
+                    {% for word in recordingSession.recordingSessionKeywordList %}
+                        <button type="button" id="btn{{ word.name }}" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>
+                        <button title="Supprimer" type="button" id="btnd{{ word.name }}" onclick="deleteWord('{{ word.name }}')" class="btn btn-danger btn-circle info"><span class="fa"> - </span></button>
+                    {% endfor %}
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
 
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Enregistrement vidéo</div>
-                    <div class="panel-body"> 
-                        {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
-                    </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Enregistrement vidéo</div>
+                <div class="panel-body"> 
+                    {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('.info').tooltip({
-                animation: true,
-                html: true,
-                placement: 'top'
-            });
-
-            $('.edit').click(function() {
-                if (!$(this).hasClass('active-edit')) {
-                    $(this).removeClass('edit');
-                    $(this).addClass('active-edit');
-                    $(this).html('<form method="post" action="{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="' + $(this).attr('data-type') + '" id="' + $(this).attr('data-type') + '"><input type="hidden" name="type" value="' + $(this).attr('data-type') + '" /><textarea name="text" style="width:100%" data-type="' +$(this).attr('data-type')+ '">' + trim($(this).html()) + '</textarea></form>');
-                    //$(this).find('textarea').focus();
-                    wakeUpTiny();
-                }
-            })
+</div>
+<script>
+    $(document).ready(function() {
+        $('.info').tooltip({
+            animation: true,
+            html: true,
+            placement: 'top'
         });
-        function saveWord() {
-            $.ajax({
-                url: "{{ path('mo_ajax_word_save', {'slug_sess' : app.request.get('slug_sess')}) }}",
-                type: "POST",
-                data: {word: $('#word').val()},
-                success: function(data, textStatus, jqXHR)
-                {
-                    $('#word').val('');
-                    formWord();
-                    $('#contentWord').append('<button type="button" class="btn btn-outline btn-primary btn-xs">' + data + '</button> <button type="button" onclick="deleteWord(\'' + data + '\')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button> ');
-                },
-                error: function(jqXHR, textStatus, errorThrown)
-                {
-                    //if fails     
-                }
-            });
-        }
 
-        function deleteWord(word) {
+        $('.edit').click(function() {
+            if (!$(this).hasClass('active-edit')) {
+                $(this).removeClass('edit');
+                $(this).addClass('active-edit');
+                $(this).html('<form method="post" action="{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="' + $(this).attr('data-type') + '" id="' + $(this).attr('data-type') + '"><input type="hidden" name="type" value="' + $(this).attr('data-type') + '" /><textarea name="text" style="width:100%" data-type="' + $(this).attr('data-type') + '">' + trim($(this).html()) + '</textarea></form>');
+                //$(this).find('textarea').focus();
+                wakeUpTiny();
+            }
+        })
+    });
+    function saveWord() {
+        $.ajax({
+            url: "{{ path('mo_ajax_word_save', {'slug_sess' : app.request.get('slug_sess')}) }}",
+            type: "POST",
+            data: {word: $('#word').val()},
+            success: function(data, textStatus, jqXHR)
+            {
+                $('#word').val('');
+                formWord();
+                $('#contentWord').append('<button type="button" class="btn btn-outline btn-primary btn-xs">' + data + '</button> <button type="button" onclick="deleteWord(\'' + data + '\')" class="btn btn-danger btn-circle"><span class="fa"> - </span></button> ');
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                //if fails     
+            }
+        });
+    }
+
+    function deleteWord(word) {
+        $.ajax({
+            url: "{{ path('mo_ajax_word_del', {'slug_sess' : app.request.get('slug_sess')}) }}",
+            type: "POST",
+            data: {'word': word},
+            success: function(data, textStatus, jqXHR)
+            {
+                $('#btn' + word).remove();
+                $('#btnd' + word).remove();
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                //if fails     
+            }
+        });
+    }
+    function formWord() {
+        $('#formWord').toggle();
+    }
+    function save() {
+        var type = $('form').attr('id');
+        $("form").submit(function(e) {
+            var postData = $(this).serializeArray();
+            var formURL = $(this).attr("action");
             $.ajax({
-                url: "{{ path('mo_ajax_word_del', {'slug_sess' : app.request.get('slug_sess')}) }}",
+                url: formURL,
                 type: "POST",
-                data: {'word': word},
+                data: postData,
                 success: function(data, textStatus, jqXHR)
                 {
-                    $('#btn' + word).remove();
-                    $('#btnd' + word).remove();
+                    var formDiv = $('*[data-type="' + type + '"]');
+                    formDiv.html(data);
+                    formDiv.removeClass('active-edit');
+                    formDiv.addClass('edit');
                 },
                 error: function(jqXHR, textStatus, errorThrown)
                 {
                     //if fails     
                 }
             });
-        }
-        function formWord() {
-            $('#formWord').toggle();
-        }
-        function save() {
-            var type = $('form').attr('id');
-            $("form").submit(function(e) {
-                var postData = $(this).serializeArray();
-                var formURL = $(this).attr("action");
-                $.ajax({
-                    url: formURL,
-                    type: "POST",
-                    data: postData,
-                    success: function(data, textStatus, jqXHR)
-                    {
-                        var formDiv = $('*[data-type="' + type + '"]');
-                        formDiv.html(data);
-                        formDiv.removeClass('active-edit');
-                        formDiv.addClass('edit');
-                    },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
-                        //if fails     
-                    }
-                });
-                e.preventDefault(); //STOP default action
-            });
-            $("#" + type).submit();
-        }
-        function trim(myString) {
-            return myString.replace(/^\s+/g, '').replace(/\s+$/g, '')
-        }
-    </script>
-    {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
-    {% endif %}
+            e.preventDefault(); //STOP default action
+        });
+        $("#" + type).submit();
+    }
+    function trim(myString) {
+        return myString.replace(/^\s+/g, '').replace(/\s+$/g, '')
+    }
+</script>
+{% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
+{% endif %}
 {% endblock %}
