@@ -72,7 +72,7 @@
                         Introduction
                     </div>
                     <div class="panel-body info">
-                        <div class="pull-right">
+                        <div id="infovideo" class="pull-right">
                             <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
                                    poster=""
                                    data-setup="{}">
@@ -151,6 +151,7 @@
             if (!$(this).hasClass('active-edit')) {
                 $(this).removeClass('edit');
                 $(this).addClass('active-edit');
+                $('#infovideo').hide();
                 $(this).html('<form method="post" action="{{ path('mo_ajax_form_save', {'slug_sess' : app.request.get('slug_sess')}) }}" name="' + $(this).attr('data-type') + '" id="' + $(this).attr('data-type') + '"><input type="hidden" name="type" value="' + $(this).attr('data-type') + '" /><textarea name="text" style="width:100%" id="area'+$(this).attr('data-type')+'" data-type="' + $(this).attr('data-type') + '">' + trim($(this).html()) + '</textarea></form>');
                 tinymce.execCommand('mceFocus',false,'area'+$(this).attr('data-type'));
                 //tinyMCE.get('area'+$(this).attr('data-type')).focus();
@@ -219,6 +220,7 @@
             e.preventDefault(); //STOP default action
         });
         $("#" + type).submit();
+        $('#infovideo').show();
     }
     function trim(myString) {
         return myString.replace(/^\s+/g, '').replace(/\s+$/g, '')
