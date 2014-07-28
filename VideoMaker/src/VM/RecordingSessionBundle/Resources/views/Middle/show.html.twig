@@ -221,9 +221,9 @@
             e.preventDefault(); //STOP default action
         });
         $("#" + type).submit();
+        $('#infovideo').show();
         videojs("example_video").ready(function() {
-            var myPlayer = this;
-            $('#infovideo').show();
+            var myPlayer = this;   
         });
     }
     function trim(myString) {
