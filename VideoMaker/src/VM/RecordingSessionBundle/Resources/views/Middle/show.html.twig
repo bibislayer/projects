@@ -218,9 +218,9 @@
         function formWord() {
             $('#formWord').toggle();
         }
-        function save(type) {
-            
-            $("#" + type).submit(function(e) {
+        function save() {
+            var type = $('form').attr('id');
+            $("form").submit(function(e) {
                 var postData = $(this).serializeArray();
                 var formURL = $(this).attr("action");
                 $.ajax({
