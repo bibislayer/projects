@@ -208,7 +208,6 @@
                 data: postData,
                 success: function(data, textStatus, jqXHR)
                 {
-                    tinymce.execCommand('mceRemoveControl',true,'area');
                     var formDiv = $('*[data-type="' + type + '"]');
                     formDiv.html(data);
                     formDiv.removeClass('active-edit');
@@ -222,6 +221,8 @@
             e.preventDefault(); //STOP default action
         });
         $("#" + type).submit();
+        tinymce.execCommand('mceAddControl',true,'area');
+        tinymce.execCommand('mceRemoveControl',true,'area');
         $('#infovideo').html('<video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"\
                                    poster=""\
                                    data-setup="{}">\
