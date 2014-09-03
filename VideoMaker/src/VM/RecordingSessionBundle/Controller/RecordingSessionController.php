@@ -103,7 +103,7 @@ class RecordingSessionController extends Controller {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
-        $session_user = $this->get('recording_session_keyword_list_repository')->getElements(array('by_id' => $id, 'action' => 'one'));
+        $session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $id, 'action' => 'one'));
         $em->remove($session_user);
         $em->flush();
 
