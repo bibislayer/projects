@@ -15,59 +15,49 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
-        <!-- /.row -->
         <div class="panel-group" id="accordion">
-            <div class="row">  
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                Introduction
-                            </a> 
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            Introduction
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body info">
+                        <div class="pull-right">
+                            <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                   poster=""
+                                   data-setup="{}">
+                                <source src="/uploads/video.flv" type='video/flv' />
+                            </video>
                         </div>
-                        <div id="collapseOne" class="panel-collapse collapse in">
-                            <div class="panel-body info">
-                                <div class="pull-right">
-                                    <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                                           poster=""
-                                           data-setup="{}">
-                                        <source src="/uploads/video.flv" type='video/flv' />
-                                    </video>
-                                </div>
-                                <div class="media-body" data-type="introduction">
-                                    {{ recordingSession.textIntroduction|raw }}
-                                </div>
-                            </div>
+                        <div class="media-body" data-type="introduction">
+                            {{ recordingSession.textIntroduction|raw }}
                         </div>
                     </div>
-                    <!-- /.panel-body -->
                 </div>
-                <!-- /.panel -->
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                Ce que vous voulez dire ( oui oui vous le voulez ! )
-                            </a>  
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div id="collapseTwo" class="panel-collapse collapse">
-                            <div class="panel-body edit" data-type="presentation">
-                                <div class="pull-right">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">Enregistrement vidéo</div>
-                                        <div class="panel-body"> 
-                                            {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
-                                        </div>
-                                    </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                            Ce que vous voulez dire ( oui oui vous le voulez ! )
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="pull-right">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Enregistrement vidéo</div>
+                                <div class="panel-body"> 
+                                    {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
                                 </div>
-                                {{ recordingSession.textPresentation|raw }}
                             </div>
-                            <!-- /.panel-body -->
                         </div>
-                        <!-- /.panel -->
+                        {{ recordingSession.textPresentation|raw }}
                     </div>
                 </div>
             </div>
