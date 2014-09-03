@@ -53,7 +53,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a onClick="window.location.hash = '#collapseTwo';$('#webcamContnair').show(); videojs('example_video').dispose();" 
+                        <a onClick="window.location.hash = '#collapseTwo';
+                                $('#webcamContnair').show();
+                                videojs('example_video').dispose();" 
                            data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                             Ce que vous voulez dire ( oui oui vous le voulez ! )
                         </a>
@@ -77,12 +79,12 @@
         </div>
     </div>
     <script>
-        $(document).ready(fonction(){
-        $('.info').tooltip({
-        animation: true,
+        $(document).ready(function() {
+            $('.info').tooltip({
+                animation: true,
                 html: true,
                 placement: 'top'
-        });
+            });
         });
     </script>
     {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
