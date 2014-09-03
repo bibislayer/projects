@@ -27,11 +27,16 @@
                 <div id="collapseOne" class="panel-collapse collapse in">
                     <div class="panel-body info">
                         <div class="pull-right">
-                            <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                                   poster=""
-                                   data-setup="{}">
-                                <source src="/uploads/video.flv" type='video/flv' />
-                            </video>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Présentation vidéo</div>
+                                <div class="panel-body"> 
+                                    <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                           poster=""
+                                           data-setup="{}">
+                                        <source src="/uploads/video.flv" type='video/flv' />
+                                    </video>
+                                </div>
+                            </div> 
                         </div>
                         <div class="media-body" data-type="introduction">
                             {{ recordingSession.textIntroduction|raw }}
