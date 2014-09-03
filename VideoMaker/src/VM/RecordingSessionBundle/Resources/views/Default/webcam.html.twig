@@ -46,7 +46,7 @@
     function validConf() {
         $('#verifConf').hide();
         $('#startButton').show();
-        $('#webcamContnair').show();
+        $('#success').show();
     }
     function helpConfStep3() {
         $('#verifConf').hide();
@@ -55,7 +55,7 @@
     function validConf2() {
         $('#verifConf2').hide();
         $('#startButton').show();
-        $('#webcamContnair').show();
+        $('#success').show();
     }
     function fail() {
         alert('Il vous faut obligatoirement une webcam pour participer :(');
@@ -63,56 +63,60 @@
         $('#verifCam').show();
     }
 </script>
-<div id="webcamContnair" class="col-md-12" style="display:none">
+<div class="col-md-6">
     <form action="{{ path('fo_recording_session_show', {'slug_sess' : app.request.get('slug_sess')}) }}" method="post" name="session_user">
-        <!-- /.panel-heading -->
-        <div id="webcam" class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Enregistrez-vous !
+            </div>
+            <!-- /.panel-heading -->
+            <div id="webcam" class="panel-body">
 
-            {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
-                <img class="_100_imp" style="margin: 0 !important;" src="{{ asset('bundles/vmgeneral/images/cam.png') }}" >
-            {% else %}
-                <script type="text/javascript">
-                    if (AC_FL_RunContent == 0) {
-                        alert("This page requires AC_RunActiveContent.js.");
-                    } else {
-                        AC_FL_RunContent(
-                                "src", "{{ asset('bundles/vmgeneral/js/webcam') }}",
-                                "width", "319px",
-                                "height", "240px",
-                                "align", "middle",
-                                "id", "webcam",
-                                "FlashVars", "fileName=" + fileName + "&streamer=rtmp://dev-monkey.org/webcamrecording",
-                                "quality", "high",
-                                "bgcolor", "#869ca7",
-                                "name", "webcam",
-                                "allowScriptAccess", "sameDomain",
-                                "type", "application/x-shockwave-flash",
-                                "pluginspage", "http://www.adobe.com/go/getflashplayer",
-                                "show_area", "webcam"
-                                );
-                    }
-                </script>
-                <input type="hidden" id="filename" name="filename" />
-            {% endif %}
-            <div id="message" style="position: relative; width: 75px; margin: 0 auto;"></div>
-            <center>
-                <p></p>
-                <button style="display: none;" type="button" onClick="startRecording()" id="startButton" class="btn btn-success">Start</button>
-                <button style="display: none;" type="button" onClick="stopRecording()" id="stopButton"  class="btn btn-danger">Stop</button>
-                <button style="display: none;" type="button" onClick="playRecording()" id="replayButton"  class="btn btn-warning">Re-voir</button>
-                <p></p>
-                <input type="submit" id="submitButton" style="display:none;" type="button" class="btn btn-outline btn-success btn-lg btn-block" value="Validez votre vidéo" />
-            </center>
+                {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
+                    <img class="_100_imp" style="margin: 0 !important;" src="{{ asset('bundles/vmgeneral/images/cam.png') }}" >
+                {% else %}
+                    <script type="text/javascript">
+                        if (AC_FL_RunContent == 0) {
+                            alert("This page requires AC_RunActiveContent.js.");
+                        } else {
+                            AC_FL_RunContent(
+                                    "src", "{{ asset('bundles/vmgeneral/js/webcam') }}",
+                                    "width", "319px",
+                                    "height", "240px",
+                                    "align", "middle",
+                                    "id", "webcam",
+                                    "FlashVars", "fileName=" + fileName + "&streamer=rtmp://dev-monkey.org/webcamrecording",
+                                    "quality", "high",
+                                    "bgcolor", "#869ca7",
+                                    "name", "webcam",
+                                    "allowScriptAccess", "sameDomain",
+                                    "type", "application/x-shockwave-flash",
+                                    "pluginspage", "http://www.adobe.com/go/getflashplayer",
+                                    "show_area", "webcam"
+                                    );
+                        }
+                    </script>
+                    <input type="hidden" id="filename" name="filename" />
+                {% endif %}
+                <div id="message" style="position: relative; width: 75px; margin: 0 auto;"></div>
+                <center>
+                    <p></p>
+                    <button style="display: none;" type="button" onClick="startRecording()" id="startButton" class="btn btn-success">Start</button>
+                    <button style="display: none;" type="button" onClick="stopRecording()" id="stopButton"  class="btn btn-danger">Stop</button>
+                    <button style="display: none;" type="button" onClick="playRecording()" id="replayButton"  class="btn btn-warning">Re-voir</button>
+                    <p></p>
+                    <input type="submit" id="submitButton" style="display:none;" type="button" class="btn btn-outline btn-success btn-lg btn-block" value="Validez votre vidéo" />
+                </center>
+            </div>
         </div>
     </form>
 </div>
-<div class="col-md-12">
+<div class="col-md-6">
     <div id="verifCam" class="panel panel-default">
         <div class="panel-heading">
             <strong>Etape 1 :</strong> Vérification du matériel
         </div>
         <div class="panel-body">
-            <p class="bold"><strong>La webcam ne s'affichera qu'une fois les étapes validé !</strong></p>
             <p class="bold">Vous êtes sur le point de répondre à une question webcam, pour se faire, possédez vous une webcam ?</p>
             <p  class="btn_webcam">
                 <button type="button" onclick="validCam()" class="btn btn-outline btn-success">Oui</button>  
@@ -126,7 +130,6 @@
             <strong>Etape 2 :</strong> Activation de votre Webcam
         </div>
         <div class="panel-body">
-            <p class="bold"><strong>La webcam ne s'affichera qu'une fois les étapes validé !</strong></p>
             <p class="bold">Si vous ne vous voyez pas dans le petit écran à gauche, merci de suivre les instructions ci-dessous :</p>
             <div class="tuto_etape">
                 <p>Cliquez sur autoriser et puis attendez quelques secondes que la camera s'active</p>
