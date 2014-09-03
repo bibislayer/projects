@@ -54,8 +54,13 @@
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <div class="pull-right col-md-4">
-                            {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
+                        <div class="pull-right col-md-5">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Enregistrement</div>
+                                <div class="panel-body"> 
+                                    {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
+                                </div>
+                            </div>
                         </div>
                         {{ recordingSession.textPresentation|raw }}
                     </div>
