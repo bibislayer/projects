@@ -15,23 +15,71 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            Collapsible Group Item #1
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                            Collapsible Group Item #2
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                            Collapsible Group Item #3
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- /.row -->
         <div class="row">  
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Introduction
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            Introduction
+                        </a> 
                     </div>
-                    <div class="panel-body info">
-                        <div class="pull-right">
-                            <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
-                                   poster=""
-                                   data-setup="{}">
-                                <source src="/uploads/video.flv" type='video/flv' />
-                            </video>
-                        </div>
-                        <div class="media-body" data-type="introduction">
-                            {{ recordingSession.textIntroduction|raw }}
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body info">
+                            <div class="pull-right">
+                                <video id="example_video" class="video-js vjs-default-skin" controls preload="none" width="360" height="240"
+                                       poster=""
+                                       data-setup="{}">
+                                    <source src="/uploads/video.flv" type='video/flv' />
+                                </video>
+                            </div>
+                            <div class="media-body" data-type="introduction">
+                                {{ recordingSession.textIntroduction|raw }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -43,27 +91,30 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Ce que vous voulez dire ( oui oui vous le voulez ! )
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                            Ce que vous voulez dire ( oui oui vous le voulez ! )
+                        </a>  
                     </div>
                     <!-- /.panel-heading -->
-                    <div class="panel-body edit" data-type="presentation">
-                        <div class="pull-right">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Enregistrement vidéo</div>
-                                <div class="panel-body" style="display:none;"> 
-                                    {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body edit" data-type="presentation">
+                            <div class="pull-right">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Enregistrement vidéo</div>
+                                    <div class="panel-body"> 
+                                        {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
+                                    </div>
                                 </div>
                             </div>
+                            {{ recordingSession.textPresentation|raw }}
                         </div>
-                        {{ recordingSession.textPresentation|raw }}
+                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel-body -->
+                    <!-- /.panel -->
                 </div>
-                <!-- /.panel -->
             </div>
         </div>
     </div>
-</div>
-{% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
-{% endif %}
+    {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
+    {% endif %}
 {% endblock %}
