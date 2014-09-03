@@ -53,13 +53,15 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a onClick="window.location.hash = '#collapseTwo';
-                                $('#webcamContnair').show();" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                            Ce que vous voulez dire ( oui oui vous le voulez ! )
-                        </a>
-                        <span class="input-group-btn">
-                            <button title="Imprimer cette séction pour plus de confort :)" class="btn btn-default info" onClick=" window.print();" type="button">Imprimer</button>
-                        </span>
+                        <p>
+                            <a onClick="window.location.hash = '#collapseTwo';
+                                    $('#webcamContnair').show();" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                Ce que vous voulez dire ( oui oui vous le voulez ! )
+                            </a>
+                            <span class="input-group-btn">
+                                <button title="Imprimer cette séction pour plus de confort :)" class="btn btn-default info" onClick=" window.print();" type="button">Imprimer</button>
+                            </span>
+                        </p>
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse">
@@ -76,6 +78,15 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(fonction(){
+            $('.info').tooltip({
+                animation: true,
+                html: true,
+                placement: 'top'
+            });
+        });
+    </script>
     {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
     {% endif %}
 {% endblock %}
