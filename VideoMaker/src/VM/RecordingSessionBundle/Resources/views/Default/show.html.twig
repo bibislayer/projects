@@ -35,10 +35,11 @@
                         </div>
                     </div>
                 </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
+                <!-- /.panel-body -->
             </div>
+            <!-- /.panel -->
+        </div>
+        <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -46,38 +47,23 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body edit" data-type="presentation">
+                        <div class="pull-right">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Enregistrement vidéo</div>
+                                <div class="panel-body" style="display:none;"> 
+                                    {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
+                                </div>
+                            </div>
+                        </div>
                         {{ recordingSession.textPresentation|raw }}
                     </div>
                     <!-- /.panel-body -->
                 </div>
                 <!-- /.panel -->
             </div>
-            <!-- /.col-lg-6 -->
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Les mots à utiliser
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        {% for word in recordingSession.recordingSessionKeywordList %}
-                            <button type="button" class="btn btn-outline btn-primary btn-xs">{{ word.name }}</button>  
-                        {% endfor %}
-                    </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
-            </div>
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Enregistrement vidéo</div>
-                    <div class="panel-body"> 
-                        {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-    {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
-    {% endif %}
+</div>
+{% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
+{% endif %}
 {% endblock %}
