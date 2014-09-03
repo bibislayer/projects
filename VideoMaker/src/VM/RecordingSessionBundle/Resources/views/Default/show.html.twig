@@ -19,7 +19,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        <a data-toggle="collapse" onClick="$('#webcamContnair').show()" data-parent="#accordion" href="#collapseOne">
                             Introduction
                         </a>
                     </h4>
@@ -47,7 +47,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a onClick="window.location.hash = '#collapseTwo'" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        <a onClick="window.location.hash = '#collapseTwo';$('#webcamContnair').show();" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                             Ce que vous voulez dire ( oui oui vous le voulez ! )
                         </a>
                     </h4>
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default" style="position:fixed; bottom: 15px;">
+        <div class="panel panel-default" id="webcamContnair" style="position:fixed; bottom: 15px;">
             <div class="panel-heading">Enregistrement</div>
             <div class="panel-body"> 
                 {% include 'VMRecordingSessionBundle:Default:webcam.html.twig' %}
