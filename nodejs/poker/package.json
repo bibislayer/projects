@@ -1,12 +1,18 @@
 {
-    "name": "poker",
-    "version": "0.1.0",
-    "dependencies": {
-        "express": "~3.3.4",
-        "socket.io": "~0.9.16",
-        "ent": "~0.1.0",
-        "ejs": "~1.0.0"
-    },
-    "author": "Dev-Monkey",
-    "description": "Un super Chat temps réel avec socket.io"
+  "name": "poker",
+  "version": "0.1.0",
+  "dependencies": {
+    "ejs": "*",
+    "ent": "~0.1.0",
+    "express": "~3.3.4",
+    "mongodb": "*",
+    "mongoose": "^3.8.16",
+    "monk": "*",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^0.3.0",
+    "socket.io": "~0.9.16"
+  },
+  "author": "Dev-Monkey",
+  "description": "Un super Chat temps réel avec socket.io"
 }

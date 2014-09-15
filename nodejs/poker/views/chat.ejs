@@ -2,7 +2,7 @@
 <div class="chat-panel panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-comments fa-fw"></i>
-                            Chat <% if(req.session && req.session.username){ %><%= req.session.username %><% } %>
+                            Chat <%= user.username %>
                             <div class="btn-group pull-right">
                                 <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-chevron-down"></i>
@@ -44,17 +44,7 @@
                         </div>
                         <!-- /.panel-body -->
                         <div class="panel-footer">
-                            <form style="<%if(req.session && !req.session.username){%>display:none;<%}%>" action="/" method="post" id="send_pseudo">        
-                                <div class="input-group">
-                                    <input id="pseudo" type="text" class="form-control input-sm" placeholder="Type your pseudo here...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-warning btn-sm" id="btn-chat">
-                                            Send
-                                        </button>
-                                    </span>
-                                </div>
-                            </form>
-                            <form style="<%if(req.session && req.session.username){%>display:none;<%}%>" action="/" method="post" id="send_chat">        
+                            <form action="/" method="post" id="send_chat">        
                                 <div class="input-group">
                                     <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here...">   
                                     <span class="input-group-btn">
@@ -68,3 +58,63 @@
 </div>
                         <!-- /.panel-footer -->
                     </div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+            // Connexion à socket.io
+            var socket = io.connect('http://localhost:8080');            
+            
+            <% if(user.username){ %>
+                socket.emit('nouveau_client', '<%= user.username %>');
+            <% } %>
+            // Quand on reçoit un message, on l'insère dans la page
+            socket.on('message', function(data) {
+                insereMessage(data.pseudo, data.message)
+            })
+
+            // Quand un nouveau client se connecte, on affiche l'information
+            socket.on('nouveau_client', function(pseudo) {
+                $('.chat').prepend('<li class="left clearfix"><div class="chat-body clearfix">\
+                                    <p><em>' + pseudo + ' a rejoint le Chat !</em></p>\
+                                    </div></li>');
+            })
+
+            // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
+            $('#send_chat').submit(function () {
+                var message = $('#message').val();
+                socket.emit('message', message); // Transmet le message aux autres
+                insereMessage('<%= user.username %>', message); // Affiche le message aussi sur notre page
+                $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
+                return false; // Permet de bloquer l'envoi "classique" du formulaire
+            });
+            $('#showChat').click(function(){
+                $('#chat').slideToggle( "slow", function() {
+                    if(!$(this).is(":hidden")) {
+                        $('#showChat').html('<a>Hide Chat</a>');
+                    }else{
+                        $('#showChat').html('<a>Show Chat</a>');
+                    }
+                });
+            });
+            
+            // Ajoute un message dans la page
+            function insereMessage(pseudo, message) {
+                var content = '<li class="left clearfix">\
+                                    <span class="chat-img pull-left">\
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">\
+                                    </span>\
+                                    <div class="chat-body clearfix">\
+                                        <div class="header">\
+                                            <strong class="primary-font">' + pseudo + '</strong>\
+                                            <small class="pull-right text-muted">\
+                                                <i class="fa fa-clock-o fa-fw"></i> 12 mins ago\
+                                            </small>\
+                                        </div>\
+                                        <p>\
+                                            ' + message + '\
+                                        </p>\
+                                    </div>\
+                                </li>';
+                $('.chat').append(content);
+                $(".chat-panel .panel-body").animate({scrollTop:$('.chat-panel .panel-body')[0].scrollHeight}, 1000);
+            }
+        </script>

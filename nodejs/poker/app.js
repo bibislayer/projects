@@ -1,68 +1,60 @@
-var app = require('express')(),
-        express = require('express'),
-        cookie = require('express/node_modules/cookie'),
-        path = require('path'),
+var express = require('express'),
+        app = express(),
         server = require('http').createServer(app),
-        io = require('socket.io').listen(server),
-        ent = require('ent'), // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
-        fs = require('fs'),
-        parseCookie = express.cookieParser;
+        ent = require('ent'),
+        passport = require('passport'),
+        flash = require('connect-flash'),
+        LocalStrategy = require('passport-local').Strategy,
+        mongoose = require('mongoose'),
+        Schema = mongoose.Schema,
+        passportLocalMongoose = require('passport-local-mongoose');
 
-// Gestion du routing
-var index = require('./routes/index');
-app.get('/', index.index);
-var chat = require('./routes/chat');
-app.get('/search', chat.chat);
-var about = require('./routes/about');
-app.get('/about', about.about);
+// Configure passport
+var User = require('./models/user');
 
-app.configure(function () {
-    // Allow parsing cookies from request headers
-    this.use(express.cookieParser('quiabulanneaulac'));
-    // Session management
-    this.use(express.session({
-        // Private crypting key
-        "secret": "quiabulanneaulac",
-        // Internal session data storage engine, this is the default engine embedded with connect.
-        // Much more can be found as external modules (Redis, Mongo, Mysql, file...). look at "npm search connect session store"
-        "store": new express.session.MemoryStore({reapInterval: 60000 * 10})
-    }));
-    this.use(express.static(path.join(__dirname, 'public')));
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Connect mongoose
+mongoose.connect('mongodb://localhost/poker');
+
+mongoose.connection.on("open", function () {
+    console.log("mongodb is connected")
 });
 
-io.sockets.authorization(function (handshakeData, callback) {
-    // Read cookies from handshake headers
-    var cookies = cookie.parse(handshakeData.headers.cookies);
-    // We're now able to retrieve session ID
-    var sessionID = connect.utils.parseSignedCookie(cookies['connect.sid'], 'quiabulanneaulac');
-
-    // No session? Refuse connection
-    if (!sessionID) {
-        callback('No session', false);
+User.find({}, function (err, teams) {
+    if (err) {
+        console.log(err);
     } else {
-        // Store session ID in handshake data, we'll use it later to associate
-        // session with open sockets
-        handshakeData.sessionID = sessionID;
-        // On récupère la session utilisateur, et on en extrait son username
-        app.sessionStore.get(sessionID, function (err, session) {
-            if (!err && session && session.username) {
-                // On stocke ce username dans les données de l'authentification, pour réutilisation directe plus tard
-                handshakeData.username = session.username;
-                // OK, on accepte la connexion
-                callback(null, true);
-            } else {
-                // Session incomplète, ou non trouvée
-                callback(err || 'User not authenticated', false);
-            }
-        });
+        mongoose.connection.close();
+        console.log(teams, teams.length);
     }
 });
-
+// configure Express
+app.configure(function () {
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'ejs');
+    //app.engine('ejs', require('ejs'));
+    app.use(express.logger());
+    app.use(express.cookieParser());
+    app.use(express.bodyParser());
+    app.use(express.methodOverride());
+    app.use(express.session({secret: 'quiabulanneaulac'}));
+    app.use(flash());
+    // Initialize Passport!  Also use passport.session() middleware, to support
+    // persistent login sessions (recommended).
+    app.use(passport.initialize());
+    app.use(passport.session());
+    app.use(app.router);
+    app.use(express.static(__dirname + '/public'));
+});
+var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket, pseudo) {
 // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
     socket.on('nouveau_client', function (pseudo) {
         pseudo = ent.encode(pseudo);
-        app.sessionStore.username = pseudo;
         socket.set('pseudo', pseudo);
         socket.broadcast.emit('nouveau_client', pseudo);
     });
@@ -74,4 +66,10 @@ io.sockets.on('connection', function (socket, pseudo) {
         });
     });
 });
-server.listen(8080);
+require('./routes')(app);
+server.listen(8080, function () {
+    console.log('Express server listening on port 8080');
+});
+/*app.listen(8080, function () {
+ console.log('Express server listening on port 8080');
+ });*/

@@ -2,6 +2,7 @@
 <html lang="en">
 <% include header %>
 <body>    
+<% include navbar %>
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
         <div class="container">
@@ -22,6 +23,7 @@
         <hr>
  
         <% include footer %>
+        <% include chat %>
     </div>
     <!-- /container -->
     <script type="text/javascript">
@@ -29,13 +31,8 @@
             $('#home').addClass("active");
         });
     </script>
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Latest compiled and minified JavaScript -->
-    <script
-        src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script> 
 </body>
 </html>
