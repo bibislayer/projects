@@ -4,23 +4,20 @@
 <body>
     <% include navbar %>
  
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational
-                website. It includes a large callout called a jumbotron and three
-                supporting pieces of content. Use it as a starting point to create
-                something more unique.</p>
-            <p>
-                <a class="btn btn-primary btn-lg" role="button">Learn more
-                    &raquo;</a>
-            </p>
-        </div>
-    </div>
- 
     <div class="container">
-        <% include content %>
+        <div class="page-header">
+            <h1>
+                About <small>What we aim for!</small>
+            </h1>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">About Us</div>
+            <div class="panel-body">
+                <p>My tutorial on how to use bootstrap to create a responsive
+                    website.</p>
+            </div>
+        </div>
+ 
         <hr>
  
         <% include footer %>
@@ -28,7 +25,7 @@
     <!-- /container -->
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#home').addClass("active");
+            $('#about').addClass("active");
         });
     </script>
     <!-- Bootstrap core JavaScript
