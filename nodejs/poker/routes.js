@@ -14,13 +14,21 @@ module.exports = function (app) {
     });
 
     app.get('/register', function (req, res) {
+        User.find({}, function (err, teams) {
+        if (err) {
+            console.log(err);
+        } else {
+            mongoose.connection.close();
+            console.log(teams, teams.length);
+        }
+    });
         res.render('register', {title: "register", user: req.user, message: req.flash('error')});
     });
 
     app.post('/register', function (req, res) {
         User.register(new User({username: req.body.username}), req.body.password, function (err, account) {
             if (err) {
-                return res.render('register', {title: "register", user: account, message: req.flash('error')});
+                return res.render('register', {title: "register", user: req.user, message: req.flash('error')});
             }
 
             passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {

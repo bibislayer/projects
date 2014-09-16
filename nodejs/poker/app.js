@@ -5,9 +5,7 @@ var express = require('express'),
         passport = require('passport'),
         flash = require('connect-flash'),
         LocalStrategy = require('passport-local').Strategy,
-        mongoose = require('mongoose'),
-        Schema = mongoose.Schema,
-        passportLocalMongoose = require('passport-local-mongoose');
+        mongoose = require('mongoose');
 
 // Configure passport
 var User = require('./models/user');
@@ -21,9 +19,8 @@ passport.deserializeUser(User.deserializeUser());
 mongoose.connect('mongodb://localhost/poker');
 
 mongoose.connection.on("open", function () {
-    console.log("mongodb is connected")
+    console.log("mongodb is connected");
 });
-
 User.find({}, function (err, teams) {
     if (err) {
         console.log(err);
