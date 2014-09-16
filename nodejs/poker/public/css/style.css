@@ -1,0 +1,9 @@
+/*
+All right reserved Dev-Monkey.
+*/
+/* 
+    Created on : 16 sept. 2014, 20:45:57
+    Author     : thevenet
+*/
+#chat{}
+#chat .panel-body{max-height:300ox;overflow:auto}

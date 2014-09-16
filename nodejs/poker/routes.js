@@ -1,12 +1,19 @@
 var passport = require('passport'),
         User = require('./models/user'),
+        Chat = require('./models/chat'),
         mongoose = require('mongoose'),
         flash = require('connect-flash');
 
 module.exports = function (app) {
 
     app.get('/', ensureAuthenticated, function (req, res) {
-        res.render('index', {title: 'accueil', user: req.user});
+        Chat.find(function (err, chats, count) {
+            res.render('index', {
+                title: 'accueil',
+                user: req.user,
+                chats: chats
+            });
+        });
     });
 
     app.get('/account', ensureAuthenticated, function (req, res) {
@@ -14,23 +21,14 @@ module.exports = function (app) {
     });
 
     app.get('/register', function (req, res) {
-        User.find({}, function (err, teams) {
-        if (err) {
-            console.log(err);
-        } else {
-            mongoose.connection.close();
-            console.log(teams, teams.length);
-        }
-    });
         res.render('register', {title: "register", user: req.user, message: req.flash('error')});
     });
 
     app.post('/register', function (req, res) {
         User.register(new User({username: req.body.username}), req.body.password, function (err, account) {
             if (err) {
-                return res.render('register', {title: "register", user: req.user, message: req.flash('error')});
+                return res.render('register', {title: "register", user: req.user, message: err});
             }
-
             passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {
                 res.redirect('/');
             });
@@ -38,13 +36,13 @@ module.exports = function (app) {
     });
 
     app.get('/login', function (req, res) {
-        res.render('login', {title: 'Login', user: req.user, message: req.flash('error')});
+        res.render('login', {title: 'login', user: req.user, message: req.flash('error')});
     });
 
-    app.post('/login', passport.authenticate('local', {failureRedirect: '/login', failureFlash: true}), 
-    function (req, res) {
-        res.redirect('/');
-    });
+    app.post('/login', passport.authenticate('local', {failureRedirect: '/login', failureFlash: true}),
+            function (req, res) {
+                res.redirect('/');
+            });
 
     app.get('/logout', function (req, res) {
         req.logout();

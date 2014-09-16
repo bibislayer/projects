@@ -2,7 +2,8 @@
   "name": "poker",
   "version": "0.1.0",
   "dependencies": {
-    "ejs": "*",
+    "ejs": "^1.0.0",
+    "ejs-locals": "^1.0.2",
     "ent": "~0.1.0",
     "express": "~3.3.4",
     "mongodb": "*",

@@ -10,6 +10,8 @@ var express = require('express'),
 // Configure passport
 var User = require('./models/user');
 
+var Chat = require('./models/chat');
+
 passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
@@ -18,22 +20,11 @@ passport.deserializeUser(User.deserializeUser());
 // Connect mongoose
 mongoose.connect('mongodb://localhost/poker');
 
-mongoose.connection.on("open", function () {
-    console.log("mongodb is connected");
-});
-User.find({}, function (err, teams) {
-    if (err) {
-        console.log(err);
-    } else {
-        mongoose.connection.close();
-        console.log(teams, teams.length);
-    }
-});
 // configure Express
 app.configure(function () {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
-    //app.engine('ejs', require('ejs'));
+    app.engine('ejs', require('ejs-locals'));
     app.use(express.logger());
     app.use(express.cookieParser());
     app.use(express.bodyParser());
@@ -59,6 +50,15 @@ io.sockets.on('connection', function (socket, pseudo) {
     socket.on('message', function (message) {
         socket.get('pseudo', function (error, pseudo) {
             message = ent.encode(message);
+            var chat = new Chat({
+                message: message,
+                pseudo: pseudo,
+                hasCreditCookie: true
+            });
+            chat.save(function (err, chat) {
+                if (err)
+                    return console.error(err);
+            });
             socket.broadcast.emit('message', {pseudo: pseudo, message: message});
         });
     });
