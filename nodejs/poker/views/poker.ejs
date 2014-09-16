@@ -181,6 +181,7 @@
     //place action
     $('.place').click(function () {
         socket.emit('new_poker_user', '<%= user.username %>', $(this).attr('id'));
+        insereMessage('Admin', 'Salut, <%= user.username %>, vous pouvez chater en jouant :)');
     });
     //mise action
     //
@@ -191,7 +192,7 @@
 
     // Quand un nouveau client se connecte, on affiche l'information
     socket.on('new_poker_user', function (pseudo, place) {
-        $('#'+place).addClass('active');
+        $('#' + place).addClass('active');
         $('.table').prepend('<p><em>' + pseudo + ' a rejoint la table !</em></p>');
     })
 

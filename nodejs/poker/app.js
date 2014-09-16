@@ -49,12 +49,12 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
     socket.on('new_poker_user', function (pseudo, place) {
         socket.get('poker', function (error, params) {
-            console.log(params);
-            socket.broadcast.emit('message', {pseudo: 'Admin', message: 'Salut, vous etes ' + count(params) + ' sur la table, vous pouvez chater en jouant :)'});
+            if(!params){
+                pseudo = ent.encode(pseudo);
+                socket.set('poker', {pseudo: pseudo, place: place});
+                socket.broadcast.emit('new_poker_user', pseudo, place);
+            }
         });
-        pseudo = ent.encode(pseudo);
-        socket.set('poker', {pseudo: pseudo, place: place});
-        socket.broadcast.emit('new_poker_user', pseudo, place);
     });
 // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
     socket.on('message', function (message) {
