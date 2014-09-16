@@ -38,13 +38,23 @@ app.configure(function () {
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
 });
+
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket, pseudo) {
-// Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
+    // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
     socket.on('nouveau_client', function (pseudo) {
         pseudo = ent.encode(pseudo);
         socket.set('pseudo', pseudo);
         socket.broadcast.emit('nouveau_client', pseudo);
+    });
+    socket.on('new_poker_user', function (pseudo, place) {
+        socket.get('poker', function (error, params) {
+            console.log(params);
+            socket.broadcast.emit('message', {pseudo: 'Admin', message: 'Salut, vous etes ' + count(params) + ' sur la table, vous pouvez chater en jouant :)'});
+        });
+        pseudo = ent.encode(pseudo);
+        socket.set('poker', {pseudo: pseudo, place: place});
+        socket.broadcast.emit('new_poker_user', pseudo, place);
     });
 // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
     socket.on('message', function (message) {

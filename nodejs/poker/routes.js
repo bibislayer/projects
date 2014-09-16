@@ -15,6 +15,16 @@ module.exports = function (app) {
             });
         });
     });
+    
+    app.get('/poker', ensureAuthenticated, function (req, res) {
+        Chat.find(function (err, chats, count) {
+            res.render('poker', {
+                title: 'poker',
+                user: req.user,
+                chats: chats
+            });
+        });
+    });
 
     app.get('/account', ensureAuthenticated, function (req, res) {
         res.render('account.ejs', {title: 'account', user: req.user});

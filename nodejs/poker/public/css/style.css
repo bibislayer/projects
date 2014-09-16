@@ -7,3 +7,12 @@ All right reserved Dev-Monkey.
 */
 #chat{}
 #chat .panel-body{max-height:300ox;overflow:auto}
+.table canvas{width: 100%;}
+.table .place{float: left;height: 27px;width: 52.3px;border-radius: 30px;position: relative;}
+.table .place:hover,.place.active{-moz-box-shadow: 0 0 20px #000; -webkit-box-shadow: 0 0 20px #000; box-shadow: 0 0 20px #000;}
+.table .place-top{top: 3.9em;left: 3em;}
+.table .place-bot{bottom: 119px;left:17px;}
+#place2{left: 214px;top: 30px;}
+#place3{left: 387px;top: 55px;}
+#place5{left: 212px;top: -89px;}
+#place6{left: 416px;}
