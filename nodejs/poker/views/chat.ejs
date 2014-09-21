@@ -2,7 +2,7 @@
     <div class="chat-panel panel panel-default">
         <div class="panel-heading">
             <i class="fa fa-comments fa-fw"></i>
-            Chat <%= user.username %>
+            Chat
             <div class="btn-group pull-right">
                 <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-chevron-down"></i>
@@ -78,8 +78,11 @@
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    $(document).ready(function(){
+        $('.chat-panel .panel-body').scrollTop($('.chat-panel .panel-body')[0].scrollHeight);
+    });
     // Connexion à socket.io
-    var socket = io.connect('http://192.168.1.17:8080');
+    var socket = io.connect('http://192.168.1.13:8080');
 
     <% if (user.username){ %>
             socket.emit('nouveau_client', '<%= user.username %>');

@@ -1,161 +1,59 @@
 <% layout('layout') -%>
 <% script() -%>
 <% stylesheet() -%>
-<div id="wrapper">
-    <!-- Navigation -->
-    <% include navbar %>
-
-    <div id="page-wrapper">
-
-        <div class="container-fluid">
-
-            <!-- Page Heading -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                        Poker <small>Game and chat</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li class="active">
-                            <i class="fa fa-money"></i> Poker
-                        </li>
-                    </ol>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> take seat </h3>
+            </div>
+            <div class="panel-body">
+                <div id="table">
+                    <div id="place1" class='place place-top'>
+                        <div class="userInfo"></div>
+                    </div>
+                    <div id="place2" class='place place-top'>
+                        <div class="userInfo"></div>
+                    </div>
+                    <div id="place3" class='place place-top'>
+                        <div class="userInfo"></div>
+                    </div>
+                    <canvas id='myCanvas'></canvas>
+                    <div id="place4" class='place place-bot'>
+                        <div class="userInfo"></div>
+                    </div>
+                    <div id="place5" class='place place-bot'>
+                        <div class="userInfo"></div>
+                    </div>
+                    <div id="place6" class='place place-bot'>
+                        <div class="userInfo"></div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <a href="#">Externalize table <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div style="display:none;" class="alert alert-info alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <i class="fa fa-info-circle"></i>  <strong>Like SB Admin?</strong> Try out <a href="http://startbootstrap.com/template-overviews/sb-admin-2" class="alert-link">SB Admin 2</a> for additional features!
-                    </div>
-                </div>
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
-                                    <div>New Comments!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
-                                    <div>New Tasks!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-yellow">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
-                                    <div>New Orders!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-red">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-support fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
-                                    <div>Support Tickets!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> take seat </h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="table">
-                                <div id="place1" class='place place-top'></div>
-                                <div id="place2" class='place place-top'></div>
-                                <div id="place3" class='place place-top'></div>
-                                <canvas id='myCanvas'></canvas>
-                                <div id="place4" class='place place-bot'></div>
-                                <div id="place5" class='place place-bot'></div>
-                                <div id="place6" class='place place-bot'></div>
-                            </div>
-                            <div class="text-right">
-                                <a href="#">Externalize table <i class="fa fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <% include chat %>
-            </div>
-            <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
     </div>
-    <!-- /#page-wrapper -->
+    <div class="col-lg-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-user"></i>
+            <%= user.username %>
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <p>votre argent : <span id="ownMoney"></span></p>
+            <p>votre mise :</p>
+            <p>vos cartes :</p>
+        </div>
+    </div>
+    <!-- /.panel-footer -->
 </div>
+    <% include chat %>
+</div>
+<!-- /.row -->
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var canvas = document.getElementById('myCanvas');
@@ -172,57 +70,41 @@
         if (event.pageY >= 478 && event.pageY <= 480) {
             console.log('coin gauche');
         }
-        console.log(event.pageY, event.pageX);
-    }
-
-    // Connexion à socket.io
-    var socket = io.connect('http://192.168.1.17:8080');
-
-    //place action
-    $('.place').click(function () {
-        socket.emit('new_poker_user', '<%= user.username %>', $(this).attr('id'));
-        insereMessage('Admin', 'Salut, <%= user.username %>, vous pouvez chater en jouant :)');
-    });
-    //mise action
-    //
-    // Quand on reçoit un message, on l'insère dans la page
-    socket.on('message', function (data) {
-        insereMessage(data.pseudo, data.message)
-    })
-
+        //console.log(event.pageY, event.pageX);
+        }
+        <% 
+        var active = 0;
+        if (poker && poker.user){
+            for(var i=0; i<poker.user.length; i++){
+                if (poker.user[i].place){
+                   if(poker.user[i].username == user.username){
+                       var active = 1;
+                       %>
+                       $('#ownMoney').html('<%= poker.user[i].money %>');
+               <%
+                   }
+                %>
+                $('#<%= poker.user[i].place %>').addClass('active');
+                $('#<%= poker.user[i].place %> .userInfo').html('<p><%= poker.user[i].username %></p><p><%= poker.user[i].money %></p>');
+        <%      }
+            }
+        }
+        
+        if(!active){ %>
+            //place action
+            $('.place').mouseover(function () {
+                $('.place').removeClass('active');
+                $(this).addClass('active');
+            });
+            $('.place').click(function () {
+                socket.emit('new_poker_user', '<%= user.username %>', '<%=req.params.num %>', $(this).attr('id'));
+                insereMessage('Admin', 'Salut, <%= user.username %>, vous pouvez chater en jouant :)');
+                $(this).addClass('active');
+            });
+    <% } %>
     // Quand un nouveau client se connecte, on affiche l'information
     socket.on('new_poker_user', function (pseudo, place) {
         $('#' + place).addClass('active');
         $('.table').prepend('<p><em>' + pseudo + ' a rejoint la table !</em></p>');
     })
-
-    // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
-    $('#send_chat').submit(function () {
-        var message = $('#message').val();
-        socket.emit('message', message); // Transmet le message aux autres
-        insereMessage('<%= user.username %>', message); // Affiche le message aussi sur notre page
-        $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
-        return false; // Permet de bloquer l'envoi "classique" du formulaire
-    });
-    // Ajoute un message dans la page
-    function insereMessage(pseudo, message) {
-        var content = '<li class="left clearfix">\
-                                    <span class="chat-img pull-left">\
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">\
-                                    </span>\
-                                    <div class="chat-body clearfix">\
-                                        <div class="header">\
-                                            <strong class="primary-font">' + pseudo + '</strong>\
-                                            <small class="pull-right text-muted">\
-                                                <i class="fa fa-clock-o fa-fw"></i> 12 mins ago\
-                                            </small>\
-                                        </div>\
-                                        <p>\
-                                            ' + message + '\
-                                        </p>\
-                                    </div>\
-                                </li>';
-        $('.chat').append(content);
-        $(".chat-panel .panel-body").animate({scrollTop: $('.chat-panel .panel-body')[0].scrollHeight}, 1000);
-    }
 </script>

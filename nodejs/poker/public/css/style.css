@@ -6,13 +6,35 @@ All right reserved Dev-Monkey.
     Author     : thevenet
 */
 #chat{}
-#chat .panel-body{max-height:300ox;overflow:auto}
-.table canvas{width: 100%;}
-.table .place{float: left;height: 27px;width: 52.3px;border-radius: 30px;position: relative;}
-.table .place:hover,.place.active{-moz-box-shadow: 0 0 20px #000; -webkit-box-shadow: 0 0 20px #000; box-shadow: 0 0 20px #000;}
-.table .place-top{top: 3.9em;left: 3em;}
-.table .place-bot{bottom: 119px;left:17px;}
-#place2{left: 214px;top: 30px;}
-#place3{left: 387px;top: 55px;}
-#place5{left: 212px;top: -89px;}
-#place6{left: 416px;}
+#chat .panel-body{max-height:300px;overflow:auto}
+#table{width: 663px;}
+#table canvas{width: 663px; height: 438px;}
+#table .place{
+    float: left;
+    height: 34px;
+    width: 64.2px;
+    -webkit-border-radius: 32px / 17px;
+    -moz-border-radius:    32px / 17px; 
+    border-radius:         32px / 17px; 
+    position: relative;
+}
+#table .place:after {
+    padding-top: 56.25%; // 16:9 ratio
+    display: block;
+    content: '';
+}
+#table .place.active{
+    -moz-box-shadow: 0 0 20px #000; 
+    -webkit-box-shadow: 0 0 20px #000; 
+    box-shadow: 0 0 20px #000;
+    background-color: rgba(255, 255, 255, 0.75);
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+.place-top{top: 4.43em;left: 3.16em;}
+#place2{top: 2.43em;left: 16.6em;}
+#place3{top: 4.43em;left: 30.1em;}
+.place-bot{bottom: 9.7em;left: 1.12em;}
+#place5{bottom: 7em;left: 16.5em;}
+#place6{left: 32.4em;}
+.userInfo{position:relative;bottom:55px;text-align:center;color: #000;}

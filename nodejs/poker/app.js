@@ -9,8 +9,8 @@ var express = require('express'),
 
 // Configure passport
 var User = require('./models/user');
-
 var Chat = require('./models/chat');
+var Poker = require('./models/poker');
 
 passport.use(new LocalStrategy(User.authenticate()));
 
@@ -47,11 +47,20 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.set('pseudo', pseudo);
         socket.broadcast.emit('nouveau_client', pseudo);
     });
-    socket.on('new_poker_user', function (pseudo, place) {
+    socket.on('new_poker_user', function (pseudo, table, place) {
+        Poker.findOne({table: table}, function (err, poker) {
+            if (poker) {
+                poker.user.push({username: pseudo, place: place, money: 100}); 
+                poker.save();
+                socket.broadcast.emit('new_poker_user', {pseudo: pseudo, place: place});
+            } else {
+                console.log('no data for this company');
+            }
+        });
         socket.get('poker', function (error, params) {
             if(!params){
                 pseudo = ent.encode(pseudo);
-                socket.set('poker', {pseudo: pseudo, place: place});
+                socket.set('place', place);
                 socket.broadcast.emit('new_poker_user', pseudo, place);
             }
         });
