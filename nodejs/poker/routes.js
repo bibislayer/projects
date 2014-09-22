@@ -18,6 +18,7 @@ module.exports = function (app) {
         });
     });
     app.get('/poker', ensureAuthenticated, function (req, res) {
+        req.session.redirect_to = '/poker';
         /*var poker = new Poker({
             user: {},
             table: 5,
@@ -45,13 +46,14 @@ module.exports = function (app) {
 
     });
     app.get('/poker/table/:num', ensureAuthenticated, function (req, res) {
+        req.session.redirect_to = '/poker/table/' + req.params.num;
         Poker.findOne({table: req.params.num}, function (err, poker) {
             if (poker) {
                 Chat.find(function (err, chats, count) {
                     res.render('poker', {
                         title: 'poker',
                         h1: 'Poker <small>Game and chat</small>',
-                        breadcrumb: 'Poker >> Table nº'+poker.table,
+                        breadcrumb: 'Poker >> Table nº' + poker.table,
                         user: req.user,
                         chats: chats,
                         req: req,
@@ -87,7 +89,12 @@ module.exports = function (app) {
     });
     app.post('/login', passport.authenticate('local', {failureRedirect: '/login', failureFlash: true}),
             function (req, res) {
-                res.redirect('/');
+                console.log(req.session.redirect_to);
+                var redirect_to = req.session.redirect_to ? req.session.redirect_to : '/';
+                delete req.session.redirect_to;
+                //is authenticated ?
+                res.redirect(redirect_to);
+                //res.redirect('/');
             });
     app.get('/logout', function (req, res) {
         req.logout();
@@ -97,10 +104,11 @@ module.exports = function (app) {
         res.send("pong!", 200);
     });
     function ensureAuthenticated(req, res, next) {
+        console.log(req.session.redirect_to);
         if (req.isAuthenticated()) {
             return next();
         }
-        res.redirect('/login')
+        res.redirect('/login');
     }
 };
 

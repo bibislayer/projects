@@ -31,6 +31,14 @@ All right reserved Dev-Monkey.
     opacity: 0.7;
     filter: alpha(opacity=70);
 }
+#table:not(.placed) .place:hover{
+    -moz-box-shadow: 0 0 20px #000; 
+    -webkit-box-shadow: 0 0 20px #000; 
+    box-shadow: 0 0 20px #000;
+    background-color: rgba(255, 255, 255, 0.75);
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
 .place-top{top: 4.43em;left: 3.16em;}
 #place2{top: 2.43em;left: 16.6em;}
 #place3{top: 4.43em;left: 30.1em;}

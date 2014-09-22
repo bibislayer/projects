@@ -36,18 +36,22 @@
         </div>
     </div>
     <div class="col-lg-4">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <i class="fa fa-user"></i>
-            <%= user.username %>
+        <div id="pokerAlertBox" style="display:none;" class="">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <div class="content"></div>
         </div>
-        <!-- /.panel-heading -->
-        <div class="panel-body">
-            <p>votre argent : <span id="ownMoney"></span></p>
-            <p>votre mise :</p>
-            <p>vos cartes :</p>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-user"></i>
+                <%= user.username %>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <p>votre argent : <span id="ownMoney"></span></p>
+                <p>votre mise :</p>
+                <p>vos cartes :</p>
+            </div>
         </div>
-    </div>
     <!-- /.panel-footer -->
 </div>
     <% include chat %>
@@ -71,40 +75,65 @@
             console.log('coin gauche');
         }
         //console.log(event.pageY, event.pageX);
+    }
+    <% 
+    var active = 0;
+    if (poker && poker.user && poker.user != 'null'){
+        for(var i=0; i<poker.user.length; i++){
+            if (poker.user[i].place){
+               if(poker.user[i].username == user.username){
+                   active = 1;
+                   var userPlace = poker.user[i].place;
+                   %>
+                   $('#ownMoney').html('<%= poker.user[i].money %>');
+                   $('#table').addClass('placed');
+           <%
+               }
+            %>
+            
+            $('#<%= poker.user[i].place %>').addClass('active');
+            $('#<%= poker.user[i].place %> .userInfo').html('<p><%= poker.user[i].username %></p><p><%= poker.user[i].money %></p>');
+    <%      }
         }
-        <% 
-        var active = 0;
-        if (poker && poker.user){
-            for(var i=0; i<poker.user.length; i++){
-                if (poker.user[i].place){
-                   if(poker.user[i].username == user.username){
-                       var active = 1;
-                       %>
-                       $('#ownMoney').html('<%= poker.user[i].money %>');
-               <%
-                   }
-                %>
-                $('#<%= poker.user[i].place %>').addClass('active');
-                $('#<%= poker.user[i].place %> .userInfo').html('<p><%= poker.user[i].username %></p><p><%= poker.user[i].money %></p>');
-        <%      }
-            }
-        }
-        
-        if(!active){ %>
-            //place action
-            $('.place').mouseover(function () {
-                $('.place').removeClass('active');
-                $(this).addClass('active');
-            });
-            $('.place').click(function () {
-                socket.emit('new_poker_user', '<%= user.username %>', '<%=req.params.num %>', $(this).attr('id'));
-                insereMessage('Admin', 'Salut, <%= user.username %>, vous pouvez chater en jouant :)');
-                $(this).addClass('active');
-            });
+    }  
+    if(!active){ %>
+        //place action
+        /*$('.place').mouseover(function () {
+            $('.place').removeClass('active');
+            $(this).addClass('active');
+        });*/
+        $('.place').click(function () {
+            socket.emit('new_poker_user', '<%= user.username %>', '<%=req.params.num %>', $(this).attr('id'));
+            location.reload();
+        });
+    <% }else{ %>
+        $(window).bind('beforeunload', function(event) {
+            event.stopPropagation();
+            socket.emit('del_poker_user', '<%= user.username %>', '<%= req.params.num %>', '<%= userPlace %>');      
+            return "Attention !\nVous Aller vous deconnecter du salon.\nSi vous appuyer sur OK, votre partie prendra fin.\n\nLa fenêtre est sur le point de se fermer";
+        });
     <% } %>
     // Quand un nouveau client se connecte, on affiche l'information
-    socket.on('new_poker_user', function (pseudo, place) {
-        $('#' + place).addClass('active');
-        $('.table').prepend('<p><em>' + pseudo + ' a rejoint la table !</em></p>');
+    socket.on('poker_alert', function (params) {
+        if(params){
+            console.log(params);
+            $('#pokerAlertBox').attr('class', params.class);
+            $('#pokerAlertBox .content').html(params.message);
+            $('#pokerAlertBox').slideDown();
+        }
+    })
+    socket.on('new_poker_user', function (params) {
+        if(params){
+            $('#' + params.place).addClass('active');
+            $('#' + params.place + '').find('.userInfo').html('<p>' + params.username + '</p><p>' + params.money + '</p>');
+            $('.table').append('<p><em>' + params.username + ' a rejoint la table !</em></p>');
+        }
+    })
+    socket.on('del_poker_user', function (params) {
+        if(params){
+            $('#' + params.place).removeClass('active');
+            $('#' + params.place + '').find('.userInfo').html('');  
+            $('.table').append('<p><em>' + params.username + ' a quiter la table !</em></p>');
+        }
     })
 </script>

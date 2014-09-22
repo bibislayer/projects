@@ -11,6 +11,7 @@ var express = require('express'),
 var User = require('./models/user');
 var Chat = require('./models/chat');
 var Poker = require('./models/poker');
+var PokerUser = require('./models/poker_user');
 
 passport.use(new LocalStrategy(User.authenticate()));
 
@@ -47,21 +48,53 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.set('pseudo', pseudo);
         socket.broadcast.emit('nouveau_client', pseudo);
     });
+    var uId;
     socket.on('new_poker_user', function (pseudo, table, place) {
+        var used = 0;
+        pseudo = ent.encode(pseudo);
+        socket.set('place', place);
+        //console.log(user);
         Poker.findOne({table: table}, function (err, poker) {
             if (poker) {
-                poker.user.push({username: pseudo, place: place, money: 100}); 
-                poker.save();
-                socket.broadcast.emit('new_poker_user', {pseudo: pseudo, place: place});
+                for (var i = 0; i < poker.user.length; i++) {
+                    if (pseudo == poker.user[i].pseudo) {
+                        used = 1;
+                        uId = poker.user[i]._id;
+                    }
+                }
+                if (!used) {
+                    poker.user.push(new PokerUser({username: pseudo, place: place, money: 100}));
+                    poker.save();
+                    socket.broadcast.emit('poker_alert', {message: "New player connected", class: 'alert alert-dismissable alert-success'});
+                    socket.broadcast.emit('new_poker_user', {username: pseudo, place: place, money: 100});
+                } else {
+                    socket.emit('poker_alert', {message: "Have existing place on this table", class: 'alert alert-dismissable alert-warning'});
+                }
             } else {
                 console.log('no data for this company');
             }
         });
-        socket.get('poker', function (error, params) {
-            if(!params){
-                pseudo = ent.encode(pseudo);
-                socket.set('place', place);
-                socket.broadcast.emit('new_poker_user', pseudo, place);
+    });
+    socket.on('del_poker_user', function (pseudo, table, place) {
+        console.log(pseudo + ' user delete');
+        Poker.findOne({table: table}, function (err, poker) {
+            if (poker) {
+                for (var i = 0; i < poker.user.length; i++) {
+                    if (pseudo == poker.user[i].username) {
+                        console.log(poker.user[i]);
+                        poker.user.splice(i,1);
+                        console.log(poker);
+                    }
+                }
+                Poker.update({table: table}, {$set: {user: poker.user}}, function (err, poker) {
+                    if (err)
+                        return handleError(err);
+                    socket.broadcast.emit('del_poker_user', {username: pseudo, place: place});
+                    socket.broadcast.emit('poker_alert', {message: "Player: "+pseudo+" disconnected", class: 'alert alert-dismissable alert-warning'});
+                    
+                });
+            } else {
+                console.log('no data for this company');
             }
         });
     });
