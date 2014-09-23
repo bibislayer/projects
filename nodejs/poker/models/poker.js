@@ -6,6 +6,7 @@ var Poker = new Schema({
     table: Number,
     round: Number,
     money: Number,
+    place: Number,
     created: {type: Date, default: Date.now},
     updated: {type: Date, default: Date.now}
 }, { collection: 'pokercollection' });

@@ -2,32 +2,29 @@
 <% script() -%>
 <% stylesheet() -%>
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-9">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> take seat </h3>
             </div>
             <div class="panel-body">
                 <div id="table">
-                    <div id="place1" class='place place-top'>
-                        <div class="userInfo"></div>
+                    <% for (var i=1;i<9;i++){ %>
+                        <div class="place" data-id="<%= i %>" id="place<%= i %>">
+                            <canvas id="canvas_timer_<%= i %>" width="98" height="98"></canvas>
+                            <div class="content_time" id="content_time_<%= i %>">
+                                <p><span class="mins"></span> : <span class="secs"></span></p>
+                            </div>
+                            <div class="infoUser" style="display:none;"> 
+                                <p class="playerName" ></p>
+                                <img class="user" src="/img/user.png" />
+                            </div>
+                        </div>
+                    <% } %>
+                    <div class="col-lg-8 tablecard">  
+                        <div class="col-lg-2 card card1_23" data-card="1_23"></div>  
                     </div>
-                    <div id="place2" class='place place-top'>
-                        <div class="userInfo"></div>
-                    </div>
-                    <div id="place3" class='place place-top'>
-                        <div class="userInfo"></div>
-                    </div>
-                    <canvas id='myCanvas'></canvas>
-                    <div id="place4" class='place place-bot'>
-                        <div class="userInfo"></div>
-                    </div>
-                    <div id="place5" class='place place-bot'>
-                        <div class="userInfo"></div>
-                    </div>
-                    <div id="place6" class='place place-bot'>
-                        <div class="userInfo"></div>
-                    </div>
+                    <div id="pot">Total pot : <span></span></div>
                 </div>
                 <div class="text-right">
                     <a href="#">Externalize table <i class="fa fa-arrow-circle-right"></i></a>
@@ -35,7 +32,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div id="pokerAlertBox" style="display:none;" class="">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <div class="content"></div>
@@ -57,24 +54,66 @@
     <% include chat %>
 </div>
 <!-- /.row -->
-
+<script src="/js/timer.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var canvas = document.getElementById('myCanvas');
-    var ctx = canvas.getContext('2d');
-    var img = new Image();
-    img.onload = function () {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-    }
-    img.src = '/img/table.jpg';
-    canvas.addEventListener("mousemove", doMouseOver, false);
-    function doMouseOver(event) {
-        if (event.pageY >= 478 && event.pageY <= 480) {
-            console.log('coin gauche');
+    //initianlize poker
+    socket.emit('init_poker', '<%=req.params.num %>');      
+    socket.on('initialised', function (params) {
+        if(params){
+            console.log(params);
+            socket.emit('next_poker_user');
         }
-        //console.log(event.pageY, event.pageX);
+    })
+    
+    //submit mise + get next player
+    socket.on('next_poker_user', function (params) {
+        if(params){
+            console.log(params);
+            clearInterval(cdown);
+            j++;
+            if (j >= <%= poker.user.length %>)
+                j = 1;
+            $("div.place").attr('class', 'place');
+            $("#place"+params.place).addClass('activePlayer');
+            console.log(j);
+            JBCountDown({
+                id: params.place,
+                selector: 'canvas_timer_',
+                secondsColor: "#f9f9f9",
+                secondsGlow: "#666666",
+                timeLimit: 5,
+                next: function(){
+                    socket.emit('next_poker_user');
+                }
+            });
+            /*data = JSON.parse(data);
+            if (currentPlace === {{ player.place }}) {
+                $('#player_total_money').text(data.money);
+            }
+            if (!parseInt($('#pot span').text())) {
+                var totalPot = data.mise;
+            } else {
+                var totalPot = parseInt($('#pot span').text()) + data.mise;
+            }
+            $('#pot span').text(totalPot);*/
+        }
+    })
+    var playerTable = [];
+    var j;
+    if (!parseInt($('#pot span').text())) {
+        var totalPot = "<%= poker.money %>";
+    } else {
+        var totalPot = parseInt($('#pot span').text()) + <%= user.moneyUsed %>;
+    }
+    $('#pot span').text(totalPot);
+    
+     var id = '';
+    var j = 0;
+    var first = true;
+    function miser() {
+        //submit mise player
+        socket.emit('poker_user_mise', parseInt($('#player_mise').text()), '<%=req.params.num %>'); 
     }
     <% 
     var active = 0;
@@ -83,40 +122,54 @@
             if (poker.user[i].place){
                if(poker.user[i].username == user.username){
                    active = 1;
-                   var userPlace = poker.user[i].place;
                    %>
+                   $('#place<%= poker.user[i].place %>').find('.infoUser').show();
                    $('#ownMoney').html('<%= poker.user[i].money %>');
                    $('#table').addClass('placed');
            <%
                }
             %>
             
-            $('#<%= poker.user[i].place %>').addClass('active');
-            $('#<%= poker.user[i].place %> .userInfo').html('<p><%= poker.user[i].username %></p><p><%= poker.user[i].money %></p>');
-    <%      }
+            $('#place<%= poker.user[i].place %>').addClass('activePlayer');
+            $('#place<%= poker.user[i].place %> .infoUser .playerName').html('<%= poker.user[i].username %>');
+            $('#place<%= poker.user[i].place %> .infoUser').show();
+     <% } 
+        if(poker.user[i].moneyUsed){ %>
+            if (!parseInt($('#pot span').text())) {
+                var totalPot = <%= poker.user[i].moneyUsed %>;
+            } else {
+                var totalPot = parseInt($('#pot span').text()) + <%= poker.user[i].moneyUsed %>;
+            }
+            $('#pot span').text(totalPot);
+     <% } %> 
+            playerTable.push('<%= poker.user[i].place %>');
+    <% 
         }
-    }  
-    if(!active){ %>
+    }  %>
         //place action
         /*$('.place').mouseover(function () {
             $('.place').removeClass('active');
             $(this).addClass('active');
         });*/
-        $('.place').click(function () {
-            socket.emit('new_poker_user', '<%= user.username %>', '<%=req.params.num %>', $(this).attr('id'));
-            location.reload();
+        $('#table:not(placed) .place').click(function () {
+            $('#table').addClass('placed');
+            $(this).find('.infoUser').show();
+            $(this).find('.infoUser').html('<p class="playerName"><%= user.username %></p><img class="user" src="/img/user.png" />');
+            
+            var n = 1; // nbre de caractères
+            var length = $(this).attr('id').length;
+            var result = $(this).attr('id').substring(length -n, length);
+            socket.emit('new_poker_user', '<%= user.username %>', '<%=req.params.num %>', result);
+            //location.reload();
         });
-    <% }else{ %>
         $(window).bind('beforeunload', function(event) {
             event.stopPropagation();
-            socket.emit('del_poker_user', '<%= user.username %>', '<%= req.params.num %>', '<%= userPlace %>');      
+            socket.emit('del_poker_user', '<%= user.username %>', '<%= req.params.num %>');      
             return "Attention !\nVous Aller vous deconnecter du salon.\nSi vous appuyer sur OK, votre partie prendra fin.\n\nLa fenêtre est sur le point de se fermer";
         });
-    <% } %>
     // Quand un nouveau client se connecte, on affiche l'information
     socket.on('poker_alert', function (params) {
         if(params){
-            console.log(params);
             $('#pokerAlertBox').attr('class', params.class);
             $('#pokerAlertBox .content').html(params.message);
             $('#pokerAlertBox').slideDown();
@@ -124,16 +177,78 @@
     })
     socket.on('new_poker_user', function (params) {
         if(params){
-            $('#' + params.place).addClass('active');
-            $('#' + params.place + '').find('.userInfo').html('<p>' + params.username + '</p><p>' + params.money + '</p>');
-            $('.table').append('<p><em>' + params.username + ' a rejoint la table !</em></p>');
+            $('#place' + params.place + ' .infoUser').show();
+            $('#place' + params.place + ' .infoUser .playerName').html(params.username + ' ' + params.money);
+            $('.table').append('<p><em>' + params.username + ' a rejoint la table !</em></p>'); 
         }
     })
     socket.on('del_poker_user', function (params) {
         if(params){
-            $('#' + params.place).removeClass('active');
-            $('#' + params.place + '').find('.userInfo').html('');  
+            console.log(params);
+            $('#place' + params.place + ' .infoUser').hide();  
+            $('#place' + params.place + ' .infoUser .playerName').html('');  
             $('.table').append('<p><em>' + params.username + ' a quiter la table !</em></p>');
         }
     })
+   
+    //set flop
+    // Quand un nouveau client se connecte, on affiche l'information
+    socket.on('set_flop', function (params) {
+        if(params){
+            /*data = JSON.parse(data);
+                //console.log(data);
+                var cardsTable = data.table;
+                var comb = data.comb.cards;
+                $('#combName').text(data.comb.name);
+                $('.tablecard').html('');
+                for (var count = 0; count < cardsTable.length; count++) {
+                    $('.tablecard').append('<div class="col-lg-2 card card' + cardsTable[count] + '" data-card="' + cardsTable[count] + '"></div>');
+                    var x = cardsTable[count].split('-')[0];
+                    var y = cardsTable[count].split('-')[1];
+                    var j = y * 89.6;
+                    var i = x * 61.4;
+                    $(".card" + x + "-" + y).css({backgroundPosition: "-" + i + "px -" + j + "px"});
+                }
+
+                $('.comb').html('');
+                for (var count2 = 0; count2 < comb.length; count2++) {
+                    $('.comb').append('<div class="col-lg-2 card card' + comb[count2] + '" data-card="' + comb[count2] + '"></div>');
+                    var x = comb[count2].split('-')[0];
+                    var y = comb[count2].split('-')[1];
+                    var j = y * 89.6;
+                    var i = x * 61.4;
+                    $(".card" + x + "-" + y).css({backgroundPosition: "-" + i + "px -" + j + "px"});
+                }  */
+        }
+    })
+     socket.on('poker_user_mise', function (params) {
+        if(params){
+            /*$("#slider").slider({
+                range: "min",
+                value: parseInt($('#player_mise').text()),
+                min: 1,
+                max: data,
+                slide: function(event, ui) {
+                    $("#player_mise").text(ui.value);
+                }
+            });
+            $('#player_total_money').text(data);
+            if (!parseInt($('#pot span').text())) {
+                var totalPot = parseInt($('#player_mise').text());
+            } else {
+                var totalPot = parseInt($('#pot span').text()) + parseInt($('#player_mise').text());
+            }
+            $('#pot span').text(totalPot);
+            }*/
+        }
+    });
+    $('.card').each(function() {
+        var coor = $(this).attr('data-card');
+        var x = coor.split('-')[0];
+        var y = coor.split('-')[1];
+        var j = y * 89.6;
+        var i = x * 61.4;
+        // console.log(i + " " + j);
+        $(".card" + x + "-" + y).css({backgroundPosition: "-" + i + "px -" + j + "px"});
+    });
 </script>

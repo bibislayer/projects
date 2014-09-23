@@ -49,24 +49,80 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.broadcast.emit('nouveau_client', pseudo);
     });
     var uId;
+    socket.on('init_poker', function (table) {
+        Poker.findOne({table: table}, function (err, poker) {
+            if (poker) {
+                socket.set('poker', poker);
+                for (var i = 0; i < poker.user.length; i++) {
+                    if (poker.place == poker.user[i].place) {
+                        console.log('place '+poker.place);
+                        if(poker.user[i+1]){
+                            poker.place = poker.user[i+1].place;
+                            console.log('place '+poker.place);
+                        }
+                    }
+                }
+                if(!poker.place){
+                    poker.place=1;
+                }
+                poker.save();
+                socket.emit('initialised', {place: poker.place});
+                /*for (var i = 0; i < poker.user.length; i++) {
+                 if (place == poker.user[i].place) {
+                 socket.set('place', place);
+                 }
+                 }*/
+            } else {
+                console.log('no data for this company');
+            }
+        });
+    });
+    socket.on('next_poker_user', function () {
+        socket.get('poker', function (error, poker) {
+            if (poker) {
+                socket.set('poker', poker);
+                console.log(poker);
+                for (var i = 0; i < poker.user.length; i++) {
+                    if (poker.place == poker.user[i].place) {
+                        poker.place = poker.user[i].place;
+                        if(poker.user[i+1]){
+                            poker.place = poker.user[i+1].place;
+                        }
+                    }
+                }
+                if(!poker.place){
+                    poker.place=1;
+                }
+                console.log(poker);
+                poker.save();
+                socket.broadcast.emit('next_poker_user', {place: poker.place});
+                /*for (var i = 0; i < poker.user.length; i++) {
+                 if (place == poker.user[i].place) {
+                 socket.set('place', place);
+                 }
+                 }*/
+            } else {
+                console.log('no data for this company');
+            }
+        });
+    });
     socket.on('new_poker_user', function (pseudo, table, place) {
         var used = 0;
         pseudo = ent.encode(pseudo);
         socket.set('place', place);
-        //console.log(user);
-        Poker.findOne({table: table}, function (err, poker) {
+        socket.get('poker', function (error, poker) {
+            console.log(poker);
             if (poker) {
                 for (var i = 0; i < poker.user.length; i++) {
                     if (pseudo == poker.user[i].pseudo) {
                         used = 1;
-                        uId = poker.user[i]._id;
                     }
                 }
                 if (!used) {
-                    poker.user.push(new PokerUser({username: pseudo, place: place, money: 100}));
+                    poker.user.push(new PokerUser({username: pseudo, place: parseInt(place), money: 100, moneyUsed: 0}));
                     poker.save();
                     socket.broadcast.emit('poker_alert', {message: "New player connected", class: 'alert alert-dismissable alert-success'});
-                    socket.broadcast.emit('new_poker_user', {username: pseudo, place: place, money: 100});
+                    socket.broadcast.emit('new_poker_user', {username: pseudo, place: parseInt(place), money: 100});
                 } else {
                     socket.emit('poker_alert', {message: "Have existing place on this table", class: 'alert alert-dismissable alert-warning'});
                 }
@@ -74,15 +130,20 @@ io.sockets.on('connection', function (socket, pseudo) {
                 console.log('no data for this company');
             }
         });
+        //console.log(user);
+        Poker.findOne({table: table}, function (err, poker) {
+
+        });
     });
-    socket.on('del_poker_user', function (pseudo, table, place) {
+    socket.on('del_poker_user', function (pseudo, table) {
         console.log(pseudo + ' user delete');
         Poker.findOne({table: table}, function (err, poker) {
             if (poker) {
                 for (var i = 0; i < poker.user.length; i++) {
                     if (pseudo == poker.user[i].username) {
+                        var place = poker.user[i].place;
                         console.log(poker.user[i]);
-                        poker.user.splice(i,1);
+                        poker.user.splice(i, 1);
                         console.log(poker);
                     }
                 }
@@ -90,8 +151,8 @@ io.sockets.on('connection', function (socket, pseudo) {
                     if (err)
                         return handleError(err);
                     socket.broadcast.emit('del_poker_user', {username: pseudo, place: place});
-                    socket.broadcast.emit('poker_alert', {message: "Player: "+pseudo+" disconnected", class: 'alert alert-dismissable alert-warning'});
-                    
+                    socket.broadcast.emit('poker_alert', {message: "Player: " + pseudo + " disconnected", class: 'alert alert-dismissable alert-warning'});
+
                 });
             } else {
                 console.log('no data for this company');
