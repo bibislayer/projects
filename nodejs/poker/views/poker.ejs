@@ -61,11 +61,9 @@
     socket.emit('init_poker', '<%=req.params.num %>');      
     socket.on('initialised', function (params) {
         if(params){
-            console.log(params);
-            socket.emit('next_poker_user');
+            socket.emit('next_poker_user'); 
         }
     })
-    
     //submit mise + get next player
     socket.on('next_poker_user', function (params) {
         if(params){

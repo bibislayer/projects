@@ -122,7 +122,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                     poker.user.push(new PokerUser({username: pseudo, place: parseInt(place), money: 100, moneyUsed: 0}));
                     poker.save();
                     socket.broadcast.emit('poker_alert', {message: "New player connected", class: 'alert alert-dismissable alert-success'});
-                    socket.broadcast.emit('new_poker_user', {username: pseudo, place: parseInt(place), money: 100});
+                    socket.broadcast.emit('new_poker_user', {username: pseudo, place: parseInt(place), money: 100});     
                 } else {
                     socket.emit('poker_alert', {message: "Have existing place on this table", class: 'alert alert-dismissable alert-warning'});
                 }
