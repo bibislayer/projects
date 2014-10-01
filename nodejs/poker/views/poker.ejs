@@ -57,34 +57,75 @@
 <script src="/js/timer.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    //initianlize poker
+    //initianlize poker   
     socket.emit('init_poker', '<%=req.params.num %>');      
-    socket.on('initialised', function (params) {
-        if(params){
-            socket.emit('next_poker_user'); 
+    socket.on('initialised', function (poker) {
+        if(poker){
+            console.log(poker);
+            if(poker.user){
+                var active = 0;
+                for(var i=0; i<poker.user.length; i++){
+                    if (poker.user[i].place){
+                        if(poker.user[i].username == '<%= user.username %>'){
+                            active = 1;
+                        }
+                        $('#place '+ poker.user[i].place+' .infoUser').show();
+                        $('#ownMoney').html(poker.user[i].money);
+                        $('#table').addClass('placed');
+                    }
+                    $('#place'+ poker.user[i].place).addClass('activePlayer');
+                    $('#place'+ poker.user[i].place+' .infoUser .playerName').html(poker.user[i].pseudo);
+                    $('#place'+ poker.user[i].place+' .infoUser').show();
+                    if(poker.user[i].moneyUsed){
+                        if (!parseInt($('#pot span').text())) {
+                            var totalPot = poker.user[i].moneyUsed;
+                        } else {
+                            var totalPot = parseInt($('#pot span').text()) + poker.user[i].moneyUsed;
+                        }
+                        $('#pot span').text(totalPot);
+                    } 
+                } 
+            }
         }
-    })
+        
+    });
+    
+    //demarage du tour
+    socket.on('your_turn', function () {
+            console.log('a vous de jouer');
+    });
+    //selection place
+    $('#table:not(placed) .place').click(function () {
+        $('#table').addClass('placed');
+        $(this).find('.infoUser').show();
+        $(this).find('.infoUser').html('<p class="playerName"><%= user.username %></p><img class="user" src="/img/user.png" />');
+
+        var n = 1; // nbre de caractères
+        var length = $(this).attr('id').length;
+        var result = $(this).attr('id').substring(length -n, length);
+        socket.emit('new_poker_user', '<%= user.username %>', '<%=req.params.num %>', result);
+        socket.emit('init_poker', '<%=req.params.num %>');
+        //location.reload();
+    });
     //submit mise + get next player
     socket.on('next_poker_user', function (params) {
+        console.log('next user');
         if(params){
-            console.log(params);
             clearInterval(cdown);
-            j++;
-            if (j >= <%= poker.user.length %>)
-                j = 1;
-            $("div.place").attr('class', 'place');
-            $("#place"+params.place).addClass('activePlayer');
-            console.log(j);
-            JBCountDown({
-                id: params.place,
-                selector: 'canvas_timer_',
-                secondsColor: "#f9f9f9",
-                secondsGlow: "#666666",
-                timeLimit: 5,
-                next: function(){
-                    socket.emit('next_poker_user');
-                }
-            });
+            console.log(params.poker.place);
+            if(params.poker.place != 0 && params.poker.user && params.poker.user.length > 1){
+                $("div.place").attr('class', 'place');
+                $("#place"+params.poker.place).addClass('activePlayer');
+                JBCountDown({
+                    id: params.poker.place,
+                    selector: 'canvas_timer_',
+                    secondsColor: "#f9f9f9",
+                    secondsGlow: "#666666",
+                    timeLimit: 5,
+                    next: function(){
+                    }
+                });
+            }
             /*data = JSON.parse(data);
             if (currentPlace === {{ player.place }}) {
                 $('#player_total_money').text(data.money);
@@ -113,58 +154,12 @@
         //submit mise player
         socket.emit('poker_user_mise', parseInt($('#player_mise').text()), '<%=req.params.num %>'); 
     }
-    <% 
-    var active = 0;
-    if (poker && poker.user && poker.user != 'null'){
-        for(var i=0; i<poker.user.length; i++){
-            if (poker.user[i].place){
-               if(poker.user[i].username == user.username){
-                   active = 1;
-                   %>
-                   $('#place<%= poker.user[i].place %>').find('.infoUser').show();
-                   $('#ownMoney').html('<%= poker.user[i].money %>');
-                   $('#table').addClass('placed');
-           <%
-               }
-            %>
-            
-            $('#place<%= poker.user[i].place %>').addClass('activePlayer');
-            $('#place<%= poker.user[i].place %> .infoUser .playerName').html('<%= poker.user[i].username %>');
-            $('#place<%= poker.user[i].place %> .infoUser').show();
-     <% } 
-        if(poker.user[i].moneyUsed){ %>
-            if (!parseInt($('#pot span').text())) {
-                var totalPot = <%= poker.user[i].moneyUsed %>;
-            } else {
-                var totalPot = parseInt($('#pot span').text()) + <%= poker.user[i].moneyUsed %>;
-            }
-            $('#pot span').text(totalPot);
-     <% } %> 
-            playerTable.push('<%= poker.user[i].place %>');
-    <% 
-        }
-    }  %>
-        //place action
-        /*$('.place').mouseover(function () {
-            $('.place').removeClass('active');
-            $(this).addClass('active');
-        });*/
-        $('#table:not(placed) .place').click(function () {
-            $('#table').addClass('placed');
-            $(this).find('.infoUser').show();
-            $(this).find('.infoUser').html('<p class="playerName"><%= user.username %></p><img class="user" src="/img/user.png" />');
-            
-            var n = 1; // nbre de caractères
-            var length = $(this).attr('id').length;
-            var result = $(this).attr('id').substring(length -n, length);
-            socket.emit('new_poker_user', '<%= user.username %>', '<%=req.params.num %>', result);
-            //location.reload();
-        });
-        $(window).bind('beforeunload', function(event) {
-            event.stopPropagation();
-            socket.emit('del_poker_user', '<%= user.username %>', '<%= req.params.num %>');      
-            return "Attention !\nVous Aller vous deconnecter du salon.\nSi vous appuyer sur OK, votre partie prendra fin.\n\nLa fenêtre est sur le point de se fermer";
-        });
+
+    $(window).bind('beforeunload', function(event) {
+        event.stopPropagation();
+        socket.emit('del_poker_user', '<%= user.username %>', '<%= req.params.num %>');      
+        return "Attention !\nVous Aller vous deconnecter du salon.\nSi vous appuyer sur OK, votre partie prendra fin.\n\nLa fenêtre est sur le point de se fermer";
+    });
     // Quand un nouveau client se connecte, on affiche l'information
     socket.on('poker_alert', function (params) {
         if(params){

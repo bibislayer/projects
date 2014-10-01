@@ -1,50 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-    <% include header %>
-    <body>    
-        <div class="container">   
-            <div class="page-header">     
+<% layout('layout') -%>
+<% script() -%>
+<% stylesheet() -%>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Please Sign In</h3>
             </div>
-            <div class="col-md-10 panel panel-default">
-                <div class="panel-heading">Register</div>
-                <div class="panel-body">
-                    <% if (message) { %>
-                    <p><%= message %></p>
-                    <% } %>
-                    <form action="/register" method="post">
-                        <div>
-                            <label>Username:</label>
-                            <input type="text" name="username"/><br/>
+            <div class="panel-body">
+                <% if (message) { %>
+                <p><%= message %></p>
+                <% } %>
+                <form method="post" action="/login" role="form">
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Username" name="username" type="username" autofocus="">
                         </div>
-                        <div>
-                            <label>Password:</label>
-                            <input type="password" name="password"/>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Password" name="password" type="password" value="">
                         </div>
-                        <div>
-                            <input type="submit" value="Submit"/>
+                        <div class="checkbox">
+                            <label>
+                                <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                            </label>
                         </div>
-                    </form>
-                </div>
-                <p><small>Hint - bob:secret</small></p>
+                        <!-- Change this to a button or input when using this as a form -->
+                        <button class="btn btn-lg btn-success btn-block">Login</button>
+                    </fieldset>
+                </form>
             </div>
-
-            <hr>
-
-            <% include footer %>
         </div>
-        <!-- /container -->
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#home').addClass("active");
-            });
-        </script>
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://code.jquery.com/jquery.js"></script>
-        <!-- Latest compiled and minified JavaScript -->
-        <script
-        src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    </body>
-</html>
+    </div>
+</div>

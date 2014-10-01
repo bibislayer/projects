@@ -19,16 +19,6 @@ module.exports = function (app) {
     });
     app.get('/poker', ensureAuthenticated, function (req, res) {
         req.session.redirect_to = '/poker';
-        /*var poker = new Poker({
-            user: {},
-            table: 5,
-            round: 0,
-            money: 0
-        });
-        poker.save(function (err, poker) {
-            if (err)
-                return console.error(err);
-        });*/
         var content = '';
         Poker.find(function (err, tables, count) {
             if (tables.length > 1)

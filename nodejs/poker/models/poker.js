@@ -7,6 +7,7 @@ var Poker = new Schema({
     round: Number,
     money: Number,
     place: Number,
+    nbUsers: Number,
     created: {type: Date, default: Date.now},
     updated: {type: Date, default: Date.now}
 }, { collection: 'pokercollection' });
