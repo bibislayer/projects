@@ -88,7 +88,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                         if (poker.user.length == poker.nbUsers) {
                             var used = false;
                             for (var i = 0; i < poker.user.length; i++) {
-                                if(poker.user[i] && poker.user[i].place == poker.place && poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place){
+                                if(poker.user[i] && poker.user[i].place == poker.place){
                                     if (!used && poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
                                         poker.place = poker.user[i + 1].place;
                                         used = true;
