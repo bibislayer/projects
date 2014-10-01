@@ -39,7 +39,7 @@ app.configure(function () {
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
 });
-nbClients = 0;
+var idTable;
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket, pseudo) {
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
@@ -51,6 +51,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     socket.on('init_poker', function (table) {
         Poker.findOne({table: table}, function (err, poker) {
             if (poker) {
+                idTable = poker.table;
                 socket.set('poker', poker);
                 socket.emit('initialised', poker);
             } else {
@@ -75,7 +76,8 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
     //verifi le positionnement
     setInterval(function () {
-        socket.get('poker', function (error, poker) {
+        Poker.findOne({table: table}, function (err, poker) {
+            console.log(poker);
             var place;
             if (poker) {
                 socket.get('user', function (error, user) {
@@ -94,13 +96,14 @@ io.sockets.on('connection', function (socket, pseudo) {
                             poker.save();
                             socket.set('poker', poker);
                         }
-                        console.log('emit next user')
-                        io.sockets.emit('next_poker_user', {poker: poker});
                     }
+                    console.log('emit next user')
+                    io.sockets.emit('next_poker_user', {poker: poker});
                 });
             }
         });
     }, 5000);
+    
     socket.on('next_poker_user', function (params) {
         socket.get('poker', function (error, poker) {
             if (poker) {
