@@ -82,7 +82,7 @@
         $('.chat-panel .panel-body').scrollTop($('.chat-panel .panel-body')[0].scrollHeight);
     });
     // Connexion à socket.io
-    var socket = io.connect('http://192.168.1.13:8080');
+    var socket = io.connect('http://dev-monkey.org:8080');
 
     <% if (user.username){ %>
             socket.emit('nouveau_client', '<%= user.username %>');
