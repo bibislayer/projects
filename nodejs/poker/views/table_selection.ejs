@@ -90,7 +90,7 @@
         var socket = io.connect('http://dev-monkey.org:8080');
         $('#createTable').click(function (event) {
             event.stopPropagation();
-            var nbTable = $('li.pokerTable').lenght+1;
+            var nbTable = $('.pokerTable').lenght+1;
             socket.emit('create_table', nbTable);
             var content = '<div class="col-lg-3 col-md-6">\
             <div class="pokerTable panel panel-green">\
