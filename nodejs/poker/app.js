@@ -65,7 +65,8 @@ io.sockets.on('connection', function (socket, pseudo) {
             table: nbTable,
             round: 0,
             money: 0,
-            place: 0
+            place: 0,
+            nbUsers: 0
         });
         poker.save(function (err, poker) {
             if (err)
@@ -179,7 +180,9 @@ io.sockets.on('connection', function (socket, pseudo) {
                     socket.broadcast.emit('poker_alert', {message: "Player: " + pseudo + " disconnected", class: 'alert alert-dismissable alert-warning'});
 
                 });
-                poker.nbUsers = poker.nbUsers - 1;
+                if(poker.nbUsers > 0){
+                    poker.nbUsers = poker.nbUsers - 1;
+                }
                 poker.save();
                 socket.set('poker', poker);
             } else {
