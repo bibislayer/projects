@@ -86,13 +86,17 @@ io.sockets.on('connection', function (socket, pseudo) {
                         place = poker.place;
                         console.log('nb user ' + poker.user.length + ' ' + poker.nbUsers);
                         if (poker.user.length == poker.nbUsers) {
+                            var used = false;
                             for (var i = 0; i < poker.user.length; i++) {
                                 if (place == poker.user[i].place) {
                                     poker.place = poker.user[0].place;
                                 }
                                 if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
-                                    poker.place = poker.user[i + 1].place;
-                                    console.log('next place ' + poker.place);
+                                    if(!used){
+                                        poker.place = poker.user[i + 1].place;
+                                        console.log('next place ' + poker.place);
+                                        used = true;
+                                    }
                                 }
                                 console.log('set poker');
                                 poker.save();
