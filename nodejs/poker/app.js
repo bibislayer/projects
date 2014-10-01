@@ -76,7 +76,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
     //verifi le positionnement
     setInterval(function () {
-        Poker.findOne({table: table}, function (err, poker) {
+        Poker.findOne({table: idTable}, function (err, poker) {
             console.log(poker);
             var place;
             if (poker) {
