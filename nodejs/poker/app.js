@@ -64,7 +64,8 @@ io.sockets.on('connection', function (socket, pseudo) {
             user: {},
             table: nbTable,
             round: 0,
-            money: 0
+            money: 0,
+            place: 0
         });
         poker.save(function (err, poker) {
             if (err)
