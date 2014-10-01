@@ -79,23 +79,23 @@ io.sockets.on('connection', function (socket, pseudo) {
             if (poker) {
                 socket.get('user', function (error, user) {
                     place = poker.place;
-                    console.log('nb user '+poker.user.length+' '+poker.nbUsers);
-                    for (var i = 0; i < poker.user.length; i++) {
-                        if (poker.user.length == poker.nbUsers) {
+                    console.log('nb user ' + poker.user.length + ' ' + poker.nbUsers);
+                    if (poker.user.length == poker.nbUsers) {
+                        for (var i = 0; i < poker.user.length; i++) {
                             if (place == poker.user[i].place) {
                                 poker.place = poker.user[0].place;
                             }
                             if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
                                 poker.place = poker.user[i + 1].place;
                                 console.log('next place ' + poker.place);
-                            } 
+                            }
                             console.log('set poker');
                             poker.save();
                             socket.set('poker', poker);
                         }
+                        console.log('emit next user')
+                        io.sockets.emit('next_poker_user', {poker: poker});
                     }
-                    console.log('emit next user')
-                    io.sockets.emit('next_poker_user', {poker: poker});   
                 });
             }
         });
@@ -142,7 +142,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                 if (!used) {
                     var pokerUser = new PokerUser({username: pseudo, place: parseInt(place), money: 100, moneyUsed: 0});
                     poker.user.push(pokerUser);
-                    poker.nbUsers = poker.nbUsers+1;
+                    poker.nbUsers = poker.nbUsers + 1;
                     poker.save();
                     socket.set('user', pokerUser);
                     socket.set('poker', poker);
@@ -179,7 +179,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                     socket.broadcast.emit('poker_alert', {message: "Player: " + pseudo + " disconnected", class: 'alert alert-dismissable alert-warning'});
 
                 });
-                poker.nbUsers = poker.nbUsers-1;
+                poker.nbUsers = poker.nbUsers - 1;
                 poker.save();
                 socket.set('poker', poker);
             } else {
