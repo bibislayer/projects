@@ -140,7 +140,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         var used = 0;
         pseudo = ent.encode(pseudo);
         socket.set('place', place);
-        socket.get('poker', function (error, poker) {
+        Poker.findOne({table: table}, function (err, poker) {
             if (poker) {
                 for (var i = 0; i < poker.user.length; i++) {
                     if (pseudo == poker.user[i].pseudo) {
