@@ -25,10 +25,12 @@
                 </a>
             </div>          
         </div>
-        <% } %>
-        <div class="col-lg-12">
-            <button id="createTable" type="button" class="btn btn-default">Create table</button>
-        </div>
+        <% } %>   
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <button id="createTable" type="button" class="btn btn-default">Create table</button>
+    </div>
 </div>
 <!-- /.row -->
 <div class="row">
@@ -91,30 +93,31 @@
         $('#createTable').click(function (event) {
             event.stopPropagation();
             var nbTable = $('.tablePoker').length+1;
-            alert(nbTable);
-            socket.emit('create_table', nbTable);
-            var content = '<div class="tablePoker col-lg-3 col-md-6">\
-            <div class="panel panel-green">\
-                <div class="panel-heading">\
-                    <div class="row">\
-                        <div class="col-xs-8">\
-                            <div style="font-size: 35px;" >Table '+nbTable+'</div>\
-                        </div>\
-                        <div class="col-xs-4 text-right">\
-                            <div class="huge"></div>\
-                            <div>Users</div>\
+            if(nbTable < 6){
+                socket.emit('create_table', nbTable);
+                var content = '<div class="tablePoker col-lg-3 col-md-6">\
+                <div class="panel panel-green">\
+                    <div class="panel-heading">\
+                        <div class="row">\
+                            <div class="col-xs-8">\
+                                <div style="font-size: 35px;" >Table '+nbTable+'</div>\
+                            </div>\
+                            <div class="col-xs-4 text-right">\
+                                <div class="huge"></div>\
+                                <div>Users</div>\
+                            </div>\
                         </div>\
                     </div>\
-                </div>\
-                <a href="/poker/table/'+nbTable+'">\
-                    <div class="panel-footer">\
-                        <span class="pull-left">Enter</span>\
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>\
-                        <div class="clearfix"></div>\
-                    </div>\
-                </a>\
-            </div></div>';
-            $('.row:first').append(content);
+                    <a href="/poker/table/'+nbTable+'">\
+                        <div class="panel-footer">\
+                            <span class="pull-left">Enter</span>\
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>\
+                            <div class="clearfix"></div>\
+                        </div>\
+                    </a>\
+                </div></div>';
+                $('.row:first').append(content);
+            }
         });   
     });
 </script>
