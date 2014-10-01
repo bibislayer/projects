@@ -92,6 +92,8 @@ io.sockets.on('connection', function (socket, pseudo) {
                                     if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
                                         poker.place = poker.user[i + 1].place;
                                         console.log('next place ' + poker.place);
+                                    }else{
+                                        poker.place = poker.user[0].place;
                                     }
                                 }
                                 /*if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
