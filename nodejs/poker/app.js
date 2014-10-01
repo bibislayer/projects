@@ -98,7 +98,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                                         used = true;
                                     }
                                 }
-                                console.log('set poker');
+                                console.log('set poker '+poker.place);
                                 poker.save();
                                 socket.set('poker', poker);
                             }
