@@ -81,14 +81,14 @@ io.sockets.on('connection', function (socket, pseudo) {
                     place = poker.place;
                     console.log('nb user '+poker.user.length+' '+poker.nbUsers);
                     for (var i = 0; i < poker.user.length; i++) {
-                        if (poker.place == poker.user[i].place) {
-                            if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
-                                poker.place = poker.user[i + 1].place;
-                                console.log('next place ' + poker.place);
-                            }
+                        if (poker.user.length == poker.nbUsers) {
                             if (place == poker.user[i].place) {
                                 poker.place = poker.user[0].place;
                             }
+                            if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
+                                poker.place = poker.user[i + 1].place;
+                                console.log('next place ' + poker.place);
+                            } 
                             console.log('set poker');
                             poker.save();
                             socket.set('poker', poker);
