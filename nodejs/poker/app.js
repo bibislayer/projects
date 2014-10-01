@@ -85,7 +85,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                             var used = false;
                             //verifi la place et passe a la suivante
                             for (var i = 0; i < poker.user.length; i++) {
-                                if (poker.user[i] && poker.user[i].place == poker.place) {
+                                if (!used && poker.user[i] && poker.user[i].place == poker.place) {
                                     if (!used && poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
                                         poker.place = poker.user[i + 1].place;
                                         used = true;
@@ -94,6 +94,9 @@ io.sockets.on('connection', function (socket, pseudo) {
                                         used = true;
                                     }
                                 }
+                            }
+                            if(!used){
+                                poker.place = poker.user[0].place;
                             }
                             poker.save();
                             socket.set('poker', poker);

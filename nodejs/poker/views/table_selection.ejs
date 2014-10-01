@@ -89,7 +89,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     $(document).ready(function(){
-        var socket = io.connect('http://dev-monkey.org:8080');
+        var socket = io.connect('http://localhost:8080');
         $('#createTable').click(function (event) {
             event.stopPropagation();
             var nbTable = $('.tablePoker').length+1;

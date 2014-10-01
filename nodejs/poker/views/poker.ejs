@@ -60,20 +60,17 @@
     socket.emit('init_poker', '<%=req.params.num %>');      
     socket.on('initialised', function (poker) {
         if(poker){
-            console.log(poker);
             if(poker.user){
                 var active = 0;
                 for(var i=0; i<poker.user.length; i++){
                     if (poker.user[i].place){
                         if(poker.user[i].username == '<%= user.username %>'){
                             active = 1;
+                            $('#table').addClass('placed');
                         }
-                        alert(poker.user[i].place);
-                        $('#place'+ poker.user[i].place).addClass('activePlayer');
-                        $('#place'+ poker.user[i].place).find('.infoUser').find('.playerName').html(poker.user[i].pseudo); 
-                        $('#place '+ poker.user[i].place+' .infoUser').show();
-                        $('#ownMoney').html(poker.user[i].money);
-                        $('#table').addClass('placed');
+                        $('#place' + poker.user[i].place + ' .infoUser').show();
+                        $('#place' + poker.user[i].place + ' .infoUser .playerName').html(poker.user[i].username + ' ' + poker.user[i].money);
+                        $('#ownMoney').html(poker.user[i].money); 
                     }
                     if(poker.user[i].moneyUsed){
                         if (!parseInt($('#pot span').text())) {
@@ -94,7 +91,10 @@
             console.log('a vous de jouer');
     });
     //selection place
-    $('#table:not(placed) .place').click(function () {
+    $('#table .place').click(function () {
+        if($('#table').attr('class') == 'placed'){
+            return null;
+        }
         $('#table').addClass('placed');
         $(this).find('.infoUser').show();
         $(this).find('.infoUser').html('<p class="playerName"><%= user.username %></p><img class="user" src="/img/user.png" />');
