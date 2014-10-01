@@ -1,9 +1,9 @@
 <% layout('layout') -%>
 <% script() -%>
 <% stylesheet() -%>
-<div id="contentPoker" class="row">
+<div class="row">
     <% for(var i=0; i<tables.length; i++) {%>
-        <div class="col-lg-3 col-md-6">
+        <div class="tablePoker col-lg-3 col-md-6">
             <div class="panel panel-green">
                 <div class="panel-heading">
                     <div class="row">
@@ -90,7 +90,7 @@
         var socket = io.connect('http://dev-monkey.org:8080');
         $('#createTable').click(function (event) {
             event.stopPropagation();
-            var nbTable = document.getElementById('contentPoker').childNodes.length+1;
+            var nbTable = $('.tablePoker').length+1;
             alert(nbTable);
             socket.emit('create_table', nbTable);
             var content = '<div class="col-lg-3 col-md-6">\
