@@ -41,6 +41,7 @@ app.configure(function () {
 });
 var idTable;
 var io = require('socket.io').listen(server);
+var running = false;
 io.sockets.on('connection', function (socket, pseudo) {
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
     socket.on('nouveau_client', function (pseudo) {
@@ -74,35 +75,38 @@ io.sockets.on('connection', function (socket, pseudo) {
                 return console.error(err);
         });
     });
-    //verifi le positionnement
-    setInterval(function () {
-        Poker.findOne({table: idTable}, function (err, poker) {
-            console.log(poker);
-            var place;
-            if (poker) {
-                socket.get('user', function (error, user) {
-                    place = poker.place;
-                    console.log('nb user ' + poker.user.length + ' ' + poker.nbUsers);
-                    if (poker.user.length == poker.nbUsers) {
-                        for (var i = 0; i < poker.user.length; i++) {
-                            if (place == poker.user[i].place) {
-                                poker.place = poker.user[0].place;
+    if(!running){
+        //verifi le positionnement
+        setInterval(function () {
+            Poker.findOne({table: idTable}, function (err, poker) {
+                console.log(poker);
+                var place;
+                if (poker) {
+                    socket.get('user', function (error, user) {
+                        place = poker.place;
+                        console.log('nb user ' + poker.user.length + ' ' + poker.nbUsers);
+                        if (poker.user.length == poker.nbUsers) {
+                            for (var i = 0; i < poker.user.length; i++) {
+                                if (place == poker.user[i].place) {
+                                    poker.place = poker.user[0].place;
+                                }
+                                if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
+                                    poker.place = poker.user[i + 1].place;
+                                    console.log('next place ' + poker.place);
+                                }
+                                console.log('set poker');
+                                poker.save();
+                                socket.set('poker', poker);
                             }
-                            if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
-                                poker.place = poker.user[i + 1].place;
-                                console.log('next place ' + poker.place);
-                            }
-                            console.log('set poker');
-                            poker.save();
-                            socket.set('poker', poker);
                         }
-                    }
-                    console.log('emit next user')
-                    io.sockets.emit('next_poker_user', {poker: poker});
-                });
-            }
-        });
-    }, 5000);
+                        console.log('emit next user')
+                        io.sockets.emit('next_poker_user', {poker: poker});
+                    });
+                }
+            });
+        }, 5000);
+        running = true;
+    }
     
     socket.on('next_poker_user', function (params) {
         socket.get('poker', function (error, poker) {
