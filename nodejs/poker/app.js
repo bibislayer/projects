@@ -88,12 +88,14 @@ io.sockets.on('connection', function (socket, pseudo) {
                         if (poker.user.length == poker.nbUsers) {
                             var used = false;
                             for (var i = 0; i < poker.user.length; i++) {
-                                if(poker.user[i] && poker.user[i].place == poker.place){
-                                    if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
+                                if(poker.user[i] && poker.user[i].place == poker.place && poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place){
+                                    if (!used && poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
                                         poker.place = poker.user[i + 1].place;
+                                        used = true;
                                         console.log('next place ' + poker.place);
-                                    }else{
+                                    }else if(!used){
                                         poker.place = poker.user[0].place;
+                                        used = true;
                                         console.log('next place ' + poker.place);
                                     }
                                 }
@@ -111,7 +113,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                                 socket.set('poker', poker);
                             
                         }
-                        console.log('emit next user')
+                        console.log('emit next user');
                         io.sockets.emit('next_poker_user', {poker: poker});
                     });
                 }
