@@ -92,15 +92,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                             socket.set('poker', poker);
                         }
                     }
-                    if (poker.nbUsers == 1) {
-                        io.sockets.emit('next_poker_user', {poker: poker});
-                         var decompt = 5;
-                        //decompte server
-                        setInterval(function () {
-                            console.log('decompte : '+decompt);
-                            decompt--;
-                        }, 1000);
-                    }
+                    io.sockets.emit('next_poker_user', {poker: poker});   
                 });
             }
         });
