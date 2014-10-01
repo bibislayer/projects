@@ -92,7 +92,7 @@
                 <div class="panel-heading">\
                     <div class="row">\
                         <div class="col-xs-8">\
-                            <div style="font-size: 35px;" >Table <%= tables[i].table %>+1</div>\
+                            <div style="font-size: 35px;" >Table <%= tables.length %>+1</div>\
                         </div>\
                         <div class="col-xs-4 text-right">\
                             <div class="huge"></div>\
@@ -100,7 +100,7 @@
                         </div>\
                     </div>\
                 </div>\
-                <a href="/poker/table/<%= tables[i].table %>+1">\
+                <a href="/poker/table/<%= tables.length %>+1">\
                     <div class="panel-footer">\
                         <span class="pull-left">Enter</span>\
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>\
@@ -111,5 +111,6 @@
             <button id="createTable" type="button" class="btn btn-default">Create table</button>\
         </div>'
         });
+        $('.row:first').append(content);
     });
 </script>
