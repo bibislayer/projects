@@ -88,9 +88,6 @@ io.sockets.on('connection', function (socket, pseudo) {
                         if (poker.user.length == poker.nbUsers) {
                             var used = false;
                             for (var i = 0; i < poker.user.length; i++) {
-                                if (place == poker.user[i].place) {
-                                    poker.place = poker.user[0].place;
-                                }
                                 if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
                                     console.log(poker.user[i + 1]);
                                     if(!used){
@@ -98,6 +95,8 @@ io.sockets.on('connection', function (socket, pseudo) {
                                         console.log('next place ' + poker.place);
                                         used = true;
                                     }
+                                }else{
+                                    poker.place = poker.user[0].place;
                                 }
                                 console.log('set poker '+poker.place);
                                 poker.save();
