@@ -53,7 +53,6 @@ io.sockets.on('connection', function (socket, pseudo) {
         Poker.findOne({table: table}, function (err, poker) {
             if (poker) {
                 idTable = poker.table;
-                socket.set('poker', poker);
                 socket.emit('initialised', poker);
             } else {
                 console.log('no data for this company');
@@ -75,45 +74,32 @@ io.sockets.on('connection', function (socket, pseudo) {
                 return console.error(err);
         });
     });
-    if(!running){
-        //verifi le positionnement
+    //initialise la partie
+    if (!running) {
+        //compteur general d'un round par table
         setInterval(function () {
             Poker.findOne({table: idTable}, function (err, poker) {
-                console.log(poker);
-                var place;
                 if (poker) {
                     socket.get('user', function (error, user) {
-                        place = poker.place;
-                        console.log('nb user ' + poker.user.length + ' ' + poker.nbUsers);
                         if (poker.user.length == poker.nbUsers) {
                             var used = false;
+                            //verifi la place et passe a la suivante
                             for (var i = 0; i < poker.user.length; i++) {
-                                if(poker.user[i] && poker.user[i].place == poker.place){
+                                if (poker.user[i] && poker.user[i].place == poker.place) {
                                     if (!used && poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
                                         poker.place = poker.user[i + 1].place;
                                         used = true;
                                         console.log('next place ' + poker.place);
-                                    }else if(!used){
+                                    } else if (!used) {
                                         poker.place = poker.user[0].place;
                                         used = true;
                                         console.log('next place ' + poker.place);
                                     }
                                 }
                             }
-                                /*if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
-                                   console.log(poker.user[i + 1]);
-                                    poker.place = poker.user[i + 1].place;
-                                    console.log('next place ' + poker.place);
-                                    used = true;
-                                }else if(!used){
-                                    poker.place = poker.user[0].place;
-                                }*/
-                                console.log('set poker '+poker.place);
-                                poker.save();
-                                socket.set('poker', poker);
-                            
+                            poker.save();
+                            socket.set('poker', poker);
                         }
-                        console.log('emit next user');
                         io.sockets.emit('next_poker_user', {poker: poker});
                     });
                 }
@@ -121,35 +107,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         }, 5000);
         running = true;
     }
-    
-    socket.on('next_poker_user', function (params) {
-        socket.get('poker', function (error, poker) {
-            if (poker) {
-                socket.get('user', function (error, user) {
-                    console.log("It has been one second!");
-                    for (var i = 0; i < poker.user.length; i++) {
-                        console.log(poker.place + ' ' + poker.user[i].place);
-                        //cherche le prochain joueur si introuvable retourne au 1er joueur
-                        if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
-                            poker.place = poker.user[i + 1].place;
-                            console.log('next place ' + poker.place);
-                        } else {
-                            if (poker.user[0].place) {
-                                poker.place = poker.user[i].place;
-                                console.log('same place ' + poker.place);
-                            }
-                        }
-                    }
-                    poker.save();
-                    socket.set('poker', poker);
-                    //io.sockets.emit('next_poker_user', {poker: poker, user: user});
-                    console.log(poker.user);
-                });
-            } else {
-                console.log('no session');
-            }
-        });
-    });
+
     socket.on('new_poker_user', function (pseudo, table, place) {
         var used = 0;
         pseudo = ent.encode(pseudo);
@@ -201,7 +159,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                     socket.broadcast.emit('poker_alert', {message: "Player: " + pseudo + " disconnected", class: 'alert alert-dismissable alert-warning'});
 
                 });
-                if(poker.nbUsers > 0){
+                if (poker.nbUsers > 0) {
                     poker.nbUsers = poker.nbUsers - 1;
                 }
                 poker.save();
