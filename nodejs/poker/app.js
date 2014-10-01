@@ -62,7 +62,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     socket.on('create_table', function (nbTable) {
         var poker = new Poker({
             user: {},
-            table: nbTable + 1,
+            table: nbTable,
             round: 0,
             money: 0
         });
