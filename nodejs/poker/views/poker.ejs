@@ -68,13 +68,12 @@
                         if(poker.user[i].username == '<%= user.username %>'){
                             active = 1;
                         }
+                        $('#place'+ poker.user[i].place).addClass('activePlayer');
+                        $('#place'+ poker.user[i].place+' .infoUser .playerName').html(poker.user[i].pseudo); 
                         $('#place '+ poker.user[i].place+' .infoUser').show();
                         $('#ownMoney').html(poker.user[i].money);
                         $('#table').addClass('placed');
                     }
-                    $('#place'+ poker.user[i].place).addClass('activePlayer');
-                    $('#place'+ poker.user[i].place+' .infoUser .playerName').html(poker.user[i].pseudo);
-                    $('#place'+ poker.user[i].place+' .infoUser').show();
                     if(poker.user[i].moneyUsed){
                         if (!parseInt($('#pot span').text())) {
                             var totalPot = poker.user[i].moneyUsed;
