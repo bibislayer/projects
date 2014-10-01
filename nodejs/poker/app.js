@@ -94,6 +94,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                                         console.log('next place ' + poker.place);
                                     }else{
                                         poker.place = poker.user[0].place;
+                                        console.log('next place ' + poker.place);
                                     }
                                 }
                             }
