@@ -90,12 +90,10 @@ io.sockets.on('connection', function (socket, pseudo) {
                             for (var i = 0; i < poker.user.length; i++) {
                                 if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
                                     console.log(poker.user[i + 1]);
-                                    if(!used){
-                                        poker.place = poker.user[i + 1].place;
-                                        console.log('next place ' + poker.place);
-                                        used = true;
-                                    }
-                                }else{
+                                    poker.place = poker.user[i + 1].place;
+                                    console.log('next place ' + poker.place);
+                                    used = true;
+                                }else if(!used){
                                     poker.place = poker.user[0].place;
                                 }
                                 console.log('set poker '+poker.place);
