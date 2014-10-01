@@ -68,6 +68,7 @@
                         if(poker.user[i].username == '<%= user.username %>'){
                             active = 1;
                         }
+                        alert(poker.user[i].place);
                         $('#place'+ poker.user[i].place).addClass('activePlayer');
                         $('#place'+ poker.user[i].place+' .infoUser .playerName').html(poker.user[i].pseudo); 
                         $('#place '+ poker.user[i].place+' .infoUser').show();
