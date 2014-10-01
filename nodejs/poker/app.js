@@ -96,6 +96,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                                         poker.place = poker.user[0].place;
                                     }
                                 }
+                            }
                                 /*if (poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
                                    console.log(poker.user[i + 1]);
                                     poker.place = poker.user[i + 1].place;
@@ -107,7 +108,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                                 console.log('set poker '+poker.place);
                                 poker.save();
                                 socket.set('poker', poker);
-                            }
+                            
                         }
                         console.log('emit next user')
                         io.sockets.emit('next_poker_user', {poker: poker});
