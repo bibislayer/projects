@@ -88,10 +88,12 @@ io.sockets.on('connection', function (socket, pseudo) {
                             if (place == poker.user[i].place) {
                                 poker.place = poker.user[0].place;
                             }
+                            console.log('set poker');
                             poker.save();
                             socket.set('poker', poker);
                         }
                     }
+                    console.log('emit next user')
                     io.sockets.emit('next_poker_user', {poker: poker});   
                 });
             }

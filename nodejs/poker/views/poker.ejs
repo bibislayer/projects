@@ -111,7 +111,7 @@
         console.log('next user');
         if(params){
             clearInterval(cdown);
-            console.log(params.poker.place);
+            console.log(params.poker);
             if(params.poker.place != 0 && params.poker.user && params.poker.user.length > 1){
                 $("div.place").attr('class', 'place');
                 $("#place"+params.poker.place).addClass('activePlayer');
