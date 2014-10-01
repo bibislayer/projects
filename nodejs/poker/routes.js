@@ -59,7 +59,7 @@ module.exports = function (app) {
         res.render('account.ejs', {title: 'account', user: req.user});
     });
     app.get('/register', function (req, res) {
-        res.render('register', {title: "register", user: req.user, message: req.flash('error')});
+        res.render('register', {title: "register", user: req.user, breadcrumb: 'Register', message: req.flash('error')});
     });
     app.post('/register', function (req, res) {
         User.register(new User({username: req.body.username}), req.body.password, function (err, account) {
