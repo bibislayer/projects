@@ -2,6 +2,7 @@ var passport = require('passport'),
         User = require('./models/user'),
         Chat = require('./models/chat'),
         Poker = require('./models/poker'),
+        utils = require('./utils'),
         mongoose = require('mongoose'),
         flash = require('connect-flash');
 module.exports = function (app) {
@@ -78,13 +79,23 @@ module.exports = function (app) {
             message: req.flash('error')});
     });
     app.post('/login', passport.authenticate('local', {failureRedirect: '/login', failureFlash: true}),
+            function (req, res, next) {
+                // issue a remember me cookie if the option was checked
+                if (!req.body.remember_me) {
+                    return next();
+                }
+
+                var token = utils.randomString(64);
+                Token.save(token, {userId: req.user.id}, function (err) {
+                    if (err) {
+                        return done(err);
+                    }
+                    res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 604800000}); // 7 days
+                    return next();
+                });
+            },
             function (req, res) {
-                console.log(req.session.redirect_to);
-                var redirect_to = req.session.redirect_to ? req.session.redirect_to : '/';
-                delete req.session.redirect_to;
-                //is authenticated ?
-                res.redirect(redirect_to);
-                //res.redirect('/');
+                res.redirect('/poker/table/1');
             });
     app.get('/logout', function (req, res) {
         req.logout();

@@ -16,7 +16,7 @@ All right reserved Dev-Monkey.
 .usercard{position: absolute;top: 84px; left:327px;}
 .tablecard{left: 12.5%;bottom: 161%;}
 .content_time{position: absolute;top: 30px;left: 18px;display:none;color:white;}
-#pot{position: relative;bottom: 129%;height: 30px;color: white;font-size: 17px;text-align: center;width: 84%;}
+#pot{position: absolute;bottom: 230px;height: 30px;color: white;font-size: 17px;text-align: center;width: 84%;}
 canvas{position: absolute;left: -7px;bottom: -8px;}
 #table:not(.placed) .place:hover, .activePlayer{box-shadow: 1px 1px 20px #000;-moz-box-shadow:1px 1px 20px #000;-webkit-box-shadow:1px 1px 20px #000;width: 82px;height: 82px;border-radius: 42px;-moz-border-radius: 42px;-webkit-border-radius: 42px}
 #place1{position: relative;left: 10%;top: -7%;}

@@ -68,11 +68,12 @@ function JBCountDown(settings) {
             cdown = setInterval(function() {
                 if (glob.seconds > 59) {
                     if (60 - glob.minutes === 0 && 24 - glob.hours === 0 && glob.days === 0) {
+                        //console.log(glob);
+                        
                         if(glob.next){
                             glob.next();
                         }
                         clearInterval(cdown);
-                        /* Countdown is complete */
                         return;
                     }
                     glob.seconds = 1;

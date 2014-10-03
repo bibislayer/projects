@@ -5,7 +5,8 @@ var express = require('express'),
         passport = require('passport'),
         flash = require('connect-flash'),
         LocalStrategy = require('passport-local').Strategy,
-        mongoose = require('mongoose');
+        mongoose = require('mongoose'),
+        RememberMeStrategy = require('passport-remember-me').Strategy;
 
 // Configure passport
 var User = require('./models/user');
@@ -15,8 +16,81 @@ var PokerUser = require('./models/poker_user');
 
 passport.use(new LocalStrategy(User.authenticate()));
 
+/* Fake, in-memory database of remember me tokens */
+
+var tokens = {}
+
+function consumeRememberMeToken(token, fn) {
+    var uid = tokens[token];
+    // invalidate the single-use token
+    delete tokens[token];
+    return fn(null, uid);
+}
+
+function saveRememberMeToken(token, uid, fn) {
+    tokens[token] = uid;
+    return fn();
+}
+
+passport.use(new RememberMeStrategy(
+        function (token, done) {
+            Token.consume(token, function (err, user) {
+                if (err) {
+                    return done(err);
+                }
+                if (!user) {
+                    return done(null, false);
+                }
+                return done(null, user);
+            });
+        },
+        function (user, done) {
+            var token = utils.randomString(64);
+            Token.save(token, {userId: user.id}, function (err) {
+                if (err) {
+                    return done(err);
+                }
+                return done(null, token);
+            });
+        }
+));
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+passport.use(new RememberMeStrategy(
+        function (token, done) {
+            consumeRememberMeToken(token, function (err, uid) {
+                if (err) {
+                    return done(err);
+                }
+                if (!uid) {
+                    return done(null, false);
+                }
+
+                findById(uid, function (err, user) {
+                    if (err) {
+                        return done(err);
+                    }
+                    if (!user) {
+                        return done(null, false);
+                    }
+                    return done(null, user);
+                });
+            });
+        },
+        issueToken
+        ));
+
+function issueToken(user, done) {
+    var token = utils.randomString(64);
+    saveRememberMeToken(token, user.id, function (err) {
+        if (err) {
+            return done(err);
+        }
+        return done(null, token);
+    });
+}
 
 // Connect mongoose
 mongoose.connect('mongodb://localhost/poker');
@@ -36,12 +110,19 @@ app.configure(function () {
     // persistent login sessions (recommended).
     app.use(passport.initialize());
     app.use(passport.session());
+    app.use(passport.authenticate('remember-me'));
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
 });
-var idTable;
+var timer, idTable;
+var user = {};
 var io = require('socket.io').listen(server);
 var running = false;
+function keysrt(key, desc) {
+    return function (a, b) {
+        return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);
+    }
+}
 io.sockets.on('connection', function (socket, pseudo) {
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
     socket.on('nouveau_client', function (pseudo) {
@@ -53,7 +134,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         Poker.findOne({table: table}, function (err, poker) {
             if (poker) {
                 idTable = poker.table;
-                socket.emit('initialised', poker);
+                socket.emit('initialised', {poker: poker});
             } else {
                 console.log('no data for this company');
             }
@@ -74,38 +155,42 @@ io.sockets.on('connection', function (socket, pseudo) {
                 return console.error(err);
         });
     });
-    //initialise la partie
     if (!running) {
-        //compteur general d'un round par table
         setInterval(function () {
-            Poker.findOne({table: idTable}, function (err, poker) {
-                if (poker) {
-                    socket.get('user', function (error, user) {
-                        if (poker.user.length == poker.nbUsers) {
-                            var used = false;
-                            //verifi la place et passe a la suivante
-                            for (var i = 0; i < poker.user.length; i++) {
-                                if (!used && poker.user[i] && poker.user[i].place == poker.place) {
-                                    if (!used && poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
-                                        poker.place = poker.user[i + 1].place;
-                                        used = true;
-                                    } else if (!used) {
-                                        poker.place = poker.user[0].place;
-                                        used = true;
-                                    }
-                                }
-                            }
-                            if(!used){
+            launchRound();
+        }, 10000);
+    }
+
+    function launchRound() {
+        //initialise la partie
+        console.log('launching game');
+        //compteur general d'un round par table
+        Poker.findOne({table: idTable}, function (err, poker) {
+            if (poker) {
+                if (poker.user.length == poker.nbUsers) {
+                    var used = false;
+                    //verifi la place et passe a la suivante
+                    for (var i = 0; i < poker.user.length; i++) {
+                        if (!used && poker.user[i] && poker.user[i].place == poker.place) {
+                            if (!used && poker.user.hasOwnProperty(i + 1) && poker.user[i + 1].place) {
+                                console.log(poker.place);
+                                poker.place = poker.user[i + 1].place;
+                                used = true;
+                            } else if (!used) {
                                 poker.place = poker.user[0].place;
+                                used = true;
                             }
-                            poker.save();
-                            socket.set('poker', poker);
                         }
-                        io.sockets.emit('next_poker_user', {poker: poker});
-                    });
+                    }
+                    if (!used && poker.user[0]) {
+                        poker.place = poker.user[0].place;
+                    }
+                    poker.save();
+                    socket.set('poker', poker);
                 }
-            });
-        }, 5000);
+                io.sockets.emit('next_poker_user', {poker: poker, user: user[poker.place]});
+            }
+        });
         running = true;
     }
 
@@ -122,7 +207,9 @@ io.sockets.on('connection', function (socket, pseudo) {
                 }
                 if (!used) {
                     var pokerUser = new PokerUser({username: pseudo, place: parseInt(place), money: 100, moneyUsed: 0});
+                    user[parseInt(place)] = pokerUser;
                     poker.user.push(pokerUser);
+                    poker.user.sort(keysrt('place'));
                     poker.nbUsers = poker.nbUsers + 1;
                     poker.save();
                     socket.set('user', pokerUser);
@@ -139,6 +226,21 @@ io.sockets.on('connection', function (socket, pseudo) {
         //console.log(user);
         Poker.findOne({table: table}, function (err, poker) {
 
+        });
+    });
+    socket.on('poker_user_mise', function (mise, table, pseudo) {
+        Poker.findOne({table: table}, function (err, poker) {
+            socket.get('user', function (error, user) {
+                if (poker && user) {
+                    poker.money += mise;
+                    user.moneyUsed += mise;
+                    user.money -= mise;
+                    user.save();
+                    poker.save();
+                    running = false;
+                    launchRound();
+                }
+            });
         });
     });
     socket.on('del_poker_user', function (pseudo, table) {
