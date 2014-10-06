@@ -6,13 +6,17 @@ var express = require('express'),
         flash = require('connect-flash'),
         LocalStrategy = require('passport-local').Strategy,
         mongoose = require('mongoose'),
-        RememberMeStrategy = require('passport-remember-me').Strategy;
+        RememberMeStrategy = require('passport-remember-me').Strategy,
+        ffmpeg = require('fluent-ffmpeg'),
+        dl = require('delivery'),
+        fs = require('fs');
 
 // Configure passport
 var User = require('./models/user');
 var Chat = require('./models/chat');
 var Poker = require('./models/poker');
 var PokerUser = require('./models/poker_user');
+var Files = require('./models/files');
 
 passport.use(new LocalStrategy(User.authenticate()));
 
@@ -123,13 +127,85 @@ function keysrt(key, desc) {
         return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);
     }
 }
-io.sockets.on('connection', function (socket, pseudo) {
+io.sockets.on('connection', function (socket) {
+    //upload file
+    var delivery = dl.listen(socket);
+    delivery.on('receive.success', function (file) {
+        fs.writeFile(__dirname + '/uploads/' + file.name, file.buffer, function (err) {
+            if (err) {
+                console.log('File could not be saved.');
+            } else {
+                socket.get('pseudo', function (error, pseudo) {
+                    User.findOne({username: pseudo}, function (err, user) {
+                        if (user) {
+                            //make sure you set the correct path to your video file
+                            console.log(file);
+                            var length = file.name.length;
+                            var noExt = file.name.substring(0, length - 4);
+                            var ext = file.name.substring(length - 3, length);
+                            var pathAvi = __dirname + '/uploads/' + noExt + '.avi';
+                            Files.findOne({name: noExt}, function (err, exist) {
+                                if (!exist) {
+                                    var files = new Files({
+                                        user: user._id,
+                                        name: noExt,
+                                        type: [ext, 'avi'],
+                                        size: file.size,
+                                        time: 0,
+                                        path: __dirname + '/uploads/' + noExt
+                                    });
+                                    files.save(function (err, file) {
+                                        if (err)
+                                            return console.error(err);
+                                    });
+                                    console.log('File saved.');
+                                } else {
+                                    console.log('File exist');
+                                    console.log(exist);
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    });
+
+    function convert(fileName, type) {
+        var length = fileName.length;
+        var noExt = fileName.substring(0, length - 4);
+        Files.findOne({name: noExt}, function (err, file) {
+            if (file) {
+                var proc = new ffmpeg({source: __dirname + '/uploads/' + fileName, nolog: true})
+                //Set the path to where FFmpeg is installed
+                proc.setFfmpegPath("/Applications/ffmpeg")
+                proc.withSize('100%')
+                        .withFps(24)
+                        .toFormat(type)
+                        .on('end', function () {
+                            console.log('file has been converted successfully');
+                        })
+                        .on('error', function (err) {
+                            console.log('an error happened: ' + err.message);
+                        })
+                        .saveToFile(__dirname + '/uploads/' + noExt + '.' + type);
+                file.type.push(type);
+                file.save();
+            }
+
+        });
+    }
+
+    socket.on('convert', function (fileName, type) {
+        convert(fileName, type);
+    });
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
     socket.on('nouveau_client', function (pseudo) {
         pseudo = ent.encode(pseudo);
         socket.set('pseudo', pseudo);
         socket.broadcast.emit('nouveau_client', pseudo);
     });
+
     socket.on('init_poker', function (table) {
         Poker.findOne({table: table}, function (err, poker) {
             if (poker) {
@@ -155,7 +231,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                 return console.error(err);
         });
     });
-    if (!running) {
+    if (!running && user.length > 1) {
         setInterval(function () {
             launchRound();
         }, 10000);

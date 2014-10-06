@@ -2,11 +2,12 @@ var passport = require('passport'),
         User = require('./models/user'),
         Chat = require('./models/chat'),
         Poker = require('./models/poker'),
+        Files = require('./models/files'),
         utils = require('./utils'),
         mongoose = require('mongoose'),
         flash = require('connect-flash');
-module.exports = function (app) {
 
+module.exports = function (app) {
     app.get('/', ensureAuthenticated, function (req, res) {
         Chat.find(function (err, chats, count) {
             res.render('index', {
@@ -36,6 +37,19 @@ module.exports = function (app) {
         });
 
     });
+    app.get('/convert', ensureAuthenticated, function (req, res) {
+        Files.find({user: req.user._id}, function (err, files) {
+            console.log(files);
+            res.render('converter', {
+                title: 'converter',
+                h1: 'Convertisser tous vos fichier <small>Beta</small>',
+                breadcrumb: 'Convertisseur',
+                user: req.user,
+                files: files
+            });
+        });
+    });
+
     app.get('/poker/table/:num', ensureAuthenticated, function (req, res) {
         req.session.redirect_to = '/poker/table/' + req.params.num;
         Poker.findOne({table: req.params.num}, function (err, poker) {
@@ -95,7 +109,7 @@ module.exports = function (app) {
                 });
             },
             function (req, res) {
-                res.redirect('/poker/table/1');
+                res.redirect('/convert');
             });
     app.get('/logout', function (req, res) {
         req.logout();
