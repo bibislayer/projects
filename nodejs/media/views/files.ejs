@@ -1,0 +1,95 @@
+<% layout('layout') -%>
+<% script() -%>
+<% stylesheet() -%>
+<div class="row">
+    <div class="col-lg-12">
+       <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">flv to avi</h3>
+            </div>
+            <div class="panel-body">
+                <form>
+                    <div class="form-group">
+                        <label>Votre video</label>
+                        <input name="uploadingFile" type="file" />
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit Button</button>
+                    <button type="reset" class="btn btn-default">Reset Button</button>
+                </form>
+                <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Poid</th>
+                    <th>Durée</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% 
+                    function inArray(needle, haystack) {
+                        var length = haystack.length;
+                        for(var i = 0; i < length; i++) {
+                            if(haystack[i] == needle) return true;
+                        }
+                        return false;
+                    }
+                    if(files){
+                        for(var i=0;i<files.length;i++){ 
+                            var size = files[i].size/1000000; %>
+                        <tr>
+                          <td><%=files[i].name%></td>
+                          <td><%=files[i].type%></td>
+                          <td><%=size.toFixed(1)%> Mo</td>
+                          <td><%=files[i].time%></td>
+                          <td>
+                              <% if(!inArray('avi', files[i].type)){ %>
+                              <button data-fileName="<%=files[i].name%>.flv" data-type="avi" class="convert btn btn-default">Convert to avi</button>
+                              <% } %>
+                              <% if(!inArray('flv', files[i].type)){ %>
+                              <button data-fileName="<%=files[i].name%>.avi" data-type="flv"  class="convert btn btn-default">Convert to mkv</button>
+                              <% } %>
+                          </td>
+                        </tr>
+                    <% }
+                    } %>
+                </tbody>
+              </table>
+            </div>
+        </div>         
+    </div> 
+</div>
+<!-- /.row -->
+<script src="/js/delivery.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script> 
+    $(function(){
+        var socket = io.connect('http://localhost:8080');
+        
+        <% if (user.username){ %>
+            socket.emit('nouveau_client', '<%= user.username %>');
+         <% } %>
+         $(".convert").click(function(evt){
+             alert('convert');
+              var type = $(this).attr('data-type');
+              var fileName = $(this).attr('data-fileName');
+              socket.emit('convert', fileName, type);
+            });
+        socket.on('connect', function(){
+          var delivery = new Delivery(socket);
+
+          delivery.on('delivery.connect',function(delivery){
+            $("button[type=submit]").click(function(evt){
+              var file = $("input[type=file]")[0].files[0];
+              delivery.send(file);
+              evt.preventDefault();
+            });
+          });
+
+          delivery.on('send.success',function(fileUID){
+            console.log("file was successfully sent.");
+          });
+        });
+    });
+</script>
