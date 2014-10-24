@@ -65,7 +65,7 @@ class RecordingSessionUserRepository extends EntityRepository {
             $q->andWhere($q->expr()->eq('u.id', $params['by_id']));
         }
         if (array_key_exists('by_email', $params)) {            
-            $q->andWhere($q->expr()->eq('u.email', $params['by_email']));
+            $q->andWhere($q->expr()->eq('u.email', "'".$params['by_email']."'"));
         }
         
         return $q;
