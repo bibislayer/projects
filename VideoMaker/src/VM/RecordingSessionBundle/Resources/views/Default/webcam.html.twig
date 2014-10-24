@@ -61,18 +61,23 @@
     }
     function fail() {
         //alert('Il vous faut obligatoirement une webcam pour participer :(');
+        $('#xy1').removeClass('col-md-6');
         $('#webcam').hide();
         $('#verifCam').hide();
         $('#uploadFile').show();
-        $('form[name=session_user]').attr('enctype', 'multipart/form-data');
     }
 </script>
 <div id="xy1" class="col-md-6">
-    <form action="{{ path('fo_recording_session_show', {'slug_sess' : app.request.get('slug_sess')}) }}" method="post" name="session_user">
+    <form action="{{ path('fo_recording_session_show', {'slug_sess' : app.request.get('slug_sess')}) }}" enctype="multipart/form-data" method="post" name="session_user">
         <!-- /.panel-heading -->
         <div id="uploadFile" style="display:none" class="panel-body">
-            <input type="file" name="file" />
-            <input type="submit" value="Envoyer"/>
+            <div class="form-group">
+                <label for="inputFile">File input</label>
+                <input type="file" id="inputFile" />
+                <p class="help-block">Attention cela peut prendre du temps en fonction de votre connection</p>
+            </div>
+            <div id="loading"></div>
+            <input type="submit" class="btn btn-default" value="Envoyer"/>
         </div>
         <div id="webcam" class="panel-body">
             {% if app.request.attributes.get('_route') == 'mo_recording_session_show' %}
@@ -182,6 +187,13 @@
     </div>
 </div>
 <script>
+    $(document).ready(function(){
+       $('#uploadFile input[type=submit]').click(function(){
+           $('#loading').html('<span>Transfert en court</span>');
+       });
+    });
+    
+    
     /* if app.request.attributes.get('_browser').Browser == 'Chrome' %}
      if (window.navigator.vendor != "Google Inc.") {
      $('#chrome').hide();
