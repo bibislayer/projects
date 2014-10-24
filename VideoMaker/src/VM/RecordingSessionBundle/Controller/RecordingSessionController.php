@@ -21,14 +21,14 @@ class RecordingSessionController extends Controller {
         return $this->render('VMRecordingSessionBundle:Middle:dashboard.html.twig', array('recordingSessions' => $recording_sessions));
     }
 
-    public function moDownloadMovieAction($movie_code) {
+    public function moDownloadMovieAction($filename) {
         $kernel = $this->get('kernel');
         $streamsPath = $kernel->getRootDir() . '/../web/uploads/streams/';
-        $fichier = $streamsPath . 'recording_' . $movie_code . '.avi';
+        $fichier = $streamsPath . $filename;
         $response = new Response();
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', "application/force-download");
-        $response->headers->set('Content-Disposition', sprintf('attachment;filename=recording_' . $movie_code . '.avi', $fichier, 'force-download'));
+        $response->headers->set('Content-Disposition', sprintf('attachment;filename=' . $filename, $fichier, 'force-download'));
         $response->setContent(file_get_contents($fichier));
         $response->setCharset('UTF-8');
 
@@ -49,16 +49,6 @@ class RecordingSessionController extends Controller {
         $kernel = $this->get('kernel');
         $streamsPath = $kernel->getRootDir() . '/../web/uploads/streams/';
         if ($request->getMethod() == 'POST') {
-            //print $process->getOutput();
-            $cmd = 'ffmpeg -y -i ' . $streamsPath . $request->get('filename') . '.flv -s 640x480 -ar 44100 -b 1400k -r 30 -ab 128k -f avi ' . $streamsPath . $request->get('filename') . '.avi >> ' . $kernel->getRootDir() . '/logs/encoder.txt';
-            //$cmd = 'touch '.$streamsPath.'test.txt';
-            $process = new Process($cmd);
-            $process->run();
-
-            // executes after the command finishes
-            if (!$process->isSuccessful()) {
-                throw new \RuntimeException($process->getErrorOutput());
-            }
             $session_user = $this->get('recording_session_user_repository')->getElements(array('by_id' => $session->get('session_user'), 'action' => 'one'));
             $em = $this->getDoctrine()->getManager();
             if($session_user->getFilename()){
@@ -66,7 +56,24 @@ class RecordingSessionController extends Controller {
             }else{
                 $files = array();
             }
-            $session_user->setFilename(array_merge($files, array($request->get('filename'))));
+            if($request->files){
+                foreach($request->files as $uploadedFile) {
+                    console.log($uploadedFile->getClientOriginalName());
+                    $uploadedFile->move($streamsPath, $uploadedFile->getClientOriginalName());
+                    $session_user->setFilename(array_merge($files, array($uploadedFile->getClientOriginalName())));
+                }
+            }else{
+                $cmd = 'ffmpeg -y -i ' . $streamsPath . $request->get('filename') . '.flv -s 640x480 -ar 44100 -b 1400k -r 30 -ab 128k -f avi ' . $streamsPath . $request->get('filename') . '.avi >> ' . $kernel->getRootDir() . '/logs/encoder.txt';
+                //$cmd = 'touch '.$streamsPath.'test.txt';
+                $process = new Process($cmd);
+                $process->run();
+
+                // executes after the command finishes
+                if (!$process->isSuccessful()) {
+                    throw new \RuntimeException($process->getErrorOutput());
+                }
+                $session_user->setFilename(array_merge($files, array($request->get('filename'))));
+            }
             $em->persist($session_user);
             $em->flush();
             $session->set('flag', 'Votre enregistrement à bien était transmis à notre serveur ;)');
