@@ -60,10 +60,10 @@
                                                     {% set ext = ex.1 %}
                                                 {% endif %}
                                                 {% if ext is null %} 
-                                                    {% set ext = '.flv' %}
+                                                    {% set filename = filename~'.flv' %}
                                                 {% endif %}
                                                 <div class="col-lg-3" style="padding:0;margin-bottom:8px;">
-                                                    Video {{ i }} <button type="button" onClick="loadVideo('{{ filename +""+ ext }}')" class="btn btn-outline btn-primary btn-xs">Voir</button> <a type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'filename': filename+''+ext }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</a>
+                                                    Video {{ i }} <button type="button" onClick="loadVideo('{{ filename }}')" class="btn btn-outline btn-primary btn-xs">Voir</button> <a type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'filename': filename }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</a>
                                                 </div>
                                                 {% set i = i + 1 %}
                                             {% endfor %}
