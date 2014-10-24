@@ -56,7 +56,7 @@ class RecordingSessionController extends Controller {
             }else{
                 $files = array();
             }
-            if($request->files){
+            if(count($request->files) > 0){
                 foreach($request->files as $uploadedFile) {
                     $uploadedFile->move($streamsPath, $uploadedFile->getClientOriginalName());
                     $session_user->setFilename(array_merge($files, array($uploadedFile->getClientOriginalName())));
