@@ -58,12 +58,12 @@ class RecordingSessionController extends Controller {
             }
             if($request->files){
                 foreach($request->files as $uploadedFile) {
-                    print_r($uploadedFile->getClientOriginalName());
-                    exit;
                     $uploadedFile->move($streamsPath, $uploadedFile->getClientOriginalName());
                     $session_user->setFilename(array_merge($files, array($uploadedFile->getClientOriginalName())));
                 }
             }else{
+                echo 'else';
+                exit;
                 $cmd = 'ffmpeg -y -i ' . $streamsPath . $request->get('filename') . '.flv -s 640x480 -ar 44100 -b 1400k -r 30 -ab 128k -f avi ' . $streamsPath . $request->get('filename') . '.avi >> ' . $kernel->getRootDir() . '/logs/encoder.txt';
                 //$cmd = 'touch '.$streamsPath.'test.txt';
                 $process = new Process($cmd);
