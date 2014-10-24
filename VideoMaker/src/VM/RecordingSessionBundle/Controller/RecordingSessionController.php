@@ -128,21 +128,22 @@ class RecordingSessionController extends Controller {
         if ($session->get('session_user') != null) {
             $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
         }
-
         $recording_session = $this->get('recording_session_repository')->getElements(array('by_slug' => $slug_sess, 'action' => 'one'));
-        $session_user = new RecordingSessionUser();
+        $session_user = new RecordingSessionUser();      
         $session_user->setRecordingSession($recording_session);
-
         $form = $this->get('form.factory')->create(new RecordingSessionUserType(), $session_user);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                $session_user = $form->getData();
-                $em->persist($session_user);
-                $em->flush();
-                $session->set('session_user', $session_user->getEmail());
+                $session_user = $this->get('recording_session_user_repository')->getElements(array('by_email' => $form->getData()->getEmail(), 'action' => 'one'));
+                if(!$session_user){
+                    $session_user = $form->getData();
+                    $em->persist($session_user);
+                    $em->flush();
+                }
+                $session->set('session_user', $form->getData()->getEmail());
                 return $this->redirect($this->generateUrl('fo_recording_session_show', array('slug_sess' => $slug_sess)));
             }
         }
