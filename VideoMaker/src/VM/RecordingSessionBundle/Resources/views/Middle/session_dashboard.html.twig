@@ -54,6 +54,7 @@
                                             {% set i = 1 %}
                                             
                                             {% for filename in user.filename %}
+                                                {% set ext = null %}
                                                 {% set ex = filename|split('.') %}
                                                 {% if ex.1 is defined %}
                                                     {% set ext = ex.1 %}
