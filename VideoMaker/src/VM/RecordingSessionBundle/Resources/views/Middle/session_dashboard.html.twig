@@ -55,8 +55,8 @@
                                             
                                             {% for filename in user.filename %}
                                                 {% set ext = filename|split('.') %}
-                                                {% if ext is defined %}
-                                                    {% set ext = ext[1] %}
+                                                {% if ext.1 is defined %}
+                                                    {% set ext = ext.1 %}
                                                 {% endif %}
                                                 {% if ext is null %} 
                                                     {% set filename = filname+'.flv'%}
