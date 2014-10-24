@@ -247,7 +247,7 @@ class RegistrationController extends Controller implements ContainerAwareInterfa
     }
 
     protected function getEngine() {
-        return $this->container->getParameter('fos_user.template.engine');
+        return 'twig';
     }
 
 }
