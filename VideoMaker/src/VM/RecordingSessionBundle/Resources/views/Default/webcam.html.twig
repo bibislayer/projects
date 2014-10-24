@@ -73,7 +73,7 @@
         <div id="uploadFile" style="display:none" class="panel-body">
             <div class="form-group">
                 <label for="inputFile">File input</label>
-                <input type="file" id="inputFile" />
+                <input type="file" name="file" id="inputFile" />
                 <p class="help-block">Attention cela peut prendre du temps en fonction de votre connection</p>
             </div>
             <div id="loading"></div>
@@ -189,10 +189,9 @@
 <script>
     $(document).ready(function(){
        $('#uploadFile input[type=submit]').click(function(){
-           $('#loading').html('<span>Transfert en court</span>');
+           $('#loading').html('<p>Transfert en court</p><p style="text-align:center;"><img src="{{ asset('bundles/vmgeneral/images/ajax-loader.gif') }}"/></p>');
        });
     });
-    
     
     /* if app.request.attributes.get('_browser').Browser == 'Chrome' %}
      if (window.navigator.vendor != "Google Inc.") {
