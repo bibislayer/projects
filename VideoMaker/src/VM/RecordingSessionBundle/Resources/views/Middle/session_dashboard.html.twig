@@ -52,8 +52,13 @@
                                         <td><a href="#">{{ user.email }}</a></td>
                                         <td>
                                             {% set i = 1 %}
-
+                                            
                                             {% for filename in user.filename %}
+                                                {% set ext = filename|split('.') %}
+                                                {% set ext = ext[1] %}
+                                                {% if ext is null %} 
+                                                    {% set filename = filname+'.flv'%}
+                                                {% endif %}
                                                 <div class="col-lg-3" style="padding:0;margin-bottom:8px;">
                                                     Video {{ i }} <button type="button" onClick="loadVideo('{{ filename }}')" class="btn btn-outline btn-primary btn-xs">Voir</button> <a type="button" href="{{ path('mo_recording_session_download', {'slug_sess': app.request.get('slug_sess'), 'filename': filename }) }}" target="_blank" class="btn btn-outline btn-success btn-xs">Télécharger</a>
                                                 </div>
