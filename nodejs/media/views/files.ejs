@@ -118,7 +118,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/jquery-ui.min.js"></script>
 <script src="/js/folders.js"></script>
-<script> 
+<script>
     var socket = io.connect(location.hostname+':8080');
     var folder;
     function onChangeFolder(val){
@@ -328,6 +328,7 @@
         });
         socket.on('file_saved', function(files){
             if(files){
+                console.log('saved');
                 $("#folders ul").html('');
                 for(var i=0;i<files.length;i++){ 
                     if(files[i].level != '0'){
