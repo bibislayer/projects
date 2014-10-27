@@ -1,0 +1,63 @@
+<div id="create_folder" style="display: none">
+    <form>
+        <div class="form-group">
+            <input name="parent_id" type="hidden" /> 
+            <label id="lbl_folder_name" for="folder_name"></label>
+            <input name="folder_name" class="form-control" type="text" placeholder="Nom du dossier"/>  
+        </div>
+        <button id="send_folder" type="submit" class="btn btn-default">Créer</button>
+    </form>
+</div>
+<div id="add_file" style="display: none">
+    <form>
+        <div class="form-group">
+            <span class="btn btn-success fileinput-button">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>Ajouter un fichier (zip accepté)</span>
+                <!-- The file input field used as target for the file upload widget -->
+                <input name="uploadingFile" type="file" />
+                <!--<input id="fileupload" name="files[]" multiple>-->
+            </span>
+        </div>
+        <button id="send_file" type="submit" class="btn btn-default">Envoyer</button>
+    </form>
+</div>
+<div id="move_file" style="display: none">
+    <form>
+        <div class="form-group">
+          <select onChange="onChangeFolder(this.options[this.selectedIndex].value)" id="folderSelect" class="form-control">
+          </select>
+        </div>
+        <div class="form-group">
+            <button onClick="changePath()" type="button" class="btn btn-primary">Déplacer</button>
+        </div>
+    </form>
+</div>
+<div id="config_file" style="display: none">
+    <form id="formConfig" role="form">
+        <div class="form-group btn-group">
+            <button id="access-on" type="button" class="btn btn-default">
+                Public
+            </button>
+            <button id="access-off" type="button" class="btn btn-default active">
+                Privé
+            </button>
+        </div> 
+        <input type="hidden" value="0" name="access" />
+        <div id="inputs_id_files">
+        </div>
+        <div class="form-group input-group">
+            <input placeholder="Email à inviter" onblur="this.value = ''" name="prevEmail" type="text" class="form-control">
+            <span class="input-group-btn">
+                <button id="add-email" class="btn btn-default" type="button">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </span>
+        </div>   
+        <div id="inputs_emails">
+        </div>
+        <div class="form-group">
+            <button type="button" id="submitConfig" class="btn btn-primary">Enregistrer</button>
+        </div>
+    </form>
+</div>

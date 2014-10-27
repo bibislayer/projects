@@ -1,0 +1,74 @@
+<% layout('fo_layout') -%>
+<% script() -%>
+<% stylesheet() -%>
+<div class="row">
+    <div class="col-lg-12 cat-button">
+        <button type="button" class="btn btn-primary btn-sm">Maison</button> <button type="button" class="btn btn-primary btn-sm">Famille</button>
+    </div>
+    <% if(files) {
+        for(var i=0;i<files.length;i++){ 
+            var access,file_users;
+            var length = files[i].name.length;
+            var noExt = files[i].name.substring(0, length - 4);
+            var ext = files[i].name.substring(length - 3, length);
+            if (typeof files[i].permissions[0] != 'undefined' ){
+                access = files[i].permissions[0].access;
+                file_users = files[i].permissions[0].users;
+                if(file_users){
+                    if(typeof file_users == "string"){
+                        if(user.email == file_users){
+                            access = 1;
+                        }
+                    }else{
+                        for(var j=0;j<=file_users.length;j++){ 
+                            if(user.email == file_users[j]){
+                                access = 1;
+                            }
+                        }
+                    }
+                }
+            }
+            if(access == 1){
+                if(ext == 'jpg' || ext == 'png' || ext == 'gif'){ %>
+                    <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                        <a class="thumbnail fancybox-thumbs" rel="fancybox-thumb" href="/get_img/<%=files[i]._id%>" >
+                            <img class="img-responsive" src="/get_img/<%=files[i]._id%>" alt="<%=files[i].name%>">
+                        </a>
+                    </div>
+             <% }
+            }
+        }
+    } %>
+</div>
+<script>
+$(document).ready(function() {
+    $('.fancybox-thumbs').click(function(evt){
+        $('.fancybox-thumbs').fancybox({
+            onStart: function(){
+                console.log('started');
+                $('#fancybox-image').attr({
+                    width : 600
+                }).removeAttr('height');
+            },
+            minWidth: 300,
+            aspectRatio: true,
+            type: 'image',
+            prevEffect : 'none',
+            nextEffect : 'none',
+            closeBtn  : true,
+            arrows    : true,
+            nextClick : true,
+            helpers : {
+            title   : {
+                type: 'outside'
+            },
+            thumbs  : {
+                width   : 50,
+                height  : 50
+            } 
+        }
+        });
+        evt.preventDefault();
+    });
+});
+</script>

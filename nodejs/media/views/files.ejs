@@ -1,95 +1,357 @@
 <% layout('layout') -%>
 <% script() -%>
 <% stylesheet() -%>
+<!-- Generic page styles -->
+<link rel="stylesheet" href="/css/style.css">
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="/css/jquery.fileupload.css">
 <div class="row">
-    <div class="col-lg-12">
-       <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">flv to avi</h3>
-            </div>
+    <div class="col-lg-3 ui-widget-content" id="folders">
+        <div class="panel panel-default">
             <div class="panel-body">
-                <form>
-                    <div class="form-group">
-                        <label>Votre video</label>
-                        <input name="uploadingFile" type="file" />
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit Button</button>
-                    <button type="reset" class="btn btn-default">Reset Button</button>
-                </form>
-                <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Poid</th>
-                    <th>Durée</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <% 
-                    function inArray(needle, haystack) {
-                        var length = haystack.length;
-                        for(var i = 0; i < length; i++) {
-                            if(haystack[i] == needle) return true;
+                <ul>
+                 <%
+                 var folder=Array();
+                if(files){
+                    for(var i=0;i<files.length;i++){ 
+                        if(files[i].level != '0'){
+                            var style = 'style="display: none"';
+                        }else{
+                            var style = '';
                         }
-                        return false;
+                        if(files[i].type == 'Directory'){
+                            folder.push(files[i]);
+                            var cls_brace = 'closed';
+                            var cls = 'folder';
+                        %>
+                        <li class="level-<%=files[i].level%>" <%- style %>>
+                            <% for(var j=0;j<=files[i].level;j++){ %>
+                                &nbsp;
+                            <% } %>
+                            <span class="brace <%=cls_brace%>"></span>
+                            <span data-name="<%=files[i].name%>" data-id="<%=files[i]._id%>" class="<%=cls%>"><%=files[i].name%></span>
+                        </li>
+                     <% }
                     }
-                    if(files){
-                        for(var i=0;i<files.length;i++){ 
-                            var size = files[i].size/1000000; %>
-                        <tr>
-                          <td><%=files[i].name%></td>
-                          <td><%=files[i].type%></td>
-                          <td><%=size.toFixed(1)%> Mo</td>
-                          <td><%=files[i].time%></td>
-                          <td>
-                              <% if(!inArray('avi', files[i].type)){ %>
-                              <button data-fileName="<%=files[i].name%>.flv" data-type="avi" class="convert btn btn-default">Convert to avi</button>
-                              <% } %>
-                              <% if(!inArray('flv', files[i].type)){ %>
-                              <button data-fileName="<%=files[i].name%>.avi" data-type="flv"  class="convert btn btn-default">Convert to mkv</button>
-                              <% } %>
-                          </td>
-                        </tr>
-                    <% }
-                    } %>
-                </tbody>
-              </table>
+                } %>
+                </ul>
             </div>
-        </div>         
-    </div> 
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-body my-panel">
+                <div class="btn-group">
+                    <button data-tooltip="tooltip" data-toggle="popover" title="Céer un dossier" data-conteneur="create_folder" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                    </button>
+                    <button data-tooltip="tooltip" data-toggle="popover" title="Ajouter un fichier" data-conteneur="add_file" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-upload"></span>
+                    </button>
+                </div>
+                <div class="btn-group pull-right">
+                    <button id="makePrev" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </button>
+                    <button id="makeList" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-list"></span>
+                    </button>
+                </div> 
+                 <div class="btn-group files-actions" style="display:none">
+                    <button data-tooltip="tooltip" title="Editer la sélection" id="edit" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <button data-tooltip="tooltip" title="Supprimer la sélection" id="remove" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                    </button>
+                    <button data-tooltip="tooltip" data-toggle="popover" data-conteneur="config_file" title="Configurer la sélection" id="config" type="button" data-toggle="modal" class="btn btn-default">
+                        <span class="glyphicon glyphicon-cloud"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" data-conteneur="move_file" data-toggle="popover" data-tooltip="tooltip" title="Déplacer la sélection">
+                         <span class="glyphicon glyphicon-share-alt"></span>
+                    </button>
+                </div> 
+                <div class="btn-group files-actions" style="display:none">
+                    <button type="button" role="button" data-toggle="dropdown" class="btn btn-default">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </button>
+                        <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                        <li role="presentation">
+                            <a role="menuitem" id="add-files" tabindex="-1">Ajouter des fichiers</a>
+                        </li>
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1">Créer un dossier</a>
+                        </li>
+                        <li role="presentation">
+                            <a role="menuitem" id="remove" tabindex="-1">Supprimer la sélection</a>
+                        </li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation">
+                            <a role="menuitem" id="config" tabindex="-1">Configurer la partage</a>
+                        </li>
+                    </div>
+                </div>
+                <hr/> 
+                <div id="filesManager">
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th><input id="check_all_file_checkbox" type='checkbox'/></th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Poid</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /.row -->
+<!-- Modal -->
+<% include modal_panel %>
+
 <script src="/js/delivery.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/folders.js"></script>
 <script> 
-    $(function(){
-        var socket = io.connect('http://localhost:8080');
+    var socket = io.connect('http://localhost:8080');
+    var folder;
+    function onChangeFolder(val){
+        console.log(val);
+        folder = val;
+    }
+    function changePath(){
+        var files=Array();
+        //folder = $('#folderSelect').find(":selected").val();
+        console.log(folder);
+        $(".file_checkbox:checked").each(function(){
+            files.push($(this).attr('id'));
+        });
+        socket.emit('move_file', files, folder);
+    }
+    $(function () {
+    'use strict';
+
+        $('#folderSelect').append('<option value="default">Selectionner un dossier</option>');
+    <% for(var i=0;i<folder.length;i++){ %>
+        $('#folderSelect').append('<option value="<%=folder[i]._id%>"><%=folder[i].name%></option>');
+    <% } %>
+    
+    /*
+    draggable sortable futur function
+    $("#filesManager table tbody").delegate("tr:not('input')", 'mouseover', function(){
+        $(this).draggable({
+          connectToSortable: "#folders .panel-body",
+          cursor: "move",
+          helper: function( event ) {
+            return $( "<li>"+$(this).children('td').eq(1).html()+"</li>" );
+          },
+          revert: "invalid"
+        });
         
-        <% if (user.username){ %>
-            socket.emit('nouveau_client', '<%= user.username %>');
-         <% } %>
-         $(".convert").click(function(evt){
-             alert('convert');
-              var type = $(this).attr('data-type');
-              var fileName = $(this).attr('data-fileName');
-              socket.emit('convert', fileName, type);
-            });
-        socket.on('connect', function(){
-          var delivery = new Delivery(socket);
+    });
+    $( "#folders .panel-body ul li" ).sortable({
+        revert: true,
+        receive: function (event, ui) {
+            var id_file = $(ui.item[0]).children('td').eq(0).find('input').attr('id');
+            socket.emit('move_file', id_file);
+        },
+        over: function(event, ui) {
+            console.log(ui);
+           $(this).addClass('temporaryhighlight');
+        },
+        out: function(event, ui) {
+           $(this).removeClass('temporaryhighlight');
+        },  
+    });*/
 
-          delivery.on('delivery.connect',function(delivery){
-            $("button[type=submit]").click(function(evt){
-              var file = $("input[type=file]")[0].files[0];
-              delivery.send(file);
-              evt.preventDefault();
-            });
-          });
+    /*** PANEL SECTION ***/
+    $(".my-panel").delegate("#send_folder", 'click', function(evt){
+        var parent_id = $("input[name=parent_id]").val();
+        var folder_name = $("input[name=folder_name]").val();
+        socket.emit('new_folder', folder_name, parent_id);
+        evt.preventDefault();
+    });
+    $('#makePrev').click(function(){ 
+        $.ajax({
+          url: "/filesContainerType/icones",
+          context: document.body
+        }).done(function(data) {
+          $('#filesManager').html(data);
+        });
+    })
+    $('#makeList').click(function(){ 
+        var lvl = $(this).attr('class');
+        var length = lvl.length;
+        var level = parseInt(lvl.substring(length - 1, length)) + 1;
+        $('.level-'+level).show();
+    })
 
-          delivery.on('send.success',function(fileUID){
-            console.log("file was successfully sent.");
-          });
+    $('button[data-toggle=popover]').click(function(){
+        $('button[data-toggle=popover]').popover('hide');
+    });
+    $('button[data-toggle=popover]').popover({
+        placement: 'bottom',
+        html : true,
+        content: function() {
+          return $('#'+$(this).attr('data-conteneur')).html();
+        }
+    });
+    $('button[data-tooltip=tooltip]').tooltip({
+        placement: 'top'
+    });
+
+    /*** TABLE FILES SECTION ***/
+    $("#filesManager table tbody").delegate("tr:not('input')", 'click', function(){
+        var selector = $(this).find('.file_checkbox');
+        if(selector.is(':checked')){
+            selector.prop("checked", false);
+             $('.files-actions').hide();
+        }else{
+            selector.prop("checked", true);
+             $('.files-actions').show();
+        }
+    });
+
+    $('#check_all_file_checkbox').click(function(){
+        $('.file_checkbox').each(function(){
+            if($('#check_all_file_checkbox').is(':checked')){
+                 $(this).prop("checked", true);
+                 $('.files-actions').show();
+            }else{
+                 $(this).prop("checked", false);
+                  $('.files-actions').hide();
+            }
+        })
+    })
+    
+    $('.prevu').popover({ 
+        html : true,
+        trigger : 'hover',
+        placement: 'top',
+        content: function() {
+          return $(this).find('div:first').html();
+        }
+    });
+    
+    //removed one or many files
+    $("#remove").click(function(evt){
+        var files = Array();
+        //removed one or many files
+        $(".file_checkbox:checked").each(function(){
+            files.push($(this).attr('id'));
+        });
+        if (confirm("Voulez-vous supprimer "+files.length+" fichiers ?")) {
+            socket.emit('remove_file', files, '<%= user._id %>');
+        }
+    });
+
+    /*** CONFIG SECTION ***/
+    $(".my-panel").delegate("#submitConfig", 'click', function(evt){
+        var datastring = $("#formConfig").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/saveConfig",
+            data: datastring,
+            dataType: "json",
+            success: function(data) {
+                $('#contentConfig').modal('hide');
+                //var obj = jQuery.parseJSON(data); if the dataType is not specified as json uncomment this
+                // do what ever you want with the server response
+            },
+            error: function(){
+                  alert('error handing here');
+            }
         });
     });
+
+    $("#inputs_emails").delegate("#del-email", 'click', function(){
+        var input = $(this).attr('data-remove');
+        $('#'+input).remove();
+        $(this).remove();
+    })
+    $('#add-email').click(function(){
+        var email = $('input[name=prevEmail]').val();
+        $('#inputs_emails').append('<div class="form-group input-group"> <input id="'+email+'" class="form-control" type="text" name="emails" value="'+email+'" /> <span class="input-group-btn">\
+                                    <button id="del-email" data-remove="'+email+'" class="btn btn-default" type="button">\
+                                        <span class="glyphicon glyphicon-minus"></span>\
+                                    </button>\
+                                </span></div>');
+    })
+    $("#access-on").click(function(evt){
+        $('#access-off').removeClass('active');
+        $(this).addClass('active');
+        $('input[name=access]').val(1);
+    });
+    $("#access-off").click(function(evt){
+        $('#access-on').removeClass('active');
+        $(this).addClass('active');
+        $('input[name=access]').val(0);
+    });
+    //removed one or many files
+    $("#config").click(function(evt){
+        //removed one or many files
+        $('#inputs_id_files').html('');
+        $(".file_checkbox:checked").each(function(){
+            $('#inputs_id_files').append('<input type="hidden" value="'+$(this).attr('id')+'" name="id_files[]" />');
+        });
+    });
+
+    /*** NODEJS SECTION ***/
+    // Change this to the location of your server-side upload handler:
+    socket.on('connect', function(){
+        var delivery = new Delivery(socket);
+        delivery.on('delivery.connect',function(delivery){
+            $(".my-panel").delegate("#send_file", 'click', function(evt){
+                var file = $("input[type=file]")[0].files[0];
+                delivery.send(file);
+                evt.preventDefault();
+            });
+        });
+        //auth user for file manager
+        socket.emit('new_user', '<%= user._id %>');
+        //var data_id = $('span.folder').first().attr('data-id');
+        //socket.emit('select_folder', data_id);
+        $('span.folder').first().trigger( "click" );
+        //call_back user logged for file manager
+        socket.on('user_logged', function(data){
+            console.log('logged');
+        });
+        socket.on('file_removed', function(id){
+            $('#'+id).parent('td').parent('tr').remove();
+            $('span[data-id='+id+']').parent('li').remove();
+        });
+        socket.on('file_saved', function(files){
+            if(files){
+                $("#folders ul").html('');
+                for(var i=0;i<files.length;i++){ 
+                    if(files[i].level != '0'){
+                        var style = 'style="display: none"';
+                    }else{
+                        var style = '';
+                    }
+                    if(files[i].type == 'Directory'){
+                        var cls_brace = 'closed';
+                        var cls = 'folder';
+                                            var nb = "";
+                        for(var j=0;j<=files[i].level;j++){
+                            nb += '&nbsp';
+                        }
+                        $("#folders ul").append('<li class="level-'+files[i].level+'" '+style+'>'+nb+'\
+                        <span class="brace '+cls_brace+'"></span>\
+                        <span data-name="'+files[i].name+'" data-id="'+files[i]._id+'" class="'+cls+'">'+files[i].name+'</span>\
+                        </li>');
+                    }
+                }
+                $('button[data-toggle=popover]').popover('hide');
+                $('span.folder').first().trigger( "click" );
+            }
+        });
+   });
+});
 </script>

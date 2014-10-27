@@ -1,21 +1,25 @@
 {
-  "name": "poker",
+  "name": "media",
   "version": "0.1.0",
   "dependencies": {
     "connect-flash": "^0.1.1",
+    "delivery": "0.0.3",
     "ejs": "^1.0.0",
     "ejs-locals": "^1.0.2",
     "ent": "~0.1.0",
     "express": "~3.3.4",
+    "fluent-ffmpeg": "^2.0.0-rc2",
+    "fstream": "^1.0.2",
+    "mkdirp": "^0.5.0",
     "mongodb": "*",
     "mongoose": "^3.8.16",
-    "monk": "*",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^0.3.0",
     "passport-remember-me": "0.0.1",
-    "socket.io": "~0.9.16"
+    "socket.io": "~0.9.16",
+    "unzip": "^0.1.11"
   },
   "author": "Dev-Monkey",
-  "description": "Un super Chat temps réel avec socket.io"
+  "description": "Un site de gestion des medias"
 }

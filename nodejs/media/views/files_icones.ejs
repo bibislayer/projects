@@ -1,0 +1,21 @@
+<%
+if(files){
+  for(var i=0;i<files.length;i++){ 
+    if(files[i].level != '0'){
+      var style = 'style="display: none"';
+    }else{
+      var style = '';
+    }
+    if(files[i].type == 'Directory'){
+      var cls = 'class="folder"';
+    }else{
+      var cls = 'class="file"';
+    }
+    var size = files[i].size/1000000; %>
+    <div onmouseover="$(this).find('span').addClass('active');" onmouseout="$(this).find('span').removeClass('active');" <%- cls+' '+style %>>
+      <span>
+        <%=files[i].name%>
+      </span>
+    </div>
+    <% }
+  } %>

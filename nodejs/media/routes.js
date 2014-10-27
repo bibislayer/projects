@@ -1,42 +1,83 @@
 var passport = require('passport'),
         User = require('./models/user'),
-        Chat = require('./models/chat'),
-        Poker = require('./models/poker'),
         Files = require('./models/files'),
-        utils = require('./utils'),
-        mongoose = require('mongoose'),
-        flash = require('connect-flash');
+        utils = require('./utils');
 
 module.exports = function (app) {
-    app.get('/', ensureAuthenticated, function (req, res) {
-        Chat.find(function (err, chats, count) {
-            res.render('index', {
-                title: 'accueil',
+    app.get('/', function (req, res) {
+        res.render('index', {
+                title: 'Accueil',
                 h1: 'Dashboard <small>Statistics Overview</small>',
-                breadcrumb: 'Index',
+                breadcrumb: 'Accueil',
+                user: req.user
+        });
+    });
+    app.get('/u/:username', function (req, res) {
+        User.findOne({username: req.params.username}, function (err, user) {
+            if(user){
+                Files.find({user: user._id}, function (err, files) {
+                    res.render('show', {
+                            title: 'Images et photos de '+req.params.username,
+                            h1: 'Images et photos de <small>'+req.params.username+'</small>',
+                            files: files,
+                            user: req.user
+                    });
+                });
+            }
+        });
+    });
+    app.get("/get_img/:id", function(req, res) {
+        Files.findOne({_id: req.params.id}, function (err, file) {
+            if(file){
+                res.download(__dirname+file.path+file.name);
+            }
+        });    
+    });
+    app.get('/files', ensureAuthenticated, function (req, res) {
+        Files.find({user: req.user._id}, function (err, files) {
+            res.render('files', {
+                title: 'Tous vos fichiers',
                 user: req.user,
-                chats: chats
+                files: files
             });
         });
     });
-    app.get('/poker', ensureAuthenticated, function (req, res) {
-        req.session.redirect_to = '/poker';
-        var content = '';
-        Poker.find(function (err, tables, count) {
-            if (tables.length > 1)
-                content = tables.length + ' tables actives';
-            else
-                content = tables.length + ' table active';
-            res.render('table_selection', {
-                title: 'poker',
-                h1: 'Poker <small>Choose your table (' + content + ')</small>',
-                breadcrumb: 'Poker >> Table selection',
-                user: req.user,
-                tables: tables
-            });
-        });
 
+    app.post('/saveConfig', ensureAuthenticated, function (req, res, next) {
+        var arrFiles = req.body.id_files;
+        var access = req.body.access;
+        var emails = req.body.emails;
+        for(var i=0;i<arrFiles.length;i++){
+            Files.findOne({_id: arrFiles[i]}, function (err, file) {
+                file.permissions = {access: access, users: emails}
+                file.save();
+            });
+        }
+        res.json({ success: "success" });
     });
+
+    app.get('/filesContainerType/:type', ensureAuthenticated, function (req, res) {
+        Files.find({user: req.user._id}, function (err, files) {
+            if(req.params.type == 'icones' || req.params.type == 'list')
+            res.render('files_'+req.params.type, {
+                user: req.user,
+                files: files
+            });
+        });
+    });
+    
+    app.get('/video', ensureAuthenticated,function (req, res) {
+        Files.find({user: req.user._id}, function (err, files) {
+            res.render('video', {
+                title: 'Toutes vos videos',
+                h1: 'Vos videos',
+                breadcrumb: '<a href="/">Accueil</a> > Video',
+                user: req.user,
+                files: files
+            });
+        });
+    });
+
     app.get('/convert', ensureAuthenticated, function (req, res) {
         Files.find({user: req.user._id}, function (err, files) {
             console.log(files);
@@ -50,31 +91,36 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/poker/table/:num', ensureAuthenticated, function (req, res) {
-        req.session.redirect_to = '/poker/table/' + req.params.num;
-        Poker.findOne({table: req.params.num}, function (err, poker) {
-            if (poker) {
-                Chat.find(function (err, chats, count) {
-                    res.render('poker', {
-                        title: 'poker',
-                        h1: 'Poker <small>Game and chat</small>',
-                        breadcrumb: 'Poker >> Table nº' + poker.table,
-                        user: req.user,
-                        chats: chats,
-                        req: req,
-                        poker: poker
-                    });
-                });
-            } else {
-                console.log('no data for this company');
-            }
-        });
-    });
     app.get('/account', ensureAuthenticated, function (req, res) {
-        res.render('account.ejs', {title: 'account', user: req.user});
+        res.render('account.ejs', {title: 'account', user: req.user, message: ""});
     });
     app.get('/register', function (req, res) {
         res.render('register', {title: "register", user: req.user, breadcrumb: 'Register', message: req.flash('error')});
+    });
+    app.post('/edit-profile', ensureAuthenticated, function (req, res) {
+        var email = req.body.email;
+        var username = req.body.username;
+        var message = "";
+        User.findOne({_id: req.user._id}, function (err, user) {
+            if(user){
+                if(email)
+                    user.email = email;
+                if(username){
+                    User.findOne({username: username}, function (err, exist) {
+                        if(!exist)
+                            user.username = username;
+                        else
+                            message = "username already exist";
+                        user.save();
+                    })   
+                }
+            }
+        });
+        res.render('account.ejs', {
+            title: 'account', 
+            user: req.user,
+            message: message
+        });
     });
     app.post('/register', function (req, res) {
         User.register(new User({username: req.body.username}), req.body.password, function (err, account) {
@@ -109,7 +155,7 @@ module.exports = function (app) {
                 });
             },
             function (req, res) {
-                res.redirect('/convert');
+                res.redirect('/');
             });
     app.get('/logout', function (req, res) {
         req.logout();

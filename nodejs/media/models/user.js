@@ -6,6 +6,7 @@ var User = new Schema({
     username: String,
     password: String,
     email: String,
+    role: Array,
     salt: String
 }, { collection: 'usercollection' });
 
