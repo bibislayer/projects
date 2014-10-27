@@ -122,6 +122,7 @@ app.configure(function () {
 var timer, idTable;
 var user = {};
 var io = require('socket.io').listen(server);
+io.set('transports', ['xhr-polling']);
 var running = false;
 function keysrt(key, desc) {
     return function (a, b) {
@@ -135,6 +136,7 @@ function inArray(needle, haystack) {
     }
     return false;
 }
+
 //file upload
 io.sockets.on('connection', function (socket) {
     //upload file
