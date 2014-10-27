@@ -121,9 +121,11 @@
             <li class="<% if(title=='picture'){ %>active<% } %>" >
                 <a href="/files"><i class="fa fa-fw fa-money"></i> Files</a>
             </li>
+            <% if(user){ %>
             <li class="<% if(title=='picture'){ %>active<% } %>" >
                 <a target="_blank" href="/u/<%= user.username %>"><i class="fa fa-fw fa-money"></i> Front</a>
             </li>
+            <% } %>
         </ul>
     </div>
     <!-- /.navbar-collapse -->
