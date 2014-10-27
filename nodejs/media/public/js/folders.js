@@ -1,6 +1,6 @@
 $(function () {
     'use strict';
-    var socket = io.connect('http://localhost:8080');
+    var socket = io.connect('http://'+location.hostname+':8080');
     
     $('#folders ul').delegate("li span.brace", 'click', function(){
         var lvl = $(this).parent('li:first').attr('class');
