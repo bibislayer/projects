@@ -1,6 +1,7 @@
 var express = require('express'),
         app = express(),
         server = require('http').createServer(app),
+        httpProxy = require('httpProxy'),
         ent = require('ent'),
         passport = require('passport'),
         flash = require('connect-flash'),
@@ -20,6 +21,7 @@ var Files = require('./models/files');
 
 passport.use(new LocalStrategy(User.authenticate()));
 
+httpProxy.createProxyServer({target:'http://files.dev-monkey.org'}).listen(80);
 /* Fake, in-memory database of remember me tokens */
 
 var tokens = {}
