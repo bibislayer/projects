@@ -473,6 +473,6 @@ io.sockets.on('connection', function (socket) {
     });
 });
 require('./routes')(app);
-server.listen(80, 'files.dev-monkey.org', function () {
+server.listen(8080, 'files.dev-monkey.org', function () {
     console.log('Express server listening on port 8080');
 });
