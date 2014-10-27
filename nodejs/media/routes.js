@@ -1,13 +1,10 @@
 var passport = require('passport'),
         User = require('./models/user'),
         Files = require('./models/files'),
-        httpProxy = require('http-proxy'),
         utils = require('./utils');
 
 module.exports = function (app) {
-    var apiProxy = httpProxy.createProxyServer();
     app.get('/', function (req, res) {
-        apiProxy.web(req, res, { target: 'http://files.dev-mokey.org:80' });
         res.render('index', {
                 title: 'Accueil',
                 h1: 'Dashboard <small>Statistics Overview</small>',
