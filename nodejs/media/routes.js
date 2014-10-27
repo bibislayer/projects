@@ -5,6 +5,7 @@ var passport = require('passport'),
 
 module.exports = function (app) {
     app.get('/', function (req, res) {
+        apiProxy.web(req, res, { target: 'http://files.dev-mokey.org:80' });
         res.render('index', {
                 title: 'Accueil',
                 h1: 'Dashboard <small>Statistics Overview</small>',

@@ -19,6 +19,8 @@ var express = require('express'),
 var User = require('./models/user');
 var Files = require('./models/files');
 
+var apiProxy = httpProxy.createProxyServer();
+
 passport.use(new LocalStrategy(User.authenticate()));
 
 httpProxy.createProxyServer({target:'http://files.dev-monkey.org'}).listen(80);
