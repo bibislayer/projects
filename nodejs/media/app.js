@@ -1,7 +1,6 @@
 var express = require('express'),
         app = express(),
         server = require('http').createServer(app),
-        httpProxy = require('http-proxy'),
         ent = require('ent'),
         passport = require('passport'),
         flash = require('connect-flash'),
@@ -19,11 +18,8 @@ var express = require('express'),
 var User = require('./models/user');
 var Files = require('./models/files');
 
-var apiProxy = httpProxy.createProxyServer();
-
 passport.use(new LocalStrategy(User.authenticate()));
 
-httpProxy.createProxyServer({target:'http://files.dev-monkey.org'}).listen(80);
 /* Fake, in-memory database of remember me tokens */
 
 var tokens = {}
@@ -477,6 +473,6 @@ io.sockets.on('connection', function (socket) {
     });
 });
 require('./routes')(app);
-server.listen(8080, function () {
+server.listen(8080, 'files.dev-monkey.org', function () {
     console.log('Express server listening on port 8080');
 });
