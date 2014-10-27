@@ -119,7 +119,7 @@
 <script src="/js/jquery-ui.min.js"></script>
 <script src="/js/folders.js"></script>
 <script>
-    var socket = io.connect(location.hostname+':8080');
+    var socket = io.connect('http://'+location.hostname+':8080');
     var folder;
     function onChangeFolder(val){
         console.log(val);
