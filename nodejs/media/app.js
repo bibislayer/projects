@@ -1,7 +1,7 @@
 var express = require('express'),
         app = express(),
         server = require('http').createServer(app),
-        httpProxy = require('httpProxy'),
+        httpProxy = require('http-proxy'),
         ent = require('ent'),
         passport = require('passport'),
         flash = require('connect-flash'),
