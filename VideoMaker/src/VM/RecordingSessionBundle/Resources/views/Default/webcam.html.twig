@@ -74,7 +74,7 @@
             <div class="form-group">
                 <label for="inputFile">File input</label>
                 <input type="file" name="file" id="inputFile" />
-                <p class="help-block">Attention cela peut prendre du temps en fonction de votre connection</p>
+                <p class="help-block">Attention cela peut prendre du temps en fonction de votre connexion</p>
             </div>
             <div id="loading"></div>
             <input type="submit" class="btn btn-default" value="Envoyer"/>
@@ -190,7 +190,7 @@
 <script>
     $(document).ready(function(){
        $('#uploadFile input[type=submit]').click(function(){
-           $('#loading').html('<p>Transfert en court</p><p style="text-align:center;"><img src="{{ asset('bundles/vmgeneral/images/ajax-loader.gif') }}"/></p>');
+           $('#loading').html('<p>Transfert en cours</p><p style="text-align:center;"><img src="{{ asset('bundles/vmgeneral/images/ajax-loader.gif') }}"/></p>');
        });
     });
     
