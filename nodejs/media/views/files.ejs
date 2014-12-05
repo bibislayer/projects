@@ -1,52 +1,39 @@
 <% layout('layout') -%>
 <% script() -%>
 <% stylesheet() -%>
+<link href="/css/video-js.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/css/jquery.fileupload.css">
+<link rel="stylesheet" href="/css/jquery.fileupload-ui.css">
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<!-- video.js must be in the <head> for older IEs to work. -->
+<script src="/js/video.js"></script>
+
+<!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
+<script>
+videojs.options.flash.swf = "/js/video-js.swf";
+</script>
 <!-- Generic page styles -->
 <link rel="stylesheet" href="/css/style.css">
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="/css/jquery.fileupload.css">
 <div class="row">
-    <div class="col-lg-3 ui-widget-content" id="folders">
+    <div class="col-lg-3 col-md-3 col-xs-3" id="folders">
         <div class="panel panel-default">
             <div class="panel-body">
-                <ul>
-                 <%
-                 var folder=Array();
-                if(files){
-                    for(var i=0;i<files.length;i++){ 
-                        if(files[i].level != '0'){
-                            var style = 'style="display: none"';
-                        }else{
-                            var style = '';
-                        }
-                        if(files[i].type == 'Directory'){
-                            folder.push(files[i]);
-                            var cls_brace = 'closed';
-                            var cls = 'folder';
-                        %>
-                        <li class="level-<%=files[i].level%>" <%- style %>>
-                            <% for(var j=0;j<=files[i].level;j++){ %>
-                                &nbsp;
-                            <% } %>
-                            <span class="brace <%=cls_brace%>"></span>
-                            <span data-name="<%=files[i].name%>" data-id="<%=files[i]._id%>" class="<%=cls%>"><%=files[i].name%></span>
-                        </li>
-                     <% }
-                    }
-                } %>
+                <ul id="folder-selection">
                 </ul>
             </div>
         </div>
     </div>
-    <div class="col-lg-9">
+    <div class="col-lg-9 col-md-9 col-xs-9">
         <div class="panel panel-default">
             <div class="panel-body my-panel">
                 <div class="btn-group">
                     <button data-tooltip="tooltip" data-toggle="popover" title="Céer un dossier" data-conteneur="create_folder" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-folder-open"></span>
                     </button>
-                    <button data-tooltip="tooltip" data-toggle="popover" title="Ajouter un fichier" data-conteneur="add_file" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-upload"></span>
+                    <button data-tooltip="tooltip" data-toggle="popover" data-conteneur="config_file" title="Configurer la sélection" id="config" type="button" data-toggle="modal" class="btn btn-default">
+                        <span class="glyphicon glyphicon-cloud"></span>
                     </button>
                 </div>
                 <div class="btn-group pull-right">
@@ -63,9 +50,6 @@
                     </button>
                     <button data-tooltip="tooltip" title="Supprimer la sélection" id="remove" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-remove-circle"></span>
-                    </button>
-                    <button data-tooltip="tooltip" data-toggle="popover" data-conteneur="config_file" title="Configurer la sélection" id="config" type="button" data-toggle="modal" class="btn btn-default">
-                        <span class="glyphicon glyphicon-cloud"></span>
                     </button>
                     <button type="button" class="btn btn-default" data-conteneur="move_file" data-toggle="popover" data-tooltip="tooltip" title="Déplacer la sélection">
                          <span class="glyphicon glyphicon-share-alt"></span>
@@ -91,15 +75,46 @@
                         </li>
                     </div>
                 </div>
-                <hr/> 
+                <hr/>
+                <div class="col-lg-12" id="add_file">
+                    <form id="fileupload" action="" method="POST" enctype="multipart/form-data">
+                        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                        <div class="fileupload-buttonbar">
+                            <div class="fileupload-buttons">
+                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                <span class="fileinput-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button"><span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span><span class="ui-button-text">
+                                    <span>Add files...</span>
+                                    
+                                </span><input type="file" name="files[]" multiple=""></span>
+                                <button type="submit" class="start ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button"><span class="ui-button-icon-primary ui-icon ui-icon-circle-arrow-e"></span><span class="ui-button-text">Start upload</span></button>
+                                <!-- The global file processing state -->
+                                <span class="fileupload-process"></span>
+                            </div>
+                            <!-- The global progress state -->
+                            <div class="fileupload-progress fade" style="display:none">
+                                <!-- The global progress bar -->
+                                <div class="progress ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: none; width: 0%;"></div></div>
+                                <!-- The extended global progress state -->
+                                <div class="progress-extended">&nbsp;</div>
+                            </div>
+                        </div>
+                        <!-- The table listing the files available for upload/download -->
+                        <table style="table-layout: fixed;word-wrap: break-word;" role="presentation">
+                            <tbody class="files"></tbody>
+                        </table>
+                    </form>
+                </div>
+                <br>
                 <div id="filesManager">
                     <table class="table table-hover">
                         <thead>
                           <tr>
-                            <th><input id="check_all_file_checkbox" type='checkbox'/></th>
+                            <th style="text-align:center;"><input id="check_all_file_checkbox" type='checkbox'/></th>
+                            <th>Prévu</th>
                             <th>Name</th>
                             <th>Type</th>
                             <th>Poid</th>
+                            <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -114,245 +129,378 @@
 <!-- Modal -->
 <% include modal_panel %>
 
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload">
+        {%
+            var length = file.name.length;
+            var noExt = file.name.substring(0, length - 4);
+            var ext = file.name.substring(length - 3, length);
+        %}     
+        {%= ext %}                    
+        {% if (ext == 'avi' || ext == 'mkv') { %}
+            <td style="max-width: 300px;">
+                <p class="name">{%=file.name%}</p>
+                <strong class="error"></strong>
+            </td>
+        {% }else{ %}
+            <td>
+                <span class="preview"></span>
+            </td>
+            <td>
+                <p class="name">{%=file.name%}</p>
+                <strong class="error"></strong>
+            </td>
+        {% } %}
+        <td colspan="2" style="width: 66%;">
+            <p class="size">Processing...</p>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="200">
+                </div>
+            </div>
+        </td>
+        <td class="text-center" style="width: 33%;">
+            {% if (!i && !o.options.autoUpload) { %}
+                <button class="start ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button"><span class="ui-button-icon-primary ui-icon ui-icon-circle-arrow-e"></span><span class="ui-button-text">Start</span></button>
+            {% } %}
+            {% if (!i) { %}
+                <button class="cancel ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button"><span class="ui-button-icon-primary ui-icon ui-icon-cancel"></span><span class="ui-button-text">Cancel</span></button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+
+    <tr class="template-download">
+    {%= file.type %}
+    {% if (file.type == 'Vidéo') { %}
+        <td class="col-lg-4">
+            <p class="name">
+                <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+            </p>
+            {% if (file.error) { %}
+                <div><span class="error">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+    {% }else{ %}
+        <td class="col-lg-2">
+            <span class="preview">
+                {% if (file.path) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="/get_file/{%=file.file_id%}/{%=file.ext%}"></a>
+                {% } %}
+            </span>
+        </td>
+        <td class="col-lg-2">
+            <p class="name">
+                <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+            </p>
+            {% if (file.error) { %}
+                <div><span class="error">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+    {% } %}
+        <td class="col-lg-2">
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+        </td>
+        <td class="col-lg-2">
+        <button class="delete ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" ole="button" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}><span class="ui-button-icon-primary ui-icon ui-icon-trash"></span><span class="ui-button-text">Delete</span></button>
+            <input type="checkbox" name="delete" value="1" class="toggle">
+        </td>
+    </tr>
+{% } %}
+</script>
 <script src="/js/delivery.js"></script>
+<script src="js/vendor/jquery.ui.widget.js"></script>
+<script src="/js/jquery-1.11.1.min.js"></script>
+<script src="/js/jquery-ui-1.11.1.min.js"></script>
+<!-- The Templates plugin is included to render the upload/download listings -->
+<script src="/js/tmpl.min.js"></script>
+<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+<script src="/js/load-image.all.min.js"></script>
+<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+<script src="/js/canvas-to-blob.min.js"></script>
+<!-- blueimp Gallery script -->
+<script src="/js/jquery.blueimp-gallery.min.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="/js/jquery.fileupload.js"></script>
+<!-- The File Upload processing plugin -->
+<script src="/js/jquery.fileupload-process.js"></script>
+<!-- The File Upload image preview & resize plugin -->
+<script src="/js/jquery.fileupload-image.js"></script>
+<!-- The File Upload audio preview plugin -->
+<script src="/js/jquery.fileupload-audio.js"></script>
+<!-- The File Upload video preview plugin -->
+<script src="/js/jquery.fileupload-video.js"></script>
+<!-- The File Upload validation plugin -->
+<script src="/js/jquery.fileupload-validate.js"></script>
+<!-- The File Upload user interface plugin -->
+<script src="/js/jquery.fileupload-ui.js"></script>
+<!-- The File Upload jQuery UI plugin -->
+<script src="/js/jquery.fileupload-jquery-ui.js"></script>
+<script src="/js/main.js"></script>
+
+
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/jquery-ui.min.js"></script>
-<script src="/js/folders.js"></script>
 <script>
     var socket = io.connect('http://'+location.hostname+':8080');
+</script>
+<script src="/js/folders.js"></script>
+<script>
+    //auth user for file manager
+    socket.emit('new_user', '<%= user._id %>');
     var folder;
+    var files = <%- JSON.stringify(files) %>;
+    //console.log(files);
+    generateMenu(files);
+    function generateMenu(files){
+        $('#folderSelect').html('<option value="default">Selectionner un dossier</option>');
+        $('#folder-selection').html('');
+        for(var i=0;i<files.length;i++){
+            var parent = '';
+            var style = '';
+            if(files[i].type == "Directory"){
+                if(files[i].parent_id){
+                    parent = 'data-parent-id='+files[i].parent_id+'';
+                    style = 'style=display:none';
+                }
+                var esc = '';
+                for(var j=0;j<files[i].level;j++){
+                    esc += '&nbsp;';
+                }
+                $('#folder-selection').append('<li '+parent+' '+style+' data-id="'+files[i]._id+'" class="level'+files[i].level+'">'+esc+'\
+                <span class="brace closed"></span>\
+                <span data-name="'+files[i].name+'" data-id="'+files[i]._id+'" class="folder">\
+                '+files[i].name+'</span></li>');
+                $('#folderSelect').append('<option value="'+files[i]._id+'">'+files[i].name+'</option>');
+            }
+        }
+    }
+    
     function onChangeFolder(val){
         console.log(val);
         folder = val;
     }
     function changePath(){
-        var files=Array();
-        //folder = $('#folderSelect').find(":selected").val();
-        console.log(folder);
+        var files=Array(); 
         $(".file_checkbox:checked").each(function(){
             files.push($(this).attr('id'));
         });
-        socket.emit('move_file', files, folder);
+        console.log('files '+files);
+        socket.emit('move_file', {files: files, folder: folder});
     }
-    $(function () {
-    'use strict';
 
-        $('#folderSelect').append('<option value="default">Selectionner un dossier</option>');
-    <% for(var i=0;i<folder.length;i++){ %>
-        $('#folderSelect').append('<option value="<%=folder[i]._id%>"><%=folder[i].name%></option>');
-    <% } %>
-    
-    /*
-    draggable sortable futur function
-    $("#filesManager table tbody").delegate("tr:not('input')", 'mouseover', function(){
-        $(this).draggable({
-          connectToSortable: "#folders .panel-body",
-          cursor: "move",
-          helper: function( event ) {
-            return $( "<li>"+$(this).children('td').eq(1).html()+"</li>" );
-          },
-          revert: "invalid"
-        });
-        
-    });
-    $( "#folders .panel-body ul li" ).sortable({
-        revert: true,
-        receive: function (event, ui) {
-            var id_file = $(ui.item[0]).children('td').eq(0).find('input').attr('id');
-            socket.emit('move_file', id_file);
-        },
-        over: function(event, ui) {
-            console.log(ui);
-           $(this).addClass('temporaryhighlight');
-        },
-        out: function(event, ui) {
-           $(this).removeClass('temporaryhighlight');
-        },  
-    });*/
-
-    /*** PANEL SECTION ***/
-    $(".my-panel").delegate("#send_folder", 'click', function(evt){
-        var parent_id = $("input[name=parent_id]").val();
-        var folder_name = $("input[name=folder_name]").val();
-        socket.emit('new_folder', folder_name, parent_id);
-        evt.preventDefault();
-    });
-    $('#makePrev').click(function(){ 
-        $.ajax({
-          url: "/filesContainerType/icones",
-          context: document.body
-        }).done(function(data) {
-          $('#filesManager').html(data);
-        });
-    })
-    $('#makeList').click(function(){ 
-        var lvl = $(this).attr('class');
-        var length = lvl.length;
-        var level = parseInt(lvl.substring(length - 1, length)) + 1;
-        $('.level-'+level).show();
-    })
-
-    $('button[data-toggle=popover]').click(function(){
-        $('button[data-toggle=popover]').popover('hide');
-    });
-    $('button[data-toggle=popover]').popover({
-        placement: 'bottom',
-        html : true,
-        content: function() {
-          return $('#'+$(this).attr('data-conteneur')).html();
-        }
-    });
-    $('button[data-tooltip=tooltip]').tooltip({
-        placement: 'top'
-    });
-
-    /*** TABLE FILES SECTION ***/
-    $("#filesManager table tbody").delegate("tr:not('input')", 'click', function(){
-        var selector = $(this).find('.file_checkbox');
-        if(selector.is(':checked')){
-            selector.prop("checked", false);
-             $('.files-actions').hide();
+    function showPrevu(that){
+        var type = $(that).attr("data-type");
+        var length = $(that).attr("data-name") .length;
+        var noExt = $(that).attr("data-name").substring(0, length - 4);
+        var ext = $(that).attr("data-name").substring(length - 3, length);
+        $('#'+$(that).attr('data-conteneur')+' .popover-title').html('<span class="text-info"><strong>'+$(that).attr("data-name")+'</strong></span>&nbsp;<button type="button" id="close" class="close" onclick="$(\'#'+$(that).attr('data-conteneur')+' .popover\').hide();">&times;</button>');
+        if(type == 'Image' || type == 'image'){
+            $('#'+$(that).attr('data-conteneur')+' .popover-content').html('<center><img height="125px" src="/get_file/'+$(that).attr('data-id')+'/'+ext+'" alt="'+noExt+'" title="'+noExt+'" /></center>');
+        }else if(type == 'Vidéo'){
+            var id = "rand" + Math.floor((Math.random() * 10000) + 1);
+            $('#'+$(that).attr('data-conteneur')+' .popover-content').html('<center><video data-setup=\'{"techOrder": ["flash", "html5", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls\
+               width="360" height="240">\
+               <source src="/get_file/'+$(that).attr('data-id')+'/mp4" type="video/mp4" />\
+               <source src="/get_file/'+$(that).attr('data-id')+'/ogv" type="video/ogv" />\
+               <source src="/get_file/'+$(that).attr('data-id')+'/webm" type="video/webm" />\
+              </video></center>');
+            videojs(id, {}, function() {
+                vidPlayer = this;
+                vidPlayer.load();
+            });
         }else{
-            selector.prop("checked", true);
-             $('.files-actions').show();
+            $('#'+$(that).attr('data-conteneur')+' .popover-content').html('<center>Format not found</center>');
         }
-    });
+        var offset = $(that).offset();
+        //show the menu directly over the placeholder
+        $('#'+$(that).attr('data-conteneur')+' .popover').css({
+            top: offset.top - 150 + "px",
+            left: (offset.left + 25) + "px"
+        }).show();
+        $(that).trigger('click');
+    }
 
-    $('#check_all_file_checkbox').click(function(){
-        $('.file_checkbox').each(function(){
-            if($('#check_all_file_checkbox').is(':checked')){
-                 $(this).prop("checked", true);
-                 $('.files-actions').show();
-            }else{
-                 $(this).prop("checked", false);
-                  $('.files-actions').hide();
-            }
+    $(function () {
+        'use strict';
+        /*** PANEL SECTION ***/
+        $(".my-panel").delegate("#send_folder", 'click', function(evt){
+            var parent_id = $("input[name=parent_id]").val();
+            var folder_name = $("input[name=folder_name]").val();
+            socket.emit('new_folder', {folder_name: folder_name, parent_id: parent_id});
+            evt.preventDefault();
+        });
+        $('#makePrev').click(function(){ 
+            $.ajax({
+              url: "/filesContainerType/icones",
+              context: document.body
+            }).done(function(data) {
+              $('#filesManager').html(data);
+            });
         })
-    })
-    
-    $('.prevu').popover({ 
-        html : true,
-        trigger : 'hover',
-        placement: 'top',
-        content: function() {
-          return $(this).find('div:first').html();
-        }
-    });
-    
-    //removed one or many files
-    $("#remove").click(function(evt){
-        var files = Array();
-        //removed one or many files
-        $(".file_checkbox:checked").each(function(){
-            files.push($(this).attr('id'));
-        });
-        if (confirm("Voulez-vous supprimer "+files.length+" fichiers ?")) {
-            socket.emit('remove_file', files, '<%= user._id %>');
-        }
-    });
+        $('#makeList').click(function(){ 
+            var lvl = $(this).attr('class');
+            var length = lvl.length;
+            var level = parseInt(lvl.substring(length - 1, length)) + 1;
+            $('.level-'+level).show();
+        })
 
-    /*** CONFIG SECTION ***/
-    $(".my-panel").delegate("#submitConfig", 'click', function(evt){
-        var datastring = $("#formConfig").serialize();
-        $.ajax({
-            type: "POST",
-            url: "/saveConfig",
-            data: datastring,
-            dataType: "json",
-            success: function(data) {
-                $('#contentConfig').modal('hide');
-                //var obj = jQuery.parseJSON(data); if the dataType is not specified as json uncomment this
-                // do what ever you want with the server response
+        $('button[data-toggle=popover]').click(function(){
+            if(!$(this).hasClass('active')){
+                $('button[data-toggle=popover]').removeClass('active');
+                $('button[data-toggle=popover]').popover('hide');
+                $(this).addClass('active');
+            }else{
+                $('button[data-toggle=popover]').removeClass('active');
+            }
+            
+        });
+        $('button[data-toggle=popover]').popover({
+            placement: 'bottom',
+            html : true,
+            title: function() {
+               return '<span class="text-info"><strong>'+$(this).attr("data-title")+'</strong></span><button type="button" id="close" class="close" onclick="$(\'button[data-toggle=popover]\').popover(\'hide\');">&times;</button>';
             },
-            error: function(){
-                  alert('error handing here');
+            content: function() {
+              return $('#'+$(this).attr('data-conteneur')).html();
             }
         });
-    });
-
-    $("#inputs_emails").delegate("#del-email", 'click', function(){
-        var input = $(this).attr('data-remove');
-        $('#'+input).remove();
-        $(this).remove();
-    })
-    $('#add-email').click(function(){
-        var email = $('input[name=prevEmail]').val();
-        $('#inputs_emails').append('<div class="form-group input-group"> <input id="'+email+'" class="form-control" type="text" name="emails" value="'+email+'" /> <span class="input-group-btn">\
-                                    <button id="del-email" data-remove="'+email+'" class="btn btn-default" type="button">\
-                                        <span class="glyphicon glyphicon-minus"></span>\
-                                    </button>\
-                                </span></div>');
-    })
-    $("#access-on").click(function(evt){
-        $('#access-off').removeClass('active');
-        $(this).addClass('active');
-        $('input[name=access]').val(1);
-    });
-    $("#access-off").click(function(evt){
-        $('#access-on').removeClass('active');
-        $(this).addClass('active');
-        $('input[name=access]').val(0);
-    });
-    //removed one or many files
-    $("#config").click(function(evt){
-        //removed one or many files
-        $('#inputs_id_files').html('');
-        $(".file_checkbox:checked").each(function(){
-            $('#inputs_id_files').append('<input type="hidden" value="'+$(this).attr('id')+'" name="id_files[]" />');
+        //$('button[data-toggle=popover]').popover('show');
+        $('button[data-tooltip=tooltip]').tooltip({
+            placement: 'top',
+            html : true
         });
-    });
 
-    /*** NODEJS SECTION ***/
-    // Change this to the location of your server-side upload handler:
-    socket.on('connect', function(){
-        var delivery = new Delivery(socket);
-        delivery.on('delivery.connect',function(delivery){
-            $(".my-panel").delegate("#send_file", 'click', function(evt){
-                var file = $("input[type=file]")[0].files[0];
-                delivery.send(file);
-                evt.preventDefault();
+        /*** TABLE FILES SECTION ***/
+        $("#filesManager table tbody").delegate("tr:not('input')", 'click', function(){
+            var selector = $(this).find('.file_checkbox');
+            var selected = $("input.file_checkbox:checked");
+            if(selector.is(':checked')){
+                 $('.files-actions').show();
+            }else if(selected.length < 1){
+                 $('.files-actions').hide();
+            }
+        });
+
+        $('#check_all_file_checkbox').click(function(){
+            $('.file_checkbox').each(function(){
+                if($('#check_all_file_checkbox').is(':checked')){
+                     $(this).prop("checked", true);
+                     $('.files-actions').show();
+                }else{
+                     $(this).prop("checked", false);
+                      $('.files-actions').hide();
+                }
+            })
+        })
+        //removed one or many files
+        $(".panel").delegate("#remove", 'click', function(){
+            console.log('removed');
+            var files = Array();
+            if($(this).attr('data-remove')){
+                files.push($(this).attr('data-id'));
+            }else{
+                //removed one or many files
+                $(".file_checkbox:checked").each(function(){
+                    files.push($(this).attr('id'));
+                });
+            }
+            console.log(files);
+            if (confirm("Voulez-vous supprimer "+files.length+" fichiers ?")) {
+                socket.emit('remove_file', files, '<%= user._id %>');
+            }
+        });
+
+        /*** CONFIG SECTION ***/
+        $(".my-panel").delegate("#submitConfig", 'click', function(evt){
+            var datastring = $("#formConfig").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/saveConfig",
+                data: datastring,
+                dataType: "json",
+                success: function(data) {
+                    $('#contentConfig').modal('hide');
+                },
+                error: function(){
+                      alert('error handing here');
+                }
             });
         });
-        //auth user for file manager
-        socket.emit('new_user', '<%= user._id %>');
-        //var data_id = $('span.folder').first().attr('data-id');
-        //socket.emit('select_folder', data_id);
-        $('span.folder').first().trigger( "click" );
+
+        $(".my-panel").delegate("#del-email", 'click', function(){
+            var input = $(this).attr('data-remove');
+            //alert($('#'+input).val());
+            socket.emit('delAlwMail', {email: $('#'+input).val(), folder_id:$('input[name=folder_id]').val()});
+            $('#'+input).remove();
+            $(this).remove();
+        });
+        $(".my-panel").delegate(".add-email", 'click', function(){
+            var datastring = $("#formConfig").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/saveConfig",
+                data: datastring,
+                dataType: "json",
+                success: function(data) {
+                    $('#contentConfig').modal('hide');
+                },
+                error: function(){
+                      alert('error handing here');
+                }
+            });
+            var email = $('input[name=prevEmail]').val();
+            $('input[name=prevEmail]').val('');
+            $('#inputs_emails').append('<div class="form-group input-group"> <input id="alwM'+$('#inputs_emails div').length+'" class="form-control" type="text" name="emails" value="'+email+'" /> <span class="input-group-btn">\
+                                        <button id="del-email" data-remove="alwM'+$('#inputs_emails div').length+'" class="btn btn-default" type="button">\
+                                            <span class="glyphicon glyphicon-minus"></span>\
+                                        </button>\
+                                    </span></div>');
+        });
+        $(".my-panel").delegate("#access-on", 'click', function(evt){
+            $('#access-off').removeClass('active');
+            $(this).addClass('active');
+            $('input[name=access]').val(1);
+        });
+        $(".my-panel").delegate("#access-off", 'click', function(evt){
+            $('#access-on').removeClass('active');
+            $(this).addClass('active');
+            $('input[name=access]').val(0);
+        });
+        //removed one or many files
+        $("#config").click(function(evt){
+            //removed one or many files
+            $('#inputs_id_files').html('');
+            $(".file_checkbox:checked").each(function(){
+                $('#inputs_id_files').append('<input type="hidden" value="'+$(this).attr('id')+'" name="id_files[]" />');
+            });
+        });
+        
+        /*** NODEJS SECTION ***/
+
         //call_back user logged for file manager
         socket.on('user_logged', function(data){
             console.log('logged');
+            $('span.folder:first').trigger("click");
         });
+
         socket.on('file_removed', function(id){
-            $('#'+id).parent('td').parent('tr').remove();
-            $('span[data-id='+id+']').parent('li').remove();
+                $('#'+id).parent('td').parent('tr').remove();
+                $('span[data-id='+id+']').parent('li').remove();
         });
-        socket.on('file_saved', function(files){
-            if(files){
-                console.log('saved');
-                $("#folders ul").html('');
-                for(var i=0;i<files.length;i++){ 
-                    if(files[i].level != '0'){
-                        var style = 'style="display: none"';
-                    }else{
-                        var style = '';
-                    }
-                    if(files[i].type == 'Directory'){
-                        var cls_brace = 'closed';
-                        var cls = 'folder';
-                                            var nb = "";
-                        for(var j=0;j<=files[i].level;j++){
-                            nb += '&nbsp';
-                        }
-                        $("#folders ul").append('<li class="level-'+files[i].level+'" '+style+'>'+nb+'\
-                        <span class="brace '+cls_brace+'"></span>\
-                        <span data-name="'+files[i].name+'" data-id="'+files[i]._id+'" class="'+cls+'">'+files[i].name+'</span>\
-                        </li>');
-                    }
-                }
-                $('button[data-toggle=popover]').popover('hide');
-                $('span.folder').first().trigger( "click" );
-            }
+        socket.on('file_saved', function(){
+            console.log('file saved');
+            $('tr.template-download').hide();
+            $('button[data-toggle=popover]').removeClass('active');
+            $('button[data-toggle=popover]').popover('hide');
+            $('span.folder').first().trigger("click");
         });
+
    });
-});
 </script>

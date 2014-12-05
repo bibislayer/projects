@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
 
 var Files = new Schema({
     user: String,
+    child: [{ type: Schema.Types.ObjectId, ref: 'Files' }],
     level: Number,
     root_id: String,
     parent_id: String,
@@ -12,7 +13,9 @@ var Files = new Schema({
     path: String,
     size: Number,
     time: Number,
-    permissions: Array,
+    access: Number,
+    permissions: [],
+    allowedEmails: Array,
     created: {type: Date, default: Date.now},
     updated: {type: Date, default: Date.now}
 }, { collection: 'filescollection' });

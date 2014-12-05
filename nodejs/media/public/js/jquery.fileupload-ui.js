@@ -32,7 +32,6 @@
         );
     }
 }(function ($, tmpl) {
-    'use strict';
 
     $.blueimp.fileupload.prototype._specialOptions.push(
         'filesContainer',
@@ -155,6 +154,7 @@
             },
             // Callback for successful uploads:
             done: function (e, data) {
+                $('span.folder').first().trigger("click");
                 if (e.isDefaultPrevented()) {
                     return false;
                 }
@@ -166,7 +166,7 @@
                     template,
                     deferred;
                 if (data.context) {
-                    data.context.each(function (index) {
+                    data.context.each(function (index) { 
                         var file = files[index] ||
                                 {error: 'Empty file upload result'};
                         deferred = that._addFinishedDeferreds();
@@ -187,6 +187,8 @@
                             }
                         );
                     });
+                    $('#fileupload table tbody').html('');
+                    
                 } else {
                     template = that._renderDownload(files)[
                         that.options.prependFiles ? 'prependTo' : 'appendTo'
@@ -205,6 +207,7 @@
             },
             // Callback for failed (abort or error) uploads:
             fail: function (e, data) {
+                $('span.folder').first().trigger("click");
                 if (e.isDefaultPrevented()) {
                     return false;
                 }
@@ -325,6 +328,7 @@
             },
             // Callback for uploads stop, equivalent to the global ajaxStop event:
             stop: function (e) {
+                $('span.folder').first().trigger("click");
                 if (e.isDefaultPrevented()) {
                     return false;
                 }

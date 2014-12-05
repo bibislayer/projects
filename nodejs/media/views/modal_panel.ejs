@@ -1,8 +1,7 @@
 <div id="create_folder" style="display: none">
     <form>
         <div class="form-group">
-            <input name="parent_id" type="hidden" /> 
-            <label id="lbl_folder_name" for="folder_name"></label>
+            <input name="parent_id" type="hidden" />
             <input name="folder_name" class="form-control" type="text" placeholder="Nom du dossier"/>  
         </div>
         <button id="send_folder" type="submit" class="btn btn-default">Créer</button>
@@ -33,6 +32,12 @@
         </div>
     </form>
 </div>
+<div id="prevu_file">
+        <div class="popover" role="tooltip">
+            <h3 class="popover-title">Prevu</h3>
+            <div class="popover-content"></div>
+        </div>
+</div>
 <div id="config_file" style="display: none">
     <form id="formConfig" role="form">
         <div class="form-group btn-group">
@@ -44,20 +49,16 @@
             </button>
         </div> 
         <input type="hidden" value="0" name="access" />
-        <div id="inputs_id_files">
-        </div>
+        <input name="folder_id" type="hidden" />
         <div class="form-group input-group">
-            <input placeholder="Email à inviter" onblur="this.value = ''" name="prevEmail" type="text" class="form-control">
+            <input placeholder="Email à inviter" name="prevEmail" type="text" class="form-control">
             <span class="input-group-btn">
-                <button id="add-email" class="btn btn-default" type="button">
+                <button class="btn btn-default add-email" type="button">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </span>
         </div>   
         <div id="inputs_emails">
-        </div>
-        <div class="form-group">
-            <button type="button" id="submitConfig" class="btn btn-primary">Enregistrer</button>
         </div>
     </form>
 </div>

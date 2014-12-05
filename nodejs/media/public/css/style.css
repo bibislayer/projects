@@ -8,6 +8,9 @@ ul{
 li{
 	list-style: none;
 }
+.tooltip{
+	min-width:200px;
+}
 .my-panel .btn-group{
 	padding-right:10px;
 }
@@ -111,7 +114,7 @@ li{
     margin-right: 15px;
     text-align: center;
 }
-#filesManager div{
+#filesManager .mos div{
 	float:left;
 	text-align: center;
 	width: 75px;
@@ -122,20 +125,20 @@ li{
 	margin-bottom: 15px;
 	cursor:pointer;
 }
-#filesManager div.active{
+#filesManager .mos div.active{
 	background-color: rgba(209, 209, 209, 0.78);
 }
-#filesManager div:hover{
+#filesManager .mos div:hover{
 	background-color: rgba(209, 209, 209, 0.78);
 }
-#filesManager div span{
+#filesManager .mos div span{
 	position: relative;
 	top: 78px;
 	height: 75px;
 	border-radius: 5px;
 	padding: 1px 5px;
 }
-#filesManager div span.active{
+#filesManager .mos div span.active{
 	background-color: rgb(43, 93, 205);
 	color:white;
 }
