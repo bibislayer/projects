@@ -284,7 +284,7 @@ module.exports = function (app) {
         });
     });
 
-    app.post('/files', function (req, res, next) {
+    app.post('/uploads', function (req, res, next) {
         console.log('file on saving');
         var form = new formidable.IncomingForm();
         //Formidable uploads to operating systems tmp dir by default
