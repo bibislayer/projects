@@ -5,8 +5,6 @@ var express = require('express.io'),
         LocalStrategy = require('passport-local').Strategy,
         mongoose = require('mongoose'),
         RememberMeStrategy = require('passport-remember-me').Strategy,
-        ffmpeg = require('fluent-ffmpeg'),
-        dl = require('delivery'),
         fs = require('fs'),
         logfile = fs.createWriteStream('./logfile.log', {flags: 'a'}),
         fstream = require('fstream'),
@@ -44,7 +42,7 @@ var deleteFolderRecursive = function(path) {
     fs.rmdirSync(path);
   }
 };
-        
+
 function consumeRememberMeToken(token, fn) {
     var uid = tokens[token];
     // invalidate the single-use token
