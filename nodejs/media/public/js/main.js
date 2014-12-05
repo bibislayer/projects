@@ -51,7 +51,7 @@ $(function () {
     // Upload server status check for browsers with CORS support:
     if ($.support.cors) {
         $.ajax({
-            url: '//localhost:8080/files',
+            url: '/',
             type: 'HEAD'
         }).fail(function () {
             $('<div class="alert alert-danger"/>')
