@@ -152,7 +152,7 @@ module.exports = function (app) {
                                 if (err)
                                     return console.error(err);
                                 Files.find({user: req.session.user}, function (err, user_files) {
-                                    req.io.emit('file_saved', user_files);
+                                    req.io.emit('file_saved', user_files, files._id);
                                 });
                             });
                         });
@@ -177,7 +177,7 @@ module.exports = function (app) {
                         if (err)
                             return console.error(err);
                         Files.find({user: req.session.user}, function (err, user_files) {
-                            req.io.emit('file_saved', user_files);
+                            req.io.emit('file_saved', user_files, files._id);
                         });
                     });
                 });
@@ -331,7 +331,10 @@ module.exports = function (app) {
                                     if (err)
                                         throw err;
                                     console.log('renamed complete');
-                                    connections[req.user._id].emit('file_saved');
+                                    Files.find({user: req.session.user}, function (err, user_files) {
+                                        console.log(req.user.selected_folder);
+                                        connections[req.session.user].emit('file_saved', {user_files: user_files, folder_id:req.user.selected_folder});
+                                    });
                                     if(type == 'Vidéo'){
                                         convert(files._id, 'ogv', req);
                                         convert(files._id, 'webm', req);

@@ -154,7 +154,6 @@
             },
             // Callback for successful uploads:
             done: function (e, data) {
-                $('span.folder').first().trigger("click");
                 if (e.isDefaultPrevented()) {
                     return false;
                 }
@@ -207,7 +206,6 @@
             },
             // Callback for failed (abort or error) uploads:
             fail: function (e, data) {
-                $('span.folder').first().trigger("click");
                 if (e.isDefaultPrevented()) {
                     return false;
                 }
@@ -328,7 +326,6 @@
             },
             // Callback for uploads stop, equivalent to the global ajaxStop event:
             stop: function (e) {
-                $('span.folder').first().trigger("click");
                 if (e.isDefaultPrevented()) {
                     return false;
                 }

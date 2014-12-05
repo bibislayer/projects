@@ -494,12 +494,24 @@ videojs.options.flash.swf = "/js/video-js.swf";
                 $('#'+id).parent('td').parent('tr').remove();
                 $('span[data-id='+id+']').parent('li').remove();
         });
-        socket.on('file_saved', function(){
+        socket.on('file_saved', function(datas){
             console.log('file saved');
+            console.log(datas.folder_id);
+            generateMenu(datas.user_files);
             $('tr.template-download').hide();
             $('button[data-toggle=popover]').removeClass('active');
             $('button[data-toggle=popover]').popover('hide');
-            $('span.folder').first().trigger("click");
+            var stop = false;
+            $($('span.brace.closed').get()).each(function(){
+                if(!stop){
+                    $(this).trigger("click");
+                    console.log($(this).next('span').attr('data-id'));
+                }
+                if($(this).next('span').attr('data-id') == datas.folder_id){
+                    stop=true;
+                }
+            });
+            $('span[data-id="'+datas.folder_id+'"]').trigger("click");
         });
 
    });

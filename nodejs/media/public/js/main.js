@@ -39,7 +39,7 @@ $(function () {
     );
 
     $('#fileupload').fileupload('option', {
-        url: 'http://'+location.hostname+'/uploads',
+        url: 'http://'+location.hostname+':8080/uploads',
         // Enable image resizing, except for Android and Opera,
         // which actually support image resizing, but fail to
         // send Blob objects via XHR requests:
