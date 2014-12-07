@@ -423,7 +423,6 @@ module.exports = function (app) {
                     });
                 }
             });
-            res.send(JSON.stringify('success'));
             res.end();
         }
     });
