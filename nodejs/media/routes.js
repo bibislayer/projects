@@ -361,7 +361,6 @@ module.exports = function (app) {
             //Formidable uploads to operating systems tmp dir by default
             form.uploadDir = "./uploads";       //set upload directory
             form.keepExtensions = true;     //keep file extension
-            console.log(req);
             form.parse(req, function(err, fields, files) {
                 //save bdd
                 var ext,saveId;
