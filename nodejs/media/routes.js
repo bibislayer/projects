@@ -287,141 +287,144 @@ module.exports = function (app) {
     app.post('/uploads', function (req, res, next) {
         console.log('file on saving');
          /* Chunked upload sessions will have the content-range header */
-    if(req.headers['content-range']) {
-        /* the format of content range header is 'Content-Range: start-end/total' */
-        var match = req.headers['content-range'].match(/(\d+)-(\d+)\/(\d+)/);
-        if(!match || !match[1] || !match[2] || !match[3]) {
-            /* malformed content-range header */
-            res.send('Bad Request', 400);
-            return;
-        }
-
-        var start = parseInt(match[1]);
-        var end = parseInt(match[2]);
-        var total = parseInt(match[3]);
-
-        /* 
-         * The filename and the file size is used for the hash since filenames are not always 
-         * unique for our customers 
-         */
-
-        var hash = crypto.createHash('sha1').update(filename + total).digest('hex');
-        var target_file = "app/uploads/" + hash + path.extname(filename);
-
-        /* The individual chunks are concatenated using a stream */  
-        var stream = streams[hash];
-        if(!stream) {
-            stream = fs.createWriteStream(target_file, {flags: 'a+'});
-            streams[hash] = stream;
-        }
-
-        var size = 0;
-        if(fs.existsSync(target_file)) {
-            size = fs.statSync(target_file).size;
-        }
-
-        /* 
-         * basic sanity checks for content range
-         */
-        if((end + 1) == size) {
-            /* duplicate chunk */
-            res.send('Created', 201);
-            return;
-        }
-
-        if(start != size) {
-            /* missing chunk */
-            res.send('Bad Request', 400);
-            return;
-        }
-
-        /* if everything looks good then read this chunk and append it to the target */
-        fs.readFile(req.headers['x-file'], function(error, data) {
-            if(error) {
-                res.send('Internal Server Error', 500);
+        if(req.headers['content-range']) {
+            /* the format of content range header is 'Content-Range: start-end/total' */
+            var match = req.headers['content-range'].match(/(\d+)-(\d+)\/(\d+)/);
+            if(!match || !match[1] || !match[2] || !match[3]) {
+                /* malformed content-range header */
+                res.send('Bad Request', 400);
                 return;
             }
 
-            stream.write(data);
-            fs.unlink(req.headers['x-file']);
+            var start = parseInt(match[1]);
+            var end = parseInt(match[2]);
+            var total = parseInt(match[3]);
 
-            if(start + data.length >= total) {
-                /* all chunks have been received */
-                stream.on('finish', function() {
-                    process_upload(target_file);
-                });
-                stream.end();
-            } else {
-                /* this chunk has been processed successfully */
-                res.send("Created", 201);
+            /* 
+             * The filename and the file size is used for the hash since filenames are not always 
+             * unique for our customers 
+             */
+
+            var hash = crypto.createHash('sha1').update(filename + total).digest('hex');
+            var target_file = "app/uploads/" + hash + path.extname(filename);
+
+            /* The individual chunks are concatenated using a stream */  
+            var stream = streams[hash];
+            if(!stream) {
+                stream = fs.createWriteStream(target_file, {flags: 'a+'});
+                streams[hash] = stream;
             }
-        });
-    } else {
-        var form = new formidable.IncomingForm();
-        //Formidable uploads to operating systems tmp dir by default
-        form.uploadDir = "./uploads";       //set upload directory
-        form.keepExtensions = true;     //keep file extension
-        
-        form.parse(req, function(err, fields, files) {
-            //save bdd
-            var ext,saveId;
-            console.log(files);
-            var file = files['files[]'];
-            Files.findOne({name: file.name}, function (err, exist) {
-                if (!exist) {
-                    Files.findOne({_id: req.user.selected_folder}, function (err, fl) {
-                        if(fl){
-                            var type = "";
-                            var length = file.name.length;
-                            var noExt = file.name.substring(0, length - 4);
-                            ext = file.name.substring(length - 3, length);
-                            if(ext == 'png' || ext == 'jpg' || ext == 'gif'){
-                                type = 'Image';
-                            }else if(ext == 'flv' || ext == 'avi' || ext == 'mkv'){
-                                type = 'Vidéo';
-                            }else if(ext == 'zip'){
-                                type = 'zip';
-                            }
-                            var files = new Files({
-                                user: req.user._id,
-                                parent_id: fl._id,
-                                level: fl.level+1,
-                                root_id: fl.root_id,
-                                name: file.name,
-                                type: type,
-                                size: file.size,
-                                time: 0,
-                                path: fl.path,
-                                allowedEmails: []
-                            });
-                            files.save();
-                            fl.child.push(files);
-                            fl.save(function (err, fil) {
-                                if (err)
-                                    return console.error(err);
-                                fs.rename(__dirname+'/'+file.path, __dirname+fl.path+file.name, function(err) {
-                                    if (err)
-                                        throw err;
-                                    console.log('renamed complete');
-                                    Files.find({user: req.session.user}, function (err, user_files) {
-                                        console.log(req.user.selected_folder);
-                                        connections[req.session.user].emit('file_saved', {user_files: user_files, folder_id:req.user.selected_folder});
-                                    });
-                                    if(type == 'Vidéo'){
-                                        convert(files._id, 'ogv', req);
-                                        convert(files._id, 'webm', req);
-                                        convert(files._id, 'mp4', req);
-                                    }
-                                });
-                            });  
-                        }
+
+            var size = 0;
+            if(fs.existsSync(target_file)) {
+                size = fs.statSync(target_file).size;
+            }
+
+            /* 
+             * basic sanity checks for content range
+             */
+            if((end + 1) == size) {
+                /* duplicate chunk */
+                res.send('Created', 201);
+                return;
+            }
+
+            if(start != size) {
+                /* missing chunk */
+                res.send('Bad Request', 400);
+                return;
+            }
+
+            /* if everything looks good then read this chunk and append it to the target */
+            fs.readFile(req.headers['x-file'], function(error, data) {
+                if(error) {
+                    res.send('Internal Server Error', 500);
+                    return;
+                }
+
+                stream.write(data);
+                fs.unlink(req.headers['x-file']);
+
+                if(start + data.length >= total) {
+                    /* all chunks have been received */
+                    stream.on('finish', function() {
+                        process_upload(target_file);
                     });
-                    console.log('File saved.');
+                    stream.end();
                 } else {
-                    console.log('File exist');
+                    /* this chunk has been processed successfully */
+                    res.send("Created", 201);
                 }
             });
-        });
+        } else {
+            var form = new formidable.IncomingForm();
+            //Formidable uploads to operating systems tmp dir by default
+            form.uploadDir = "./uploads";       //set upload directory
+            form.keepExtensions = true;     //keep file extension
+            console.log(req);
+            form.parse(req, function(err, fields, files) {
+                //save bdd
+                var ext,saveId;
+                console.log(files);
+                if(typeof files == 'object' && files.length>0){
+                    var file = files['files[]'];
+                    Files.findOne({name: file.name}, function (err, exist) {
+                        if (!exist) {
+                            Files.findOne({_id: req.user.selected_folder}, function (err, fl) {
+                                if(fl){
+                                    var type = "";
+                                    var length = file.name.length;
+                                    var noExt = file.name.substring(0, length - 4);
+                                    ext = file.name.substring(length - 3, length);
+                                    if(ext == 'png' || ext == 'jpg' || ext == 'gif'){
+                                        type = 'Image';
+                                    }else if(ext == 'flv' || ext == 'avi' || ext == 'mkv'){
+                                        type = 'Vidéo';
+                                    }else if(ext == 'zip'){
+                                        type = 'zip';
+                                    }
+                                    var files = new Files({
+                                        user: req.user._id,
+                                        parent_id: fl._id,
+                                        level: fl.level+1,
+                                        root_id: fl.root_id,
+                                        name: file.name,
+                                        type: type,
+                                        size: file.size,
+                                        time: 0,
+                                        path: fl.path,
+                                        allowedEmails: []
+                                    });
+                                    files.save();
+                                    fl.child.push(files);
+                                    fl.save(function (err, fil) {
+                                        if (err)
+                                            return console.error(err);
+                                        fs.rename(__dirname+'/'+file.path, __dirname+fl.path+file.name, function(err) {
+                                            if (err)
+                                                throw err;
+                                            console.log('renamed complete');
+                                            Files.find({user: req.session.user}, function (err, user_files) {
+                                                console.log(req.user.selected_folder);
+                                                connections[req.session.user].emit('file_saved', {user_files: user_files, folder_id:req.user.selected_folder});
+                                            });
+                                            if(type == 'Vidéo'){
+                                                convert(files._id, 'ogv', req);
+                                                convert(files._id, 'webm', req);
+                                                convert(files._id, 'mp4', req);
+                                            }
+                                        });
+                                    });  
+                                }
+                            });
+                            console.log('File saved.');
+                        } else {
+                            console.log('File exist');
+                        }
+                    });
+                }
+            });
+        }
     }
     /*
        
