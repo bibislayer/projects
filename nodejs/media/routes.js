@@ -407,6 +407,7 @@ module.exports = function (app) {
                                                 console.log(req.user.selected_folder);
                                                 connections[req.session.user].emit('file_saved', {user_files: user_files, folder_id:req.user.selected_folder});
                                             });
+                                            res.send(JSON.stringify('success'));
                                             if(type == 'Vidéo'){
                                                 convert(files._id, 'ogv', req);
                                                 convert(files._id, 'webm', req);
