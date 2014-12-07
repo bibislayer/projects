@@ -362,7 +362,7 @@ module.exports = function (app) {
         form.uploadDir = "./uploads";       //set upload directory
         form.keepExtensions = true;     //keep file extension
         
-        form.parse(req.headers['x-file'], function(err, fields, files) {
+        form.parse(req, function(err, fields, files) {
             //save bdd
             var ext,saveId;
             var file = files['files[]'];
