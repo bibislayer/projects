@@ -425,10 +425,6 @@ module.exports = function (app) {
                 }
             });
         }
-    }
-    /*
-       
-        res.end();*/
     });
     app.get('/u/:username', function (req, res) {
         User.findOne({username: req.params.username}, function (err, user) {
