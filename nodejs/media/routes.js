@@ -364,8 +364,8 @@ module.exports = function (app) {
             form.parse(req, function(err, fields, files) {
                 //save bdd
                 var ext,saveId;
-                console.log(files);
                 if(typeof files == 'object' && files.length>0){
+                    console.log('on saving');
                     var file = files['files[]'];
                     Files.findOne({name: file.name}, function (err, exist) {
                         if (!exist) {
