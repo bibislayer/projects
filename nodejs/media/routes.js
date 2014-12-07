@@ -357,16 +357,12 @@ module.exports = function (app) {
             }
         });
     } else {
-        /* this is a normal upload session */
-        process_upload(req.headers['x-file']);
-    }
-    /*
         var form = new formidable.IncomingForm();
         //Formidable uploads to operating systems tmp dir by default
         form.uploadDir = "./uploads";       //set upload directory
         form.keepExtensions = true;     //keep file extension
         
-        form.parse(req, function(err, fields, files) {
+        form.parse(req.headers['x-file'], function(err, fields, files) {
             //save bdd
             var ext,saveId;
             var file = files['files[]'];
@@ -425,6 +421,9 @@ module.exports = function (app) {
                 }
             });
         });
+    }
+    /*
+       
         res.end();*/
     });
     app.get('/u/:username', function (req, res) {
