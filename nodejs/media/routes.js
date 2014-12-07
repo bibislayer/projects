@@ -286,6 +286,81 @@ module.exports = function (app) {
 
     app.post('/uploads', function (req, res, next) {
         console.log('file on saving');
+         /* Chunked upload sessions will have the content-range header */
+    if(req.headers['content-range']) {
+        /* the format of content range header is 'Content-Range: start-end/total' */
+        var match = req.headers['content-range'].match(/(\d+)-(\d+)\/(\d+)/);
+        if(!match || !match[1] || !match[2] || !match[3]) {
+            /* malformed content-range header */
+            res.send('Bad Request', 400);
+            return;
+        }
+
+        var start = parseInt(match[1]);
+        var end = parseInt(match[2]);
+        var total = parseInt(match[3]);
+
+        /* 
+         * The filename and the file size is used for the hash since filenames are not always 
+         * unique for our customers 
+         */
+
+        var hash = crypto.createHash('sha1').update(filename + total).digest('hex');
+        var target_file = "app/uploads/" + hash + path.extname(filename);
+
+        /* The individual chunks are concatenated using a stream */  
+        var stream = streams[hash];
+        if(!stream) {
+            stream = fs.createWriteStream(target_file, {flags: 'a+'});
+            streams[hash] = stream;
+        }
+
+        var size = 0;
+        if(fs.existsSync(target_file)) {
+            size = fs.statSync(target_file).size;
+        }
+
+        /* 
+         * basic sanity checks for content range
+         */
+        if((end + 1) == size) {
+            /* duplicate chunk */
+            res.send('Created', 201);
+            return;
+        }
+
+        if(start != size) {
+            /* missing chunk */
+            res.send('Bad Request', 400);
+            return;
+        }
+
+        /* if everything looks good then read this chunk and append it to the target */
+        fs.readFile(req.headers['x-file'], function(error, data) {
+            if(error) {
+                res.send('Internal Server Error', 500);
+                return;
+            }
+
+            stream.write(data);
+            fs.unlink(req.headers['x-file']);
+
+            if(start + data.length >= total) {
+                /* all chunks have been received */
+                stream.on('finish', function() {
+                    process_upload(target_file);
+                });
+                stream.end();
+            } else {
+                /* this chunk has been processed successfully */
+                res.send("Created", 201);
+            }
+        });
+    } else {
+        /* this is a normal upload session */
+        process_upload(req.headers['x-file']);
+    }
+    /*
         var form = new formidable.IncomingForm();
         //Formidable uploads to operating systems tmp dir by default
         form.uploadDir = "./uploads";       //set upload directory
@@ -350,7 +425,7 @@ module.exports = function (app) {
                 }
             });
         });
-        res.end();
+        res.end();*/
     });
     app.get('/u/:username', function (req, res) {
         User.findOne({username: req.params.username}, function (err, user) {
