@@ -195,23 +195,20 @@ module.exports = function (app) {
                     var ffmpeg = spawn('ffmpeg', [
                         '-i', ''+__dirname + file.path + file.name+'',
                         '-acodec', 'libvorbis', // PCM 16bits, little-endian
-                        '-ab', '96k',
-                        '-ar', '44100', // Sampling rate
                         '-ac', 2, // Stereo
-                        '-b', '345k',
-                        '-s', '640x360', '-y',
+                        '-b', '345k', '-y',
                         __dirname + file.path + noExt + '.' + type // Output on stdout
                       ]);
                 }else if(type == 'mp4'){
                     var ffmpeg = spawn('ffmpeg', [
                         '-i', ''+__dirname + file.path + file.name+'',
-                        '-c:v', 'libx264',
+                        '-vcodec', 'libx264',
                         '-crf', '19',
                         '-preset', 'slow',
-                        '-c:a', 'aac',
+                        '-acodec', 'aac',
                         '-strict', 'experimental',
-                        '-b:a', '192k',
-                        '-ac', '2', '-y',
+                        '-b', '345k',
+                        '-ac', 2, '-y',
                         __dirname + file.path + noExt + '.' + type // Output on stdout
                       ]);
                 }else{
