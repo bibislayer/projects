@@ -69,7 +69,7 @@ function generateMenu(files){
     }
 }
 $(document).ready(function() {
-    $('.fancybox-thumbs').click(function(evt){
+    $('#content-file').delegate('.fancybox-thumbs', 'click', function(evt){
         $('.fancybox-thumbs').fancybox({
             onStart: function(){
                 console.log('started');

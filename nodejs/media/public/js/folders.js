@@ -72,7 +72,7 @@ socket.on('selected_folder', function (files) {
                 if(ext == 'jpg' || ext == 'png' || ext == 'gif'){
                     $('#content-file').append('<div class="col-lg-3 col-md-3 col-xs-6" style="margin-bottom:10px">\
                         <a class="thumbnail fancybox-thumbs" rel="fancybox-thumb" href="/get_file/'+file._id+'/'+ext+'" >\
-                            <img style="height:250px;" class="img-responsive" src="/get_file/'+file._id+'/'+ext+'" alt="'+file.name+'">\
+                            <img class="img-responsive" src="/get_file/'+file._id+'/'+ext+'" alt="'+file.name+'">\
                         </a></div>');
                 }else if(ext == 'avi'){ 
                     var id = "rand" + Math.floor((Math.random() * 10000) + 1);
@@ -117,7 +117,7 @@ socket.on('selected_folder', function (files) {
                                     <button id="del-email" data-remove="alwM'+$('.inputs_emails div').length+'" class="btn btn-default" type="button">\
                                         <span class="glyphicon glyphicon-minus"></span>\
                                     </button>\
-                                    <button id="send-email" class="send-email btn btn-default" type="button">\
+                                    <button class="send-email btn btn-default" type="button">\
                                         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>\
                                     </button>\
                                 </span></div>');

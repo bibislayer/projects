@@ -106,6 +106,14 @@ module.exports = function (app) {
     app.io.route('send_invitation', function (req) {
         var email = req.data;
         User.findOne({email: email}, function (err, user) {
+            // Prepare nodemailer transport object
+            var transport = nodemailer.createTransport({
+                service: "Gmail",
+                auth: {
+                    user: "adthev@gmail.com",
+                    pass: "@nicktalope78@"
+                }
+            });
             if (!user) {
                 var current_date = (new Date()).valueOf().toString();
                 var random = Math.random().toString();
@@ -116,14 +124,6 @@ module.exports = function (app) {
                 invitedUser.hash = hash;
                 invitedUser.save();
                 emailTemplates(templatesDir, function (err, template) {
-                    // Prepare nodemailer transport object
-                    var transport = nodemailer.createTransport({
-                        service: "Gmail",
-                        auth: {
-                            user: "adthev@gmail.com",
-                            pass: "@nicktalope78@"
-                        }
-                    });
                     // Render a single email with one template
                     var locals = {
                         link: 'http://files.dev-monkey.org/register/' + invitedUser.email + '/' + invitedUser.hash, 
@@ -152,7 +152,33 @@ module.exports = function (app) {
                     });
                 });
             } else {
-
+                emailTemplates(templatesDir, function (err, template) {
+                    // Render a single email with one template
+                    var locals = {
+                        linkPartage: 'http://files.dev-monkey.org/u/'+req.session.user.username
+                    };
+                    console.log(locals);
+                    template('share-email', locals, function (err, html, text) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            transport.sendMail({
+                                from: req.session.user.username + ' sur files.dev-monkey.org <bot-no-reponse@dev-monkey.org>',
+                                to: user.email,
+                                subject: 'Partage sur files.dev-monkey.org',
+                                html: html,
+                                text: text
+                            }, function (err, info) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    req.io.emit('user_invited', email);
+                                    console.log(info.response);
+                                }
+                            });
+                        }
+                    });
+                });
             }
         });
     });
@@ -210,7 +236,8 @@ module.exports = function (app) {
                                 size: 0,
                                 time: 0,
                                 path: req.session.folder_path + '/' + req.data.folder_name + '/',
-                                permissions: {access: 0, users: ""},
+                                permissions: [],
+                                allowedEmails: []
                             });
                             file.child.push(files);
                             file.save();
@@ -218,7 +245,7 @@ module.exports = function (app) {
                                 if (err)
                                     return console.error(err);
                                 Files.find({user: req.session.user._id}, function (err, user_files) {
-                                    req.io.emit('file_saved', user_files, files._id);
+                                    req.io.emit('file_saved', {user_files:user_files, folder_id:file._id});
                                 });
                             });
                         });
@@ -236,14 +263,15 @@ module.exports = function (app) {
                         size: 0,
                         time: 0,
                         path: req.session.folder_path + '/' + req.data.folder_name + '/',
-                        permissions: {access: 0, users: ""},
+                        permissions: [],
+                            allowedEmails: []
                     });
                     files.root_id = files._id;
                     files.save(function (err, file) {
                         if (err)
                             return console.error(err);
                         Files.find({user: req.session.user._id}, function (err, user_files) {
-                            req.io.emit('file_saved', user_files, files._id);
+                            req.io.emit('file_saved', {user_files:user_files, folder_id:file._id});
                         });
                     });
                 });

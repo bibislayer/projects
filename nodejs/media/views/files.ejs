@@ -17,7 +17,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="/css/jquery.fileupload.css">
 <div class="row">
-    <div class="col-lg-3 col-md-3 col-xs-3" id="folders">
+    <div class="col-lg-2 col-md-3 col-xs-3" id="folders">
         <div class="panel panel-default">
             <div class="panel-body">
                 <ul id="folder-selection">
@@ -25,7 +25,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
             </div>
         </div>
     </div>
-    <div class="col-lg-9 col-md-9 col-xs-9">
+    <div class="col-lg-10 col-md-9 col-xs-9">
         <div class="panel panel-default">
             <div class="panel-body my-panel">
                 <div class="btn-group">
@@ -484,7 +484,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
                 $('.inputs_id_files').append('<input type="hidden" value="'+$(this).attr('id')+'" name="id_files[]" />');
             });
         });
-        $(".my-panel").delegate("#send-email", 'click', function(){
+        $(".my-panel").delegate(".send-email", 'click', function(){
              console.log('sended '+$(this).parent().prev('input').val());
              socket.emit('send_invitation', $(this).parent().prev('input').val());
         });
