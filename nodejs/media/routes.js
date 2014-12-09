@@ -125,7 +125,10 @@ module.exports = function (app) {
                         }
                     });
                     // Render a single email with one template
-                    var locals = {link: 'http://files.dev-monkey.org/register/' + invitedUser.email + '/' + invitedUser.hash};
+                    var locals = {
+                        link: 'http://files.dev-monkey.org/register/' + invitedUser.email + '/' + invitedUser.hash, 
+                        linkPartage: 'http://files.dev-monkey.org/u/'+req.session.user.username
+                    };
                     console.log(locals);
                     template('invitation-email', locals, function (err, html, text) {
                         if (err) {
