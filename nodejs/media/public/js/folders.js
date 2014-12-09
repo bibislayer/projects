@@ -60,7 +60,7 @@ socket.on('progress_bar', function (datas) {
 });
 socket.on('selected_folder', function (files) {
 	$('#filesManager table tbody').html('');
-    $('#inputs_emails').html('');
+    $('.inputs_emails').html('');
     var params = document.URL.split('/');
     if(params[3] == 'u'){
         if(files.child){
@@ -113,9 +113,12 @@ socket.on('selected_folder', function (files) {
         //affichage des permissions
         if(files.allowedEmails){
             $.each( files.allowedEmails, function( key, email ) {
-                 $('#inputs_emails').append('<div class="form-group input-group"> <input id="alwM'+key+'" class="form-control" type="text" name="emails" value="'+email+'" /> <span class="input-group-btn">\
-                                    <button id="del-email" data-remove="alwM'+key+'" class="btn btn-default" type="button">\
+                 $('.inputs_emails').append('<div class="form-group input-group"> <input class="alwM'+$('.inputs_emails div').length+' form-control" type="text" name="emails" value="'+email+'" /> <span class="input-group-btn">\
+                                    <button id="del-email" data-remove="alwM'+$('.inputs_emails div').length+'" class="btn btn-default" type="button">\
                                         <span class="glyphicon glyphicon-minus"></span>\
+                                    </button>\
+                                    <button id="send-email" class="send-email btn btn-default" type="button">\
+                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>\
                                     </button>\
                                 </span></div>');
             })

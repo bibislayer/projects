@@ -14,6 +14,10 @@
                 <form method="post" action="/register" role="form">
                     <fieldset>
                         <div class="form-group">
+                            <input class="form-control" value="<%= user.email %>" disabled>
+                            <input type="hidden" name="hash" value="<%= user.hash %>">
+                        </div>
+                        <div class="form-group">
                             <input class="form-control" placeholder="Username" name="username" type="username" autofocus="">
                         </div>
                         <div class="form-group">

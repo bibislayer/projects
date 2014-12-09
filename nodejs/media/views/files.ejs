@@ -437,8 +437,9 @@ videojs.options.flash.swf = "/js/video-js.swf";
         $(".my-panel").delegate("#del-email", 'click', function(){
             var input = $(this).attr('data-remove');
             //alert($('#'+input).val());
-            socket.emit('delAlwMail', {email: $('#'+input).val(), folder_id:$('input[name=folder_id]').val()});
-            $('#'+input).remove();
+            socket.emit('delAlwMail', {email: $('.'+input).first().val(), folder_id:$('input[name=folder_id]').val()});
+            
+            $('.'+input).parent('div').remove();
             $(this).remove();
         });
         $(".my-panel").delegate(".add-email", 'click', function(){
@@ -457,11 +458,12 @@ videojs.options.flash.swf = "/js/video-js.swf";
             });
             var email = $('input[name=prevEmail]').val();
             $('input[name=prevEmail]').val('');
-            $('#inputs_emails').append('<div class="form-group input-group"> <input id="alwM'+$('#inputs_emails div').length+'" class="form-control" type="text" name="emails" value="'+email+'" /> <span class="input-group-btn">\
-                                        <button id="del-email" data-remove="alwM'+$('#inputs_emails div').length+'" class="btn btn-default" type="button">\
+            $('.inputs_emails').append('<div class="form-group input-group"> <input class="alwM'+$('.inputs_emails div').length+' form-control" type="text" name="emails" value="'+email+'" /> <span class="input-group-btn">\
+                                        <button id="del-email" data-remove="alwM'+$('.inputs_emails div').length+'" class="btn btn-default" type="button">\
                                             <span class="glyphicon glyphicon-minus"></span>\
                                         </button>\
-                                    </span></div>');
+                                        <button class="send-email btn btn-default" type="button">\
+                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button></span></div>');
         });
         $(".my-panel").delegate("#access-on", 'click', function(evt){
             $('#access-off').removeClass('active');
@@ -473,13 +475,18 @@ videojs.options.flash.swf = "/js/video-js.swf";
             $(this).addClass('active');
             $('input[name=access]').val(0);
         });
-        //removed one or many files
+        
+        //add files selected for manage permissions
         $("#config").click(function(evt){
             //removed one or many files
-            $('#inputs_id_files').html('');
+            $('.inputs_id_files').html('');
             $(".file_checkbox:checked").each(function(){
-                $('#inputs_id_files').append('<input type="hidden" value="'+$(this).attr('id')+'" name="id_files[]" />');
+                $('.inputs_id_files').append('<input type="hidden" value="'+$(this).attr('id')+'" name="id_files[]" />');
             });
+        });
+        $(".my-panel").delegate("#send-email", 'click', function(){
+             console.log('sended '+$(this).parent().prev('input').val());
+             socket.emit('send_invitation', $(this).parent().prev('input').val());
         });
         
         /*** NODEJS SECTION ***/
@@ -493,6 +500,9 @@ videojs.options.flash.swf = "/js/video-js.swf";
         socket.on('file_removed', function(id){
                 $('#'+id).parent('td').parent('tr').remove();
                 $('span[data-id='+id+']').parent('li').remove();
+        });
+        socket.on('user_invited', function(data){
+            console.log('email sended to '+data);
         });
         socket.on('file_saved', function(datas){
             console.log('file saved');
