@@ -62,15 +62,15 @@ module.exports = function (app) {
                                 fld.save();
                                 fold.child.push(fld);
                                 fold.save();
+                                Files.find({user: req.session.user._id}, function (err, user_files) {
+                                    req.io.emit('file_saved', {user_files: user_files,folder_id: fld._id});
+                                });
                                 console.log('file moved');
                             }
                         });
                     }
                 });
             }
-            Files.find({user: req.session.user._id}, function (err, user_files) {
-                req.io.emit('file_saved', user_files);
-            });
         }
     });
 
@@ -631,7 +631,7 @@ module.exports = function (app) {
                             passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {
                                 res.redirect('/files');
                             });
-                            connections[req.session.user._id].emit('file_saved', user_files, file._id);
+                            connections[req.session.user._id].emit('file_saved', {user_files: user_files, folder_id: file._id});
                         });
                     });
                 });
