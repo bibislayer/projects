@@ -631,7 +631,7 @@ module.exports = function (app) {
                             passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {
                                 res.redirect('/files');
                             });
-                            connections[req.session.user._id].emit('file_saved', user_files, files._id);
+                            connections[req.session.user._id].emit('file_saved', user_files, file._id);
                         });
                     });
                 });
