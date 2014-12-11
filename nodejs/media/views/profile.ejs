@@ -9,6 +9,9 @@
                 <h3 class="panel-title">Gérer votre compte</h3>
             </div>
             <div class="panel-body">
+                <% if (message) { %>
+                <p><%= message %></p>
+                <% } %>
                 <form method="post" action="/edit-profile" role="form">
                     <fieldset>
                         <div class="form-group">

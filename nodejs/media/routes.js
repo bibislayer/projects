@@ -579,13 +579,10 @@ module.exports = function (app) {
         });
     });
     app.post('/edit-profile', ensureAuthenticated, function (req, res) {
-        var email = req.body.email;
         var username = req.body.username;
         var message = "";
         User.findOne({_id: req.user._id}, function (err, user) {
             if (user) {
-                if (email)
-                    user.email = email;
                 if (username) {
                     User.findOne({username: username}, function (err, exist) {
                         if (!exist)
