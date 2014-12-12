@@ -624,7 +624,7 @@ module.exports = function (app) {
                     files.save(function (err, file) {
                         if (err)
                             return console.error(err);
-                        Files.find({user: req.session.user._id}, function (err, user_files) {
+                        Files.find({user: account._id}, function (err, user_files) {
                             passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {
                                 res.redirect('/files');
                             });
