@@ -1,113 +1,128 @@
 @charset "UTF-8";
 form{
-	min-width: 230px;
+    min-width: 230px;
 }
 ul{
-	padding: 0;
+    padding: 0;
 }
 li{
-	list-style: none;
+    list-style: none;
 }
 .tooltip{
-	min-width:200px;
+    min-width:200px;
 }
 .my-panel .btn-group{
-	padding-right:10px;
+    padding-right:10px;
 }
 .logo{
-	color: #EEE !important;
-	float: left;
-	text-align: center;
-	font-size: 25px;
-	line-height: 0.5;
-	font-weight: 200;
-	font-family: "Pacifico";
-	text-shadow: 0px 1px 1px #000;
+    color: #EEE !important;
+    float: left;
+    text-align: center;
+    font-size: 25px;
+    line-height: 0.5;
+    font-weight: 200;
+    font-family: "Pacifico";
+    text-shadow: 0px 1px 1px #000;
 }
 .cat-button{
-	margin-bottom: 10px;
+    margin-bottom: 10px;
+}
+.left-side {
+    float: none;
+    display: table-cell;
+}
+
+.right-side {
+    float: none;
+    display: table-cell;
+    width: 40%;
 }
 .cat-button button{
-	-moz-box-shadow: inset 0px 1px 0px 0px #3e4a50;
-	-webkit-box-shadow: inset 0px 1px 0px 0px #3e4a50;
-	box-shadow: inset 0px 1px 0px 0px #3e4a50;
-	background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #2f3c42), color-stop(1, #222b30) );
-	background: -moz-linear-gradient( center top, #2f3c42 5%, #222b30 100% );
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2f3c42', endColorstr='#222b30');
-	background-color: #2f3c42;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	border: 1px solid #212c30;
-	display: inline-block;
-	color: #9da8ac;
-	font-size: 12px;
-	padding: 4px 18px;
-	text-decoration: none;
-	text-shadow: 1px 1px 0px #1a2529;
+    -moz-box-shadow: inset 0px 1px 0px 0px #3e4a50;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #3e4a50;
+    box-shadow: inset 0px 1px 0px 0px #3e4a50;
+    background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #2f3c42), color-stop(1, #222b30) );
+    background: -moz-linear-gradient( center top, #2f3c42 5%, #222b30 100% );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2f3c42', endColorstr='#222b30');
+    background-color: #2f3c42;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #212c30;
+    display: inline-block;
+    color: #9da8ac;
+    font-size: 12px;
+    padding: 4px 18px;
+    text-decoration: none;
+    text-shadow: 1px 1px 0px #1a2529;
 }
 
 #folders{
-	padding-right:0;
-}
-
-#folders .panel-body{
-	min-height: 300px;
+    padding-right:0;
 }
 
 #folders li{
-	margin-bottom:4px;
+    margin-bottom:4px;
 }
 #folders span{
-	cursor:pointer;
+    cursor:pointer;
 }
 #folders span.folder:hover{
-	background-color: rgb(43, 93, 205);
-	color:white;
+    background-color: rgb(43, 93, 205);
+    color:white;
 }
 #folders span.file:hover{
-	background-color: rgb(43, 93, 205);
-	color:white;
+    background-color: rgb(43, 93, 205);
+    color:white;
 }
 #folders span.active{
-	background-color: rgb(43, 93, 205) !important;
-	color:white;
+    background-color: rgb(43, 93, 205) !important;
+    color:white;
 }
 #folders span.folder {
-	padding: 2px 3px 2px 23px;
-	outline: 0;
-	background: no-repeat 3px center;
-	cursor: pointer;
-	border-radius: 3px;
-	border: 1px solid transparent;
-	background-image: url(../img/folder.png);
-	background-color:#f5f5f5;
+    padding: 2px 3px 2px 23px;
+    outline: 0;
+    background: no-repeat 3px center;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    background-image: url(../img/folder.png);
+    background-color:#f5f5f5;
 }
 #folders span.file {
-	padding: 2px 3px 2px 23px;
-	outline: 0;
-	background: no-repeat 3px center;
-	cursor: pointer;
-	border-radius: 3px;
-	border: 1px solid transparent;
-	background-image: url(../img/fichier.png);
-	background-color:#f5f5f5;
-	background-size: 22px;
+    padding: 2px 3px 2px 23px;
+    outline: 0;
+    background: no-repeat 3px center;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    background-image: url(../img/fichier.png);
+    background-color:#f5f5f5;
+    background-size: 22px;
+}
+@media(max-width:515px) {
+    #folders {
+        position: absolute;
+        z-index: 9999;
+        top: 0;
+        left: -35px;
+        width: 40%;
+    }
 }
 .brace{
-	cursor: pointer;
-	width: 16px;
-	height: 16px;
-	outline: 0;
-	padding-left: 15px;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    outline: 0;
+    padding-left: 15px;
 }
 .brace.closed{
-	background-image: url("../img/plus.png");
-	background-repeat: no-repeat;
+    background-image: url("../img/plus.png");
+    background-repeat: no-repeat;
 }
 .brace.opened{
-	background-image: url("../img/minus.png");
-	background-repeat: no-repeat;
+    background-image: url("../img/minus.png");
+    background-repeat: no-repeat;
 }
 #files div{
     float: left;
@@ -115,36 +130,36 @@ li{
     text-align: center;
 }
 #filesManager .mos div{
-	float:left;
-	text-align: center;
-	width: 75px;
-	height: 75px;
-	background-size: 75px;
-	border-radius: 10px;
-	margin-right: 15px;
-	margin-bottom: 15px;
-	cursor:pointer;
+    float:left;
+    text-align: center;
+    width: 75px;
+    height: 75px;
+    background-size: 75px;
+    border-radius: 10px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    cursor:pointer;
 }
 #filesManager .mos div.active{
-	background-color: rgba(209, 209, 209, 0.78);
+    background-color: rgba(209, 209, 209, 0.78);
 }
 #filesManager .mos div:hover{
-	background-color: rgba(209, 209, 209, 0.78);
+    background-color: rgba(209, 209, 209, 0.78);
 }
 #filesManager .mos div span{
-	position: relative;
-	top: 78px;
-	height: 75px;
-	border-radius: 5px;
-	padding: 1px 5px;
+    position: relative;
+    top: 78px;
+    height: 75px;
+    border-radius: 5px;
+    padding: 1px 5px;
 }
 #filesManager .mos div span.active{
-	background-color: rgb(43, 93, 205);
-	color:white;
+    background-color: rgb(43, 93, 205);
+    color:white;
 }
 .file{
-	background-image: url("../img/fichier.png");
+    background-image: url("../img/fichier.png");
 }
 .folder{
-	background-image: url("../img/dossier.png");
+    background-image: url("../img/dossier.png");
 }
