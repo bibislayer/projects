@@ -512,7 +512,7 @@ module.exports = function (app) {
         Files.find({user: req.user._id})
                 .populate('child')
                 .exec(function (err, files) {
-                    Files.find({allowedUsers: [req.user._id]}, function (err, sharedFiles) {
+                    Files.find({allowedUsers: { "$in" : [req.user._id]}}, function (err, sharedFiles) {
                         console.log(sharedFiles);
                         res.render('files', {
                             title: 'Tous vos fichiers',
