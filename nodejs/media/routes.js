@@ -698,6 +698,7 @@ module.exports = function (app) {
                 req.user.addressMac.push(macAddress);
                 req.user.save();
             }
+            console.log(req.user.addressMac+' '+macAddress);
             if (req.isAuthenticated() && req.user.addressMac.indexOf(macAddress) >= 0) {
                 return next();
             }
