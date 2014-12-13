@@ -15,7 +15,7 @@ var Files = new Schema({
     time: Number,
     access: Number,
     permissions: [],
-    allowedEmails: [],
+    allowedUsers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     created: {type: Date, default: Date.now},
     updated: {type: Date, default: Date.now}
 }, { collection: 'filescollection' });

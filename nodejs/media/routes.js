@@ -63,7 +63,7 @@ module.exports = function (app) {
                                 fold.child.push(fld);
                                 fold.save();
                                 Files.find({user: req.session.user._id}, function (err, user_files) {
-                                    req.io.emit('file_saved', {user_files: user_files,folder_id: fld._id});
+                                    req.io.emit('file_saved', {user_files: user_files, folder_id: fld._id});
                                 });
                                 console.log('file moved');
                             }
@@ -79,22 +79,24 @@ module.exports = function (app) {
     app.io.route('delAlwMail', function (req) {
         if (req.session.user) {
             /*Files.update({_id: req.data.folder_id}, {$unset: {allowedEmails: req.data.email}}, function (err, file) {
-            });*/
-            var emails = [];
-            Files.findOne({_id: req.data.folder_id}, function (err, file) {
-                if (file) {
-                    console.log(file.allowedEmails);
-                    for(var i=0;i<file.allowedEmails.length;i++){
-                        if(file.allowedEmails[i] != req.data.email){
-                            console.log(file.allowedEmails[i]+" "+req.data.email);
-                            emails.push(file.allowedEmails[i]);
+             });*/
+            var allowedUsers = [];
+            Files.findOne({_id: req.data.folder_id})
+                    .populate('allowedUsers')
+                    .exec(function (err, file) {
+                        if (file) {
+                            console.log(file.allowedUsers);
+                            for (var i = 0; i < file.allowedUsers.length; i++) {
+                                if (file.allowedUsers[i].email != req.data.email) {
+                                    console.log(file.allowedUsers[i].email + " " + req.data.email);
+                                    allowedUsers.push(file.allowedUsers[i]);
+                                }
+                            }
+                            console.log(allowedUsers);
+                            file.allowedUsers = allowedUsers;
+                            file.save();
                         }
-                    }
-                    console.log(emails);
-                    file.allowedEmails = emails;
-                    file.save();
-                }
-            });
+                    });
         }
     });
     app.io.route('progress_bar', function (req) {
@@ -126,8 +128,8 @@ module.exports = function (app) {
                 emailTemplates(templatesDir, function (err, template) {
                     // Render a single email with one template
                     var locals = {
-                        link: 'http://files.dev-monkey.org/register/' + invitedUser.email + '/' + invitedUser.hash, 
-                        linkPartage: 'http://files.dev-monkey.org/u/'+req.session.user.username
+                        link: 'http://files.dev-monkey.org/register/' + invitedUser.email + '/' + invitedUser.hash,
+                        linkPartage: 'http://files.dev-monkey.org/u/' + req.session.user.username
                     };
                     console.log(locals);
                     template('invitation-email', locals, function (err, html, text) {
@@ -155,7 +157,7 @@ module.exports = function (app) {
                 emailTemplates(templatesDir, function (err, template) {
                     // Render a single email with one template
                     var locals = {
-                        linkPartage: 'http://files.dev-monkey.org/u/'+req.session.user.username
+                        linkPartage: 'http://files.dev-monkey.org/u/' + req.session.user.username
                     };
                     console.log(locals);
                     template('share-email', locals, function (err, html, text) {
@@ -205,6 +207,7 @@ module.exports = function (app) {
             });
             Files.findOne({_id: req.data})
                     .populate('child')
+                    .populate('allowedUsers')
                     .exec(function (err, file) {
                         if (file) {
                             req.io.emit('folder_path', file.path);
@@ -237,7 +240,7 @@ module.exports = function (app) {
                                 time: 0,
                                 path: req.session.folder_path + '/' + req.data.folder_name + '/',
                                 permissions: [],
-                                allowedEmails: []
+                                allowedUsers: []
                             });
                             file.child.push(files);
                             file.save();
@@ -245,7 +248,7 @@ module.exports = function (app) {
                                 if (err)
                                     return console.error(err);
                                 Files.find({user: req.session.user._id}, function (err, user_files) {
-                                    req.io.emit('file_saved', {user_files:user_files, folder_id:file._id});
+                                    req.io.emit('file_saved', {user_files: user_files, folder_id: file._id});
                                 });
                             });
                         });
@@ -264,14 +267,14 @@ module.exports = function (app) {
                         time: 0,
                         path: req.session.folder_path + '/' + req.data.folder_name + '/',
                         permissions: [],
-                            allowedEmails: []
+                        allowedUsers: []
                     });
                     files.root_id = files._id;
                     files.save(function (err, file) {
                         if (err)
                             return console.error(err);
                         Files.find({user: req.session.user._id}, function (err, user_files) {
-                            req.io.emit('file_saved', {user_files:user_files, folder_id:file._id});
+                            req.io.emit('file_saved', {user_files: user_files, folder_id: file._id});
                         });
                     });
                 });
@@ -513,19 +516,22 @@ module.exports = function (app) {
         var access = req.body.access;
         var email = req.body.prevEmail;
         Files.findOne({_id: folder_id}, function (err, file) {
-            var emails = new Array();
-            if (file.allowedEmails) {
-                emails = file.allowedEmails;
-                emails.push(email);
-            } else {
-                emails.push(email);
-            }
-            file.access = access;
-            file.allowedEmails = emails;
-            file.save();
-            //console.log(file);
+            User.findOne({email: email}, function (err, user) {
+                if (user) {
+                    var allowedUsers = new Array();
+                    if (file.allowedUsers) {
+                        allowedUsers = file.allowedUsers;
+                        allowedUsers.push(user);
+                    } else {
+                        allowedUsers.push(user);
+                    }
+                    console.log(allowedUsers);
+                    file.access = access;
+                    file.allowedEmails = allowedUsers;
+                    file.save();
+                }
+            });
         });
-
         res.json({success: "success"});
     });
 
@@ -628,7 +634,7 @@ module.exports = function (app) {
                             passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {
                                 res.redirect('/files');
                             });
-                            connections[req.session.user._id].emit('file_saved', {user_files: user_files, folder_id: file._id});
+                            connections[account._id].emit('file_saved', {user_files: user_files, folder_id: file._id});
                         });
                     });
                 });

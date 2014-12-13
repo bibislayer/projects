@@ -260,7 +260,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
     generateMenu(files);
     function generateMenu(files){
         $('#folderSelect').html('<option value="default">Selectionner un dossier</option>');
-        $('#folder-selection').html('');
+        $('#folder-selection').html('<li>Mes fichiers</li><hr/>');
         for(var i=0;i<files.length;i++){
             var parent = '';
             var style = '';
@@ -280,6 +280,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
                 $('#folderSelect').append('<option value="'+files[i]._id+'">'+files[i].name+'</option>');
             }
         }
+        $('#folder-selection').append('<hr/><li>Mes partages</li><hr/>');
     }
     
     function onChangeFolder(val){

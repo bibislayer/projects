@@ -111,9 +111,9 @@ socket.on('selected_folder', function (files) {
         }
         //console.log(folder);
         //affichage des permissions
-        if(files.allowedEmails){
-            $.each( files.allowedEmails, function( key, email ) {
-                 $('.inputs_emails').append('<div class="form-group input-group"> <input class="alwM'+$('.inputs_emails div').length+' form-control" type="text" name="emails" value="'+email+'" /> <span class="input-group-btn">\
+        if(files.allowedUsers){
+            $.each( files.allowedUsers, function( k, user ) {
+                 $('.inputs_emails').append('<div class="form-group input-group"> <input class="alwM'+$('.inputs_emails div').length+' form-control" type="text" name="emails" value="'+user.email+'" /> <span class="input-group-btn">\
                                     <button id="del-email" data-remove="alwM'+$('.inputs_emails div').length+'" class="btn btn-default" type="button">\
                                         <span class="glyphicon glyphicon-minus"></span>\
                                     </button>\
