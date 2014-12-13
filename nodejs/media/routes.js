@@ -11,7 +11,8 @@ var passport = require('passport'),
         templatesDir = path.join(__dirname, 'templates'),
         emailTemplates = require('email-templates'),
         nodemailer = require('nodemailer'),
-        crypto = require('crypto');
+        crypto = require('crypto'),
+        getMac = require('getmac');
 // configure upload middleware
 module.exports = function (app) {
     // Setup the ready route, and emit talk event.
@@ -622,6 +623,11 @@ module.exports = function (app) {
     app.post('/register', function (req, res) {
         User.findOne({hash: req.body.hash}, function (err, user) {
             user.username = req.body.username;
+            getMac.getMac(function(err,macAddress){
+                if (err)  throw err;
+                if(user.addressMac.length < 3)
+                    user.addressMac.push(macAddress);    
+            });
             User.register(user, req.body.password, function (err, account) {
                 if (err) {
                     return res.render('register', {title: "register", user: user, message: err});
@@ -686,11 +692,17 @@ module.exports = function (app) {
         res.send("pong!", 200);
     });
     function ensureAuthenticated(req, res, next) {
-        //console.log(req.session.redirect_to);
-        if (req.isAuthenticated()) {
-            return next();
-        }
-        res.redirect('/login');
+        getMac.getMac(function(err,macAddress){
+            if (err)  throw err;
+            if(req.user && req.user.addressMac.length == 0){
+                req.user.addressMac.push(macAddress);
+                req.user.save();
+            }
+            if (req.isAuthenticated() && req.user.addressMac.indexOf(macAddress) >= 0) {
+                return next();
+            }
+            res.redirect('/login');
+        });
     }
 };
 

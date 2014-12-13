@@ -13,6 +13,7 @@
     "express.io": "^1.1.13",
     "formidable": "^1.0.15",
     "fstream": "^1.0.2",
+    "getmac": "^1.0.6",
     "mkdirp": "^0.5.0",
     "mongodb": "*",
     "mongoose": "^3.8.16",

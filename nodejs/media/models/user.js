@@ -8,7 +8,8 @@ var User = new Schema({
     selected_folder: String,
     email: String,
     role: Array,
-    salt: String
+    salt: String,
+    addressMac: []
 }, { collection: 'usercollection' });
 
 User.plugin(passportLocalMongoose);
