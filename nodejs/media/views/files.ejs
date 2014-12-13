@@ -256,11 +256,12 @@ videojs.options.flash.swf = "/js/video-js.swf";
     socket.emit('new_user', '<%= user._id %>');
     var folder;
     var files = <%- JSON.stringify(files) %>;
-    //console.log(files);
-    generateMenu(files);
-    function generateMenu(files){
+    var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
+    //console.log(sharedFiles);
+    generateMenu(files, sharedFiles);
+    function generateMenu(files, sharedFiles){
         $('#folderSelect').html('<option value="default">Selectionner un dossier</option>');
-        $('#folder-selection').html('<li>Mes fichiers</li><hr/>');
+        $('#folder-selection').html('<li>Mes fichiers</li>');
         for(var i=0;i<files.length;i++){
             var parent = '';
             var style = '';
@@ -280,7 +281,13 @@ videojs.options.flash.swf = "/js/video-js.swf";
                 $('#folderSelect').append('<option value="'+files[i]._id+'">'+files[i].name+'</option>');
             }
         }
-        $('#folder-selection').append('<hr/><li>Mes partages</li><hr/>');
+        $('#folder-selection').append('<li>Mes partages</li>');
+        for(var i=0;i<sharedFiles.length;i++){
+            $('#folder-selection').append('<li data-id="'+sharedFiles[i]._id+'" class="shared level'+sharedFiles[i].level+'">&nbsp;\
+            <span class="brace closed"></span>\
+            <span data-name="'+sharedFiles[i].name+'" data-id="'+sharedFiles[i]._id+'" class="folder">\
+            '+sharedFiles[i].name+'</span></li>'); 
+        }
     }
     
     function onChangeFolder(val){
@@ -507,8 +514,8 @@ videojs.options.flash.swf = "/js/video-js.swf";
         });
         socket.on('file_saved', function(datas){
             console.log('file saved');
-            console.log(datas.folder_id);
-            generateMenu(datas.user_files);
+            //console.log(datas.folder_id);
+            generateMenu(datas.user_files, datas.sharedFiles);
             $('tr.template-download').hide();
             $('button[data-toggle=popover]').removeClass('active');
             $('button[data-toggle=popover]').popover('hide');
@@ -516,7 +523,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
             $($('span.brace.closed').get()).each(function(){
                 if(!stop){
                     $(this).trigger("click");
-                    console.log($(this).next('span').attr('data-id'));
+                    //console.log($(this).next('span').attr('data-id'));
                 }
                 if($(this).next('span').attr('data-id') == datas.folder_id){
                     stop=true;

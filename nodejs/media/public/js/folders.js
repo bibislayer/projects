@@ -19,6 +19,8 @@ $('#folders ul').delegate("li span.folder", 'click', function(){
     var data_id = $(this).attr('data-id');
     var folder_name = $(this).attr('data-name');
     socket.emit('select_folder', data_id);
+    $('button[data-conteneur="create_folder"]').show();
+    $('button[data-conteneur="config_file"]').show();
     $("input[name=parent_id]").val(data_id);
     $("input[name=folder_id]").val(data_id);
     $('#lbl_folder_name').html('Ajouter un dossier à '+folder_name);
@@ -29,7 +31,7 @@ $('#folders ul').delegate("li span.folder", 'click', function(){
     $('span.folder').each(function(i, d){
         $(d).removeClass('active');
     })
-    $(this).addClass('active');  
+    $(this).addClass('active');
 });
 function FileConvertSize(aSize){
     aSize = Math.abs(parseInt(aSize, 10));
@@ -58,14 +60,15 @@ socket.on('progress_bar', function (datas) {
         }
     }
 });
-socket.on('selected_folder', function (files) {
-	$('#filesManager table tbody').html('');
+socket.on('selected_folder', function (datas) {
+    $('#filesManager table tbody').html('');
     $('.inputs_emails').html('');
     var params = document.URL.split('/');
+    var cls = "";
     if(params[3] == 'u'){
-        if(files.child){
+        if(datas.files.child){
             $('#content-file').html('');
-            $.each( files.child, function( k, file ) {
+            $.each( datas.files.child, function( k, file ) {
                 var length = file.name.length;
                 var noExt = file.name.substring(0, length - 4);
                 var ext = file.name.substring(length - 3, length);
@@ -91,17 +94,19 @@ socket.on('selected_folder', function (files) {
         }
     }else{
         //affichage des donnees
-        console.log(files);
-        if(files.child){
-            $.each( files.child, function( k, file ) {
+        if(datas.files.child){
+            $.each( datas.files.child, function( k, file ) {
                 if(file.type != "Directory"){
+                    if(file.user == datas.user._id){
+                        cls = "owner";
+                    }
                      $('#filesManager table tbody').append('<tr data-id="'+file._id+'" class="level-'+file.level+'">\
-                      <td style="text-align:center;" class="col-md-1"><input id="'+file._id+'" class="file_checkbox" type="checkbox"/></td>\
+                      <td style="text-align:center;" class="col-md-1 '+cls+'"><input id="'+file._id+'" class="file_checkbox" type="checkbox"/></td>\
                       <td style="padding-left:17px;" class="col-md-1"><span onMouseOver="showPrevu(this)" data-conteneur="prevu_file" data-type="'+file.type+'" data-name="'+file.name+'" data-id="'+file._id+'" class="prevu glyphicon glyphicon-zoom-in" aria-hidden="true"></span></td>\
                       <td class="name col-md-7">'+file.name+'</td>\
                       <td class="col-md-1 type">'+file.type+'</td>\
                       <td class="col-md-1 size"></td>\
-                      <td class="col-md-1"><button data-tooltip="tooltip" title="" data-id="'+file._id+'" data-remove="true" id="remove" type="button" class="btn btn-default" data-original-title="Supprimer la sélection">\
+                      <td class="col-md-1 '+cls+'"><button data-tooltip="tooltip" title="" data-id="'+file._id+'" data-remove="true" id="remove" type="button" class="btn btn-default" data-original-title="Supprimer la sélection">\
                         <span class="glyphicon glyphicon-remove-circle"></span>\
                         </button></td>\
                     </tr>');
@@ -111,8 +116,8 @@ socket.on('selected_folder', function (files) {
         }
         //console.log(folder);
         //affichage des permissions
-        if(files.allowedUsers){
-            $.each( files.allowedUsers, function( k, user ) {
+        if(datas.files.allowedUsers){
+            $.each( datas.files.allowedUsers, function( k, user ) {
                  $('.inputs_emails').append('<div class="form-group input-group"> <input class="alwM'+$('.inputs_emails div').length+' form-control" type="text" name="emails" value="'+user.email+'" /> <span class="input-group-btn">\
                                     <button id="del-email" data-remove="alwM'+$('.inputs_emails div').length+'" class="btn btn-default" type="button">\
                                         <span class="glyphicon glyphicon-minus"></span>\
@@ -122,6 +127,18 @@ socket.on('selected_folder', function (files) {
                                     </button>\
                                 </span></div>');
             })
+        }
+        if(datas.shared == true){
+            $('button[data-conteneur="create_folder"]').hide();
+            $('button[data-conteneur="config_file"]').hide();
+            if(cls == ''){
+                $('#filesManager table tr th').first().hide();
+                $('#filesManager table tr th').last().hide();
+            }
+            $('#filesManager table tr').each(function(){
+                $(this).find('td').first().not('.owner').html('');
+                $(this).find('td').last().not('.owner').html('');
+            });
         }
     }
 });

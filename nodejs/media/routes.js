@@ -63,7 +63,9 @@ module.exports = function (app) {
                                 fold.child.push(fld);
                                 fold.save();
                                 Files.find({user: req.session.user._id}, function (err, user_files) {
-                                    req.io.emit('file_saved', {user_files: user_files, folder_id: fld._id});
+                                    Files.find({sharedUser: req.session.user._id}, function (err, shared_files) {
+                                        req.io.emit('file_saved', {shared_files: shared_files, user_files: user_files, folder_id: fld._id});
+                                    });
                                 });
                                 console.log('file moved');
                             }
@@ -198,11 +200,17 @@ module.exports = function (app) {
     });
     app.io.route('select_folder', function (req) {
         var folder_path = "";
+        var shared = true;
         //user logged in
         if (req.session.user) {
             User.findOne({_id: req.session.user._id}, function (err, user) {
                 user.selected_folder = req.data;
                 user.save();
+            });
+            Files.findOne({user: req.session.user._id, _id: req.data}, function (err, exist) {
+                if(exist){
+                   shared = false; 
+                }
             });
             Files.findOne({_id: req.data})
                     .populate('child')
@@ -212,7 +220,7 @@ module.exports = function (app) {
                             req.io.emit('folder_path', file.path);
                             req.session.folder_path = file.path;
                             req.session.save();
-                            req.io.emit('selected_folder', file);
+                            req.io.emit('selected_folder', {user: req.session.user, files: file, shared: shared});
                             req.io.emit('folder_id', req.data);
                         }
                     });
@@ -220,7 +228,6 @@ module.exports = function (app) {
     });
     app.io.route('new_folder', function (req) {
         //user logged in
-        console.log(req.data);
         if (req.session.user) {
             if (req.data.parent_id) {
                 Files.findOne({_id: req.data.parent_id}, function (err, file) {
@@ -247,7 +254,9 @@ module.exports = function (app) {
                                 if (err)
                                     return console.error(err);
                                 Files.find({user: req.session.user._id}, function (err, user_files) {
-                                    req.io.emit('file_saved', {user_files: user_files, folder_id: file._id});
+                                    Files.find({sharedUser: req.session.user._id}, function (err, shared_files) {
+                                        req.io.emit('file_saved', {shared_files: shared_files, user_files: user_files, folder_id: file._id});
+                                    });
                                 });
                             });
                         });
@@ -273,7 +282,9 @@ module.exports = function (app) {
                         if (err)
                             return console.error(err);
                         Files.find({user: req.session.user._id}, function (err, user_files) {
-                            req.io.emit('file_saved', {user_files: user_files, folder_id: file._id});
+                            Files.find({sharedUser: req.session.user._id}, function (err, shared_files) {
+                                req.io.emit('file_saved', {shared_files: shared_files, user_files: user_files, folder_id: file._id});
+                            });
                         });
                     });
                 });
@@ -432,7 +443,9 @@ module.exports = function (app) {
                                             if (err)
                                                 throw err;
                                             Files.find({user: req.session.user._id}, function (err, user_files) {
-                                                connections[req.session.user._id].emit('file_saved', {user_files: user_files, folder_id: req.user.selected_folder});
+                                                Files.find({sharedUser: req.session.user._id}, function (err, shared_files) {
+                                                    connections[req.session.user._id].emit('file_saved', {shared_files: shared_files, user_files: user_files, folder_id: req.user.selected_folder});
+                                                });
                                             });
                                             if (type == 'Vidéo') {
                                                 convert(files._id, 'ogv', req);
@@ -495,15 +508,18 @@ module.exports = function (app) {
     }
     app.get('/files', ensureAuthenticated, function (req, res) {
         var folder_path = "";
-        Files
-                .find({user: req.user._id})
+        Files.find({user: req.user._id})
                 .populate('child')
                 .exec(function (err, files) {
-                    res.render('files', {
-                        title: 'Tous vos fichiers',
-                        user: req.user,
-                        files: files.sort(sort_by('level', true, parseInt)),
-                        message: req.flash('error')
+                    Files.find({allowedUsers: [req.user._id]}, function (err, sharedFiles) {
+                        console.log(sharedFiles);
+                        res.render('files', {
+                            title: 'Tous vos fichiers',
+                            user: req.user,
+                            files: files.sort(sort_by('level', true, parseInt)),
+                            sharedFiles: sharedFiles,
+                            message: req.flash('error')
+                        });
                     });
                 });
     });
