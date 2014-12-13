@@ -38,19 +38,12 @@ function generateMenu(files){
         var parent = '';
         var style = '';
         var access = 0;
-        if(files[i].type == "Directory" && files[i].allowedEmails){
-            console.log(files[i].allowedEmails);
-            if(typeof files[i].allowEmails == "string"){
-                if('<%= user.email %>' == files[i].allowedEmails){
-                    access = 1;
-                }
-            }else{
-                for(var j=0;j<=files[i].allowedEmails.length;j++){ 
-                    if('<%= user.email %>' == files[i].allowedEmails[j]){
+        if(files[i].type == "Directory" && files[i].allowedUsers){
+                for(var j=0;j<files[i].allowedUsers.length;j++){
+                    if('<%= user.email %>' == files[i].allowedUsers[j].email){
                         access = 1;
                     }
                 }
-            }
         }
         if(access == 1){
             if(files[i].parent_id){

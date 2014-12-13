@@ -128,8 +128,8 @@ module.exports = function (app) {
                 emailTemplates(templatesDir, function (err, template) {
                     // Render a single email with one template
                     var locals = {
-                        link: 'http://files.dev-monkey.org/register/' + invitedUser.email + '/' + invitedUser.hash,
-                        linkPartage: 'http://files.dev-monkey.org/u/' + req.session.user.username
+                        link: 'https://files.dev-monkey.org/register/' + invitedUser.email + '/' + invitedUser.hash,
+                        linkPartage: 'https://files.dev-monkey.org/u/' + req.session.user.username
                     };
                     console.log(locals);
                     template('invitation-email', locals, function (err, html, text) {
@@ -157,9 +157,8 @@ module.exports = function (app) {
                 emailTemplates(templatesDir, function (err, template) {
                     // Render a single email with one template
                     var locals = {
-                        linkPartage: 'http://files.dev-monkey.org/u/' + req.session.user.username
+                        linkPartage: 'https://files.dev-monkey.org/u/' + req.session.user.username
                     };
-                    console.log(locals);
                     template('share-email', locals, function (err, html, text) {
                         if (err) {
                             console.log(err);
@@ -432,9 +431,7 @@ module.exports = function (app) {
                                         fs.rename(__dirname + '/' + file.path, __dirname + fl.path + file.name, function (err) {
                                             if (err)
                                                 throw err;
-                                            console.log('renamed complete');
                                             Files.find({user: req.session.user._id}, function (err, user_files) {
-                                                console.log(req.user.selected_folder);
                                                 connections[req.session.user._id].emit('file_saved', {user_files: user_files, folder_id: req.user.selected_folder});
                                             });
                                             if (type == 'Vidéo') {
@@ -447,7 +444,6 @@ module.exports = function (app) {
                                     });
                                 }
                             });
-                            console.log('File saved.');
                         } else {
                             console.log('File exist');
                         }
@@ -461,6 +457,7 @@ module.exports = function (app) {
             if (user) {
                 Files.find({user: user._id})
                         .populate('child')
+                        .populate('allowedUsers')
                         .exec(function (err, files) {
                             res.render('show', {
                                 title: 'Images et photos de ' + req.params.username,
@@ -634,7 +631,6 @@ module.exports = function (app) {
                             passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {
                                 res.redirect('/files');
                             });
-                            connections[account._id].emit('file_saved', {user_files: user_files, folder_id: file._id});
                         });
                     });
                 });
