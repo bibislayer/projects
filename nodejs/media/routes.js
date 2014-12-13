@@ -694,11 +694,13 @@ module.exports = function (app) {
     function ensureAuthenticated(req, res, next) {
         getMac.getMac(function(err,macAddress){
             if (err)  throw err;
-            if(req.user && req.user.addressMac.length == 0){
-                req.user.addressMac.push(macAddress);
-                req.user.save();
+            if(req.user){
+                console.log(req.user.addressMac+' '+macAddress);
+                if(req.user.addressMac.length == 0){
+                    req.user.addressMac.push(macAddress);
+                    req.user.save();
+                }
             }
-            console.log(req.user.addressMac+' '+macAddress);
             if (req.isAuthenticated() && req.user.addressMac.indexOf(macAddress) >= 0) {
                 return next();
             }
