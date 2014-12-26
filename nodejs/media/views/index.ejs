@@ -3,29 +3,50 @@
 <% stylesheet() -%>
 <div class="row">
     <% if(user){ %>
-    <div class="col-lg-12 text-center">
-        <div class="panel panel-primary">
+    <div class="col-lg-4">
+        <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Permissions utilisateurs</h3>
+                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Permissions</h3>
             </div>
             <div class="panel-body">
-                <div class="col-sm-4">
-                    <div class="list-group">
-                        <a href="#" class="list-group-item active">Cras justo odio</a>
-                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                        <a href="#" class="list-group-item">Morbi leo risus</a>
-                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                        <a href="#" class="list-group-item">Vestibulum at eros</a>
-                    </div>
+                <div class="list-group">
+                    <a href="#" class="list-group-item">
+                        A venir
+                    </a>
                 </div>
-                <div class="col-sm-4" style="display:none;">
-                    <ul class="list-group">
-                        <li class="list-group-item">Cras justo odio</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Morbi leo risus</li>
-                        <li class="list-group-item">Porta ac consectetur ac</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
-                    </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Vos repports de bug</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item">
+                        <span class="badge">En ce moment</span>
+                        A venir
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Dernieres nouvelles</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item">
+                        <span class="badge">En ce moment</span>
+                        <i class="fa fa-fw fa-calendar"></i> Ca code, ca code..
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <span class="badge">Le 1er janvier 2015</span>
+                        <i class="fa fa-fw fa-comment"></i> Mise en ligne du site
+                    </a>
                 </div>
             </div>
         </div>
