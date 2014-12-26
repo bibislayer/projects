@@ -302,6 +302,13 @@ videojs.options.flash.swf = "/js/video-js.swf";
         console.log('files '+files);
         socket.emit('move_file', {files: files, folder: folder});
     }
+    
+    function tooltip(that){
+        /*$(that).tooltip({
+            placement: 'top',
+            html : true
+        });*/
+    }
 
     function showPrevu(that){
         var type = $(that).attr("data-type");
@@ -384,7 +391,14 @@ videojs.options.flash.swf = "/js/video-js.swf";
             placement: 'top',
             html : true
         });
-
+        //generated content
+        $("#filesManager table tbody").delegate("a", 'over', function(){
+            alert('over');
+            $(this).tooltip({
+                placement: 'top',
+                html : true
+            });
+        });
         /*** TABLE FILES SECTION ***/
         $("#filesManager table tbody").delegate("tr:not('input')", 'click', function(){
             var selector = $(this).find('.file_checkbox');
@@ -515,7 +529,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
         socket.on('file_saved', function(datas){
             console.log('file saved');
             //console.log(datas.folder_id);
-            generateMenu(datas.user_files, datas.sharedFiles);
+            generateMenu(datas.user_files, datas.shared_files);
             $('tr.template-download').hide();
             $('button[data-toggle=popover]').removeClass('active');
             $('button[data-toggle=popover]').popover('hide');

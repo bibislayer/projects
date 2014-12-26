@@ -60,6 +60,14 @@ socket.on('progress_bar', function (datas) {
         }
     }
 });
+socket.on('alert', function (datas) {
+    $('#socket_alert').addClass('alert-'+datas.type);
+    $('#socket_alert').html(datas.text);
+    $('#socket_alert').slideToggle('slow');
+    setTimeout(function(){
+        $('#socket_alert').slideToggle('slow');
+    }, 3000);   
+})
 socket.on('selected_folder', function (datas) {
     $('#filesManager table tbody').html('');
     $('.inputs_emails').html('');
@@ -100,13 +108,19 @@ socket.on('selected_folder', function (datas) {
                     if(file.user == datas.user._id){
                         cls = "owner";
                     }
+                    var length = file.name.length;
+                    var noExt = file.name.substring(0, length - 4);
+                    var ext = file.name.substring(length - 3, length);
                      $('#filesManager table tbody').append('<tr data-id="'+file._id+'" class="level-'+file.level+'">\
                       <td style="text-align:center;" class="col-md-1 '+cls+'"><input id="'+file._id+'" class="file_checkbox" type="checkbox"/></td>\
                       <td style="padding-left:17px;" class="col-md-1"><span onMouseOver="showPrevu(this)" data-conteneur="prevu_file" data-type="'+file.type+'" data-name="'+file.name+'" data-id="'+file._id+'" class="prevu glyphicon glyphicon-zoom-in" aria-hidden="true"></span></td>\
-                      <td class="name col-md-7">'+file.name+'</td>\
+                      <td class="name col-md-6">'+file.name+'</td>\
                       <td class="col-md-1 type">'+file.type+'</td>\
                       <td class="col-md-1 size"></td>\
-                      <td class="col-md-1 '+cls+'"><button data-tooltip="tooltip" title="" data-id="'+file._id+'" data-remove="true" id="remove" type="button" class="btn btn-default" data-original-title="Supprimer la sélection">\
+                      <td class="col-md-2 '+cls+'">\
+                        <a href="/get_file/'+file._id+'/'+ext+'" onMouseOver="tooltip(this)" title="Télécharger" type="button" class="btn btn-default" data-title="Télécharger">\
+                        <span class="glyphicon glyphicon-download" aria-hidden="true"></span></a>\
+                        <button onMouseOver="tooltip(this)" title="Supprimer" data-id="'+file._id+'" data-remove="true" id="remove" type="button" class="btn btn-default" data-original-title="Supprimer">\
                         <span class="glyphicon glyphicon-remove-circle"></span>\
                         </button></td>\
                     </tr>');
