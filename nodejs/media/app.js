@@ -140,7 +140,7 @@ function issueToken(user, done) {
     });
 }
 // Connect mongoose
-mongoose.connect('mongodb://[bibislayer:@nicktalope78@]@localhost/media');
+mongoose.connect('mongodb://localhost/media', {user: 'bibislayer', pass: '@nicktalope78@'});
 // configure Express
 app.configure(function () {
     app.set('views', __dirname + '/views');
