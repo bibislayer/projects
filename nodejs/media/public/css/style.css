@@ -182,5 +182,8 @@ li{
             min-height:450px;
             padding-top:50px;
         }
+        .logo{
+            display:none;
+        }
     }
 }
