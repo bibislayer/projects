@@ -177,13 +177,13 @@ li{
     }
 }
 @media(min-width:318px){
-    @media(max-width:359px){
+    @media(max-width:410px){
         #page-wrapper{
             min-height:450px;
             padding-top:50px;
         }
         .logo{
-            display:none;
+            display:none !important;
         }
     }
 }
