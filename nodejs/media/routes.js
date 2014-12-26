@@ -296,6 +296,7 @@ module.exports = function (app) {
                     req.io.emit('alert', {type: 'warning', text: 'Ce dossier existe déjà.'});
                 }
             });
+        }
     });
     function convert(id, type, req) {
         Files.findOne({_id: id}, function (err, file) {
