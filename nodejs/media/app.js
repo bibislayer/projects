@@ -140,10 +140,13 @@ function issueToken(user, done) {
     });
 }var options = {
   user: 'bibislayer',
-  pass: '@nicktalope78@'
+  pass: '@nicktalope78@',
+  auth: {authdb: 'admin'},
+  db: 'media',
+  port: 27017
 }
 // Connect mongoose
-mongoose.connect("mongodb://[bibislayer]:[@nicktalope78@]@localhost:[27017]/[media]",{auth:{authdb:"admin"}});
+mongoose.connect("mongodb://localhost", options);
 //mongoose.connect('mongodb://localhost/media', options);
 // configure Express
 app.configure(function () {
