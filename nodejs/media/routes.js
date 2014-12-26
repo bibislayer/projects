@@ -209,8 +209,8 @@ module.exports = function (app) {
                 user.save();
             });
             Files.findOne({user: req.session.user._id, _id: req.data}, function (err, exist) {
-                if(exist){
-                   shared = false; 
+                if (exist) {
+                    shared = false;
                 }
             });
             Files.findOne({_id: req.data})
@@ -230,17 +230,48 @@ module.exports = function (app) {
     app.io.route('new_folder', function (req) {
         //user logged in
         if (req.session.user) {
-            if (req.data.parent_id) {
-                Files.findOne({_id: req.data.parent_id}, function (err, file) {
-                    if (file) {
+            Files.findOne({name: req.data.folder_name}, function (err, exist) {
+                if(!exist){
+                    if (req.data.parent_id) {
+                        Files.findOne({_id: req.data.parent_id}, function (err, file) {
+                            if (file) {
+                                mkdirp(__dirname + req.session.folder_path + '/' + req.data.folder_name, function (err) {
+                                    // path was created unless there was error
+                                    //console.log(err);
+                                    var files = new Files({
+                                        user: req.session.user._id,
+                                        parent_id: file._id,
+                                        level: file.level + 1,
+                                        root_id: file.root_id,
+                                        name: req.data.folder_name,
+                                        type: 'Directory',
+                                        size: 0,
+                                        time: 0,
+                                        path: req.session.folder_path + '/' + req.data.folder_name + '/',
+                                        permissions: [],
+                                        allowedUsers: []
+                                    });
+                                    file.child.push(files);
+                                    file.save();
+                                    files.save(function (err, file) {
+                                        if (err)
+                                            return console.error(err);
+                                        Files.find({user: req.session.user._id}, function (err, user_files) {
+                                            Files.find({sharedUser: req.session.user._id}, function (err, shared_files) {
+                                                req.io.emit('file_saved', {shared_files: shared_files, user_files: user_files, folder_id: file._id});
+                                            });
+                                        });
+                                    });
+                                });
+                            }
+                        });
+                    } else {
                         mkdirp(__dirname + req.session.folder_path + '/' + req.data.folder_name, function (err) {
                             // path was created unless there was error
                             //console.log(err);
                             var files = new Files({
                                 user: req.session.user._id,
-                                parent_id: file._id,
-                                level: file.level + 1,
-                                root_id: file.root_id,
+                                level: 1,
                                 name: req.data.folder_name,
                                 type: 'Directory',
                                 size: 0,
@@ -249,8 +280,7 @@ module.exports = function (app) {
                                 permissions: [],
                                 allowedUsers: []
                             });
-                            file.child.push(files);
-                            file.save();
+                            files.root_id = files._id;
                             files.save(function (err, file) {
                                 if (err)
                                     return console.error(err);
@@ -262,35 +292,10 @@ module.exports = function (app) {
                             });
                         });
                     }
-                });
-            } else {
-                mkdirp(__dirname + req.session.folder_path + '/' + req.data.folder_name, function (err) {
-                    // path was created unless there was error
-                    //console.log(err);
-                    var files = new Files({
-                        user: req.session.user._id,
-                        level: 1,
-                        name: req.data.folder_name,
-                        type: 'Directory',
-                        size: 0,
-                        time: 0,
-                        path: req.session.folder_path + '/' + req.data.folder_name + '/',
-                        permissions: [],
-                        allowedUsers: []
-                    });
-                    files.root_id = files._id;
-                    files.save(function (err, file) {
-                        if (err)
-                            return console.error(err);
-                        Files.find({user: req.session.user._id}, function (err, user_files) {
-                            Files.find({sharedUser: req.session.user._id}, function (err, shared_files) {
-                                req.io.emit('file_saved', {shared_files: shared_files, user_files: user_files, folder_id: file._id});
-                            });
-                        });
-                    });
-                });
-            }
-        }
+                }else{
+                    req.io.emit('alert', {type: 'warning', text: 'Ce dossier existe déjà.'});
+                }
+            });
     });
     function convert(id, type, req) {
         Files.findOne({_id: id}, function (err, file) {
@@ -389,7 +394,7 @@ module.exports = function (app) {
             title: 'Accueil',
             h1: 'Tableau de bord <small>Statistiques</small>',
             user: req.user,
-            message: req.flash('error')
+            message: {type: 'warning', text: req.flash('error')}
         });
     });
 
@@ -459,7 +464,7 @@ module.exports = function (app) {
                                 }
                             });
                         } else {
-                            console.log('File exist');
+                            req.io.emit('alert', {type: 'warning', text: 'Ce fichier existe déjà.'});
                         }
                     });
                 }
@@ -483,6 +488,21 @@ module.exports = function (app) {
             }
         });
     });
+    app.get('/admin', ensureAdminAuthenticated, function (req, res) {
+        var user = req.user;
+        User.find({}, function (err, users) {
+            if (users) {
+                res.render('admin', {
+                    title: 'Admin',
+                    h1: 'Gestion utilisateurs',
+                    user: req.user,
+                    users: users,
+                    message: {type: 'warning', text: req.flash('error')}
+                });
+            }
+        });
+    });
+    
     app.get("/get_file/:id/:type", ensureAuthenticated, function (req, res) {
         Files.findOne({_id: req.params.id}, function (err, file) {
             if (file) {
@@ -512,14 +532,14 @@ module.exports = function (app) {
         Files.find({user: req.user._id})
                 .populate('child')
                 .exec(function (err, files) {
-                    Files.find({allowedUsers: { "$in" : [req.user._id]}}, function (err, sharedFiles) {
+                    Files.find({allowedUsers: {"$in": [req.user._id]}}, function (err, sharedFiles) {
                         console.log(sharedFiles);
                         res.render('files', {
                             title: 'Tous vos fichiers',
                             user: req.user,
                             files: files.sort(sort_by('level', true, parseInt)),
                             sharedFiles: sharedFiles,
-                            message: req.flash('error')
+                            message: {type: 'warning', text: req.flash('error')}
                         });
                     });
                 });
@@ -591,7 +611,7 @@ module.exports = function (app) {
             if (user) {
                 user.email = req.params.email;
                 res.render('register', {title: "register", user: user,
-                    breadcrumb: 'Register', message: req.flash('error')
+                    breadcrumb: 'Register', message: {type: 'warning', text: req.flash('error')}
                 });
             } else {
                 res.redirect('/');
@@ -617,20 +637,21 @@ module.exports = function (app) {
         res.render('profile.ejs', {
             title: 'profile',
             user: req.user,
-            message: message
+            message: {type: 'warning', text: message}
         });
     });
     app.post('/register', function (req, res) {
         User.findOne({hash: req.body.hash}, function (err, user) {
             user.username = req.body.username;
-            getMac.getMac(function(err,macAddress){
-                if (err)  throw err;
-                if(user.addressMac.length < 3)
-                    user.addressMac.push(macAddress);    
+            getMac.getMac(function (err, macAddress) {
+                if (err)
+                    throw err;
+                if (user.addressMac.length < 3)
+                    user.addressMac.push(macAddress);
             });
             User.register(user, req.body.password, function (err, account) {
                 if (err) {
-                    return res.render('register', {title: "register", user: user, message: err});
+                    return res.render('register', {title: "register", user: user, message: {type: 'warning', text: err}});
                 }
                 mkdirp(__dirname + req.body.username, function (err) {
                     // path was created unless there was error
@@ -663,7 +684,7 @@ module.exports = function (app) {
         res.render('login', {title: 'login',
             breadcrumb: 'Login',
             user: req.user,
-            message: req.flash('error')});
+            message: {type: 'warning', text: req.flash('error')}});
     });
     app.post('/login', passport.authenticate('local', {failureRedirect: '/login', failureFlash: true}),
             function (req, res, next) {
@@ -684,6 +705,8 @@ module.exports = function (app) {
             function (req, res) {
                 res.redirect('/files');
             });
+
+
     app.get('/logout', function (req, res) {
         req.logout();
         res.redirect('/');
@@ -692,21 +715,24 @@ module.exports = function (app) {
         res.send("pong!", 200);
     });
     function ensureAuthenticated(req, res, next) {
-        getMac.getMac(function(err,macAddress){
-            if (err)  throw err;
-            if(req.user){
-                console.log(req.user.addressMac+' '+macAddress);
-                if(req.user.addressMac.length == 0){
-                    req.user.addressMac.push(macAddress);
-                    req.user.save();
-                }
-            }
-            if (req.isAuthenticated() && req.user.addressMac.indexOf(macAddress) >= 0) {
-                return next();
-            }
-            res.redirect('/login');
-        });
+        if (req.isAuthenticated()){
+            return next();
+        }
+        res.redirect('/login');
     }
+    function ensureAdminAuthenticated(req, res, next) {
+        if (req.isAuthenticated() && req.user.role == 'admin'){
+            return next();
+        }
+        res.redirect('/login');
+    }
+    function ensureSecondFactor(req, res, next) {
+        if (req.session.secondFactor == 'totp') {
+            return next();
+        }
+        res.redirect('/login-otp')
+    }
+
 };
 
 
