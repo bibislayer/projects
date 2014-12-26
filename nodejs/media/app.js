@@ -139,12 +139,8 @@ function issueToken(user, done) {
         return done(null, token);
     });
 }
-var options = {
-  user: 'bibislayer',
-  pass: '@nicktalope78@'
-}
 // Connect mongoose
-mongoose.connect('mongodb://localhost/media', options);
+mongoose.connect('[bibislayer:@nicktalope78@@]mongodb://localhost/media');
 // configure Express
 app.configure(function () {
     app.set('views', __dirname + '/views');
