@@ -140,7 +140,7 @@ function issueToken(user, done) {
     });
 }
 // Connect mongoose
-mongoose.connect('mongodb://localhost/media');
+mongoose.connect('mongodb://bibislayer:%40nicktalope78%40@localhost/media');
 // configure Express
 app.configure(function () {
     app.set('views', __dirname + '/views');
