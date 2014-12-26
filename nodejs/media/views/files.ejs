@@ -20,10 +20,13 @@ videojs.options.flash.swf = "/js/video-js.swf";
         <div class="panel panel-default">
             <div class="panel-body my-panel">
                 <div class="btn-group">
-                    <button data-tooltip="tooltip" data-toggle="popover" title="Céer un dossier" data-conteneur="create_folder" type="button" class="btn btn-default">
+                    <button style="display:none;" data-tooltip="tooltip" title="" data-conteneur="show_sharing" type="button" class="btn btn-default" data-original-title="Afficher la vue de <strong>ad</strong>" style="display: block;">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </button>
+                    <button style="display:none;" data-tooltip="tooltip" data-toggle="popover" title="Céer un dossier" data-conteneur="create_folder" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-folder-open"></span>
                     </button>
-                    <button data-tooltip="tooltip" data-toggle="popover" data-conteneur="config_file" title="Configurer la sélection" id="config" type="button" data-toggle="modal" class="btn btn-default">
+                    <button style="display:none;" data-tooltip="tooltip" data-toggle="popover" data-conteneur="config_file" title="Configurer la sélection" id="config" type="button" data-toggle="modal" class="btn btn-default">
                         <span class="glyphicon glyphicon-cloud"></span>
                     </button>
                 </div>
@@ -275,11 +278,13 @@ videojs.options.flash.swf = "/js/video-js.swf";
         $('#folder-selection').append('<li class="divider"></li>');
         $('#folder-selection').append('<li><span>&nbsp;<i class="glyphicon glyphicon-share"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes partages</span></li>');
         for(var i=0;i<sharedFiles.length;i++){
-            $('#folder-selection').append('<li data-id="'+sharedFiles[i]._id+'" class="shared level'+files[i].level+'">\
+            if(sharedFiles[i].user){
+            $('#folder-selection').append('<li data-user="'+sharedFiles[i].user.username+'" data-name="'+sharedFiles[i].name+'" data-id="'+sharedFiles[i]._id+'" class="shared level'+sharedFiles[i].level+'">\
                     <a href="javascript:;" data-toggle="collapse" data-target="content'+sharedFiles[i]._id+'"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;'+sharedFiles[i].name+' <i class="fa fa-fw fa-caret-down"></i></a>\
                     <ul id="content'+sharedFiles[i]._id+'" class="collapse">\
                     </ul>\
                 </li>');
+            }
         }
     }
     

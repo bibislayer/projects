@@ -215,16 +215,16 @@ module.exports = function (app) {
             });
             Files.findOne({_id: req.data})
                     .populate('child')
-                    .populate('allowedUsers')
-                    .exec(function (err, file) {
-                        if (file) {
-                            req.io.emit('folder_path', file.path);
-                            req.session.folder_path = file.path;
-                            req.session.save();
-                            req.io.emit('selected_folder', {user: req.session.user, files: file, shared: shared});
-                            req.io.emit('folder_id', req.data);
-                        }
-                    });
+                .populate('allowedUsers')
+                .exec(function (err, file) {
+                    if (file) {
+                        req.io.emit('folder_path', file.path);
+                        req.session.folder_path = file.path;
+                        req.session.save();
+                        req.io.emit('selected_folder', {user: req.session.user, files: file, shared: shared});
+                        req.io.emit('folder_id', req.data);
+                    }
+                });
         }
     });
     app.io.route('new_folder', function (req) {
@@ -478,6 +478,7 @@ module.exports = function (app) {
                 Files.find({user: user._id})
                         .populate('child')
                         .populate('allowedUsers')
+                        .populate('user')
                         .exec(function (err, files) {
                             res.render('show', {
                                 title: 'Images et photos de ' + req.params.username,
@@ -534,8 +535,9 @@ module.exports = function (app) {
         Files.find({user: req.user._id})
                 .populate('child')
                 .exec(function (err, files) {
-                    Files.find({allowedUsers: {"$in": [req.user._id]}}, function (err, sharedFiles) {
-                        console.log(sharedFiles);
+                    Files.find({allowedUsers: {"$in": [req.user._id]}})
+                    .populate('user')
+                    .exec(function (err, sharedFiles) {
                         res.render('files', {
                             title: 'Tous vos fichiers',
                             page: 'files',

@@ -28,7 +28,8 @@ $('#folder-selection').delegate("li", 'click', function(event){
     $('button[data-conteneur=config_file]').attr('data-original-title', 'Configurer les droits d\'accés du dossier <strong>'+ folder_name +'</strong>');
     $('button[data-conteneur=add_file]').attr('data-original-title', 'Ajouter un fichier à <strong>'+ folder_name +'</strong>');
     $('button[data-conteneur=create_folder]').attr('data-original-title', 'Créer un dossier dans <strong>'+ folder_name+'</strong>'); 
-    
+    $('button[data-conteneur=show_sharing]').attr('onclick', 'var win = window.open("/u/'+$(this).attr('data-user')+'", "_blank");win.focus();');
+    $('button[data-conteneur=show_sharing]').attr('data-original-title', 'Afficher la vue de <strong>'+ $(this).attr('data-user')+'</strong>'); 
     event.stopPropagation();
     //$('li[data-parent-id="'+parent_id+'"].level'+level).toggle();
 });
@@ -101,6 +102,23 @@ socket.on('selected_folder', function (datas) {
             });
         }
     }else{
+        if(datas.shared == true){
+            $('button[data-conteneur="show_sharing"]').show();
+            $('button[data-conteneur="create_folder"]').hide();
+            $('button[data-conteneur="config_file"]').hide();
+            if(cls == ''){
+                $('#filesManager table tr th').first().hide();
+                $('#filesManager table tr th').last().hide();
+            }
+            $('#filesManager table tr').each(function(){
+                $(this).find('td').first().not('.owner').html('');
+                $(this).find('td').last().not('.owner').html('');
+            });   
+        }else{
+            $('button[data-conteneur="show_sharing"]').hide();
+            $('button[data-conteneur="create_folder"]').show();
+            $('button[data-conteneur="config_file"]').show();
+        }
         //affichage des donnees
         if(datas.files.child){
             $.each( datas.files.child, function( k, file ) {
@@ -142,17 +160,6 @@ socket.on('selected_folder', function (datas) {
                                 </span></div>');
             })
         }
-        if(datas.shared == true){
-            $('button[data-conteneur="create_folder"]').hide();
-            $('button[data-conteneur="config_file"]').hide();
-            if(cls == ''){
-                $('#filesManager table tr th').first().hide();
-                $('#filesManager table tr th').last().hide();
-            }
-            $('#filesManager table tr').each(function(){
-                $(this).find('td').first().not('.owner').html('');
-                $(this).find('td').last().not('.owner').html('');
-            });
-        }
+        
     }
 });

@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var Files = new Schema({
-    user: String,
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
     child: [{ type: Schema.Types.ObjectId, ref: 'Files' }],
     level: Number,
     root_id: String,

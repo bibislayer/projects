@@ -145,7 +145,7 @@ function issueToken(user, done) {
   port: 27017
 }
 // Connect mongoose
-mongoose.connect("mongodb://localhost/media", options);
+mongoose.connect("mongodb://localhost/media");
 //mongoose.connect('mongodb://localhost/media', options);
 // configure Express
 app.configure(function () {
