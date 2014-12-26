@@ -142,7 +142,6 @@ function issueToken(user, done) {
   user: 'bibislayer',
   pass: '@nicktalope78@',
   auth: {authdb: 'admin'},
-  db: 'media',
   port: 27017
 }
 // Connect mongoose
