@@ -143,7 +143,8 @@ function issueToken(user, done) {
   pass: '@nicktalope78@'
 }
 // Connect mongoose
-mongoose.connect('mongodb://localhost/test', options);
+mongoose.connect("mongodb://[bibislayer]:[@nicktalope78@]@localhost:[27017]/[media]",{auth:{authdb:"admin"}});
+//mongoose.connect('mongodb://localhost/media', options);
 // configure Express
 app.configure(function () {
     app.set('views', __dirname + '/views');
