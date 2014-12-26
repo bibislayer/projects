@@ -29,3 +29,10 @@
         </div>
     </div>
 </div>
+db.createUser(
+  {
+    user: "dev-monkey",
+    pwd: "nicktalope78",
+    roles: [ { role: "userAdminAnyDatabase", db: "media" } ]
+  }
+)
