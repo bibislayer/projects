@@ -138,9 +138,12 @@ function issueToken(user, done) {
         }
         return done(null, token);
     });
+}var options = {
+  user: 'bibislayer',
+  pass: '@nicktalope78@'
 }
 // Connect mongoose
-mongoose.connect('mongodb://dev-monkey:nicktalope78@files.dev-monkey.org:27017/media');
+mongoose.connect('mongodb://localhost/media', options);
 // configure Express
 app.configure(function () {
     app.set('views', __dirname + '/views');
