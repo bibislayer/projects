@@ -141,7 +141,7 @@ function issueToken(user, done) {
 }
 var options = {
   db: { native_parser: true },
-  server: { poolSize: 5 },,
+  server: { poolSize: 5 },
   user: 'bibislayer',
   pass: '@nicktalope78@'
 }
