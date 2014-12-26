@@ -26,8 +26,12 @@
         <script src="/js/jquery-1.11.0.js"></script>
     </head>
     <body><!-- Navigation -->
+    <% if(typeof page!='undefined'){
+        if(page == "files" || page == "show"){ %>
+            <div id="wrapper">
+        <% } 
+    } %>
             <% include navbar %>
-
             <div id="page-wrapper">
 
                 <div class="container-fluid">
@@ -59,6 +63,11 @@
                 </div>
                 <!-- /.container-fluid -->
             </div>
+        <% if(typeof page!='undefined'){
+            if(page == "files" || page == "show"){ %>
+                </div>
+            <% }
+        } %>
         <!-- Bootstrap Core JavaScript -->
         <script src="/js/bootstrap.min_1.js"></script>
         

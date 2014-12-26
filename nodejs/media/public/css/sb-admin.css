@@ -34,7 +34,7 @@ body {
 
 @media(min-width:768px) {
     #wrapper {
-        padding-left: 125px;
+        padding-left: 200px;
     }
 
     #page-wrapper {
@@ -96,7 +96,10 @@ li.message-preview {
     width: 275px;
     border-bottom: 1px solid rgba(0,0,0,.15);
 }
-
+li.active>a{
+    color: #fff !important;
+    background-color: #080808;
+}
 li.message-preview>a {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -116,9 +119,9 @@ ul.alert-dropdown {
     .side-nav {
         position: fixed;
         top: 51px;
-        left: 225px;
-        width: 125px;
-        margin-left: -225px;
+        left: 200px;
+        width: 200px;
+        margin-left: -200px;
         border: none;
         border-radius: 0;
         overflow-y: auto;
@@ -126,7 +129,7 @@ ul.alert-dropdown {
     }
 
     .side-nav>li>a {
-        width: 125px;
+        width: 200px;
     }
 
     .side-nav li a:hover,
@@ -148,6 +151,24 @@ ul.alert-dropdown {
 }
 
 .side-nav>li>ul>li>a:hover {
+    color: #fff;
+}
+
+.side-nav>li>ul>li {
+    padding: 0;
+}
+#folder-selection span{
+    color:white;
+    padding-left: 10px;
+}
+.side-nav>li>ul>li>ul>li>a {
+    display: block;
+    padding: 10px 15px 10px 60px;
+    text-decoration: none;
+    color: #999;
+}
+
+.side-nav>li>ul>li>ul>li>a:hover {
     color: #fff;
 }
 

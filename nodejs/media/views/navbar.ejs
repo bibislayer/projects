@@ -1,6 +1,16 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
+    <% if(typeof page!='undefined'){
+    if(page == "files" || page == "show"){ %>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    <%  }
+} %>
         <a class="navbar-brand logo" href="/">DM <small>nodeJs</small></a>
         <!-- Top Menu Items -->
         <ul class="nav navbar-left top-nav">
@@ -36,4 +46,12 @@
             <% } %>
         </ul>
     </div>
+<% if(typeof page!='undefined'){
+        if(page == "files" || page == "show"){ %>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul id="folder-selection" class="nav navbar-nav side-nav">
+                </ul>
+            </div>
+    <%  }
+    } %>
 </nav>

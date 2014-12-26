@@ -1,24 +1,24 @@
-$('#folders ul').delegate("li span.brace", 'click', function(){
-    var lvl = $(this).parent('li:first').attr('class');
+$('#folder-selection').delegate("li", 'click', function(event){
+    
+    $('#folder-selection li').removeClass('active');   
+    var lvl = $(this).attr('class');
     var length = lvl.length;
     var level = parseInt(lvl.substring(length - 1, length)) + 1;
-    var parent_id = $(this).parent('li:first').attr('data-id');
-    $('li[data-id="'+parent_id+'"]').after($('li[data-parent-id="'+parent_id+'"].level'+level));
-    $('li[data-parent-id="'+parent_id+'"].level'+level).toggle();
-    if($(this).attr('class') == 'brace closed'){
-        $(this).removeClass('closed');
-        $(this).addClass('opened');
-        //$('#folders .level-'+level).hide();
-    }else{
-        $(this).removeClass('opened');
-        $(this).addClass('closed');
-    }
-});
-
-$('#folders ul').delegate("li span.folder", 'click', function(){
     var data_id = $(this).attr('data-id');
-    var folder_name = $(this).attr('data-name');
+    $('li[data-id='+data_id+']').addClass('active');
+    if($('li[data-id='+data_id+'] i.fa').first().hasClass('fa-caret-down')){
+        $('li[data-id='+data_id+'] i.fa').first().addClass('fa-caret-up');
+        $('li[data-id='+data_id+'] i.fa').first().removeClass('fa-caret-down');
+    }else{
+        $('li[data-id='+data_id+'] i.fa').first().addClass('fa-caret-down');
+        $('li[data-id='+data_id+'] i.fa').first().removeClass('fa-caret-up');
+    }
+    $('#content'+data_id).html($('li[data-parent-id="'+data_id+'"].level'+level));
+    $('#content'+data_id+' li').show();
+    $('#content'+data_id).attr('aria-expanded',true);
+    $('#content'+data_id).slideToggle('slow');
     socket.emit('select_folder', data_id);
+    var folder_name = $(this).attr('data-name');
     $('button[data-conteneur="create_folder"]').show();
     $('button[data-conteneur="config_file"]').show();
     $("input[name=parent_id]").val(data_id);
@@ -28,11 +28,11 @@ $('#folders ul').delegate("li span.folder", 'click', function(){
     $('button[data-conteneur=config_file]').attr('data-original-title', 'Configurer les droits d\'accés du dossier <strong>'+ folder_name +'</strong>');
     $('button[data-conteneur=add_file]').attr('data-original-title', 'Ajouter un fichier à <strong>'+ folder_name +'</strong>');
     $('button[data-conteneur=create_folder]').attr('data-original-title', 'Créer un dossier dans <strong>'+ folder_name+'</strong>'); 
-    $('span.folder').each(function(i, d){
-        $(d).removeClass('active');
-    })
-    $(this).addClass('active');
+    
+    event.stopPropagation();
+    //$('li[data-parent-id="'+parent_id+'"].level'+level).toggle();
 });
+
 function FileConvertSize(aSize){
     aSize = Math.abs(parseInt(aSize, 10));
     var def = [[1, 'octets'], [1024, 'ko'], [1024*1024, 'Mo'], [1024*1024*1024, 'Go'], [1024*1024*1024*1024, 'To']];
@@ -112,12 +112,12 @@ socket.on('selected_folder', function (datas) {
                     var noExt = file.name.substring(0, length - 4);
                     var ext = file.name.substring(length - 3, length);
                      $('#filesManager table tbody').append('<tr data-id="'+file._id+'" class="level-'+file.level+'">\
-                      <td style="text-align:center;" class="col-md-1 '+cls+'"><input id="'+file._id+'" class="file_checkbox" type="checkbox"/></td>\
-                      <td style="padding-left:17px;" class="col-md-1"><span onMouseOver="showPrevu(this)" data-conteneur="prevu_file" data-type="'+file.type+'" data-name="'+file.name+'" data-id="'+file._id+'" class="prevu glyphicon glyphicon-zoom-in" aria-hidden="true"></span></td>\
-                      <td class="name col-md-6">'+file.name+'</td>\
-                      <td class="col-md-1 type">'+file.type+'</td>\
-                      <td class="col-md-1 size"></td>\
-                      <td class="col-md-2 '+cls+'">\
+                      <td style="text-align:center;" class="'+cls+'"><input id="'+file._id+'" class="file_checkbox" type="checkbox"/></td>\
+                      <td style="padding-left:17px;"><span onMouseOver="showPrevu(this)" data-conteneur="prevu_file" data-type="'+file.type+'" data-name="'+file.name+'" data-id="'+file._id+'" class="prevu glyphicon glyphicon-zoom-in" aria-hidden="true"></span></td>\
+                      <td>'+file.name+'</td>\
+                      <td class="type">'+file.type+'</td>\
+                      <td class="size"></td>\
+                      <td class="'+cls+'">\
                         <a href="/get_file/'+file._id+'/'+ext+'" onMouseOver="tooltip(this)" title="Télécharger" type="button" class="btn btn-default" data-title="Télécharger">\
                         <span class="glyphicon glyphicon-download" aria-hidden="true"></span></a>\
                         <button onMouseOver="tooltip(this)" title="Supprimer" data-id="'+file._id+'" data-remove="true" id="remove" type="button" class="btn btn-default" data-original-title="Supprimer">\

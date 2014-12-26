@@ -17,15 +17,6 @@ videojs.options.flash.swf = "/js/video-js.swf";
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="/css/jquery.fileupload.css">
 <div class="row">
-    <div class="col-lg-2 col-md-2 col-xs-3" id="folders">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <ul id="folder-selection">
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-10 col-md-9 col-xs-9 right-side">
         <div class="panel panel-default">
             <div class="panel-body my-panel">
                 <div class="btn-group">
@@ -123,7 +114,6 @@ videojs.options.flash.swf = "/js/video-js.swf";
                 </div>
             </div>
         </div>
-    </div>
 </div>
 <!-- /.row -->
 <!-- Modal -->
@@ -261,7 +251,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
     generateMenu(files, sharedFiles);
     function generateMenu(files, sharedFiles){
         $('#folderSelect').html('<option value="default">Selectionner un dossier</option>');
-        $('#folder-selection').html('<li>Mes fichiers</li>');
+        $('#folder-selection').html('<li><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
         for(var i=0;i<files.length;i++){
             var parent = '';
             var style = '';
@@ -274,19 +264,22 @@ videojs.options.flash.swf = "/js/video-js.swf";
                 for(var j=0;j<files[i].level;j++){
                     esc += '&nbsp;';
                 }
-                $('#folder-selection').append('<li '+parent+' '+style+' data-id="'+files[i]._id+'" class="level'+files[i].level+'">'+esc+'\
-                <span class="brace closed"></span>\
-                <span data-name="'+files[i].name+'" data-id="'+files[i]._id+'" class="folder">\
-                '+files[i].name+'</span></li>');
+                $('#folder-selection').append('<li '+parent+' '+style+' data-name="'+files[i].name+'" data-id="'+files[i]._id+'" class="level'+files[i].level+'">\
+                    <a href="javascript:;" data-toggle="collapse" data-target="content'+files[i]._id+'"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;'+files[i].name+' <i class="fa fa-fw fa-caret-down"></i></a>\
+                    <ul id="content'+files[i]._id+'" class="collapse">\
+                    </ul>\
+                </li>');
                 $('#folderSelect').append('<option value="'+files[i]._id+'">'+files[i].name+'</option>');
             }
         }
-        $('#folder-selection').append('<li>Mes partages</li>');
+        $('#folder-selection').append('<li class="divider"></li>');
+        $('#folder-selection').append('<li><span>&nbsp;<i class="glyphicon glyphicon-share"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes partages</span></li>');
         for(var i=0;i<sharedFiles.length;i++){
-            $('#folder-selection').append('<li data-id="'+sharedFiles[i]._id+'" class="shared level'+sharedFiles[i].level+'">&nbsp;\
-            <span class="brace closed"></span>\
-            <span data-name="'+sharedFiles[i].name+'" data-id="'+sharedFiles[i]._id+'" class="folder">\
-            '+sharedFiles[i].name+'</span></li>'); 
+            $('#folder-selection').append('<li data-id="'+sharedFiles[i]._id+'" class="shared level'+files[i].level+'">\
+                    <a href="javascript:;" data-toggle="collapse" data-target="content'+sharedFiles[i]._id+'"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;'+sharedFiles[i].name+' <i class="fa fa-fw fa-caret-down"></i></a>\
+                    <ul id="content'+sharedFiles[i]._id+'" class="collapse">\
+                    </ul>\
+                </li>');
         }
     }
     
@@ -515,8 +508,16 @@ videojs.options.flash.swf = "/js/video-js.swf";
 
         //call_back user logged for file manager
         socket.on('user_logged', function(data){
-            console.log('logged');
-            $('span.folder:first').trigger("click");
+            var stop = false; 
+            $($('#folder-selection li i.fa-caret-down').get()).each(function(){
+                if(!stop){
+                    $(this).parents('li:first').trigger("click");
+                    //console.log($(this).next('span').attr('data-id'));
+                }
+                if($(this).parents('li:first').attr('data-id') == data){
+                    stop=true;
+                }
+            });
         });
 
         socket.on('file_removed', function(id){
@@ -534,16 +535,16 @@ videojs.options.flash.swf = "/js/video-js.swf";
             $('button[data-toggle=popover]').removeClass('active');
             $('button[data-toggle=popover]').popover('hide');
             var stop = false;
-            $($('span.brace.closed').get()).each(function(){
+            var stop = false; 
+            $($('#folder-selection li i.fa-caret-down').get()).each(function(){
                 if(!stop){
-                    $(this).trigger("click");
+                    $(this).parents('li:first').trigger("click");
                     //console.log($(this).next('span').attr('data-id'));
                 }
-                if($(this).next('span').attr('data-id') == datas.folder_id){
+                if($(this).parents('li:first').attr('data-id') == datas.folder_id){
                     stop=true;
                 }
             });
-            $('span[data-id="'+datas.folder_id+'"]').trigger("click");
         });
 
    });

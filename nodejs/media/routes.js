@@ -195,7 +195,7 @@ module.exports = function (app) {
                 req.session.folder_path = '/uploads';
                 req.session.save();
                 req.io.emit('user_id', req.data);
-                req.io.emit('user_logged', req.data);
+                req.io.emit('user_logged', user.selected_folder);
             }
         });
     });
@@ -481,6 +481,7 @@ module.exports = function (app) {
                         .exec(function (err, files) {
                             res.render('show', {
                                 title: 'Images et photos de ' + req.params.username,
+                                page : 'show',
                                 h1: 'Images et photos de <small>' + req.params.username + '</small>',
                                 user: req.user,
                                 files: files
@@ -537,6 +538,7 @@ module.exports = function (app) {
                         console.log(sharedFiles);
                         res.render('files', {
                             title: 'Tous vos fichiers',
+                            page: 'files',
                             user: req.user,
                             files: files.sort(sort_by('level', true, parseInt)),
                             sharedFiles: sharedFiles,

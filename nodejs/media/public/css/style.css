@@ -163,3 +163,24 @@ li{
 .folder{
     background-image: url("../img/dossier.png");
 }
+#filesManager .table{
+    margin: 0;
+    
+}
+#filesManager .table tr td{
+    padding: 8px 0;
+    vertical-align: middle; 
+}
+@media(min-width:360px) {
+    #page-wrapper{
+        min-height:555px;
+    }
+}
+@media(min-width:318px){
+    @media(max-width:359px){
+        #page-wrapper{
+            min-height:450px;
+            padding-top:50px;
+        }
+    }
+}
