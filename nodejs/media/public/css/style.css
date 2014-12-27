@@ -187,3 +187,7 @@ li{
         }
     }
 }
+
+.ui-resizable {
+    position: absolute;
+}
