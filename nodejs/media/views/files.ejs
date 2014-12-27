@@ -336,7 +336,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
         var offset = $(that).offset();
         //show the menu directly over the placeholder
         $('#'+$(that).attr('data-conteneur')+' .popover').css({
-            top: offset.top - document.body.clientHeight/4 + "px",
+            top: offset.top - document.body.clientHeight/5 + "px",
             left: (offset.left + document.body.clientWidth/4) + "px"
         }).show();
         $(that).trigger('click');
@@ -344,6 +344,19 @@ videojs.options.flash.swf = "/js/video-js.swf";
 
     $(function () {
         'use strict';
+        var $table = $('table'),
+            $bodyCells = $table.find('tbody tr:first').children(),
+            colWidth;
+
+        // Get the tbody columns width array
+        colWidth = $bodyCells.map(function() {
+            return $(this).width();
+        }).get();
+
+        // Set the width of thead columns
+        $table.find('thead tr').children().each(function(i, v) {
+            $(v).width(colWidth[i]);
+        });
         /*** PANEL SECTION ***/
         $(".my-panel").delegate("#send_folder", 'click', function(evt){
             var parent_id = $("input[name=parent_id]").val();
