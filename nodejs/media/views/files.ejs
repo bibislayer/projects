@@ -318,7 +318,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
             $('#'+$(that).attr('data-conteneur')+' .popover-content').html('<center><img height="125px" src="/get_file/'+$(that).attr('data-id')+'/'+ext+'" alt="'+noExt+'" title="'+noExt+'" /></center>');
         }else if(type == 'Vidéo'){
             var id = "rand" + Math.floor((Math.random() * 10000) + 1);
-            $('#'+$(that).attr('data-conteneur')+' .popover-content').html('<center><video data-setup=\'{"techOrder": ["flash", "html5", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls\
+            $('#'+$(that).attr('data-conteneur')+' .popover-content').html('<center><video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls\
                width="360" height="240">\
                <source src="/get_file/'+$(that).attr('data-id')+'/mp4" type="video/mp4" />\
                <source src="/get_file/'+$(that).attr('data-id')+'/ogv" type="video/ogv" />\
