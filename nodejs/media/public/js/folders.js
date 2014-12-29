@@ -154,7 +154,7 @@ function generatePrevu(files, user) {
                         </a></div>');
         } else if (ext == 'avi') {
             var id = "rand" + Math.floor((Math.random() * 10000) + 1);
-            $('#filesManager div.row div.col-lg-12').append('<div class="col-lg-4 col-md-4" style="margin: 5px 0px;">\
+            $('#filesManager div.row div.col-lg-12').append('<div class="col-lg-5 col-md-5" style="margin: 5px 0px;">\
                         <center class="thumbnail">\
                         <video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls width="360" height="250">\
                         <source src="/get_file/' + file._id + '/mp4" type="video/mp4" />\
