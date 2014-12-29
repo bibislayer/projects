@@ -16,6 +16,11 @@ videojs.options.flash.swf = "/js/video-js.swf";
 <link rel="stylesheet" href="/css/style.css">
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="/css/jquery.fileupload.css">
+<script>
+    var files = <%- JSON.stringify(files) %>;
+    var user = <%- JSON.stringify(user) %>;
+    var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
+</script>
 <div class="row">
         <div class="panel panel-default">
             <div class="panel-body my-panel">
@@ -31,10 +36,10 @@ videojs.options.flash.swf = "/js/video-js.swf";
                     </button>
                 </div>
                 <div class="btn-group pull-right">
-                    <button id="makePrev" type="button" class="btn btn-default">
+                    <button onclick="generatePrevu(files, user)" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-th"></span>
                     </button>
-                    <button id="makeList" type="button" class="btn btn-default">
+                    <button onclick="generateList(files, user)" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-list"></span>
                     </button>
                 </div> 
@@ -100,20 +105,6 @@ videojs.options.flash.swf = "/js/video-js.swf";
                 </div>
                 <br>
                 <div id="filesManager">
-                    <table class="table table-hover">
-                        <thead>
-                          <tr>
-                            <th style="text-align:center;"><input id="check_all_file_checkbox" type='checkbox'/></th>
-                            <th>Prévu</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Poid</th>
-                            <th>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -249,98 +240,8 @@ videojs.options.flash.swf = "/js/video-js.swf";
     //auth user for file manager
     socket.emit('new_user', '<%= user._id %>');
     var folder;
-    var files = <%- JSON.stringify(files) %>;
-    var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
     //console.log(sharedFiles);
     generateMenu(files, sharedFiles);
-    function generateMenu(files, sharedFiles){
-        $('#folderSelect').html('<option value="default">Selectionner un dossier</option>');
-        $('#folder-selection').html('<li><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
-        for(var i=0;i<files.length;i++){
-            var parent = '';
-            var style = '';
-            if(files[i].type == "Directory"){
-                if(files[i].parent_id){
-                    parent = 'data-parent-id='+files[i].parent_id+'';
-                    style = 'style=display:none';
-                }
-                var esc = '';
-                for(var j=0;j<files[i].level;j++){
-                    esc += '&nbsp;';
-                }
-                $('#folder-selection').append('<li '+parent+' '+style+' data-name="'+files[i].name+'" data-id="'+files[i]._id+'" class="level'+files[i].level+'">\
-                    <a href="javascript:;" data-toggle="collapse" data-target="content'+files[i]._id+'"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;'+files[i].name+' <i class="fa fa-fw fa-caret-down"></i></a>\
-                    <ul id="content'+files[i]._id+'" class="collapse">\
-                    </ul>\
-                </li>');
-                $('#folderSelect').append('<option value="'+files[i]._id+'">'+files[i].name+'</option>');
-            }
-        }
-        $('#folder-selection').append('<li class="divider"></li>');
-        $('#folder-selection').append('<li><span>&nbsp;<i class="glyphicon glyphicon-share"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes partages</span></li>');
-        for(var i=0;i<sharedFiles.length;i++){
-            if(sharedFiles[i].user){
-            $('#folder-selection').append('<li data-user="'+sharedFiles[i].user.username+'" data-name="'+sharedFiles[i].name+'" data-id="'+sharedFiles[i]._id+'" class="shared level'+sharedFiles[i].level+'">\
-                    <a href="javascript:;" data-toggle="collapse" data-target="content'+sharedFiles[i]._id+'"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;'+sharedFiles[i].name+' <i class="fa fa-fw fa-caret-down"></i></a>\
-                    <ul id="content'+sharedFiles[i]._id+'" class="collapse">\
-                    </ul>\
-                </li>');
-            }
-        }
-    }
-    
-    function onChangeFolder(val){
-        console.log(val);
-        folder = val;
-    }
-    function changePath(){
-        var files=Array(); 
-        $(".file_checkbox:checked").each(function(){
-            files.push($(this).attr('id'));
-        });
-        console.log('files '+files);
-        socket.emit('move_file', {files: files, folder: folder});
-    }
-    
-    function tooltip(that){
-        /*$(that).tooltip({
-            placement: 'top',
-            html : true
-        });*/
-    }
-
-    function showPrevu(that){
-        var type = $(that).attr("data-type");
-        var length = $(that).attr("data-name") .length;
-        var noExt = $(that).attr("data-name").substring(0, length - 4);
-        var ext = $(that).attr("data-name").substring(length - 3, length);
-        $('#'+$(that).attr('data-conteneur')+' .popover-title').html('<span class="text-info"><strong>'+$(that).attr("data-name")+'</strong></span>&nbsp;<button type="button" id="close" class="close" onclick="$(\'#'+$(that).attr('data-conteneur')+' .popover\').hide();">&times;</button>');
-        if(type == 'Image' || type == 'image'){
-            $('#'+$(that).attr('data-conteneur')+' .popover-content').html('<center><img height="125px" src="/get_file/'+$(that).attr('data-id')+'/'+ext+'" alt="'+noExt+'" title="'+noExt+'" /></center>');
-        }else if(type == 'Vidéo'){
-            var id = "rand" + Math.floor((Math.random() * 10000) + 1);
-            $('#'+$(that).attr('data-conteneur')+' .popover-content').html('<center><video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls\
-               width="360" height="240">\
-               <source src="/get_file/'+$(that).attr('data-id')+'/mp4" type="video/mp4" />\
-               <source src="/get_file/'+$(that).attr('data-id')+'/ogv" type="video/ogv" />\
-               <source src="/get_file/'+$(that).attr('data-id')+'/webm" type="video/webm" />\
-              </video></center>');
-            videojs(id, {}, function() {
-                vidPlayer = this;
-                vidPlayer.load();
-            });
-              $('#'+$(that).attr('data-conteneur')+' .popover').draggable();
-        }else{
-            $('#'+$(that).attr('data-conteneur')+' .popover-content').html('<center>Format not found</center>');
-        }
-        var offset = $(that).offset();
-        //show the menu directly over the placeholder
-        $('#'+$(that).attr('data-conteneur')+' .popover').css({
-            top: offset.top - document.body.clientHeight/5 + "px",
-            left: (offset.left + document.body.clientWidth/4) + "px"
-        }).show();
-        $(that).trigger('click');
-    }
 
     $(function () {
         'use strict';
@@ -364,20 +265,6 @@ videojs.options.flash.swf = "/js/video-js.swf";
             socket.emit('new_folder', {folder_name: folder_name, parent_id: parent_id});
             evt.preventDefault();
         });
-        $('#makePrev').click(function(){ 
-            $.ajax({
-              url: "/filesContainerType/icones",
-              context: document.body
-            }).done(function(data) {
-              $('#filesManager').html(data);
-            });
-        })
-        $('#makeList').click(function(){ 
-            var lvl = $(this).attr('class');
-            var length = lvl.length;
-            var level = parseInt(lvl.substring(length - 1, length)) + 1;
-            $('.level-'+level).show();
-        })
 
         $('button[data-toggle=popover]').click(function(){
             if(!$(this).hasClass('active')){
