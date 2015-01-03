@@ -677,12 +677,6 @@ module.exports = function (app) {
     app.post('/register', function (req, res) {
         User.findOne({hash: req.body.hash}, function (err, user) {
             user.username = req.body.username;
-            getMac.getMac(function (err, macAddress) {
-                if (err)
-                    throw err;
-                if (user.addressMac.length < 3)
-                    user.addressMac.push(macAddress);
-            });
             User.register(user, req.body.password, function (err, account) {
                 if (err) {
                     return res.render('register', {title: "register", user: user, message: {type: 'warning', text: err}});
