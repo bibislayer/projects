@@ -1,6 +1,7 @@
 var passport = require('passport'),
         User = require('./models/user'),
         Files = require('./models/files'),
+        Bug = require('./models/bug'),
         utils = require('./utils'),
         formidable = require('formidable'),
         fs = require('fs'),
@@ -11,8 +12,7 @@ var passport = require('passport'),
         templatesDir = path.join(__dirname, 'templates'),
         emailTemplates = require('email-templates'),
         nodemailer = require('nodemailer'),
-        crypto = require('crypto'),
-        getMac = require('getmac');
+        crypto = require('crypto');
 // configure upload middleware
 module.exports = function (app) {
     // Setup the ready route, and emit talk event.
@@ -34,6 +34,28 @@ module.exports = function (app) {
                             }
                         });
                     }
+                }
+            });
+        }
+    });
+    
+    app.io.route('report_bug', function (req) {
+        if (req.session.user) {
+            User.findOne({_id: req.session.user._id}, function (err, user) {
+                if (user) {
+                    var bug = new Bug({
+                        category: req.data.category,
+                        comment: req.data.comment,
+                        status: 2,
+                        user: user._id
+                    });
+                    bug.save(function(err, rep){
+                        if(err){
+                            req.io.emit('alert', {type: 'warning', text: "Une erreur c'est produite ( "+ err +" )"});
+                        }else{
+                            req.io.emit('alert', {type: 'success', text: 'Bug reporté'});
+                        }
+                    });
                 }
             });
         }
@@ -391,11 +413,15 @@ module.exports = function (app) {
     }
 
     app.get('/', ensureAuthenticated, function (req, res) {
-        res.render('index', {
-            title: 'Accueil',
-            h1: 'Tableau de bord <small>Statistiques</small>',
-            user: req.user,
-            message: {type: 'warning', text: req.flash('error')}
+        Bug.find({user: req.user._id}, function(err, bugs){
+            console.log(bugs);
+            res.render('index', {
+                title: 'Accueil',
+                h1: 'Tableau de bord <small>Statistiques</small>',
+                user: req.user,
+                bugs: bugs,
+                message: {type: 'warning', text: req.flash('error')}
+            });
         });
     });
 
@@ -494,15 +520,18 @@ module.exports = function (app) {
     app.get('/admin', ensureAdminAuthenticated, function (req, res) {
         var user = req.user;
         User.find({}, function (err, users) {
-            if (users) {
+            Bug.find({})
+            .populate('user')
+            .exec(function(err, bugs){
                 res.render('admin', {
                     title: 'Admin',
                     h1: 'Gestion utilisateurs',
                     user: req.user,
                     users: users,
+                    bugs: bugs,
                     message: {type: 'warning', text: req.flash('error')}
                 });
-            }
+            });
         });
     });
     

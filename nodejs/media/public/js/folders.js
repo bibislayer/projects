@@ -205,7 +205,7 @@ function generateList(files, user) {
 
 function generateMenu(files, sharedFiles) {
     $('#folderSelect').html('<option value="default">Selectionner un dossier</option>');
-    $('#folder-selection').html('<li><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
+    $('#folder-selection').html('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
     for (var i = 0; i < files.length; i++) {
         var parent = '';
         var style = '';
@@ -226,8 +226,8 @@ function generateMenu(files, sharedFiles) {
             $('#folderSelect').append('<option value="' + files[i]._id + '">' + files[i].name + '</option>');
         }
     }
-    $('#folder-selection').append('<li class="divider"></li>');
-    $('#folder-selection').append('<li><span>&nbsp;<i class="glyphicon glyphicon-share"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes partages</span></li>');
+    $('#folder-selection').append('<li class="divider"><span></span></li>');
+    $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-share"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes partages</span></li>');
     for (var i = 0; i < sharedFiles.length; i++) {
         if (sharedFiles[i].user) {
             $('#folder-selection').append('<li data-user="' + sharedFiles[i].user.username + '" data-name="' + sharedFiles[i].name + '" data-id="' + sharedFiles[i]._id + '" class="shared level' + sharedFiles[i].level + '">\

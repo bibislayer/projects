@@ -9,17 +9,49 @@
 <link rel="stylesheet" href="/css/style.css">
 <div class="row">
     <div class="panel panel-default">
+        <div id="bugsManager">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;"><input id="check_all_file_checkbox" type='checkbox'/></th>
+                        <th>User</th>
+                        <th>Comment</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i = 0;i < bugs.length;i++){ %>
+                    <tr>
+                        <td style="text-align:center;"><input id="check_all_file_checkbox" type='checkbox'/></td>
+                        <td><%= bugs[i].user.username %></td>
+                        <td><%= bugs[i].comment %></td>
+                        <td>
+                            <span class="badge badge-success <%= (bugs[i].status == 0) ? 'active' : '' %>">&nbsp;</span>
+                            <span class="badge badge-warning <%= (bugs[i].status == 1) ? 'active' : '' %>">&nbsp;</span>
+                            <span class="badge badge-danger <%= (bugs[i].status == 2) ? 'active' : '' %>">&nbsp;</span>
+                        </td>
+                        <td><%= fromNow(bugs[i].created) %></td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>        
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 panel panel-default">
         <div id="usersManager">
             <table class="table table-hover">
                 <thead>
-                  <tr>
-                    <th style="text-align:center;"><input id="check_all_file_checkbox" type='checkbox'/></th>
-                    <th>Prévu</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Poid</th>
-                    <th>Actions</th>
-                  </tr>
+                    <tr>
+                        <th style="text-align:center;"><input id="check_all_file_checkbox" type='checkbox'/></th>
+                        <th>Prévu</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Poid</th>
+                        <th>Actions</th>
+                    </tr>
                 </thead>
                 <tbody>
                 </tbody>
@@ -32,4 +64,10 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io.connect();
+    $(document).ready(function(){
+        $('button[data-tooltip=tooltip]').tooltip({
+            placement: 'top',
+            html : true
+        });
+    });
 </script>

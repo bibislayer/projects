@@ -1,0 +1,63 @@
+<button id="btn-feedback">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="vertical-text">Repport de bug</span>
+</button>
+<div id="feedback-content">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Repport de bug</h3>
+        </div>
+        <div class="panel-body my-panel">
+            <form>
+                <div class="form-group">
+                    <select name="category" class="form-control">
+                        <option value="1">Bug d'affichage</option>
+                        <option value="2">Bug de fonctionnalitée</option>
+                        <option value="3">Bug de compréhension</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea name="comment" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <button id="report_bug" type="submit" class="btn btn-default">Envoyer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#btn-feedback').click(function () {
+            var chevron = $(this).find('span:first');
+            if (chevron.hasClass('glyphicon-chevron-left')) {
+                chevron.removeClass('glyphicon-chevron-left');
+                chevron.addClass('glyphicon-chevron-right');
+                $('#feedback-content').animate({
+                    right: '+=22%'
+                });
+                $(this).animate({
+                    right: '+=20.8%'
+                });
+            } else {
+                chevron.removeClass('glyphicon-chevron-right');
+                chevron.addClass('glyphicon-chevron-left');
+                $('#feedback-content').animate({
+                    right: '-=22%'
+                });
+                $(this).animate({
+                    display: 'block',
+                    right: '-=20.8%'
+                });
+            }    
+        });
+        $("#report_bug").click(function(evt){
+            var category = $("select[name=category]").val();
+            var comment = $("textarea[name=comment]").val();
+            socket.emit('report_bug', {comment: comment, category: category});
+            $("textarea[name=comment]").val('');
+            $('#btn-feedback').trigger('click');
+            evt.preventDefault();
+        });
+    });
+</script>

@@ -1,6 +1,7 @@
 <% layout('layout') -%>
 <% script() -%>
 <% stylesheet() -%>
+<link rel="stylesheet" href="/css/jquery-ui.css">
 <div class="row">
     <% if(user){ %>
     <div class="col-lg-4">
@@ -24,10 +25,28 @@
             </div>
             <div class="panel-body">
                 <div class="list-group">
+                    <% for(var i=0;i < bugs.length;i++){ 
+                    var cls = "";
+                    var title = "";
+                    if(bugs[i].status == 0){
+                    cls = 'success';
+                    title = 'Traité';
+                    }
+                    if(bugs[i].status == 1){
+                    cls = 'warning';
+                    title = 'En cours';
+                    }
+                    if(bugs[i].status == 2){
+                    cls = 'danger';
+                    title = 'Non traité';
+                    }
+                    %>
                     <a href="#" class="list-group-item">
-                        <span class="badge">En ce moment</span>
-                        A venir
+                        <span data-tooltip="tooltip" title="<%= title %>" class="badge badge-<%= cls %> active">&nbsp;</span>
+                        <span class="badge"><%= fromNow(bugs[i].created) %></span>
+                        <%= bugs[i].comment %>
                     </a>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -54,4 +73,11 @@
     <% } %>
 </div>
 <!-- /.row -->
-
+<script src="/js/jquery-1.11.1.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script>
+    $('span[data-tooltip=tooltip]').tooltip({
+        placement: 'top',
+        html: true
+    });
+</script>

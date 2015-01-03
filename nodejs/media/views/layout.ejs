@@ -24,12 +24,16 @@
         <%-stylesheets%>
         <!-- jQuery Version 1.11.0 -->
         <script src="/js/jquery-1.11.0.js"></script>
+        
     </head>
     <body><!-- Navigation -->
     <% if(typeof page!='undefined'){
         if(page == "files" || page == "show"){ %>
             <div id="wrapper">
         <% } 
+        if(page == "files"){ %>
+           <% include feedback %>
+       <% }
     } %>
             <% include navbar %>
             <div id="page-wrapper">
