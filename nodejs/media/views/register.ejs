@@ -8,9 +8,6 @@
                 <h3 class="panel-title">Registering</h3>
             </div>
             <div class="panel-body">
-                <% if (message) { %>
-                <p><%= message %></p>
-                <% } %>
                 <form method="post" action="/register" role="form">
                     <fieldset>
                         <div class="form-group">
@@ -18,7 +15,7 @@
                             <input type="hidden" name="hash" value="<%= user.hash %>">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="Username" name="username" type="username" autofocus="">
+                            <input class="form-control" placeholder="Username" name="username" type="username" autofocus="" />
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Password" name="password" type="password" value="">
