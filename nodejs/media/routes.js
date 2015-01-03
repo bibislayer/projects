@@ -584,7 +584,8 @@ module.exports = function (app) {
         var access = req.body.access;
         var email = req.body.prevEmail;
         Files.findOne({_id: folder_id}, function (err, file) {
-            User.findOne({email: email}, function (err, user) {
+            if(file){
+                User.findOne({email: email}, function (err, user) {
                 if (user) {
                     var allowedUsers = new Array();
                     if (file.allowedUsers) {
@@ -599,6 +600,7 @@ module.exports = function (app) {
                     file.save();
                 }
             });
+            }
         });
         res.json({success: "success"});
     });
