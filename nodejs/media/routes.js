@@ -681,30 +681,32 @@ module.exports = function (app) {
                 if (err) {
                     return res.render('register', {title: "register", user: user, message: {type: 'warning', text: err}});
                 }
-                mkdirp(__dirname + req.body.username, function (err) {
-                    // path was created unless there was error
-                    //console.log(err);
-                    var files = new Files({
-                        user: user._id,
-                        level: 1,
-                        name: req.body.username,
-                        type: 'Directory',
-                        size: 0,
-                        time: 0,
-                        path: req.body.username + '/',
-                        permissions: {access: 0, users: ""},
-                    });
-                    files.root_id = files._id;
-                    files.save(function (err, file) {
-                        if (err)
-                            return console.error(err);
-                        Files.find({user: account._id}, function (err, user_files) {
-                            passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {
-                                res.redirect('/files');
+                if(!fs.exists(__dirname + req.body.username)){
+                    mkdirp(__dirname + req.body.username, function (err) {
+                        // path was created unless there was error
+                        //console.log(err);
+                        var files = new Files({
+                            user: user._id,
+                            level: 1,
+                            name: req.body.username,
+                            type: 'Directory',
+                            size: 0,
+                            time: 0,
+                            path: req.body.username + '/',
+                            permissions: {access: 0, users: ""},
+                        });
+                        files.root_id = files._id;
+                        files.save(function (err, file) {
+                            if (err)
+                                return console.error(err);
+                            Files.find({user: account._id}, function (err, user_files) {
+                                passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {
+                                    res.redirect('/files');
+                                });
                             });
                         });
                     });
-                });
+                }
             });
         });
     });
