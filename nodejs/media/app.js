@@ -13,7 +13,8 @@ var express = require('express.io'),
         fstream = require('fstream'),
         unzip = require('unzip'),
         bodyParser = require('body-parser'),
-        winston = require('winston');
+        winston = require('winston'), 
+        moment = require('moment');
 
 // Configure passport
 var User = require('./models/user');
@@ -144,14 +145,19 @@ function issueToken(user, done) {
   auth: {authdb: 'admin'},
   port: 27017
 }
+moment.locale('fr');
+app.locals.fromNow = function(date) {
+  return moment(date).fromNow();
+}
 // Connect mongoose
-mongoose.connect("mongodb://localhost/media", options);
+mongoose.connect("mongodb://localhost/media");
 //mongoose.connect('mongodb://localhost/media', options);
 // configure Express
 app.configure(function () {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
     app.engine('ejs', require('ejs-locals'));
+   
     app.use(express.logger({stream: logfile}));
     app.use(express.cookieParser());
     app.use(bodyParser.urlencoded({
