@@ -27,9 +27,9 @@
                         <td><%= bugs[i].user.username %></td>
                         <td><%= bugs[i].comment %></td>
                         <td>
-                            <span class="badge badge-success <%= (bugs[i].status == 0) ? 'active' : '' %>">&nbsp;</span>
-                            <span class="badge badge-warning <%= (bugs[i].status == 1) ? 'active' : '' %>">&nbsp;</span>
-                            <span class="badge badge-danger <%= (bugs[i].status == 2) ? 'active' : '' %>">&nbsp;</span>
+                            <span data-id="<%= bugs[i]._id %>" class="badge badge-success <%= (bugs[i].status == 0) ? 'active' : '' %>">&nbsp;</span>
+                            <span data-id="<%= bugs[i]._id %>" class="badge badge-warning <%= (bugs[i].status == 1) ? 'active' : '' %>">&nbsp;</span>
+                            <span data-id="<%= bugs[i]._id %>" class="badge badge-danger <%= (bugs[i].status == 2) ? 'active' : '' %>">&nbsp;</span>
                         </td>
                         <td><%= fromNow(bugs[i].created) %></td>
                     </tr>
@@ -64,7 +64,15 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io.connect();
+    var statusArr = ['success', 'warning', 'error'];
     $(document).ready(function(){
+        $('.badge').click(function(){
+            var type = $(this).attr('class').split(' ')[1];
+            type = type.split('-')[1];
+            socket.emit('change_status', {status: type, id: $(this).attr('data-id')});
+            $('span[data-id=' + $(this).attr('data-id')+ ']').removeClass('active');
+            $('span[data-id=' + $(this).attr('data-id') + '].badge-' + type).addClass('active');
+        });
         $('button[data-tooltip=tooltip]').tooltip({
             placement: 'top',
             html : true

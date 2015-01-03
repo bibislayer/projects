@@ -221,6 +221,28 @@ module.exports = function (app) {
             }
         });
     });
+    app.io.route('change_status', function (req) {
+        if (req.session.user) {
+            var status = 2;
+            if(req.data.status == "success"){
+                status = 0;
+            }
+            if(req.data.status == "warning"){
+                status = 1;
+            }
+            if(req.data.status == "danger"){
+                status = 2;
+            }
+            Bug.findOne({_id: req.data.id}, function(err, bug){
+               var oldStatus = bug.status;
+               bug.status = status;
+               bug.save(function(err, bugS){
+                req.io.broadcast('status_changed', {id: bugS._id, status: bugS.status, oldStatus: oldStatus});
+               });
+           });
+        }
+    });
+    
     app.io.route('select_folder', function (req) {
         var folder_path = "";
         var shared = true;
@@ -414,7 +436,7 @@ module.exports = function (app) {
 
     app.get('/', ensureAuthenticated, function (req, res) {
         Bug.find({user: req.user._id}, function(err, bugs){
-            console.log(bugs);
+            //console.log(bugs);
             res.render('index', {
                 title: 'Accueil',
                 h1: 'Tableau de bord <small>Statistiques</small>',

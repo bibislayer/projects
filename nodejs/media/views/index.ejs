@@ -42,7 +42,7 @@
                     }
                     %>
                     <a href="#" class="list-group-item">
-                        <span data-tooltip="tooltip" title="<%= title %>" class="badge badge-<%= cls %> active">&nbsp;</span>
+                        <span data-id="<%= bugs[i]._id %>" data-tooltip="tooltip" title="<%= title %>" class="badge badge-<%= cls %> active">&nbsp;</span>
                         <span class="badge"><%= fromNow(bugs[i].created) %></span>
                         <%= bugs[i].comment %>
                     </a>
@@ -75,9 +75,16 @@
 <!-- /.row -->
 <script src="/js/jquery-1.11.1.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script>
+    var socket = io.connect();
+    var statusArr = ['success', 'warning', 'danger'];
     $('span[data-tooltip=tooltip]').tooltip({
         placement: 'top',
         html: true
+    });
+    socket.on('status_changed', function (data) {
+        $('span[data-id=' + data.id + ']').removeClass('badge-' + statusArr[data.oldStatus]);
+        $('span[data-id=' + data.id + ']').addClass('badge-' + statusArr[data.status]);
     });
 </script>
