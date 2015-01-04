@@ -1,6 +1,5 @@
 <button id="btn-feedback">
     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span class="vertical-text">Repport de bug</span>
 </button>
 <div id="feedback-content">
     <div class="panel panel-default">
@@ -34,20 +33,20 @@
                 chevron.removeClass('glyphicon-chevron-left');
                 chevron.addClass('glyphicon-chevron-right');
                 $('#feedback-content').animate({
-                    right: '+=22%'
+                    right: '+=262px'
                 });
                 $(this).animate({
-                    right: '+=20.8%'
+                    right: '+=262px'
                 });
             } else {
                 chevron.removeClass('glyphicon-chevron-right');
                 chevron.addClass('glyphicon-chevron-left');
                 $('#feedback-content').animate({
-                    right: '-=22%'
+                    right: '-=262px'
                 });
                 $(this).animate({
                     display: 'block',
-                    right: '-=20.8%'
+                    right: '-=262px'
                 });
             }    
         });

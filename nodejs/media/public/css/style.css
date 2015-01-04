@@ -205,33 +205,20 @@ li{
 #btn-feedback{
     position: fixed;
     right: 0;
-    top: 40%;
+    top: 26%;
     padding-top: 6px;
-    height: 120px;
     width: 40px;
-    z-index:99;
+    z-index: 99;
+    height: 40px;
 }
-#btn-feedback .glyphicon{
-    float:left;
-    top:50px;
-    margin-left:-2px;
-}
-#btn-feedback .vertical-text {
-    float: left;
-    transform: rotate(-90deg);
-    width: 100px;
-    margin-bottom: 18px;
-    padding-bottom: 60px;
-}
+
 #feedback-content{
     position: fixed;
-    right: -22%;
+    right: -262px;
     top: 25%;
     padding-top: 6px;
     z-index: 99;
-    
 }
-
 .ui-resizable {
     position: absolute;
 }

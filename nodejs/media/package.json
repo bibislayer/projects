@@ -5,6 +5,7 @@
     "body-parser": "^1.10.0",
     "connect-flash": "^0.1.1",
     "crypto": "0.0.3",
+    "dns": "^0.2.2",
     "ejs": "^1.0.0",
     "ejs-locals": "^1.0.2",
     "email-templates": "^1.1.2",

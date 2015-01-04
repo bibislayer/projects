@@ -4,16 +4,41 @@
 <link rel="stylesheet" href="/css/jquery-ui.css">
 <div class="row">
     <% if(user){ %>
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Informations</h3>
+            </div>
+            <div class="panel-body">
+                Petite note concernant le site.
+            </div>
+        </div>
+    </div>
     <div class="col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Permissions</h3>
+                <h3 class="panel-title"><i class="glyphicon glyphicon-question-sign"></i> Nom du site <small>Sondage</small></h3>
             </div>
             <div class="panel-body">
-                <div class="list-group">
+                <form>
+                    <div class="form-group">
+                        <input name="name" class="form-control" placeholder="Nom du site" />
+                    </div>
+                    <div id="btnDomaine" class="form-group">
+                        <button id="check_domaine" type="submit" class="btn btn-default">Vérifier</button>
+                    </div>
+                </form>
+                <div id="domaine_checked" class="list-group" style="display:none;">
+                    <span class="text list-group-item"></span>
+                </div>
+                <div id="listSondage" class="list-group">
+                    <% for(var i=0;i < sondages.length;i++){ 
+                    %>
                     <a href="#" class="list-group-item">
-                        A venir
+                        <span data-id="<%= sondages[i]._id %>" data-tooltip="tooltip" title="+1" class="pull-right glyphicon glyphicon-thumbs-up">&nbsp;</span>&nbsp;
+                        <%= sondages[i].text %>
                     </a>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -21,7 +46,7 @@
     <div class="col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Vos repports de bug</h3>
+                <h3 class="panel-title"><i class="glyphicon glyphicon-exclamation-sign"></i> Vos repports de bug</h3>
             </div>
             <div class="panel-body">
                 <div class="list-group">
@@ -54,7 +79,7 @@
     <div class="col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Dernieres nouvelles</h3>
+                <h3 class="panel-title"><i class="glyphicon glyphicon-info-sign"></i> Dernieres nouvelles</h3>
             </div>
             <div class="panel-body">
                 <div class="list-group">
@@ -78,13 +103,41 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io.connect();
+    socket.emit('new_user', '<%= user._id %>');
+    $('#btnDomaine').delegate('#check_domaine', 'click', function(evt){
+        var domaine = $("input[name=name]").val();
+        socket.emit('check_domaine', domaine);
+        evt.preventDefault();
+    });
+    $('#btnDomaine').delegate('#save_domaine', 'click', function(evt){
+        var domaine = $("input[name=name]").val();
+        socket.emit('save_domaine', domaine);
+        evt.preventDefault();
+    });
     var statusArr = ['success', 'warning', 'danger'];
     $('span[data-tooltip=tooltip]').tooltip({
         placement: 'top',
         html: true
     });
+    socket.on('domaine_saved', function (data) {
+        $("input[name=name]").val('');
+        $('#listSondage').append('<a href="#" class="list-group-item">\
+            <span data-id="'+data._id+'" data-tooltip="tooltip" title="+1" class="pull-right glyphicon glyphicon-thumbs-up">&nbsp;</span>&nbsp;\
+            '+ data.text +'\
+        </a>');
+        $('#domaine_checked').hide('slow');
+    });
     socket.on('status_changed', function (data) {
         $('span[data-id=' + data.id + ']').removeClass('badge-' + statusArr[data.oldStatus]);
         $('span[data-id=' + data.id + ']').addClass('badge-' + statusArr[data.status]);
+    });
+    socket.on('domaine_checked', function (data) {
+        $('#domaine_checked .text').after('<a href="#" class="list-group-item list-group-item-success">\
+                        '+ data +'\
+                    </a>');
+        $('#domaine_checked .text').html($('#domaine_checked a').length+'/4 domaines disponibles');
+        $('#domaine_checked').show('slow');
+        $('#btnDomaine').html('<button id="check_domaine" type="submit" class="btn btn-default">Vérifier</button>\
+                                  <button id="save_domaine" type="submit" class="btn btn-default">Envoyer</button>');
     });
 </script>

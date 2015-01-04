@@ -2,6 +2,7 @@ var passport = require('passport'),
         User = require('./models/user'),
         Files = require('./models/files'),
         Bug = require('./models/bug'),
+        Sondage = require('./models/Sondage'),
         utils = require('./utils'),
         formidable = require('formidable'),
         fs = require('fs'),
@@ -12,7 +13,8 @@ var passport = require('passport'),
         templatesDir = path.join(__dirname, 'templates'),
         emailTemplates = require('email-templates'),
         nodemailer = require('nodemailer'),
-        crypto = require('crypto');
+        crypto = require('crypto'),
+        dns = require("dns");
 // configure upload middleware
 module.exports = function (app) {
     // Setup the ready route, and emit talk event.
@@ -39,6 +41,35 @@ module.exports = function (app) {
         }
     });
     
+    app.io.route('check_domaine', function (req) {
+        if (req.session.user) {
+            var ext = [".org", ".net", ".com", ".fr"]; 
+            for (var i = 0; i < ext.length; i++) {
+                checkAvailable(req.data + ext[i], req);
+            } 
+        }
+    });
+    app.io.route('save_domaine', function (req) {
+        if (req.session.user) {
+            var sondage = new Sondage({
+                user: req.user,
+                text: req.data,
+                type: 'Nom du site'
+            });
+            sondage.save(function(err, data){
+                req.io.emit('domaine_saved', data);
+            });
+        }
+    });
+
+    function checkAvailable(name, req) {
+        dns.resolve4(name, function (err, addresses) {
+            if (err){
+                req.io.emit('domaine_checked', name);   
+            }
+        });
+    }
+
     app.io.route('report_bug', function (req) {
         if (req.session.user) {
             User.findOne({_id: req.session.user._id}, function (err, user) {
@@ -49,10 +80,10 @@ module.exports = function (app) {
                         status: 2,
                         user: user._id
                     });
-                    bug.save(function(err, rep){
-                        if(err){
-                            req.io.emit('alert', {type: 'warning', text: "Une erreur c'est produite ( "+ err +" )"});
-                        }else{
+                    bug.save(function (err, rep) {
+                        if (err) {
+                            req.io.emit('alert', {type: 'warning', text: "Une erreur c'est produite ( " + err + " )"});
+                        } else {
                             req.io.emit('alert', {type: 'success', text: 'Bug reporté'});
                         }
                     });
@@ -224,25 +255,25 @@ module.exports = function (app) {
     app.io.route('change_status', function (req) {
         if (req.session.user) {
             var status = 2;
-            if(req.data.status == "success"){
+            if (req.data.status == "success") {
                 status = 0;
             }
-            if(req.data.status == "warning"){
+            if (req.data.status == "warning") {
                 status = 1;
             }
-            if(req.data.status == "danger"){
+            if (req.data.status == "danger") {
                 status = 2;
             }
-            Bug.findOne({_id: req.data.id}, function(err, bug){
-               var oldStatus = bug.status;
-               bug.status = status;
-               bug.save(function(err, bugS){
-                req.io.broadcast('status_changed', {id: bugS._id, status: bugS.status, oldStatus: oldStatus});
-               });
-           });
+            Bug.findOne({_id: req.data.id}, function (err, bug) {
+                var oldStatus = bug.status;
+                bug.status = status;
+                bug.save(function (err, bugS) {
+                    req.io.broadcast('status_changed', {id: bugS._id, status: bugS.status, oldStatus: oldStatus});
+                });
+            });
         }
     });
-    
+
     app.io.route('select_folder', function (req) {
         var folder_path = "";
         var shared = true;
@@ -259,23 +290,23 @@ module.exports = function (app) {
             });
             Files.findOne({_id: req.data})
                     .populate('child')
-                .populate('allowedUsers')
-                .exec(function (err, file) {
-                    if (file) {
-                        req.io.emit('folder_path', file.path);
-                        req.session.folder_path = file.path;
-                        req.session.save();
-                        req.io.emit('selected_folder', {user: req.session.user, files: file, shared: shared});
-                        req.io.emit('folder_id', req.data);
-                    }
-                });
+                    .populate('allowedUsers')
+                    .exec(function (err, file) {
+                        if (file) {
+                            req.io.emit('folder_path', file.path);
+                            req.session.folder_path = file.path;
+                            req.session.save();
+                            req.io.emit('selected_folder', {user: req.session.user, files: file, shared: shared});
+                            req.io.emit('folder_id', req.data);
+                        }
+                    });
         }
     });
     app.io.route('new_folder', function (req) {
         //user logged in
         if (req.session.user) {
             Files.findOne({name: req.data.folder_name}, function (err, exist) {
-                if(!exist){
+                if (!exist) {
                     if (req.data.parent_id) {
                         Files.findOne({_id: req.data.parent_id}, function (err, file) {
                             if (file) {
@@ -336,7 +367,7 @@ module.exports = function (app) {
                             });
                         });
                     }
-                }else{
+                } else {
                     req.io.emit('alert', {type: 'warning', text: 'Ce dossier existe déjà.'});
                 }
             });
@@ -435,14 +466,17 @@ module.exports = function (app) {
     }
 
     app.get('/', ensureAuthenticated, function (req, res) {
-        Bug.find({user: req.user._id}, function(err, bugs){
+        Bug.find({user: req.user._id}, function (err, bugs) {
+            Sondage.find({}, function (err, sondages) {
             //console.log(bugs);
-            res.render('index', {
-                title: 'Accueil',
-                h1: 'Tableau de bord <small>Statistiques</small>',
-                user: req.user,
-                bugs: bugs,
-                message: {type: 'warning', text: req.flash('error')}
+                res.render('index', {
+                    title: 'Accueil',
+                    h1: 'Tableau de bord',
+                    user: req.user,
+                    bugs: bugs,
+                    sondages: sondages,
+                    message: {type: 'warning', text: req.flash('error')}
+                });
             });
         });
     });
@@ -530,7 +564,7 @@ module.exports = function (app) {
                         .exec(function (err, files) {
                             res.render('show', {
                                 title: 'Images et photos de ' + req.params.username,
-                                page : 'show',
+                                page: 'show',
                                 h1: 'Images et photos de <small>' + req.params.username + '</small>',
                                 user: req.user,
                                 files: files
@@ -543,20 +577,20 @@ module.exports = function (app) {
         var user = req.user;
         User.find({}, function (err, users) {
             Bug.find({})
-            .populate('user')
-            .exec(function(err, bugs){
-                res.render('admin', {
-                    title: 'Admin',
-                    h1: 'Gestion utilisateurs',
-                    user: req.user,
-                    users: users,
-                    bugs: bugs,
-                    message: {type: 'warning', text: req.flash('error')}
-                });
-            });
+                    .populate('user')
+                    .exec(function (err, bugs) {
+                        res.render('admin', {
+                            title: 'Admin',
+                            h1: 'Gestion utilisateurs',
+                            user: req.user,
+                            users: users,
+                            bugs: bugs,
+                            message: {type: 'warning', text: req.flash('error')}
+                        });
+                    });
         });
     });
-    
+
     app.get("/get_file/:id/:type", ensureAuthenticated, function (req, res) {
         Files.findOne({_id: req.params.id}, function (err, file) {
             if (file) {
@@ -587,17 +621,17 @@ module.exports = function (app) {
                 .populate('child')
                 .exec(function (err, files) {
                     Files.find({allowedUsers: {"$in": [req.user._id]}})
-                    .populate('user')
-                    .exec(function (err, sharedFiles) {
-                        res.render('files', {
-                            title: 'Tous vos fichiers',
-                            page: 'files',
-                            user: req.user,
-                            files: files.sort(sort_by('level', true, parseInt)),
-                            sharedFiles: sharedFiles,
-                            message: {type: 'warning', text: req.flash('error')}
-                        });
-                    });
+                            .populate('user')
+                            .exec(function (err, sharedFiles) {
+                                res.render('files', {
+                                    title: 'Tous vos fichiers',
+                                    page: 'files',
+                                    user: req.user,
+                                    files: files.sort(sort_by('level', true, parseInt)),
+                                    sharedFiles: sharedFiles,
+                                    message: {type: 'warning', text: req.flash('error')}
+                                });
+                            });
                 });
     });
 
@@ -606,22 +640,22 @@ module.exports = function (app) {
         var access = req.body.access;
         var email = req.body.prevEmail;
         Files.findOne({_id: folder_id}, function (err, file) {
-            if(file){
+            if (file) {
                 User.findOne({email: email}, function (err, user) {
-                if (user) {
-                    var allowedUsers = new Array();
-                    if (file.allowedUsers) {
-                        allowedUsers = file.allowedUsers;
-                        allowedUsers.push(user);
-                    } else {
-                        allowedUsers.push(user);
+                    if (user) {
+                        var allowedUsers = new Array();
+                        if (file.allowedUsers) {
+                            allowedUsers = file.allowedUsers;
+                            allowedUsers.push(user);
+                        } else {
+                            allowedUsers.push(user);
+                        }
+                        console.log(allowedUsers);
+                        file.access = access;
+                        file.allowedEmails = allowedUsers;
+                        file.save();
                     }
-                    console.log(allowedUsers);
-                    file.access = access;
-                    file.allowedEmails = allowedUsers;
-                    file.save();
-                }
-            });
+                });
             }
         });
         res.json({success: "success"});
@@ -705,7 +739,7 @@ module.exports = function (app) {
                 if (err) {
                     return res.render('register', {title: "register", user: user, message: {type: 'warning', text: err}});
                 }
-                if(!fs.exists(__dirname + req.body.username)){
+                if (!fs.exists(__dirname + req.body.username)) {
                     mkdirp(__dirname + req.body.username, function (err) {
                         // path was created unless there was error
                         //console.log(err);
@@ -725,7 +759,7 @@ module.exports = function (app) {
                                 return console.error(err);
                             Files.find({user: account._id}, function (err, user_files) {
                                 passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {
-                                    res.redirect('/files');
+                                    res.redirect('/');
                                 });
                             });
                         });
@@ -757,7 +791,7 @@ module.exports = function (app) {
                 });
             },
             function (req, res) {
-                res.redirect('/files');
+                res.redirect('/');
             });
 
 
@@ -769,13 +803,13 @@ module.exports = function (app) {
         res.send("pong!", 200);
     });
     function ensureAuthenticated(req, res, next) {
-        if (req.isAuthenticated()){
+        if (req.isAuthenticated()) {
             return next();
         }
         res.redirect('/login');
     }
     function ensureAdminAuthenticated(req, res, next) {
-        if (req.isAuthenticated() && req.user.role == 'admin'){
+        if (req.isAuthenticated() && req.user.role == 'admin') {
             return next();
         }
         res.redirect('/login');
