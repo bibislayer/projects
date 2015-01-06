@@ -29,13 +29,13 @@
                     </div>
                 </form>
                 <div id="domaine_checked" class="list-group" style="display:none;">
-                    <span class="text list-group-item"></span>
+                    <span style="cursor:pointer;" onclick="$('#domaine_checked .listSondage').toggle('slow');" class="text list-group-item"></span>
                     <div class="listSondage"></div>
                 </div>
                 <div id="listSondage" class="list-group">
                     <% for(var i=0;i < sondages.length;i++){ 
                     %>
-                        <a href="#" class="list-group-item">
+                        <a href="javascript:void(0)" class="list-group-item">
                             <span data-id="<%= sondages[i]._id %>" data-tooltip="tooltip" title="+1" class="pull-right glyphicon glyphicon-thumbs-up">&nbsp;</span>&nbsp;
                             <%= sondages[i].text %>
                         </a>
