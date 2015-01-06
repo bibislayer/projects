@@ -22,7 +22,7 @@
             <div class="panel-body">
                 <form>
                     <div class="form-group">
-                        <input name="name" class="form-control" placeholder="Nom du site ex: dev-monkey" />
+                        <input name="name" class="form-control" placeholder="Nom du site ex:dev-monkey" />
                     </div>
                     <div id="btnDomaine" class="form-group">
                         <button id="check_domaine" type="submit" class="btn btn-default">Vérifier</button>
@@ -105,6 +105,7 @@
     var socket = io.connect();
     socket.emit('new_user', '<%= user._id %>');
     $('#btnDomaine').delegate('#check_domaine', 'click', function(evt){
+        $('#domaine_checked .text').after('');
         var domaine = $("input[name=name]").val();
         socket.emit('check_domaine', domaine);
         evt.preventDefault();
@@ -135,9 +136,11 @@
         $('#domaine_checked .text').after('<a href="#" class="list-group-item list-group-item-success">\
                         '+ data +'\
                     </a>');
-        $('#domaine_checked .text').html($('#domaine_checked a').length+'/4 domaines disponibles');
-        $('#domaine_checked').show('slow');
-        $('#btnDomaine').html('<button id="check_domaine" type="submit" class="btn btn-default">Vérifier</button>\
-                                  <button id="save_domaine" type="submit" class="btn btn-default">Envoyer</button>');
+        if($('#domaine_checked a').length > 0){
+            $('#domaine_checked .text').html($('#domaine_checked a').length+'/5 domaines disponibles');
+            $('#domaine_checked').show('slow');
+            $('#btnDomaine').html('<button id="check_domaine" type="submit" class="btn btn-default">Vérifier</button>\
+                                      <button id="save_domaine" type="submit" class="btn btn-default">Envoyer</button>');
+        }
     });
 </script>

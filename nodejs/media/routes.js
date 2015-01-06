@@ -43,7 +43,7 @@ module.exports = function (app) {
     
     app.io.route('check_domaine', function (req) {
         if (req.session.user) {
-            var ext = [".org", ".net", ".com", ".fr"]; 
+            var ext = [".org", ".net", ".com", ".fr", ".media"]; 
             for (var i = 0; i < ext.length; i++) {
                 checkAvailable(req.data + ext[i], req);
             } 
@@ -547,7 +547,7 @@ module.exports = function (app) {
                                 }
                             });
                         } else {
-                            req.io.emit('alert', {type: 'warning', text: 'Ce fichier existe déjà.'});
+                            connections[req.session.user._id].emit('alert', {type: 'warning', text: 'Ce fichier existe déjà.'});
                         }
                     });
                 }
