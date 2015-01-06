@@ -604,19 +604,7 @@ module.exports = function (app) {
         Files.findOne({_id: folder_id}, function (err, file) {
             if (file) {
                 User.findOne({email: email}, function (err, user) {
-                    if (user) {
-                        var allowedUsers = new Array();
-                        if (file.allowedUsers) {
-                            allowedUsers = file.allowedUsers;
-                            allowedUsers.push(user);
-                        } else {
-                            allowedUsers.push(user);
-                        }
-                        console.log(allowedUsers);
-                        file.access = access;
-                        file.allowedEmails = allowedUsers;
-                        file.save();
-                    } else {
+                    if (!user) {
                         var transport = nodemailer.createTransport({
                             service: "Gmail",
                             auth: {
@@ -628,14 +616,14 @@ module.exports = function (app) {
                         var random = Math.random().toString();
                         var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
                         console.log(hash);
-                        var invitedUser = new User();
-                        invitedUser.email = email;
-                        invitedUser.hash = hash;
-                        invitedUser.save();
+                        var user = new User();
+                        user.email = email;
+                        user.hash = hash;
+                        user.save();
                         emailTemplates(templatesDir, function (err, template) {
                             // Render a single email with one template
                             var locals = {
-                                link: 'https://files.dev-monkey.org/register/' + invitedUser.email + '/' + invitedUser.hash,
+                                link: 'https://files.dev-monkey.org/register/' + user.email + '/' + user.hash,
                                 linkPartage: 'https://files.dev-monkey.org/u/' + req.session.user.username
                             };
                             console.log(locals);
@@ -645,7 +633,7 @@ module.exports = function (app) {
                                 } else {
                                     transport.sendMail({
                                         from: req.session.user.username + ' sur files.dev-monkey.org <bot-no-reponse@dev-monkey.org>',
-                                        to: invitedUser.email,
+                                        to: user.email,
                                         subject: 'Invitation pour files.dev-monkey.org',
                                         html: html,
                                         text: text
@@ -661,6 +649,16 @@ module.exports = function (app) {
                             });
                         });
                     }
+                    var allowedUsers = new Array();
+                    if (file.allowedUsers) {
+                        allowedUsers = file.allowedUsers;
+                        allowedUsers.push(user);
+                    } else {
+                        allowedUsers.push(user);
+                    }
+                    file.access = access;
+                    file.allowedEmails = allowedUsers;
+                    file.save();
                 });
             }
         });
