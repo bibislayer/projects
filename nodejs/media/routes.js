@@ -653,7 +653,7 @@ module.exports = function (app) {
                                         if (err) {
                                             console.log(err);
                                         } else {
-                                            req.io.emit('user_invited', email);
+                                            connections[req.session.user._id].emit('user_invited', email);
                                             console.log(info.response);
                                         }
                                     });
