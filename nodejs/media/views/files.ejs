@@ -22,7 +22,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
     var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
 </script>
 <div class="row">
-        <div class="panel panel-default">
+        <div class="col-lg-12 panel panel-default">
             <div class="panel-body my-panel">
                 <div class="btn-group">
                     <button style="display:none;" data-tooltip="tooltip" title="" data-conteneur="show_sharing" type="button" class="btn btn-default" data-original-title="Afficher la vue de <strong>ad</strong>" style="display: block;">
@@ -75,7 +75,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
                     </div>
                 </div>
                 <hr/>
-                <div class="col-lg-12" id="add_file">
+                <div id="add_file">
                     <form id="fileupload" action="" method="POST" enctype="multipart/form-data">
                         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
                         <div class="fileupload-buttonbar">
