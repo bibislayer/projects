@@ -112,8 +112,8 @@ socket.on('selected_folder', function (datas) {
                 $('#filesManager table tr th').last().hide();
             }
             $('#filesManager table tr').each(function () {
-                $(this).find('td').first().not('.owner').html('');
-                $(this).find('td').last().not('.owner').html('');
+                $(this).find('td.no-owner').first().html('');
+                $(this).find('td.no-owner').last().html('');
             });
         } else {
             $('button[data-conteneur="show_sharing"]').hide();
@@ -179,6 +179,8 @@ function generateList(files, user) {
         if (file.type != "Directory") {
             if (file.user == user._id) {
                 cls = "owner";
+            }else{
+                cls = "no-owner";
             }
             var length = file.name.length;
             var noExt = file.name.substring(0, length - 4);
