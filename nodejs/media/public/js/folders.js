@@ -62,6 +62,7 @@ socket.on('progress_bar', function (datas) {
         }
     }
 });
+
 socket.on('alert', function (datas) {
     $('#socket_alert').addClass('alert-' + datas.type);
     $('#socket_alert').html(datas.text);
@@ -108,7 +109,7 @@ socket.on('selected_folder', function (datas) {
             files = datas.files.child;
             generateList(datas.files.child, datas.user);
         }
-        
+
         if (datas.shared == true) {
             $('button[data-conteneur="show_sharing"]').show();
             $('button[data-conteneur="create_folder"]').hide();
@@ -127,26 +128,6 @@ socket.on('selected_folder', function (datas) {
             $('button[data-conteneur="config_file"]').show();
         }
         $('.files-actions').hide();
-        $('#check_all_file_checkbox').click(function(){
-            $('.file_checkbox').each(function(){
-                if($('#check_all_file_checkbox').is(':checked')){
-                     $(this).prop("checked", true);
-                     $('.files-actions').show();
-                }else{
-                     $(this).prop("checked", false);
-                      $('.files-actions').hide();
-                }
-            })
-        })
-        $("#filesManager table tbody").delegate("tr", 'click', function(){
-            var selector = $(this).find('.file_checkbox');
-            var selected = $("input.file_checkbox:checked");
-            if(selector.is(':checked')){
-                 $('.files-actions').show();
-            }else if(selected.length < 1){
-                 $('.files-actions').hide();
-            }
-        });
         //console.log(folder);
         //affichage des permissions
         if (datas.files.allowedUsers) {
@@ -163,6 +144,30 @@ socket.on('selected_folder', function (datas) {
         }
     }
 });
+
+function activateCheckbox() {
+    $('#check_all_file_checkbox').click(function () {
+        $('.file_checkbox').each(function () {
+            if ($('#check_all_file_checkbox').is(':checked')) {
+                $(this).prop("checked", true);
+                $('.files-actions').show();
+            } else {
+                $(this).prop("checked", false);
+                $('.files-actions').hide();
+            }
+        })
+    })
+    $("#filesManager table tbody").delegate("tr", 'click', function () {
+        var selector = $(this).find('.file_checkbox');
+        var selected = $("input.file_checkbox:checked");
+        if (selector.is(':checked')) {
+            $('.files-actions').show();
+        } else if (selected.length < 1) {
+            $('.files-actions').hide();
+        }
+    });
+}
+
 function generatePrevu(files, user) {
     $('#filesManager').html('<div class="row"><div class="col-lg-12">');
     $.each(files, function (k, file) {
@@ -190,6 +195,12 @@ function generatePrevu(files, user) {
     });
     $('#filesManager').append('</div></div>');
 }
+$.preloadImages = function() {
+  for (var i = 0; i < arguments.length; i++) {
+    $("<img />").attr("src", arguments[i]);
+  }
+}
+
 function generateList(files, user) {
     var cls = "";
     //console.log(files);
@@ -199,14 +210,15 @@ function generateList(files, user) {
             <tbody>');
     $.each(files, function (k, file) {
         if (file.type != "Directory") {
-            if (file.user == user._id) {
-                cls = "owner";
-            }else{
-                cls = "no-owner";
-            }
             var length = file.name.length;
             var noExt = file.name.substring(0, length - 4);
             var ext = file.name.substring(length - 3, length);
+            if (file.user == user._id) {
+                cls = "owner";
+            } else {
+                cls = "no-owner";
+            }
+            $.preloadImages('/get_file/' + file._id + '/' + ext);
             $('#filesManager table tbody').append('<tr data-id="' + file._id + '" class="level-' + file.level + '">\
               <td style="text-align:center;" class="' + cls + '"><input id="' + file._id + '" class="file_checkbox" type="checkbox"/></td>\
               <td style="padding-left:17px;"><span onMouseOver="showPrevu(this)" data-conteneur="prevu_file" data-type="' + file.type + '" data-name="' + file.name + '" data-id="' + file._id + '" class="prevu glyphicon glyphicon-zoom-in" aria-hidden="true"></span></td>\
@@ -221,10 +233,10 @@ function generateList(files, user) {
                 </button></td>\
             </tr>');
             $('tr[data-id="' + file._id + '"] td.size').html(FileConvertSize(file.size));
-
         }
     });
     $('#filesManager').append('</tbody></table>');
+    activateCheckbox();
 }
 
 function generateMenu(files, sharedFiles) {
