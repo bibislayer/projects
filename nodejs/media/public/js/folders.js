@@ -126,6 +126,7 @@ socket.on('selected_folder', function (datas) {
             $('button[data-conteneur="create_folder"]').show();
             $('button[data-conteneur="config_file"]').show();
         }
+        $('.files-actions').hide();
         $('#check_all_file_checkbox').click(function(){
             $('.file_checkbox').each(function(){
                 if($('#check_all_file_checkbox').is(':checked')){
