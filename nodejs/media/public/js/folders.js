@@ -112,8 +112,7 @@ socket.on('selected_folder', function (datas) {
                 $('#filesManager table tr th').last().hide();
             }
             $('#filesManager table tr').each(function () {
-                $(this).find('td.no-owner').first().html('');
-                $(this).find('td.no-owner').last().html('');
+                $(this).find('td.no-owner').html('');
             });
         } else {
             $('button[data-conteneur="show_sharing"]').hide();
