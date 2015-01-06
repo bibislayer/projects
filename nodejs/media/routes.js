@@ -700,7 +700,11 @@ module.exports = function (app) {
     });
 
     app.get('/profile', ensureAuthenticated, function (req, res) {
-        res.render('profile.ejs', {title: 'Profile', user: req.user, message: ""});
+        res.render('profile.ejs', {
+            title: 'Profile', 
+            user: req.user, 
+            message: {type: 'warning', text: req.flash('error')}
+        });
     });
     app.get('/register/:email/:hash', function (req, res) {
         User.findOne({hash: req.params.hash}, function (err, user) {
