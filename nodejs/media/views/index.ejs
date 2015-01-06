@@ -30,14 +30,15 @@
                 </form>
                 <div id="domaine_checked" class="list-group" style="display:none;">
                     <span class="text list-group-item"></span>
+                    <div class="listSondage"></div>
                 </div>
                 <div id="listSondage" class="list-group">
                     <% for(var i=0;i < sondages.length;i++){ 
                     %>
-                    <a href="#" class="list-group-item">
-                        <span data-id="<%= sondages[i]._id %>" data-tooltip="tooltip" title="+1" class="pull-right glyphicon glyphicon-thumbs-up">&nbsp;</span>&nbsp;
-                        <%= sondages[i].text %>
-                    </a>
+                        <a href="#" class="list-group-item">
+                            <span data-id="<%= sondages[i]._id %>" data-tooltip="tooltip" title="+1" class="pull-right glyphicon glyphicon-thumbs-up">&nbsp;</span>&nbsp;
+                            <%= sondages[i].text %>
+                        </a>
                     <% } %>
                 </div>
             </div>
@@ -105,7 +106,7 @@
     var socket = io.connect();
     socket.emit('new_user', '<%= user._id %>');
     $('#btnDomaine').delegate('#check_domaine', 'click', function(evt){
-        $('#domaine_checked .text').after('');
+        $('#domaine_checked .listSondage').html('');
         var domaine = $("input[name=name]").val();
         socket.emit('check_domaine', domaine);
         evt.preventDefault();
@@ -133,7 +134,7 @@
         $('span[data-id=' + data.id + ']').addClass('badge-' + statusArr[data.status]);
     });
     socket.on('domaine_checked', function (data) {
-        $('#domaine_checked .text').after('<a href="#" class="list-group-item list-group-item-success">\
+        $('#domaine_checked .listSondage').append('<a href="#" class="list-group-item list-group-item-success">\
                         '+ data +'\
                     </a>');
         if($('#domaine_checked a').length > 0){
