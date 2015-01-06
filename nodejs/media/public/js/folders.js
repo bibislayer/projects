@@ -126,6 +126,26 @@ socket.on('selected_folder', function (datas) {
             $('button[data-conteneur="create_folder"]').show();
             $('button[data-conteneur="config_file"]').show();
         }
+        $('#check_all_file_checkbox').click(function(){
+            $('.file_checkbox').each(function(){
+                if($('#check_all_file_checkbox').is(':checked')){
+                     $(this).prop("checked", true);
+                     $('.files-actions').show();
+                }else{
+                     $(this).prop("checked", false);
+                      $('.files-actions').hide();
+                }
+            })
+        })
+        $("#filesManager table tbody").delegate("tr", 'click', function(){
+            var selector = $(this).find('.file_checkbox');
+            var selected = $("input.file_checkbox:checked");
+            if(selector.is(':checked')){
+                 $('.files-actions').show();
+            }else if(selected.length < 1){
+                 $('.files-actions').hide();
+            }
+        });
         //console.log(folder);
         //affichage des permissions
         if (datas.files.allowedUsers) {

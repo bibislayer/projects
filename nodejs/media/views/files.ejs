@@ -299,28 +299,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
                 html : true
             });
         });
-        /*** TABLE FILES SECTION ***/
-        $("#filesManager table tbody").delegate("tr:not('input')", 'click', function(){
-            var selector = $(this).find('.file_checkbox');
-            var selected = $("input.file_checkbox:checked");
-            if(selector.is(':checked')){
-                 $('.files-actions').show();
-            }else if(selected.length < 1){
-                 $('.files-actions').hide();
-            }
-        });
-
-        $('#check_all_file_checkbox').click(function(){
-            $('.file_checkbox').each(function(){
-                if($('#check_all_file_checkbox').is(':checked')){
-                     $(this).prop("checked", true);
-                     $('.files-actions').show();
-                }else{
-                     $(this).prop("checked", false);
-                      $('.files-actions').hide();
-                }
-            })
-        })
+        
         //removed one or many files
         $(".panel").delegate("#remove", 'click', function(){
             console.log('removed');
