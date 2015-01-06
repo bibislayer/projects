@@ -103,6 +103,12 @@ socket.on('selected_folder', function (datas) {
             });
         }
     } else {
+        //affichage des donnees
+        if (datas.files.child) {
+            files = datas.files.child;
+            generateList(datas.files.child, datas.user);
+        }
+        
         if (datas.shared == true) {
             $('button[data-conteneur="show_sharing"]').show();
             $('button[data-conteneur="create_folder"]').hide();
@@ -112,17 +118,13 @@ socket.on('selected_folder', function (datas) {
                 $('#filesManager table tr th').last().hide();
             }
             $('#filesManager table tr').each(function () {
-                $('#filesManager td.no-owner').html('');
+                $(this).find('td.no-owner').first().html('');
+                $(this).find('#remove').first().remove();
             });
         } else {
             $('button[data-conteneur="show_sharing"]').hide();
             $('button[data-conteneur="create_folder"]').show();
             $('button[data-conteneur="config_file"]').show();
-        }
-        //affichage des donnees
-        if (datas.files.child) {
-            files = datas.files.child;
-            generateList(datas.files.child, datas.user);
         }
         //console.log(folder);
         //affichage des permissions
@@ -169,7 +171,7 @@ function generatePrevu(files, user) {
 }
 function generateList(files, user) {
     var cls = "";
-    console.log(files);
+    //console.log(files);
     $('#filesManager').html('<table class="table table-hover"><thead>\
         <tr><th style="text-align:center;"><input id="check_all_file_checkbox" type="checkbox"/></th>\
             <th>Prévu</th><th>Name</th><th>Type</th><th>Poid</th><th>Actions</th></tr></thead>\
