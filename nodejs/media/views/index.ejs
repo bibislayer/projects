@@ -123,7 +123,7 @@
     });
     socket.on('domaine_saved', function (data) {
         $("input[name=name]").val('');
-        $('#listSondage').append('<a href="#" class="list-group-item">\
+        $('#listSondage').append('<a href="javascript:void(0)" class="list-group-item">\
             <span data-id="'+data._id+'" data-tooltip="tooltip" title="+1" class="pull-right glyphicon glyphicon-thumbs-up">&nbsp;</span>&nbsp;\
             '+ data.text +'\
         </a>');
@@ -134,7 +134,7 @@
         $('span[data-id=' + data.id + ']').addClass('badge-' + statusArr[data.status]);
     });
     socket.on('domaine_checked', function (data) {
-        $('#domaine_checked .listSondage').append('<a href="#" class="list-group-item list-group-item-success">\
+        $('#domaine_checked .listSondage').append('<a href="javascript:void(0)" class="list-group-item list-group-item-success">\
                         '+ data +'\
                     </a>');
         if($('#domaine_checked a').length > 0){

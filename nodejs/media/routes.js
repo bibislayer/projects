@@ -40,13 +40,13 @@ module.exports = function (app) {
             });
         }
     });
-    
+
     app.io.route('check_domaine', function (req) {
         if (req.session.user) {
-            var ext = [".org", ".net", ".com", ".fr", ".media"]; 
+            var ext = [".org", ".net", ".com", ".fr", ".media"];
             for (var i = 0; i < ext.length; i++) {
                 checkAvailable(req.data + ext[i], req);
-            } 
+            }
         }
     });
     app.io.route('save_domaine', function (req) {
@@ -56,7 +56,7 @@ module.exports = function (app) {
                 text: req.data,
                 type: 'Nom du site'
             });
-            sondage.save(function(err, data){
+            sondage.save(function (err, data) {
                 req.io.emit('domaine_saved', data);
             });
         }
@@ -64,8 +64,8 @@ module.exports = function (app) {
 
     function checkAvailable(name, req) {
         dns.resolve4(name, function (err, addresses) {
-            if (err){
-                req.io.emit('domaine_checked', name);   
+            if (err) {
+                req.io.emit('domaine_checked', name);
             }
         });
     }
@@ -172,71 +172,33 @@ module.exports = function (app) {
                     pass: "@nicktalope78@"
                 }
             });
-            if (!user) {
-                var current_date = (new Date()).valueOf().toString();
-                var random = Math.random().toString();
-                var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
-                console.log(hash);
-                var invitedUser = new User();
-                invitedUser.email = email;
-                invitedUser.hash = hash;
-                invitedUser.save();
-                emailTemplates(templatesDir, function (err, template) {
-                    // Render a single email with one template
-                    var locals = {
-                        link: 'https://files.dev-monkey.org/register/' + invitedUser.email + '/' + invitedUser.hash,
-                        linkPartage: 'https://files.dev-monkey.org/u/' + req.session.user.username
-                    };
-                    console.log(locals);
-                    template('invitation-email', locals, function (err, html, text) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            transport.sendMail({
-                                from: req.session.user.username + ' sur files.dev-monkey.org <bot-no-reponse@dev-monkey.org>',
-                                to: invitedUser.email,
-                                subject: 'Invitation pour files.dev-monkey.org',
-                                html: html,
-                                text: text
-                            }, function (err, info) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    req.io.emit('user_invited', email);
-                                    console.log(info.response);
-                                }
-                            });
-                        }
-                    });
+
+            emailTemplates(templatesDir, function (err, template) {
+                // Render a single email with one template
+                var locals = {
+                    linkPartage: 'https://files.dev-monkey.org/u/' + req.session.user.username
+                };
+                template('share-email', locals, function (err, html, text) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        transport.sendMail({
+                            from: req.session.user.username + ' sur files.dev-monkey.org <bot-no-reponse@dev-monkey.org>',
+                            to: user.email,
+                            subject: 'Partage sur files.dev-monkey.org',
+                            html: html,
+                            text: text
+                        }, function (err, info) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                req.io.emit('user_invited', email);
+                                console.log(info.response);
+                            }
+                        });
+                    }
                 });
-            } else {
-                emailTemplates(templatesDir, function (err, template) {
-                    // Render a single email with one template
-                    var locals = {
-                        linkPartage: 'https://files.dev-monkey.org/u/' + req.session.user.username
-                    };
-                    template('share-email', locals, function (err, html, text) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            transport.sendMail({
-                                from: req.session.user.username + ' sur files.dev-monkey.org <bot-no-reponse@dev-monkey.org>',
-                                to: user.email,
-                                subject: 'Partage sur files.dev-monkey.org',
-                                html: html,
-                                text: text
-                            }, function (err, info) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    req.io.emit('user_invited', email);
-                                    console.log(info.response);
-                                }
-                            });
-                        }
-                    });
-                });
-            }
+            });
         });
     });
     app.io.route('new_user', function (req) {
@@ -468,7 +430,7 @@ module.exports = function (app) {
     app.get('/', ensureAuthenticated, function (req, res) {
         Bug.find({user: req.user._id}, function (err, bugs) {
             Sondage.find({}, function (err, sondages) {
-            //console.log(bugs);
+                //console.log(bugs);
                 res.render('index', {
                     title: 'Accueil',
                     h1: 'Tableau de bord',
@@ -654,6 +616,50 @@ module.exports = function (app) {
                         file.access = access;
                         file.allowedEmails = allowedUsers;
                         file.save();
+                    } else {
+                        var transport = nodemailer.createTransport({
+                            service: "Gmail",
+                            auth: {
+                                user: "adthev@gmail.com",
+                                pass: "@nicktalope78@"
+                            }
+                        });
+                        var current_date = (new Date()).valueOf().toString();
+                        var random = Math.random().toString();
+                        var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
+                        console.log(hash);
+                        var invitedUser = new User();
+                        invitedUser.email = email;
+                        invitedUser.hash = hash;
+                        invitedUser.save();
+                        emailTemplates(templatesDir, function (err, template) {
+                            // Render a single email with one template
+                            var locals = {
+                                link: 'https://files.dev-monkey.org/register/' + invitedUser.email + '/' + invitedUser.hash,
+                                linkPartage: 'https://files.dev-monkey.org/u/' + req.session.user.username
+                            };
+                            console.log(locals);
+                            template('invitation-email', locals, function (err, html, text) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    transport.sendMail({
+                                        from: req.session.user.username + ' sur files.dev-monkey.org <bot-no-reponse@dev-monkey.org>',
+                                        to: invitedUser.email,
+                                        subject: 'Invitation pour files.dev-monkey.org',
+                                        html: html,
+                                        text: text
+                                    }, function (err, info) {
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            req.io.emit('user_invited', email);
+                                            console.log(info.response);
+                                        }
+                                    });
+                                }
+                            });
+                        });
                     }
                 });
             }
