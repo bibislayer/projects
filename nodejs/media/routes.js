@@ -184,7 +184,7 @@ module.exports = function (app) {
                     } else {
                         transport.sendMail({
                             from: req.session.user.username + ' sur files.dev-monkey.org <bot-no-reponse@dev-monkey.org>',
-                            to: user.email,
+                            to: email,
                             subject: 'Partage sur files.dev-monkey.org',
                             html: html,
                             text: text
