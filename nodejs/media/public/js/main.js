@@ -17,16 +17,18 @@ $(function () {
     // Initialize the jQuery File Upload widget:
     $('#fileupload').fileupload({
         progress: function (e, data) {
+            console.log(data);
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('.ui-progressbar-value.ui-widget-header.ui-corner-left').addClass('progress-bar progress-bar-striped active');
-            $('.ui-progressbar-value.ui-widget-header.ui-corner-left').removeClass('ui-progressbar-value ui-widget-header ui-corner-left');
-             $('.progress .progress-bar').css('display','block');
-            $('.progress .progress-bar').css(
+            $(data.context[0]).find('.start').remove();
+            $(data.context[0]).find('.ui-progressbar-value.ui-widget-header.ui-corner-left').addClass('progress-bar progress-bar-striped active');
+            $(data.context[0]).find('.ui-progressbar-value.ui-widget-header.ui-corner-left').removeClass('ui-progressbar-value ui-widget-header ui-corner-left');
+            $(data.context[0]).find('.progress .progress-bar').css('display','block');
+            $(data.context[0]).find('.progress .progress-bar').css(
                 'width',
                 progress + '%'
             );
         }
-    })
+    });
 
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(

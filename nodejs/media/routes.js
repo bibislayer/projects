@@ -27,7 +27,7 @@ module.exports = function (app) {
                             Files.findOne({_id: fld.parent_id}, function (err, fd) {
                                 fd.child.pull(fld._id);
                                 fd.save();
-                            })
+                            });
                             req.io.emit('file_removed', fld._id);
                             if (fld.type == "Directory") {
                                 deleteFolderRecursive(__dirname + fld.path + fld.name);
@@ -144,22 +144,20 @@ module.exports = function (app) {
                             console.log(file.allowedUsers);
                             for (var i = 0; i < file.allowedUsers.length; i++) {
                                 if (file.allowedUsers[i].email != req.data.email) {
-                                    console.log(file.allowedUsers[i].email + " " + req.data.email);
                                     allowedUsers.push(file.allowedUsers[i]);
                                 }
                             }
-                            console.log(allowedUsers);
                             file.allowedUsers = allowedUsers;
                             file.save();
+                            req.io.emit('alert', {type: 'success', text: 'Permission retirée'});
+                        } else {
+                            req.io.emit('alert', {type: 'warning', text: "Une erreur c'est produite"});
                         }
                     });
         }
     });
     app.io.route('progress_bar', function (req) {
-        console.log(req.session.progress_bar);
         connections[req.session.user._id].emit('progress_bar', req.session.progress_bar);
-        //req.io.respond({'progress_bar': req.session.progress_bar});
-        //req.io.broadcast('progress_bar', req.session.progress_bar);
     });
     app.io.route('send_invitation', function (req) {
         var email = req.data;
@@ -180,7 +178,7 @@ module.exports = function (app) {
                 };
                 template('share-email', locals, function (err, html, text) {
                     if (err) {
-                        console.log(err);
+                        req.io.emit('alert', {type: 'warning', text: "Une erreur c'est produite ( " + err + " )"});
                     } else {
                         transport.sendMail({
                             from: req.session.user.username + ' sur files.dev-monkey.org <bot-no-reponse@dev-monkey.org>',
@@ -190,10 +188,10 @@ module.exports = function (app) {
                             text: text
                         }, function (err, info) {
                             if (err) {
-                                console.log(err);
+                                req.io.emit('alert', {type: 'warning', text: "Une erreur c'est produite ( " + err + " )"});
                             } else {
                                 req.io.emit('user_invited', email);
-                                console.log(info.response);
+                                req.io.emit('alert', {type: 'success', text: "Permission ajouté pour " + email});
                             }
                         });
                     }
@@ -202,7 +200,6 @@ module.exports = function (app) {
         });
     });
     app.io.route('new_user', function (req) {
-        console.log('new user');
         User.findOne({_id: req.data}, function (err, user) {
             if (user) {
                 connections[req.data] = req.io;
@@ -227,11 +224,15 @@ module.exports = function (app) {
                 status = 2;
             }
             Bug.findOne({_id: req.data.id}, function (err, bug) {
-                var oldStatus = bug.status;
-                bug.status = status;
-                bug.save(function (err, bugS) {
-                    req.io.broadcast('status_changed', {id: bugS._id, status: bugS.status, oldStatus: oldStatus});
-                });
+                if (err) {
+                    req.io.emit('alert', {type: 'warning', text: "Une erreur c'est produite ( " + err + " )"});
+                } else {
+                    var oldStatus = bug.status;
+                    bug.status = status;
+                    bug.save(function (err, bugS) {
+                        req.io.broadcast('status_changed', {id: bugS._id, status: bugS.status, oldStatus: oldStatus});
+                    });
+                }
             });
         }
     });
@@ -250,7 +251,7 @@ module.exports = function (app) {
                     shared = false;
                 }
             });
-            Files.findOne({_id: req.data})
+            Files.findOne({_id: req.data}, null, {sort: {name: -1}})
                     .populate('child')
                     .populate('allowedUsers')
                     .exec(function (err, file) {
@@ -458,7 +459,7 @@ module.exports = function (app) {
             if (typeof files == 'object') {
                 var file = files['files[]'];
                 if (typeof file == 'object') {
-                    Files.findOne({name: file.name}, function (err, exist) {
+                    Files.findOne({user: req.user, name: file.name}, function (err, exist) {
                         if (!exist) {
                             Files.findOne({_id: req.user.selected_folder}, function (err, fl) {
                                 if (fl) {
@@ -626,10 +627,9 @@ module.exports = function (app) {
                                 link: 'https://files.dev-monkey.org/register/' + user.email + '/' + user.hash,
                                 linkPartage: 'https://files.dev-monkey.org/u/' + req.session.user.username
                             };
-                            console.log(locals);
                             template('invitation-email', locals, function (err, html, text) {
                                 if (err) {
-                                    console.log(err);
+                                   connections[req.session.user._id].emit('alert', {type: 'warning', text: "Une erreur c'est produite ( " + err + " )"});
                                 } else {
                                     transport.sendMail({
                                         from: req.session.user.username + ' sur files.dev-monkey.org <bot-no-reponse@dev-monkey.org>',
@@ -642,12 +642,14 @@ module.exports = function (app) {
                                             console.log(err);
                                         } else {
                                             connections[req.session.user._id].emit('user_invited', email);
-                                            console.log(info.response);
+                                            connections[req.session.user._id].emit('alert', {type: 'success', text: "Permission ajoutée à "+email+", cette utilisateur n'est pas encore membre, nous lui avons envoyé un mail."});
                                         }
                                     });
                                 }
                             });
                         });
+                    }else{
+                        connections[req.session.user._id].emit('alert', {type: 'success', text: "Permission ajoutée à "+email});
                     }
                     var allowedUsers = new Array();
                     if (file.allowedUsers) {
@@ -701,8 +703,8 @@ module.exports = function (app) {
 
     app.get('/profile', ensureAuthenticated, function (req, res) {
         res.render('profile.ejs', {
-            title: 'Profile', 
-            user: req.user, 
+            title: 'Profile',
+            user: req.user,
             message: {type: 'warning', text: req.flash('error')}
         });
     });
