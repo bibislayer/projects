@@ -417,7 +417,7 @@
                         socket.on('file_saved', function (datas) {
                             console.log('file saved');
                             //console.log(datas.folder_id);
-                            generateMenu(datas.user_files, datas.shared_files);
+                            //generateMenu(datas.user_files, datas.shared_files);
                             $('tr.template-download').hide();
                             $('button[data-toggle=popover]').removeClass('active');
                             $('button[data-toggle=popover]').popover('hide');
