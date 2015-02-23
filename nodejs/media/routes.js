@@ -100,9 +100,14 @@ module.exports = function (app) {
                     console.log('move file');
                     if (fld) {
                         Files.findOne({_id: fld.parent_id}, function (err, fd) {
-                            fd.child.pull(fld._id);
-                            fd.save();
-                        })
+                            if(fd){
+                                fd.child.pull(fld._id);
+                                fd.save(function(err, fd){
+                                    if(err)
+                                        console.log(err);
+                                });
+                            }
+                        });
                         console.log('child pull');
                         Files.findOne({_id: req.data.folder}, function (err, fold) {
                             if (fold) {
@@ -117,7 +122,7 @@ module.exports = function (app) {
                                 fold.child.push(fld);
                                 fold.save();
                                 Files.find({user: req.session.user._id}, function (err, user_files) {
-                                    Files.find({sharedUser: req.session.user._id}, function (err, shared_files) {
+                                    Files.find({allowedUser: {"$in": [req.session.user._id]}}, function (err, shared_files) {
                                         req.io.emit('file_saved', {shared_files: shared_files, user_files: user_files, folder_id: fld._id});
                                     });
                                 });
@@ -287,7 +292,7 @@ module.exports = function (app) {
                                         time: 0,
                                         path: req.session.folder_path + '/' + req.data.folder_name + '/',
                                         permissions: [],
-                                        allowedUsers: []
+                                        allowedUsers: file.allowedUsers
                                     });
                                     file.child.push(files);
                                     file.save();
@@ -445,7 +450,7 @@ module.exports = function (app) {
     });
 
     app.post('/uploads', ensureAuthenticated, function (req, res, next) {
-        console.log('file on saving');
+        //console.log('file on saving');
 
         var form = new formidable.IncomingForm();
         //Formidable uploads to operating systems tmp dir by default
@@ -455,7 +460,7 @@ module.exports = function (app) {
         form.parse(req, function (err, fields, files) {
             //save bdd
             var ext, saveId;
-            console.log('parsed');
+            //console.log('parsed');
             if (typeof files == 'object') {
                 var file = files['files[]'];
                 if (typeof file == 'object') {
@@ -467,11 +472,13 @@ module.exports = function (app) {
                                     var length = file.name.length;
                                     var noExt = file.name.substring(0, length - 4);
                                     ext = file.name.substring(length - 3, length);
-                                    if (ext == 'png' || ext == 'jpg' || ext == 'gif') {
+                                    if (ext == 'png' || ext == 'jpg' || ext == 'gif' ||
+                                        ext == 'PNG' || ext == 'JPG' || ext == 'GIF') {
                                         type = 'Image';
-                                    } else if (ext == 'flv' || ext == 'avi' || ext == 'mkv') {
+                                    } else if (ext == 'flv' || ext == 'avi' || ext == 'mkv' ||
+                                               ext == 'FLV' || ext == 'AVI' || ext == 'MKV') {
                                         type = 'Vidéo';
-                                    } else if (ext == 'zip') {
+                                    } else if (ext == 'zip' || ext == 'ZIP') {
                                         type = 'zip';
                                     }
                                     var files = new Files({
