@@ -421,9 +421,8 @@
                             $('tr.template-download').hide();
                             $('button[data-toggle=popover]').removeClass('active');
                             $('button[data-toggle=popover]').popover('hide');
-                            var stop = false;
-                            var stop = false;
-                            $($('#folder-selection li i.fa-caret-down').get()).each(function () {
+                            $('li[data-id='+datas.folder_id+']').trigger("click");
+                            /*$($('#folder-selection li i.fa-caret-down').get()).each(function () {
                                 if (!stop) {
                                     $(this).parents('li:first').trigger("click");
                                     //console.log($(this).next('span').attr('data-id'));
@@ -431,7 +430,7 @@
                                 if ($(this).parents('li:first').attr('data-id') == datas.folder_id) {
                                     stop = true;
                                 }
-                            });
+                            });*/
                         });
 
                     });
