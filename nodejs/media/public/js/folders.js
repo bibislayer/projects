@@ -321,7 +321,7 @@ function showPrevu(that) {
         $('#' + $(that).attr('data-conteneur') + ' .popover-content').html('<center>Format not found</center>');
     }
     //show the menu directly over the placeholder
-    console.log($('#prevu_file .popover').width());
+    //console.log($('#prevu_file .popover').width());
     var left = (screen.width/2)-($('#prevu_file .popover').width()/2);
     var top = (screen.height/2)-($('#prevu_file .popover').height()+40/2);
     $('#' + $(that).attr('data-conteneur') + ' .popover').css({

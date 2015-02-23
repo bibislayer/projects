@@ -150,7 +150,7 @@ app.locals.fromNow = function(date) {
   return moment(date).fromNow();
 }
 // Connect mongoose
-mongoose.connect("mongodb://localhost/media", options);
+mongoose.connect("mongodb://localhost/media");
 //mongoose.connect('mongodb://localhost/media', options);
 // configure Express
 app.configure(function () {

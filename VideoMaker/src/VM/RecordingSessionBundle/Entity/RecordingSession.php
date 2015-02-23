@@ -401,4 +401,32 @@ class RecordingSession
     {
         return $this->RecordingSessionUser;
     }
+    /**
+     * @var string
+     */
+    private $success;
+
+
+    /**
+     * Set success
+     *
+     * @param string $success
+     * @return RecordingSession
+     */
+    public function setSuccess($success)
+    {
+        $this->success = $success;
+    
+        return $this;
+    }
+
+    /**
+     * Get success
+     *
+     * @return string 
+     */
+    public function getSuccess()
+    {
+        return $this->success;
+    }
 }
