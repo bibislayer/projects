@@ -16,8 +16,6 @@ $(function () {
     // Initialize the jQuery File Upload widget:
     $('#fileupload').fileupload({
         progress: function (e, data) {
-            nbItem--;
-            console.log(nbItem);
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $(data.context[0]).find('.start').remove();
             $(data.context[0]).find('.ui-progressbar-value.ui-widget-header.ui-corner-left').addClass('progress-bar progress-bar-striped active');
@@ -34,6 +32,7 @@ $(function () {
                 $('#folder-selection li.active').trigger('click');
                 $('#folder-selection li.active').trigger('click');
             }
+            nbItem--;
         }
     });
     $('#fileupload')
