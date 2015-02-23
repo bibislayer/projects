@@ -873,9 +873,11 @@ module.exports = function (app) {
         User.findOne({username: req.params.username}, function (err, user) {
             if (user) {
                 Files.findOne({name: req.params.folder}, function (err, file) {
-                    if(req.body.password == file.password){
-                        req.session.user = {name:'temp'};
-                        req.session.access = file.access;
+                    if(file){
+                        if(req.body.password == file.password){
+                            req.session.user = {name:'temp'};
+                            req.session.access = file.access;
+                        }
                     }
                     res.redirect('/u/'+req.params.username+'/'+req.params.folder);
                 });
