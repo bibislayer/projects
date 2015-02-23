@@ -26,14 +26,14 @@ $(function () {
                 progress + '%'
             );
             if(progress >= 100){
+                nbItem--;
                 $(data.context[0]).remove();
             }
             console.log(nbItem);
             if(nbItem <= 0){
                 $('#folder-selection li.active').trigger('click');
                 $('#folder-selection li.active').trigger('click');
-            }
-            nbItem--;
+            } 
         }
     });
     $('#fileupload')
