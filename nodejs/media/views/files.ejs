@@ -87,6 +87,7 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
                             </span>
                             <input type="file" name="files[]" multiple=""></span>
                             <button type="submit" class="start ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button"><span class="ui-button-icon-primary ui-icon ui-icon-circle-arrow-e"></span><span class="ui-button-text">Charger les fichiers</span></button>
+                            <span class="infoText" style="display:none;">Transfert de fichier en cours <strong id="nbRest">6</strong> / <strong id="nbMax">20</strong></span>
                             <!-- The global file processing state -->
                             <span class="fileupload-process"></span>
                         </div>
