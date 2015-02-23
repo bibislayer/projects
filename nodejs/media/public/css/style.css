@@ -232,3 +232,6 @@ li{
 .badge-danger:hover, .badge-danger.active{
     background-color: #d9534f;
 }
+#prevu_file .popover{
+    position: fixed;
+}
