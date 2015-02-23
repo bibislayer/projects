@@ -70,6 +70,11 @@ socket.on('alert', function (datas) {
         $('#socket_alert').slideToggle('slow');
     }, 3000);
 })
+socket.on('file_status_changed', function (datas) {
+    $('#passwordInfo #folderLink').html('http://files.dev-monkey.org/u/'+user.username+'/'+datas.name);
+    $('#passwordInfo #folderPass').html(datas.password);
+});
+
 socket.on('selected_folder', function (datas) {
     $('#filesManager table tbody').html('');
     $('.inputs_emails').html('');

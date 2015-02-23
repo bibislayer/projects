@@ -256,11 +256,15 @@ module.exports = function (app) {
                 if (err) {
                     req.io.emit('alert', {type: 'warning', text: "Une erreur c'est produite ( " + err + " )"});
                 } else {
-                    file.password = makeid();
-                    file.access = req.data;
-                    file.save(function (err, bugS) {
-                        req.io.emit('alert', {type: 'success', text: "Status changé"});
-                    });
+                    if(file){
+                        password = makeid();
+                        file.password = password;
+                        file.access = req.data;
+                        file.save(function (err, new_file) {
+                            req.io.emit('file_status_changed', {password: password, name: file.name});
+                            req.io.emit('alert', {type: 'success', text: "Status changé"});
+                        });
+                    }
                 }
             });
         }
