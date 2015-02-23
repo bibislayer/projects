@@ -262,6 +262,7 @@ function generateMenu(files, sharedFiles) {
             $('#folderSelect').append('<option value="' + files[i]._id + '">' + files[i].name + '</option>');
         }
     }
+    var username = "";
     $('#folder-selection').append('<li class="divider"><span></span></li>');
     $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-share"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes partages</span></li>');
     for (var i = 0; i < sharedFiles.length; i++) {
@@ -319,11 +320,13 @@ function showPrevu(that) {
     } else {
         $('#' + $(that).attr('data-conteneur') + ' .popover-content').html('<center>Format not found</center>');
     }
-    var offset = $(that).offset();
     //show the menu directly over the placeholder
+    console.log($('#prevu_file .popover').width());
+    var left = (screen.width/2)-($('#prevu_file .popover').width()/2);
+    var top = (screen.height/2)-($('#prevu_file .popover').height()+40/2);
     $('#' + $(that).attr('data-conteneur') + ' .popover').css({
-        top: offset.top - document.body.clientHeight / 5 + "px",
-        left: (offset.left + document.body.clientWidth / 4) + "px"
+        top: top + "px",
+        left: left + "px"
     }).show();
     $(that).trigger('click');
 }
