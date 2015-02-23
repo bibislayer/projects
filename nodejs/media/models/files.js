@@ -16,6 +16,7 @@ var Files = new Schema({
     access: Number,
     permissions: [],
     allowedUsers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    password: String,
     created: {type: Date, default: Date.now},
     updated: {type: Date, default: Date.now}
 }, { collection: 'filescollection' });

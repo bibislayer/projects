@@ -40,14 +40,16 @@
 </div>
 <div id="config_file" style="display: none">
     <form id="formConfig" role="form">
-        <div class="form-group btn-group">
-            <button id="access-on" type="button" class="btn btn-default">
-                Public
-            </button>
-            <button id="access-off" type="button" class="btn btn-default active">
-                Privé
-            </button>
+        <div class="checkbox">
+            <label>
+              <input onclick="change_status()" id="havePass" type="checkbox" name="havePass" value="2"/> Autoriser l'accès avec mot de passe
+            </label>
         </div> 
+        <div id="passwordInfo" class="form-group input-group" style="display:none;">
+            <p>Lien du dossier : </br><strong id="folderLink">asf324</strong></p>
+            <p>Mot de pass du dossier : <strong id="folderPass">asf324</strong></p>
+            <input value="asf324" name="folder_pass" type="hidden">
+        </div>   
         <input type="hidden" value="0" name="access" />
         <input name="folder_id" type="hidden" />
         <div class="form-group input-group">
@@ -62,3 +64,16 @@
         </div>
     </form>
 </div>
+<script>
+    function change_status(){
+        if ($('#havePass').is(':checked')) {
+            $('#havePass').prop("checked", true);
+            socket.emit('file_change_status', 2);
+            $('#passwordInfo').show();
+        } else {
+            $(this).prop("checked", true);
+            socket.emit('file_change_status', 0);
+            $('#passwordInfo').hide();
+        }
+    }
+</script>

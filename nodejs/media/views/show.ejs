@@ -21,6 +21,12 @@ videojs.options.flash.swf = "/js/video-js.swf";
 <script src="/js/folders.js"></script>
 <script>
 var files = <%- JSON.stringify(files) %>;
+<% if(typeof user != 'undefined'){ -%>
+    var user = <%- JSON.stringify(user) %>;
+ <% }else{ -%>
+    var user = '';
+<% } -%>
+socket.emit('new_user', '');
 //console.log(files);
 generateMenu(files);
 function generateMenu(files){
@@ -30,17 +36,21 @@ function generateMenu(files){
         var style = '';
         var access = 0;
         if(files[i].type == "Directory" && files[i].allowedUsers){
-                for(var j=0;j<files[i].allowedUsers.length;j++){
-                    if('<%= user.email %>' == files[i].allowedUsers[j].email){
-                        access = 1;
-                    }
+            for(var j=0;j<files[i].allowedUsers.length;j++){
+                if(user && user.email == files[i].allowedUsers[j].email){
+                    access = 1;
                 }
+            }
         }
+        <% if(typeof allowed != 'undefined' && allowed == 1){ -%>
+            access = 1;
+        <% } -%>
         if(access == 1){
+            console.log(files);
             if(files[i].type == "Directory"){
                 if(files[i].parent_id){
                     parent = 'data-parent-id='+files[i].parent_id+'';
-                    style = 'style=display:none';
+                    //style = 'style=display:none';
                 }
                 var esc = '';
                 for(var j=0;j<files[i].level;j++){

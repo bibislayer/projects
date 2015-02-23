@@ -69,6 +69,15 @@ module.exports = function (app) {
             }
         });
     }
+    function makeid(){
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for( var i=0; i < 8; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    }
 
     app.io.route('report_bug', function (req) {
         if (req.session.user) {
@@ -241,6 +250,21 @@ module.exports = function (app) {
             });
         }
     });
+    app.io.route('file_change_status', function (req) {
+        if (req.session.user) {
+            Files.findOne({_id: req.session.user.selected_folder}, function (err, file) {
+                if (err) {
+                    req.io.emit('alert', {type: 'warning', text: "Une erreur c'est produite ( " + err + " )"});
+                } else {
+                    file.password = makeid();
+                    file.access = req.data;
+                    file.save(function (err, bugS) {
+                        req.io.emit('alert', {type: 'success', text: "Status changé"});
+                    });
+                }
+            });
+        }
+    });
 
     app.io.route('select_folder', function (req) {
         var folder_path = "";
@@ -248,8 +272,10 @@ module.exports = function (app) {
         //user logged in
         if (req.session.user) {
             User.findOne({_id: req.session.user._id}, function (err, user) {
-                user.selected_folder = req.data;
-                user.save();
+                if(user){
+                    user.selected_folder = req.data;
+                    user.save();
+                }
             });
             Files.findOne({user: req.session.user._id, _id: req.data}, function (err, exist) {
                 if (exist) {
@@ -543,6 +569,26 @@ module.exports = function (app) {
             }
         });
     });
+    app.get('/u/:username/:folder', ensureFakeAuthenticated, function (req, res) {
+        User.findOne({username: req.params.username}, function (err, user) {
+            if (user) {
+                Files.find({user: user._id, name: req.params.folder})
+                        .populate('child')
+                        .populate('allowedUsers')
+                        .populate('user')
+                        .exec(function (err, files) {
+                            res.render('show', {
+                                title: 'Images et photos de ' + req.params.username,
+                                page: 'show',
+                                h1: 'Images et photos de <small>' + req.params.username + '</small>',
+                                user: req.user,
+                                files: files,
+                                allowed: 1
+                            });
+                        });
+            }
+        });
+    });
     app.get('/admin', ensureAdminAuthenticated, function (req, res) {
         var user = req.user;
         User.find({}, function (err, users) {
@@ -561,7 +607,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/get_file/:id/:type", ensureAuthenticated, function (req, res) {
+    app.get("/get_file/:id/:type", ensureFakeAuthenticated, function (req, res) {
         Files.findOne({_id: req.params.id}, function (err, file) {
             if (file) {
                 var length = file.name.length;
@@ -811,6 +857,31 @@ module.exports = function (app) {
                 res.redirect('/');
             });
 
+    app.get('/u/:username/:folder/login', function (req, res) {
+        res.render('fake-login', {title: 'login',
+            breadcrumb: 'Mot de passe',
+            user: req.user,
+            message: {type: 'warning', text: req.flash('error')}});
+    });
+    app.post('/u/:username/:folder/login', function (req, res, next) {
+        // issue a remember me cookie if the option was checked
+        req.session.isFakeLogged = 1;
+        User.findOne({username: req.params.username}, function (err, user) {
+            if (user) {
+                Files.findOne({name: req.params.folder}, function (err, file) {
+                    if(req.body.password == file.password){
+                        req.session.user = {name:'temp'};
+                        req.session.access = file.access;
+                    }
+                    res.redirect('/u/'+req.params.username+'/'+req.params.folder);
+                });
+            }
+        });
+    },
+    function (req, res) {
+        res.redirect('/');
+    });
+
 
     app.get('/logout', function (req, res) {
         req.logout();
@@ -824,6 +895,12 @@ module.exports = function (app) {
             return next();
         }
         res.redirect('/login');
+    }
+    function ensureFakeAuthenticated(req, res, next) {
+        if(req.session.access == 2 && req.session.isFakeLogged || req.isAuthenticated()){
+            return next();
+        }
+        res.redirect(req.url+'/login');
     }
     function ensureAdminAuthenticated(req, res, next) {
         if (req.isAuthenticated() && req.user.role == 'admin') {

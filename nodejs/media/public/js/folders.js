@@ -1,5 +1,4 @@
 $('#folder-selection').delegate("li", 'click', function (event) {
-
     $('#folder-selection li').removeClass('active');
     var lvl = $(this).attr('class');
     var length = lvl.length;
@@ -77,6 +76,7 @@ socket.on('selected_folder', function (datas) {
     var params = document.URL.split('/');
     var cls = "";
     if (params[3] == 'u') {
+        console.log('content');
         if (datas.files.child) {
             $('#content-file').html('');
             $.each(datas.files.child, function (k, file) {
@@ -130,6 +130,12 @@ socket.on('selected_folder', function (datas) {
         $('.files-actions').hide();
         //console.log(folder);
         //affichage des permissions
+        if (datas.files.access == 2) {
+            $('#havePass').attr("checked", "checked");
+            $('#passwordInfo #folderLink').html('http://files.dev-monkey.org/u/'+user.username+'/'+datas.files.name);
+            $('#passwordInfo #folderPass').html(datas.files.password);
+            $('#passwordInfo').show();
+        }
         if (datas.files.allowedUsers) {
             $.each(datas.files.allowedUsers, function (k, user) {
                 $('.inputs_emails').append('<div class="form-group input-group"> <input class="alwM' + $('.inputs_emails div').length + ' form-control" type="text" name="emails" value="' + user.email + '" /> <span class="input-group-btn">\

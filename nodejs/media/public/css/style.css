@@ -1,6 +1,6 @@
 @charset "UTF-8";
 form{
-    min-width: 230px;
+    min-width: 280px;
 }
 ul{
     padding: 0;
@@ -214,7 +214,7 @@ li{
 
 #feedback-content{
     position: fixed;
-    right: -262px;
+    right: -312px;
     top: 25%;
     padding-top: 6px;
     z-index: 99;
