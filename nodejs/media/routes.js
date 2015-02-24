@@ -858,7 +858,11 @@ module.exports = function (app) {
                 });
             },
             function (req, res) {
-                res.redirect('/');
+                if(req.session && req.session.url){
+                    res.redirect(req.session.url);
+                }else{
+                    res.redirect('/');
+                }
             });
 
     app.get('/u/:username/:folder/login', function (req, res) {
@@ -896,7 +900,8 @@ module.exports = function (app) {
     app.get('/ping', function (req, res) {
         res.send("pong!", 200);
     });
-    function ensureAuthenticated(req, res, next) {
+    function ensureAuthenticated(req, res, next) { 
+        req.session.url = req.url;
         if (req.isAuthenticated()) {
             return next();
         }
