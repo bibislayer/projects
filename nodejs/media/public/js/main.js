@@ -16,18 +16,18 @@ $(function () {
     // Initialize the jQuery File Upload widget:
     $('#fileupload').fileupload({
         progress: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
+            var progress = parseInt(data.loaded / data.total * 1000, 10);
             $(data.context[0]).find('.start').remove();
             $(data.context[0]).find('.ui-progressbar-value.ui-widget-header.ui-corner-left').addClass('progress-bar progress-bar-striped active');
             $(data.context[0]).find('.ui-progressbar-value.ui-widget-header.ui-corner-left').removeClass('ui-progressbar-value ui-widget-header ui-corner-left');
             $(data.context[0]).find('.progress .progress-bar').css('display','block');
             $(data.context[0]).find('.progress .progress-bar').css(
                 'width',
-                progress + '%'
+                progress/10 + '%'
             );
-            $(data.context[0]).find('.progress .progress-bar').html('<span style="vertical-align:middle;">'+progress + '%</span>');
+            $(data.context[0]).find('.progress .progress-bar').html('<span style="vertical-align:middle;">'+progress/10 + '%</span>');
 
-            if(progress >= 100){
+            if(progress >= 1000){
                 nbItem--;
                 $('#nbRest').html(nbItem);
                 $(data.context[0]).remove();
