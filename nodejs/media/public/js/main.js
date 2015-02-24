@@ -25,6 +25,8 @@ $(function () {
                 'width',
                 progress + '%'
             );
+            $(data.context[0]).find('.progress .progress-bar').html('<span style="vertical-align:middle;">'+progress + '%</span>');
+
             if(progress >= 100){
                 nbItem--;
                 $('#nbRest').html(nbItem);
