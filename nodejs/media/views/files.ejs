@@ -9,6 +9,7 @@
 <script src="/js/video.js"></script>
 <style>
     .progress-bar{line-height:30px;}
+    .fileupload-progress{margin-top:10px;}
 </style>
 <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
 <script>
@@ -97,14 +98,14 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
                         <div class="fileupload-progress fade" style="display:none">
                             <!-- The global progress bar -->
                             <div class="progress ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                                <div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: none; width: 0%;"></div>
+                                <div class="ui-progressbar-value" style="display: none; width: 0%;"></div>
                             </div>
                             <!-- The extended global progress state -->
                             <div class="progress-extended">&nbsp;</div>
                         </div>
                     </div>
                     <!-- The table listing the files available for upload/download -->
-                    <table style="table-layout: fixed;word-wrap: break-word;" role="presentation">
+                    <table class="col-lg-12" style="table-layout: fixed;word-wrap: break-word;" role="presentation">
                         <tbody class="files"></tbody>
                     </table>
                 </form>
@@ -128,29 +129,26 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
     var noExt = file.name.substring(0, length - 4);
     var ext = file.name.substring(length - 3, length);
     %}     
-    {%= ext %}                    
-    {% if (ext == 'avi' || ext == 'mkv') { %}
-    <td style="max-width: 300px;">
-    <p class="name">{%=file.name%}</p>
-    <strong class="error"></strong>
-    </td>
-    {% }else{ %}
+    {%= ext %} 
+    {% if (ext != 'avi' && ext != 'mkv') { %}                
     <td>
     <span class="preview"></span>
     </td>
-    <td>
-    <p class="name">{%=file.name%}</p>
+    {% } %} 
+    <td colspan="3" class="col-lg-9">
+    <p style="margin-top:10px;">
+      <strong style="color:#1c94c4">
+        Nom : <span style="color:#000" class="name">{%=file.name%}</span> | Poid : <span style="color:#000" class="size">Processing...</span>
+      </strong>
+    </p>
     <strong class="error"></strong>
-    </td>
-    {% } %}
-    <td colspan="2" style="width: 66%;">
-    <p class="size">Processing...</p>
     <div class="progress">
     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="200">
     </div>
     </div>
     </td>
-    <td class="text-center" style="width: 33%;">
+    <td class="text-center" class="col-lg-3">
+    <p style="margin: 0">&nbsp;</p>
     {% if (!i && !o.options.autoUpload) { %}
     <button class="start ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button"><span class="ui-button-icon-primary ui-icon ui-icon-circle-arrow-e"></span><span class="ui-button-text">Charger</span></button>
     {% } %}

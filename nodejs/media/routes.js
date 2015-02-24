@@ -908,7 +908,7 @@ module.exports = function (app) {
         res.redirect('/login');
     }
     function ensureFakeAuthenticated(req, res, next) {
-        if(req.session.access == 2 && req.session.isFakeLogged || req.isAuthenticated()){
+        if(req.session.access == 2 && req.session.isFakeLogged || req.isAuthenticated() && req.session.access == 2){
             return next();
         }
         res.redirect(req.url+'/login');

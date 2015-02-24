@@ -34,6 +34,7 @@ $(function () {
             }
             if(nbItem <= 0){
                 $('.infoText').hide();
+                $('.fileupload-progress').hide();
                 $('#loadAllFiles').show();
                 $('#folder-selection li.active').trigger('click');
                 $('#folder-selection li.active').trigger('click');
@@ -48,6 +49,12 @@ $(function () {
         })
         .bind('fileuploadstart', function (e) {
             $('.infoText').show();
+            $('.fileupload-progress.fade').removeClass('fade');
+            $('.fileupload-progress')
+            .find('.ui-progressbar-value.ui-widget-header.ui-corner-left')
+            .removeClass('ui-progressbar-value ui-widget-header ui-corner-left')
+            .addClass('progress-bar progress-bar-striped active');
+            $('.fileupload-progress').show();
         });
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(

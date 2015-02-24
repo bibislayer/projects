@@ -239,3 +239,10 @@ li{
     font-weight: bold;
     color: #1c94c4;
 }
+.ui-widget-header {
+    background: none !important;
+}
+#filesManager table tbody{
+    overflow:auto; 
+    height:250px;
+}
