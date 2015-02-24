@@ -46,9 +46,6 @@ $(function () {
         })
         .bind('fileuploadstart', function (e) {
             $('.infoText').show();
-        })
-        .bind('fileuploadstart', function (e) {
-            $('#loadAllFiles').hide();
         });
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(
