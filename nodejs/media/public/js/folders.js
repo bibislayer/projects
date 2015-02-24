@@ -249,7 +249,7 @@ function generateList(files, user) {
     });
     $('#filesManager').append('</tbody></table>');
     activateCheckbox(); 
-    //$('#filesManager table').fixedHeaderTable({ height: '400', altClass: 'odd' });
+    $('#filesManager table').fixedHeaderTable({ height: $(window).height()/1.22, altClass: 'odd' });
 }
 
 function generateMenu(files, sharedFiles) {

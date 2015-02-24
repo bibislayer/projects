@@ -611,7 +611,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/get_file/:id/:type", ensureFakeAuthenticated, function (req, res) {
+    app.get("/get_file/:id/:type", ensureFileAuthenticated, function (req, res) {
         Files.findOne({_id: req.params.id}, function (err, file) {
             if (file) {
                 var length = file.name.length;
@@ -620,6 +620,7 @@ module.exports = function (app) {
             }
         });
     });
+
     var sort_by = function (field, reverse, primer) {
         var key = primer ?
                 function (x) {
@@ -903,6 +904,13 @@ module.exports = function (app) {
     function ensureAuthenticated(req, res, next) { 
         req.session.url = req.url;
         if (req.isAuthenticated()) {
+            return next();
+        }
+        res.redirect('/login');
+    }
+    function ensureFileAuthenticated(req, res, next) { 
+        req.session.url = req.url;
+        if (req.isAuthenticated() || req.session.access == 2 && req.session.isFakeLogged) {
             return next();
         }
         res.redirect('/login');

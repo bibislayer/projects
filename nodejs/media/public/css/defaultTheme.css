@@ -66,6 +66,7 @@
 	.fht-table-wrapper .fht-tbody {
 		/* appearance */
 	    overflow: auto;
+	    overflow-x: hidden; 
 		}
 
 		.fht-table-wrapper .fht-table .fht-cell {
