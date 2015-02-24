@@ -32,6 +32,7 @@ $(function () {
             }
             if(nbItem <= 0){
                 $('.infoText').hide();
+                $('#loadAllFiles').show();
                 $('#folder-selection li.active').trigger('click');
                 $('#folder-selection li.active').trigger('click');
             } 
@@ -45,6 +46,9 @@ $(function () {
         })
         .bind('fileuploadstart', function (e) {
             $('.infoText').show();
+        })
+        .bind('fileuploadstart', function (e) {
+            $('#loadAllFiles').hide();
         });
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(
