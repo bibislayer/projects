@@ -5,29 +5,28 @@
 <link rel="stylesheet" href="/css/jquery.fileupload.css">
 <link rel="stylesheet" href="/css/jquery.fileupload-ui.css">
 <link rel="stylesheet" href="/css/jquery-ui.css">
+<link rel="stylesheet" href="/css/defaultTheme.css">
 <!-- video.js must be in the <head> for older IEs to work. -->
 <script src="/js/video.js"></script>
 <style>
-    .progress-bar{line-height:30px;}
-    .fileupload-progress{margin-top:10px;}
+.progress-bar{line-height:30px;}
+.fileupload-progress{margin-top:10px;}
 </style>
 <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
 <script>
 videojs.options.flash.swf = "/js/video-js.swf";
+var files = <%- JSON.stringify(files) %>;
+var user = <%- JSON.stringify(user) %>;
+var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
 </script>
 <!-- Generic page styles -->
 <link rel="stylesheet" href="/css/style.css">
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="/css/jquery.fileupload.css">
-<script>
-var files = <%- JSON.stringify(files) %>;
-var user = <%- JSON.stringify(user) %>;
-var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
-</script>
 <div class="row">
     <div class="col-lg-12 panel panel-default">
         <div class="panel-body my-panel">
-            <div class="btn-group">
+            <div class="btn-group pull-left">
                 <button style="display:none;" data-tooltip="tooltip" title="" data-conteneur="show_sharing" type="button" class="btn btn-default" data-original-title="Afficher la vue de <strong>ad</strong>" style="display: block;">
                     <span class="glyphicon glyphicon-eye-open"></span>
                 </button>
@@ -46,7 +45,7 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
                     <span class="glyphicon glyphicon-list"></span>
                 </button>
             </div> 
-            <div class="btn-group files-actions" style="display:none">
+            <div class="btn-group pull-left files-actions" style="display:none">
                 <button data-tooltip="tooltip" title="Editer la sélection" id="edit" type="button" class="btn btn-default">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </button>
@@ -57,7 +56,7 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
                     <span class="glyphicon glyphicon-share-alt"></span>
                 </button>
             </div> 
-            <div class="btn-group files-actions" style="display:none">
+            <div class="btn-group pull-left files-actions" style="display:none">
                 <button type="button" role="button" data-toggle="dropdown" class="btn btn-default">
                     <span class="glyphicon glyphicon-cog"></span>
                 </button>
@@ -76,41 +75,40 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
                         <a role="menuitem" id="config" tabindex="-1">Configurer la partage</a>
                     </li>
                 </div>
-            </div>
-            <hr/>
-            <div id="add_file">
-                <form id="fileupload" action="" method="POST" enctype="multipart/form-data">
-                    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                    <div class="fileupload-buttonbar">
-                        <div class="fileupload-buttons">
-                            <!-- The fileinput-button span is used to style the file input field as button -->
-                            <span class="fileinput-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button"><span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
-                            <span class="ui-button-text">
-                                <span>Ajouter un fichier</span>
-                            </span>
-                            <input type="file" name="files[]" multiple=""></span>
-                            <button type="submit" id="loadAllFiles" class="start ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button"><span class="ui-button-icon-primary ui-icon ui-icon-circle-arrow-e"></span><span class="ui-button-text">Charger les fichiers</span></button>
-                            <span class="infoText" style="display:none;">Transfert de fichier en cours <strong id="nbRest">6</strong> / <strong id="nbMax">20</strong></span>
-                            <!-- The global file processing state -->
-                            <span class="fileupload-process"></span>
-                        </div>
-                        <!-- The global progress state -->
-                        <div class="fileupload-progress fade" style="display:none">
-                            <!-- The global progress bar -->
-                            <div class="progress ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                                <div class="ui-progressbar-value" style="display: none; width: 0%;"></div>
+                <div id="add_file" style="float:left;width:180px;">
+                    <form id="fileupload" action="" method="POST" enctype="multipart/form-data">
+                        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                        <div class="fileupload-buttonbar">
+                            <div class="fileupload-buttons">
+                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                <span class="fileinput-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button"><span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
+                                <span class="ui-button-text">
+                                    <span>Ajouter un fichier</span>
+                                </span>
+                                <input type="file" name="files[]" multiple=""></span>
+                                <!-- The global file processing state -->
+                                <span class="fileupload-process"></span>
                             </div>
-                            <!-- The extended global progress state -->
-                            <div class="progress-extended">&nbsp;</div>
+                            <!-- The global progress state -->
+                            <div class="fileupload-progress fade" style="display:none;width:287%;">
+                                <span class="infoText" style="display:none;">Transfert de fichier en cours <strong id="nbRest">6</strong> / <strong id="nbMax">20</strong></span>
+                                <!-- The global progress bar -->
+                                <div class="progress ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                    <div class="ui-progressbar-value" style="display: none; width: 0%;"></div>
+                                </div>
+                                <!-- The extended global progress state -->
+                                <div class="progress-extended">&nbsp;</div>
+                            </div>
+                            <!-- The table listing the files available for upload/download -->
+                            <table class="col-lg-12" style="table-layout: fixed;word-wrap: break-word;width:287%;" role="presentation">
+                                <tbody class="files"></tbody>
+                            </table>
                         </div>
-                    </div>
-                    <!-- The table listing the files available for upload/download -->
-                    <table class="col-lg-12" style="table-layout: fixed;word-wrap: break-word;" role="presentation">
-                        <tbody class="files"></tbody>
-                    </table>
-                </form>
+                    </form>
+                </div>
             </div>
             <br>
+            
             <div id="filesManager">
             </div>
         </div>
@@ -137,9 +135,9 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
     {% } %} 
     <td colspan="3" class="col-lg-9">
     <p style="margin-top:10px;">
-      <strong style="color:#1c94c4">
-        Nom : <span style="color:#000" class="name">{%=file.name%}</span> | Poid : <span style="color:#000" class="size">Processing...</span>
-      </strong>
+    <strong style="color:#1c94c4">
+    Nom : <span style="color:#000" class="name">{%=file.name%}</span> | Poid : <span style="color:#000" class="size">Processing...</span>
+    </strong>
     </p>
     <strong class="error"></strong>
     <div class="progress">
@@ -202,10 +200,6 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
     {% } %}
     </script>
     <script src="/js/delivery.js"></script>
-    <script src="js/vendor/jquery.ui.widget.js"></script>
-    <script src="/js/jquery-1.11.1.min.js"></script>
-    <script src="/js/jquery-ui-1.11.1.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <!-- The Templates plugin is included to render the upload/download listings -->
     <script src="/js/tmpl.min.js"></script>
     <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
@@ -234,7 +228,6 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
     <script src="/js/jquery.fileupload-jquery-ui.js"></script>
     <script src="/js/main.js"></script>
 
-
     <script src="/socket.io/socket.io.js"></script>
     <script>
     var socket = io.connect();
@@ -246,10 +239,9 @@ socket.emit('new_user', '<%= user._id %>');
 var folder;
 //console.log(sharedFiles);
 generateMenu(files, sharedFiles);
-
 $(function () {
     'use strict';
-    var $table = $('table'),
+    /*var $table = $('table'),
     $bodyCells = $table.find('tbody tr:first').children(),
     colWidth;
 
@@ -261,35 +253,37 @@ $(function () {
     // Set the width of thead columns
     $table.find('thead tr').children().each(function (i, v) {
         $(v).width(colWidth[i]);
-    });
-    /*** PANEL SECTION ***/
-    $(".my-panel").delegate("#send_folder", 'click', function (evt) {
-        var parent_id = $("input[name=parent_id]").val();
-        var folder_name = $("input[name=folder_name]").val();
-        socket.emit('new_folder', {folder_name: folder_name, parent_id: parent_id});
-        evt.preventDefault();
-    });
+    });*/
 
-    $('button[data-toggle=popover]').click(function () {
-        if (!$(this).hasClass('active')) {
-            $('button[data-toggle=popover]').removeClass('active');
-            $('button[data-toggle=popover]').popover('hide');
-            $(this).addClass('active');
-        } else {
-            $('button[data-toggle=popover]').removeClass('active');
-        }
 
-    });
-    $('button[data-toggle=popover]').popover({
-        placement: 'bottom',
-        html: true,
-        title: function () {
-            return '<span class="text-info"><strong>' + $(this).attr("data-title") + '</strong></span><button type="button" id="close" class="close" onclick="$(\'button[data-toggle=popover]\').popover(\'hide\');">&times;</button>';
-        },
-        content: function () {
-            return $('#' + $(this).attr('data-conteneur')).html();
-        }
-    });
+/*** PANEL SECTION ***/
+$(".my-panel").delegate("#send_folder", 'click', function (evt) {
+    var parent_id = $("input[name=parent_id]").val();
+    var folder_name = $("input[name=folder_name]").val();
+    socket.emit('new_folder', {folder_name: folder_name, parent_id: parent_id});
+    evt.preventDefault();
+});
+
+$('button[data-toggle=popover]').click(function () {
+    if (!$(this).hasClass('active')) {
+        $('button[data-toggle=popover]').removeClass('active');
+        $('button[data-toggle=popover]').popover('hide');
+        $(this).addClass('active');
+    } else {
+        $('button[data-toggle=popover]').removeClass('active');
+    }
+
+});
+$('button[data-toggle=popover]').popover({
+    placement: 'bottom',
+    html: true,
+    title: function () {
+        return '<span class="text-info"><strong>' + $(this).attr("data-title") + '</strong></span><button type="button" id="close" class="close" onclick="$(\'button[data-toggle=popover]\').popover(\'hide\');">&times;</button>';
+    },
+    content: function () {
+        return $('#' + $(this).attr('data-conteneur')).html();
+    }
+});
     //$('button[data-toggle=popover]').popover('show');
     $('button[data-tooltip=tooltip]').tooltip({
         placement: 'top',
@@ -370,16 +364,16 @@ $(function () {
             <button class="send-email btn btn-default" type="button">\
             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button></span></div>');
     });
-    $(".my-panel").delegate("#access-on", 'click', function (evt) {
-        $('#access-off').removeClass('active');
-        $(this).addClass('active');
-        $('input[name=access]').val(1);
-    });
-    $(".my-panel").delegate("#access-off", 'click', function (evt) {
-        $('#access-on').removeClass('active');
-        $(this).addClass('active');
-        $('input[name=access]').val(0);
-    });
+$(".my-panel").delegate("#access-on", 'click', function (evt) {
+    $('#access-off').removeClass('active');
+    $(this).addClass('active');
+    $('input[name=access]').val(1);
+});
+$(".my-panel").delegate("#access-off", 'click', function (evt) {
+    $('#access-on').removeClass('active');
+    $(this).addClass('active');
+    $('input[name=access]').val(0);
+});
 
     //add files selected for manage permissions
     $("#config").click(function (evt) {
@@ -439,6 +433,6 @@ $(function () {
                 stop = true;
             }
         });*/
-    });
+});
 });
 </script>

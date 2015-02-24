@@ -153,6 +153,7 @@ socket.on('selected_folder', function (datas) {
                                 </span></div>');
             })
         }
+        
     }
 });
 
@@ -247,12 +248,14 @@ function generateList(files, user) {
         }
     });
     $('#filesManager').append('</tbody></table>');
-    activateCheckbox();
+    activateCheckbox(); 
+    //$('#filesManager table').fixedHeaderTable({ height: '400', altClass: 'odd' });
 }
 
 function generateMenu(files, sharedFiles) {
     $('#folderSelect').html('<option value="default">Selectionner un dossier</option>');
-    $('#folder-selection').html('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
+    $('#folder-selection li:not(.no-remove)').remove();
+    $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
     for (var i = 0; i < files.length; i++) {
         var parent = '';
         var style = '';
