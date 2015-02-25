@@ -235,11 +235,6 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
     </script>
     <script src="/js/folders.js"></script>
     <script>
-    function execAppli(app) 
-    {
-        var wshShell = new ActiveXObject("WScript.Shell");
-        wshShell.Exec(app);
-    }
 //auth user for file manager
 socket.emit('new_user', '<%= user._id %>');
 var folder;
@@ -247,21 +242,6 @@ var folder;
 generateMenu(files, sharedFiles);
 $(function () {
     'use strict';
-    /*var $table = $('table'),
-    $bodyCells = $table.find('tbody tr:first').children(),
-    colWidth;
-
-    // Get the tbody columns width array
-    colWidth = $bodyCells.map(function () {
-        return $(this).width();
-    }).get();
-
-    // Set the width of thead columns
-    $table.find('thead tr').children().each(function (i, v) {
-        $(v).width(colWidth[i]);
-    });*/
-
-
 /*** PANEL SECTION ***/
 $(".my-panel").delegate("#send_folder", 'click', function (evt) {
     var parent_id = $("input[name=parent_id]").val();
@@ -415,7 +395,7 @@ $(".my-panel").delegate("#access-off", 'click', function (evt) {
                 stop = true;
             }
         });*/
-    });
+});
 
     socket.on('file_removed', function (id) {
         $('#' + id).parent('td').parent('tr').remove();

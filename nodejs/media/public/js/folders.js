@@ -78,13 +78,11 @@ socket.on('file_status_changed', function (datas) {
 });
 
 socket.on('selected_folder', function (datas) {
-    console.log('selected');
     $('#filesManager table tbody').html('');
     $('.inputs_emails').html('');
     var params = document.URL.split('/');
     var cls = "";
     if (params[3] == 'u') {
-        console.log('content');
         if (datas.files.child) {
             $('#content-file').html('');
             $.each(datas.files.child, function (k, file) {
@@ -139,10 +137,15 @@ socket.on('selected_folder', function (datas) {
         //console.log(folder);
         //affichage des permissions
         if (datas.files.access == 2) {
+            $('#havePass').prop("checked", true);
             $('#havePass').attr("checked", "checked");
             $('#passwordInfo #folderLink').html('http://files.dev-monkey.org/u/'+user.username+'/'+datas.files.name);
             $('#passwordInfo #folderPass').html(datas.files.password);
             $('#passwordInfo').show();
+        }else{
+            $('#havePass').removeAttr('checked');
+            $('#havePass').prop("checked", false);
+            $('#passwordInfo').hide();
         }
         if (datas.files.allowedUsers) {
             $.each(datas.files.allowedUsers, function (k, user) {
@@ -217,7 +220,6 @@ $.preloadImages = function() {
 }
 
 function generateList(files, user) {
-    console.log('list');
     var cls = "";
     //console.log(files);
     $('#filesManager').html('<table class="table table-hover"><thead>\
@@ -241,7 +243,7 @@ function generateList(files, user) {
             $('#filesManager table tbody').append('<tr data-id="' + file._id + '" class="level-' + file.level + '">\
               <td style="text-align:center;" class="' + cls + '"><input id="' + file._id + '" class="file_checkbox" type="checkbox"/></td>\
               <td style="padding-left:17px;"><span onMouseOver="showPrevu(this)" data-conteneur="prevu_file" data-type="' + file.type + '" data-name="' + file.name + '" data-id="' + file._id + '" class="prevu glyphicon glyphicon-zoom-in" aria-hidden="true"></span></td>\
-              <td class="name" onclick="execAppli(\'/Macintosh HD/Applications/vlc.app\')"><span>' + file.name + '</span></td>\
+              <td class="name"><span>' + file.name + '</span></td>\
               <td class="type">' + file.type + '</td>\
               <td class="size"></td>\
               <td class="' + cls + '">\
