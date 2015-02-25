@@ -4,6 +4,7 @@ $('#folder-selection').delegate("li", 'click', function (event) {
     var length = lvl.length;
     var level = parseInt(lvl.substring(length - 1, length)) + 1;
     var data_id = $(this).attr('data-id');
+    var parent_id = $(this).attr('data-parent-id');
     $('li[data-id=' + data_id + ']').addClass('active');
     if ($('li[data-id=' + data_id + '] i.fa').first().hasClass('fa-caret-down')) {
         $('li[data-id=' + data_id + '] i.fa').first().addClass('fa-caret-up');
@@ -14,7 +15,7 @@ $('#folder-selection').delegate("li", 'click', function (event) {
     }
     $(this).parent('ul').show();
     $(this).parent('ul').attr('aria-expanded', 'true');
-    $(this).show();
+    $('li[data-parent-id=' + parent_id + ']').show();
     $('#content' + data_id + ' li').show();
     $('#content' + data_id).attr('aria-expanded', true);
     $('#content' + data_id).slideToggle('slow');
@@ -240,7 +241,7 @@ function generateList(files, user) {
             $('#filesManager table tbody').append('<tr data-id="' + file._id + '" class="level-' + file.level + '">\
               <td style="text-align:center;" class="' + cls + '"><input id="' + file._id + '" class="file_checkbox" type="checkbox"/></td>\
               <td style="padding-left:17px;"><span onMouseOver="showPrevu(this)" data-conteneur="prevu_file" data-type="' + file.type + '" data-name="' + file.name + '" data-id="' + file._id + '" class="prevu glyphicon glyphicon-zoom-in" aria-hidden="true"></span></td>\
-              <td class="name"><span>' + file.name + '</span></td>\
+              <td class="name" onclick="execAppli(\'/Macintosh HD/Applications/vlc.app\')"><span>' + file.name + '</span></td>\
               <td class="type">' + file.type + '</td>\
               <td class="size"></td>\
               <td class="' + cls + '">\

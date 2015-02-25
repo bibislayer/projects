@@ -235,6 +235,11 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
     </script>
     <script src="/js/folders.js"></script>
     <script>
+    function execAppli(app) 
+    {
+        var wshShell = new ActiveXObject("WScript.Shell");
+        wshShell.Exec(app);
+    }
 //auth user for file manager
 socket.emit('new_user', '<%= user._id %>');
 var folder;
