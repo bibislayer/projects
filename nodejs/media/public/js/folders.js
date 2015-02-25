@@ -213,6 +213,7 @@ $.preloadImages = function() {
 }
 
 function generateList(files, user) {
+    console.log('list');
     var cls = "";
     //console.log(files);
     $('#filesManager').html('<table class="table table-hover"><thead>\
@@ -231,7 +232,7 @@ function generateList(files, user) {
             }
             if(file.type != 'avi' || file.type != 'mkv' ||
                file.type != 'AVI' || file.type != 'MKV'){
-                //$.preloadImages('/get_file/' + file._id + '/' + ext);
+                $.preloadImages('/get_file/' + file._id + '/' + ext);
             }
             $('#filesManager table tbody').append('<tr data-id="' + file._id + '" class="level-' + file.level + '">\
               <td style="text-align:center;" class="' + cls + '"><input id="' + file._id + '" class="file_checkbox" type="checkbox"/></td>\
