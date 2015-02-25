@@ -42,7 +42,7 @@ function FileConvertSize(aSize) {
     }
 }
 socket.on('progress_bar', function (datas) {
-    //console.log(datas);
+    console.log('progess');
     if (datas.file_id) {
         if ($('tr[data-id="' + datas.file_id + '"] td.name > div.' + datas.type).length > 0) {
             $('tr[data-id="' + datas.file_id + '"] td.name div.' + datas.type + ' .progress-bar').attr('aria-valuenow', datas.progress);
@@ -158,7 +158,7 @@ socket.on('selected_folder', function (datas) {
 });
 
 function activateCheckbox() {
-    $('#check_all_file_checkbox').click(function () {
+     $("#filesManager").delegate("#check_all_file_checkbox", 'click', function () {
         $('.file_checkbox').each(function () {
             if ($('#check_all_file_checkbox').is(':checked')) {
                 $(this).prop("checked", true);
