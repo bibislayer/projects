@@ -42,7 +42,6 @@ function FileConvertSize(aSize) {
     }
 }
 socket.on('progress_bar', function (datas) {
-    console.log('progess');
     if (datas.file_id) {
         if ($('tr[data-id="' + datas.file_id + '"] td.name > div.' + datas.type).length > 0) {
             $('tr[data-id="' + datas.file_id + '"] td.name div.' + datas.type + ' .progress-bar').attr('aria-valuenow', datas.progress);
@@ -230,11 +229,14 @@ function generateList(files, user) {
             } else {
                 cls = "no-owner";
             }
-            $.preloadImages('/get_file/' + file._id + '/' + ext);
+            if(file.type != 'avi' || file.type != 'mkv' ||
+               file.type != 'AVI' || file.type != 'MKV'){
+                //$.preloadImages('/get_file/' + file._id + '/' + ext);
+            }
             $('#filesManager table tbody').append('<tr data-id="' + file._id + '" class="level-' + file.level + '">\
               <td style="text-align:center;" class="' + cls + '"><input id="' + file._id + '" class="file_checkbox" type="checkbox"/></td>\
               <td style="padding-left:17px;"><span onMouseOver="showPrevu(this)" data-conteneur="prevu_file" data-type="' + file.type + '" data-name="' + file.name + '" data-id="' + file._id + '" class="prevu glyphicon glyphicon-zoom-in" aria-hidden="true"></span></td>\
-              <td>' + file.name + '</td>\
+              <td class="name"><span>' + file.name + '</span></td>\
               <td class="type">' + file.type + '</td>\
               <td class="size"></td>\
               <td class="' + cls + '">\
