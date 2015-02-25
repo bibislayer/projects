@@ -12,7 +12,9 @@ $('#folder-selection').delegate("li", 'click', function (event) {
         $('li[data-id=' + data_id + '] i.fa').first().addClass('fa-caret-down');
         $('li[data-id=' + data_id + '] i.fa').first().removeClass('fa-caret-up');
     }
-    $('#content' + data_id).html($('li[data-parent-id="' + data_id + '"].level' + level));
+    $(this).parent('ul').show();
+    $(this).parent('ul').attr('aria-expanded', 'true');
+    $(this).show();
     $('#content' + data_id + ' li').show();
     $('#content' + data_id).attr('aria-expanded', true);
     $('#content' + data_id).slideToggle('slow');
@@ -75,6 +77,7 @@ socket.on('file_status_changed', function (datas) {
 });
 
 socket.on('selected_folder', function (datas) {
+    console.log('selected');
     $('#filesManager table tbody').html('');
     $('.inputs_emails').html('');
     var params = document.URL.split('/');
@@ -277,6 +280,7 @@ function generateMenu(files, sharedFiles) {
                     </ul>\
                 </li>');
             $('#folderSelect').append('<option value="' + files[i]._id + '">' + files[i].name + '</option>');
+            $('#content' + files[i].parent_id).html($('li[data-parent-id="' + files[i].parent_id + '"].level' + files[i].level));
         }
     }
     var username = "";

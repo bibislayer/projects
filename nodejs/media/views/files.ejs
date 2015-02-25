@@ -398,8 +398,10 @@ $(".my-panel").delegate("#access-off", 'click', function (evt) {
 
     //call_back user logged for file manager
     socket.on('user_logged', function (data) {
-        var stop = false;
-        $($('#folder-selection li i.fa-caret-down').get()).each(function () {
+        //var stop = false;
+        $('#folder-selection li[data-id='+data+']').parent('ul').parent('li').show();
+        $('#folder-selection li[data-id='+data+']').trigger('click');
+        /*$($('#folder-selection li i.fa-caret-down').get()).each(function () {
             if (!stop) {
                 $(this).parents('li:first').trigger("click");
                 //console.log($(this).next('span').attr('data-id'));
@@ -407,7 +409,7 @@ $(".my-panel").delegate("#access-off", 'click', function (evt) {
             if ($(this).parents('li:first').attr('data-id') == data) {
                 stop = true;
             }
-        });
+        });*/
     });
 
     socket.on('file_removed', function (id) {
