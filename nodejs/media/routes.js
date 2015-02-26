@@ -103,13 +103,13 @@ module.exports = function (app) {
 
     app.io.route('move_file', function (req) {
         if (req.session.user) {
-            console.log(req.data);
             for (var i = 0; i < req.data.files.length; i++) {
                 Files.findOne({_id: req.data.files[i]}, function (err, fld) {
                     console.log('move file');
                     if (fld) {
                         Files.findOne({_id: fld.parent_id}, function (err, fd) {
                             if(fd){
+                                console.log(fd.name+" moved");
                                 fd.child.pull(fld._id);
                                 fd.save(function(err, fd){
                                     if(err)
@@ -252,6 +252,7 @@ module.exports = function (app) {
     });
     app.io.route('file_change_status', function (req) {
         if (req.session.user) {
+            console.log(req.session.user);
             Files.findOne({_id: req.session.user.selected_folder}, function (err, file) {
                 if (err) {
                     req.io.emit('alert', {type: 'warning', text: "Une erreur c'est produite ( " + err + " )"});
@@ -293,6 +294,7 @@ module.exports = function (app) {
                         if (file) {
                             req.io.emit('folder_path', file.path);
                             req.session.folder_path = file.path;
+                            req.session.user.selected_folder = req.data;
                             req.session.save();
                             req.io.emit('selected_folder', {user: req.session.user, files: file, shared: shared});
                             req.io.emit('folder_id', req.data);

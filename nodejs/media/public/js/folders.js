@@ -27,11 +27,12 @@ $('#folder-selection').delegate("li", 'click', function (event) {
     $("input[name=folder_id]").val(data_id);
     $('#lbl_folder_name').html('Ajouter un dossier à ' + folder_name);
     $('.add-files .fileinput-button span:first').html('Ajouter un fichier à ' + folder_name);
-    $('button[data-conteneur=config_file]').attr('data-original-title', 'Configurer les droits d\'accés du dossier <strong>' + folder_name + '</strong>');
-    $('button[data-conteneur=add_file]').attr('data-original-title', 'Ajouter un fichier à <strong>' + folder_name + '</strong>');
-    $('button[data-conteneur=create_folder]').attr('data-original-title', 'Créer un dossier dans <strong>' + folder_name + '</strong>');
+    $('.name-file-conig').html(folder_name);
+    $('button[data-conteneur=config_file]').attr('data-original-title', 'Configurer les droits d\'accés du dossier <strong class="name-file-conig">' + folder_name + '</strong>');
+    $('button[data-conteneur=add_file]').attr('data-original-title', 'Ajouter un fichier à <strong class="name-file-conig">' + folder_name + '</strong>');
+    $('button[data-conteneur=create_folder]').attr('data-original-title', 'Créer un dossier dans <strong class="name-file-conig">' + folder_name + '</strong>');
     $('button[data-conteneur=show_sharing]').attr('onclick', 'var win = window.open("/u/' + $(this).attr('data-user') + '", "_blank");win.focus();');
-    $('button[data-conteneur=show_sharing]').attr('data-original-title', 'Afficher la vue de <strong>' + $(this).attr('data-user') + '</strong>');
+    $('button[data-conteneur=show_sharing]').attr('data-original-title', 'Afficher la vue de <strong class="name-file-conig">' + $(this).attr('data-user') + '</strong>');
     event.stopPropagation();
     //$('li[data-parent-id="'+parent_id+'"].level'+level).toggle();
 });
@@ -73,6 +74,7 @@ socket.on('alert', function (datas) {
     }, 3000);
 })
 socket.on('file_status_changed', function (datas) {
+    console.log(datas.name);
     $('#passwordInfo #folderLink').html('http://files.dev-monkey.org/u/'+user.username+'/'+datas.name);
     $('#passwordInfo #folderPass').html(datas.password);
 });
