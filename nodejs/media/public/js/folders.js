@@ -194,12 +194,12 @@ function generatePrevu(files, user) {
         var length = file.name.length;
         var noExt = file.name.substring(0, length - 4);
         var ext = file.name.substring(length - 3, length);
-        if (ext == 'jpg' || ext == 'png' || ext == 'gif') {
+        if (files.type == 'Image') {
             $('#filesManager div.row div.col-lg-12').append('<div class="col-lg-3 col-md-3 col-xs-6" style="margin: 5px 0px;">\
                         <a class="thumbnail" href="/get_file/' + file._id + '/' + ext + '" >\
                             <img class="img-responsive" src="/get_file/' + file._id + '/' + ext + '" alt="' + file.name + '">\
                         </a></div>');
-        } else if (ext == 'avi') {
+        } else {
             var id = "rand" + Math.floor((Math.random() * 10000) + 1);
             $('#filesManager div.row div.col-lg-12').append('<div class="col-lg-5 col-md-5" style="margin: 5px 0px;">\
                         <center class="thumbnail">\
