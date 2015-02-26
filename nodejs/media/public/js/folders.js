@@ -194,23 +194,25 @@ function generatePrevu(files, user) {
         var length = file.name.length;
         var noExt = file.name.substring(0, length - 4);
         var ext = file.name.substring(length - 3, length);
-        if (file.type == 'Image') {
-            $('#filesManager div.row div.col-lg-12').append('<div class="col-lg-3 col-md-3 col-xs-6" style="margin: 5px 0px;">\
-                        <a class="thumbnail" href="/get_file/' + file._id + '/' + ext + '" >\
-                            <img class="img-responsive" src="/get_file/' + file._id + '/' + ext + '" alt="' + file.name + '">\
-                        </a></div>');
-        } else {
-            var id = "rand" + Math.floor((Math.random() * 10000) + 1);
-            $('#filesManager div.row div.col-lg-12').append('<div class="col-lg-5 col-md-5" style="margin: 5px 0px;">\
-                        <center class="thumbnail">\
-                        <video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls width="360" height="250">\
-                        <source src="/get_file/' + file._id + '/mp4" type="video/mp4" />\
-                        <source src="/get_file/' + file._id + '/webm" type="video/webm" />\
-                        <source src="/get_file/' + file._id + '/ogg" type="video/ogg" /></video></center></div>');
-            videojs(id, {}, function () {
-                vidPlayer = this;
-                vidPlayer.load();
-            });
+        if(file.type != 'Directory'){
+            if (file.type == 'Image') {
+                $('#filesManager div.row div.col-lg-12').append('<div class="col-lg-3 col-md-3 col-xs-6" style="margin: 5px 0px;">\
+                            <a class="thumbnail" href="/get_file/' + file._id + '/' + ext + '" >\
+                                <img class="img-responsive" src="/get_file/' + file._id + '/' + ext + '" alt="' + file.name + '">\
+                            </a></div>');
+            } else {
+                var id = "rand" + Math.floor((Math.random() * 10000) + 1);
+                $('#filesManager div.row div.col-lg-12').append('<div class="col-lg-5 col-md-5" style="margin: 5px 0px;">\
+                            <center class="thumbnail">\
+                            <video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls width="360" height="250">\
+                            <source src="/get_file/' + file._id + '/mp4" type="video/mp4" />\
+                            <source src="/get_file/' + file._id + '/webm" type="video/webm" />\
+                            <source src="/get_file/' + file._id + '/ogg" type="video/ogg" /></video></center></div>');
+                videojs(id, {}, function () {
+                    vidPlayer = this;
+                    vidPlayer.load();
+                });
+            }
         }
     });
     $('#filesManager').append('</div></div>');
