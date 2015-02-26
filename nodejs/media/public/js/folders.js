@@ -194,7 +194,7 @@ function generatePrevu(files, user) {
         var length = file.name.length;
         var noExt = file.name.substring(0, length - 4);
         var ext = file.name.substring(length - 3, length);
-        if (files.type == 'Image') {
+        if (file.type == 'Image') {
             $('#filesManager div.row div.col-lg-12').append('<div class="col-lg-3 col-md-3 col-xs-6" style="margin: 5px 0px;">\
                         <a class="thumbnail" href="/get_file/' + file._id + '/' + ext + '" >\
                             <img class="img-responsive" src="/get_file/' + file._id + '/' + ext + '" alt="' + file.name + '">\
