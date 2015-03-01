@@ -23,16 +23,22 @@ module.exports = function (app) {
             User.findOne({_id: req.session.user._id}, function (err, user) {
                 if (user) {
                     for (var i = 0; i < req.data.length; i++) {
-                        Files.findOneAndRemove({_id: req.data[i]}, function (err, fld) {
-                            Files.findOne({_id: fld.parent_id}, function (err, fd) {
-                                fd.child.pull(fld._id);
-                                fd.save();
-                            });
-                            req.io.emit('file_removed', fld._id);
-                            if (fld.type == "Directory") {
-                                deleteFolderRecursive(__dirname + fld.path + fld.name);
-                            } else {
-                                fs.unlinkSync(__dirname + fld.path + fld.name);
+                        Files.findOne({_id: req.data[i]}, function (err, fld) {
+                            if(fld){
+                                console.log('parent '+fld.parent_id);
+                                Files.findOne({_id: fld.parent_id}, function (err, fd) {
+                                    console.log(fld._id);
+                                    fd.child.pull(fld._id);
+                                    fd.save(function (err, file){
+                                        if(err)
+                                            console.log(err);
+                                    });
+                                });
+                                req.io.emit('file_removed', fld._id);
+                                if (fld.type == "Directory")
+                                    deleteFolderRecursive(__dirname + fld.path + fld.name);
+                                else
+                                    fs.unlinkSync(__dirname + fld.path + fld.name);
                             }
                         });
                     }
@@ -567,7 +573,6 @@ module.exports = function (app) {
                             res.render('show', {
                                 title: 'Images et photos de ' + req.params.username,
                                 page: 'show',
-                                h1: 'Images et photos de <small>' + req.params.username + '</small>',
                                 user: req.user,
                                 files: files
                             });
@@ -579,19 +584,20 @@ module.exports = function (app) {
         User.findOne({username: req.params.username}, function (err, user) {
             if (user) {
                 Files.find({user: user._id, name: req.params.folder})
-                        .populate('child')
-                        .populate('allowedUsers')
-                        .populate('user')
-                        .exec(function (err, files) {
-                            res.render('show', {
-                                title: 'Images et photos de ' + req.params.username,
-                                page: 'show',
-                                h1: 'Images et photos de <small>' + req.params.username + '</small>',
-                                user: req.user,
-                                files: files,
-                                allowed: 1
-                            });
+                .populate('child')
+                .exec(function (err, file) {
+                    Files.find({user: user._id, parent_id: file.parent_id})
+                    .exec(function (err, files) {
+                        var filesMerged = file.concat(files);
+                        res.render('show', {
+                            title: 'Images et photos de ' + req.params.username,
+                            page: 'show',
+                            user: req.user,
+                            files: filesMerged.sort(sort_by('level', true, parseInt)),
+                            alowed: 1
                         });
+                    });
+                });
             }
         });
     });
@@ -639,22 +645,22 @@ module.exports = function (app) {
         }
     }
     app.get('/files', ensureAuthenticated, function (req, res) {
-        var folder_path = "";
+        var folder_path = "", sharedMerged, user_shared_id=0;
         Files.find({user: req.user._id})
                 .populate('child')
                 .exec(function (err, files) {
                     Files.find({allowedUsers: {"$in": [req.user._id]}})
-                            .populate('user')
-                            .exec(function (err, sharedFiles) {
-                                res.render('files', {
-                                    title: 'Tous vos fichiers',
-                                    page: 'files',
-                                    user: req.user,
-                                    files: files.sort(sort_by('level', true, parseInt)),
-                                    sharedFiles: sharedFiles,
-                                    message: {type: 'warning', text: req.flash('error')}
-                                });
+                        .populate('user')
+                        .exec(function (err, sharedFiles) {
+                            res.render('files', {
+                                title: 'Tous vos fichiers',
+                                page: 'files',
+                                user: req.user,
+                                files: files.sort(sort_by('level', true, parseInt)),
+                                sharedFiles: sharedFiles,
+                                message: {type: 'warning', text: req.flash('error')}
                             });
+                        });
                 });
     });
 

@@ -98,7 +98,7 @@ socket.on('selected_folder', function (datas) {
                         </a></div>');
                 } else if (ext == 'avi') {
                     var id = "rand" + Math.floor((Math.random() * 10000) + 1);
-                    $('#content-file').append('<div class="col-lg-3 col-md-3" style="margin-bottom:10px">\
+                    $('#content-file').append('<div class="col-lg-5 col-md-5" style="margin-bottom:10px">\
                         <center><a class="thumbnail">\
                         <video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls width="360" height="250">\
                         <source src="/get_file/' + file._id + '/mp4" type="video/mp4" />\
@@ -141,6 +141,7 @@ socket.on('selected_folder', function (datas) {
         if (datas.files.access == 2) {
             $('#havePass').prop("checked", true);
             $('#havePass').attr("checked", "checked");
+            $('#passwordInfo #folderReelLink').html('<a target="_blank" href="http://files.dev-monkey.org/u/'+user.username+'/'+datas.files.name+'">Votre lien</a>');
             $('#passwordInfo #folderLink').html('http://files.dev-monkey.org/u/'+user.username+'/'+datas.files.name);
             $('#passwordInfo #folderPass').html(datas.files.password);
             $('#passwordInfo').show();

@@ -4,7 +4,14 @@
 <link href="/css/video-js.min.css" rel="stylesheet" type="text/css">
 <!-- video.js must be in the <head> for older IEs to work. -->
 <script src="/js/video.js"></script>
-
+<style>
+.img-responsive, .thumbnail>img, .thumbnail a>img, .carousel-inner>.item>img, .carousel-inner>.item>a>img {
+max-height: 240px;
+}
+.thumbnail {
+height: 260px !important;
+}
+</style>
 <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
 <script>
 videojs.options.flash.swf = "/js/video-js.swf";
@@ -29,8 +36,33 @@ var files = <%- JSON.stringify(files) %>;
 socket.emit('new_user', '');
 //console.log(files);
 generateMenu(files);
-function generateMenu(files){
-    $('#folder-selection').html('<li><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
+function generateMenu(files) {
+    $('#folder-selection li:not(.no-remove)').remove();
+    $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
+    for (var i = 0; i < files.length; i++) {
+        var parent = '';
+        var style = '';
+        if (files[i].type == "Directory") {
+            if (files[i].parent_id) {
+                parent = 'data-parent-id=' + files[i].parent_id + '';
+                style = 'style=display:none';
+            }
+            var esc = '';
+            for (var j = 0; j < files[i].level; j++) {
+                esc += '&nbsp;';
+            }
+            $('#folder-selection').append('<li ' + parent + ' ' + style + ' data-name="' + files[i].name + '" data-id="' + files[i]._id + '" class="level' + files[i].level + '">\
+                    <a href="javascript:;" data-toggle="collapse" data-target="content' + files[i]._id + '"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;' + files[i].name + ' <i class="fa fa-fw fa-caret-down"></i></a>\
+                    <ul id="content' + files[i]._id + '" class="collapse">\
+                    </ul>\
+                </li>');
+            $('#content' + files[i].parent_id).html($('li[data-parent-id="' + files[i].parent_id + '"].level' + files[i].level));
+        }
+    }
+}
+/*function generateMenu(files){
+    $('#folder-selection li:not(.no-remove)').remove();
+    $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
     for(var i=0;i<files.length;i++){
         var parent = '';
         var style = '';
@@ -64,7 +96,7 @@ function generateMenu(files){
             }
         }
     }
-}
+}*/
 $(document).ready(function() {
     $('#content-file').delegate('.fancybox-thumbs', 'click', function(evt){
         $('.fancybox-thumbs').fancybox({
@@ -94,7 +126,9 @@ $(document).ready(function() {
         });
         evt.preventDefault();
     });
-    var elem = $('#folder-selection li a').first();
-    elem.parent('li').trigger("click");
+    var params = document.URL.split('/');
+    var elem = $('#folder-selection li[data-name='+params[5]+']');
+    elem.trigger("click");
+
 });
 </script>

@@ -1,16 +1,6 @@
 <nav class="navbar navbar-inverse navbar-top" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-    <% if(typeof page!='undefined'){
-    if(page == "files" || page == "show"){ %>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    <%  }
-} %>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
             <% if (user && user.username){ %>
@@ -29,15 +19,11 @@
             <% } %>
         </ul>
     </div>
-<% if(typeof page!='undefined'){
-        if(page == "files" || page == "show"){ %>
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul id="folder-selection" class="nav navbar-nav side-nav">
-                    <li class="no-remove"><a class="navbar-brand logo" href="/">Accueil</a></li>
-                </ul>
-            </div>
-    <%  }
-    } %>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul id="folder-selection" class="nav navbar-nav side-nav">
+            <li class="no-remove"><a class="navbar-brand logo" href="/"><small>Accueil</small></a></li>
+        </ul>
+    </div>
 </nav>
 
 <script>

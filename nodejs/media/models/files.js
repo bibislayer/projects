@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var Files = new Schema({
+var schema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     child: [{ type: Schema.Types.ObjectId, ref: 'Files' }],
     level: Number,
@@ -19,6 +19,8 @@ var Files = new Schema({
     password: String,
     created: {type: Date, default: Date.now},
     updated: {type: Date, default: Date.now}
-}, { collection: 'filescollection' });
+}, { versionKey: false, collection: 'filescollection' });
+
+var Files = mongoose.model('Files', schema);
 
 module.exports = mongoose.model('Files', Files);
