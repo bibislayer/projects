@@ -669,18 +669,18 @@ module.exports = function (app) {
         var user = req.user;
         User.find({}, function (err, users) {
             Bug.find({})
-                    .populate('user')
-                    .exec(function (err, bugs) {
-                        res.render('admin', {
-                            title: 'Admin',
-                            template: 'noMenu',
-                            h1: 'Gestion utilisateurs',
-                            user: req.user,
-                            users: users,
-                            bugs: bugs,
-                            message: {type: 'warning', text: req.flash('error')}
-                        });
-                    });
+            .populate('user')
+            .exec(function (err, bugs) {
+                res.render('admin', {
+                    title: 'Admin',
+                    template: 'noMenu',
+                    h1: 'Gestion utilisateurs',
+                    user: req.user,
+                    users: users,
+                    bugs: bugs,
+                    message: {type: 'warning', text: req.flash('error')}
+                });
+            });
         });
     });
 
