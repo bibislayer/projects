@@ -24,7 +24,11 @@
                     <% for(var i = 0;i < bugs.length;i++){ %>
                     <tr>
                         <td style="text-align:center;"><input id="check_all_file_checkbox" type='checkbox'/></td>
-                        <td><%= (typeof bugs[i].user != 'undefined') ? bugs[i].user.username : '' %></td>
+                        <td>
+                        <% if (typeof bugs[i].user != 'undefined'){ %>
+                            <%= bugs[i].user.username %>
+                        <% } %>
+                        </td>
                         <td><%= bugs[i].comment %></td>
                         <td>
                             <span data-id="<%= bugs[i]._id %>" class="badge badge-success <%= (bugs[i].status == 0) ? 'active' : '' %>">&nbsp;</span>
