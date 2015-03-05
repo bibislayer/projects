@@ -23,9 +23,8 @@ module.exports = function (app) {
             User.findOne({_id: req.session.user._id}, function (err, user) {
                 if (user) {
                     for (var i = 0; i < req.data.length; i++) {
-                        Files.findOne({_id: req.data[i]}, function (err, fld) {
+                        Files.findOneAndRemove({_id: req.data[i]}, function (err, fld) {
                             if(fld){
-                                console.log('parent '+fld.parent_id);
                                 Files.findOne({_id: fld.parent_id}, function (err, fd) {
                                     console.log(fld._id);
                                     fd.child.pull(fld._id);
@@ -42,6 +41,47 @@ module.exports = function (app) {
                             }
                         });
                     }
+                }
+            });
+        }
+    });
+
+    app.io.route('remove_folder', function (req) {
+        if (req.session.user) {
+            User.findOne({_id: req.session.user._id}, function (err, user) {
+                if (user) {
+                    Files.findOne({_id: req.session.user.selected_folder}, function (err, fld) {
+                        if(fld){
+                            if(fld.parent_id){
+                                Files.findOne({_id: fld.parent_id}, function (err, parent) {
+                                    parent.child.pull(fld._id);
+                                    parent.save();
+                                });
+                                fld.remove();
+                            }else{
+                                req.io.emit('alert', {type: 'warning', text: "Vous ne pouvez pas supprimer ce dossier."});
+                                return 0;
+                            }
+                            Files.find({user: req.session.user._id})
+                            .populate('child')
+                            .exec(function (err, files) {
+                                Files.find({allowedUsers: {"$in": [req.session.user._id]}})
+                                .populate('user')
+                                .exec(function (err, sharedFiles) {
+                                    req.io.emit('alert', {type: 'success', text: "Dossier supprimé."});
+                                    req.io.emit('folder_saved', {
+                                        shared_files: sharedFiles.sort(sort_by('level', true, parseInt)),
+                                        user_files: files.sort(sort_by('level', true, parseInt)),
+                                        folder_id: fld.parent_id
+                                    });
+                                });
+                            });
+                            if (fld.type == "Directory")
+                                deleteFolderRecursive(__dirname + fld.path);
+                            else
+                                fs.unlinkSync(__dirname + fld.path);   
+                        }
+                    });
                 }
             });
         }
@@ -67,6 +107,20 @@ module.exports = function (app) {
             });
         }
     });
+
+    var deleteFolderRecursive = function (path) {
+        if (fs.existsSync(path)) {
+            fs.readdirSync(path).forEach(function (file, index) {
+                var curPath = path + "/" + file;
+                if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                    deleteFolderRecursive(curPath);
+                } else { // delete file
+                    fs.unlinkSync(curPath);
+                }
+            });
+            fs.rmdirSync(path);
+        }
+    };
 
     function checkAvailable(name, req) {
         dns.resolve4(name, function (err, addresses) {
@@ -224,7 +278,7 @@ module.exports = function (app) {
             if (user) {
                 connections[req.data] = req.io;
                 req.session.user = user;
-                req.session.folder_path = '/uploads';
+                req.session.folder_path = '/uploads/'+user.username;
                 req.session.save();
                 req.io.emit('user_id', req.data);
                 req.io.emit('user_logged', user.selected_folder);
@@ -328,7 +382,7 @@ module.exports = function (app) {
                                         type: 'Directory',
                                         size: 0,
                                         time: 0,
-                                        path: req.session.folder_path + '/' + req.data.folder_name + '/',
+                                        path: req.session.folder_path + req.data.folder_name + '/',
                                         permissions: [],
                                         allowedUsers: file.allowedUsers
                                     });
@@ -337,9 +391,18 @@ module.exports = function (app) {
                                     files.save(function (err, file) {
                                         if (err)
                                             return console.error(err);
-                                        Files.find({user: req.session.user._id}, function (err, user_files) {
-                                            Files.find({sharedUser: req.session.user._id}, function (err, shared_files) {
-                                                req.io.emit('file_saved', {shared_files: shared_files, user_files: user_files, folder_id: file._id});
+                                        Files.find({user: req.session.user._id})
+                                        .populate('child')
+                                        .exec(function (err, files) {
+                                            Files.find({allowedUsers: {"$in": [req.session.user._id]}})
+                                            .populate('user')
+                                            .exec(function (err, sharedFiles) {
+                                                req.io.emit('alert', {type: 'success', text: "Dossier créé."});
+                                                req.io.emit('folder_saved', {
+                                                    shared_files: sharedFiles.sort(sort_by('level', true, parseInt)),
+                                                    user_files: files.sort(sort_by('level', true, parseInt)), 
+                                                    folder_id: file._id
+                                                });
                                             });
                                         });
                                     });
@@ -477,6 +540,7 @@ module.exports = function (app) {
                 //console.log(bugs);
                 res.render('index', {
                     title: 'Accueil',
+                    template: 'noMenu',
                     h1: 'Tableau de bord',
                     user: req.user,
                     bugs: bugs,
@@ -609,6 +673,7 @@ module.exports = function (app) {
                     .exec(function (err, bugs) {
                         res.render('admin', {
                             title: 'Admin',
+                            template: 'noMenu',
                             h1: 'Gestion utilisateurs',
                             user: req.user,
                             users: users,
@@ -657,7 +722,7 @@ module.exports = function (app) {
                                 page: 'files',
                                 user: req.user,
                                 files: files.sort(sort_by('level', true, parseInt)),
-                                sharedFiles: sharedFiles,
+                                sharedFiles: sharedFiles.sort(sort_by('level', true, parseInt)),
                                 message: {type: 'warning', text: req.flash('error')}
                             });
                         });
@@ -770,6 +835,7 @@ module.exports = function (app) {
     app.get('/profile', ensureAuthenticated, function (req, res) {
         res.render('profile.ejs', {
             title: 'Profile',
+            template: 'noMenu',
             user: req.user,
             message: {type: 'warning', text: req.flash('error')}
         });
@@ -778,7 +844,7 @@ module.exports = function (app) {
         User.findOne({hash: req.params.hash}, function (err, user) {
             if (user) {
                 user.email = req.params.email;
-                res.render('register', {title: "register", user: user,
+                res.render('register', {template: 'noMenu', title: "register", user: user,
                     breadcrumb: 'Register', message: {type: 'warning', text: req.flash('error')}
                 });
             } else {
@@ -811,12 +877,16 @@ module.exports = function (app) {
     app.post('/register', function (req, res) {
         User.findOne({hash: req.body.hash}, function (err, user) {
             user.username = req.body.username;
+            User.findOne({username: user.username}, function (err, existUser) {
+                if(existUser)
+                    return res.render('register', {title: "register", template: 'noMenu', user: user, message: {type: 'warning', text: 'Pseudonyme déjà utilisé'}});
+            });
             User.register(user, req.body.password, function (err, account) {
                 if (err) {
-                    return res.render('register', {title: "register", user: user, message: {type: 'warning', text: err}});
+                    return res.render('register', {title: "register", template: 'noMenu', user: user, message: {type: 'warning', text: err}});
                 }
-                if (!fs.exists(__dirname + req.body.username)) {
-                    mkdirp(__dirname + req.body.username, function (err) {
+                if (!fs.exists(__dirname + '/uploads/' + req.body.username)) {
+                    mkdirp(__dirname + '/uploads/' + req.body.username, function (err) {
                         // path was created unless there was error
                         //console.log(err);
                         var files = new Files({
@@ -826,7 +896,7 @@ module.exports = function (app) {
                             type: 'Directory',
                             size: 0,
                             time: 0,
-                            path: req.body.username + '/',
+                            path: '/uploads/' + req.body.username + '/',
                             permissions: {access: 0, users: ""},
                         });
                         files.root_id = files._id;
@@ -835,7 +905,11 @@ module.exports = function (app) {
                                 return console.error(err);
                             Files.find({user: account._id}, function (err, user_files) {
                                 passport.authenticate('local', {failureRedirect: '/login', failureFlash: true})(req, res, function () {
-                                    res.redirect('/');
+                                    if(req.session && req.session.url){
+                                        res.redirect(req.session.url);
+                                    }else{
+                                        res.redirect('/');
+                                    }
                                 });
                             });
                         });
@@ -846,6 +920,7 @@ module.exports = function (app) {
     });
     app.get('/login', function (req, res) {
         res.render('login', {title: 'login',
+            template: 'noMenu',
             breadcrumb: 'Login',
             user: req.user,
             message: {type: 'warning', text: req.flash('error')}});
@@ -856,7 +931,7 @@ module.exports = function (app) {
                 if (!req.body.remember_me) {
                     return next();
                 }
-
+                
                 var token = utils.randomString(64);
                 Token.save(token, {userId: req.user.id}, function (err) {
                     if (err) {
@@ -867,6 +942,10 @@ module.exports = function (app) {
                 });
             },
             function (req, res) {
+                User.findOne({_id: req.user.id}, function (err, user) {
+                    user.lastLogged = new Date();
+                    user.save();
+                });
                 if(req.session && req.session.url){
                     res.redirect(req.session.url);
                 }else{
@@ -876,6 +955,7 @@ module.exports = function (app) {
 
     app.get('/u/:username/:folder/login', function (req, res) {
         res.render('fake-login', {title: 'login',
+            template: 'noMenu',
             breadcrumb: 'Mot de passe',
             user: req.user,
             message: {type: 'warning', text: req.flash('error')}});

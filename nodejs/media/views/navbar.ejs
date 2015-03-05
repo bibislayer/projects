@@ -3,7 +3,7 @@
     <div class="navbar-header">
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
-            <% if (user && user.username){ %>
+            <% if (user && user.username && user.salt){ %>
              <li class="title" style="line-height: 48px;">
                 <span style="vertical-align:middle;color:#999;"><i class="fa fa-user"></i>&nbsp;<%- user.username %></span>
             </li>

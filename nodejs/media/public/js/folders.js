@@ -31,6 +31,7 @@ $('#folder-selection').delegate("li", 'click', function (event) {
     $('button[data-conteneur=config_file]').attr('data-original-title', 'Configurer les droits d\'accés du dossier <strong class="name-file-conig">' + folder_name + '</strong>');
     $('button[data-conteneur=add_file]').attr('data-original-title', 'Ajouter un fichier à <strong class="name-file-conig">' + folder_name + '</strong>');
     $('button[data-conteneur=create_folder]').attr('data-original-title', 'Créer un dossier dans <strong class="name-file-conig">' + folder_name + '</strong>');
+    $('#remove_folder').attr('data-original-title', 'Supprimer le dossier <strong class="name-file-conig">' + folder_name + '</strong>');
     $('button[data-conteneur=show_sharing]').attr('onclick', 'var win = window.open("/u/' + $(this).attr('data-user') + '", "_blank");win.focus();');
     $('button[data-conteneur=show_sharing]').attr('data-original-title', 'Afficher la vue de <strong class="name-file-conig">' + $(this).attr('data-user') + '</strong>');
     event.stopPropagation();
@@ -133,6 +134,7 @@ socket.on('selected_folder', function (datas) {
         } else {
             $('button[data-conteneur="show_sharing"]').hide();
             $('button[data-conteneur="create_folder"]').show();
+            $('#remove_folder').show();
             $('button[data-conteneur="config_file"]').show();
         }
         $('.files-actions').hide();
@@ -296,11 +298,16 @@ function generateMenu(files, sharedFiles) {
     $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-share"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes partages</span></li>');
     for (var i = 0; i < sharedFiles.length; i++) {
         if (sharedFiles[i].user) {
-            $('#folder-selection').append('<li data-user="' + sharedFiles[i].user.username + '" data-name="' + sharedFiles[i].name + '" data-id="' + sharedFiles[i]._id + '" class="shared level' + sharedFiles[i].level + '">\
+            if (sharedFiles[i].parent_id) {
+                parent = 'data-parent-id=' + sharedFiles[i].parent_id + '';
+                style = 'style=display:none';
+            }
+            $('#folder-selection').append('<li '+parent+' data-user="' + sharedFiles[i].user.username + '" data-name="' + sharedFiles[i].name + '" data-id="' + sharedFiles[i]._id + '" class="shared level' + sharedFiles[i].level + '">\
                     <a href="javascript:;" data-toggle="collapse" data-target="content' + sharedFiles[i]._id + '"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;' + sharedFiles[i].name + ' <i class="fa fa-fw fa-caret-down"></i></a>\
                     <ul id="content' + sharedFiles[i]._id + '" class="collapse">\
                     </ul>\
                 </li>');
+            $('#content' + sharedFiles[i].parent_id).html($('li[data-parent-id="' + sharedFiles[i].parent_id + '"].level' + sharedFiles[i].level));
         }
     }
 }

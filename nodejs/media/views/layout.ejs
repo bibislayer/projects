@@ -29,6 +29,20 @@
         <script src="/js/vendor/jquery.ui.widget.js"></script>
         <script src="/js/jquery-1.11.1.min.js"></script>
         <script src="/js/jquery-ui-1.11.1.min.js"></script>
+        <% if(typeof template!='undefined' && template != 'menuFixed'){ %>
+            <style>
+            .navbar-collapse {
+                padding-right: 0 !important;
+                padding-left: 0 !important;
+            }
+            #folder-selection{
+                margin-left: 0px !important;
+                position: absolute !important;
+                left: 0px;
+                top: 0;
+            }
+            </style>
+        <% } %>
     </head>
     <body><!-- Navigation -->
     <% if(typeof page!='undefined'){

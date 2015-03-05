@@ -9,7 +9,8 @@ var User = new Schema({
     email: String,
     role: Array,
     salt: String,
-    addressMac: []
+    addressMac: [],
+    lastLogged: {type: Date, default: Date.now}
 }, { collection: 'usercollection' });
 
 User.plugin(passportLocalMongoose);
