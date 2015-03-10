@@ -1,4 +1,4 @@
-$('#folder-selection').delegate("li", 'click', function (event) {
+$('#folder-selection').delegate("li.folder", 'click', function (event) {
     $('#folder-selection li').removeClass('active');
     var lvl = $(this).attr('class');
     var length = lvl.length;
@@ -38,6 +38,41 @@ $('#folder-selection').delegate("li", 'click', function (event) {
     //$('li[data-parent-id="'+parent_id+'"].level'+level).toggle();
 });
 
+function hideSideBar(){
+    $('#wrapper').animate({
+            paddingLeft: 50
+        });
+        $('.side-nav').animate({
+            marginLeft: -50,
+            left: 50,
+            width: 50
+        });
+        $('#folder-selection li:not(.no-remove)').hide();
+        $('#folder-selection li a#collapse-sidebar').removeClass('glyphicon-chevron-left');
+        $('#folder-selection li a#collapse-sidebar').addClass('glyphicon-chevron-right');
+        $('#folder-selection li a#collapse-sidebar').show();
+}
+function showSideBar(){
+     $('#wrapper').animate({
+            paddingLeft: 200
+        });
+        $('.side-nav').animate({
+            marginLeft: -200,
+            left: 200,
+            width: 200
+        });
+        $('#folder-selection li:not(.no-remove)').show();
+        $('#folder-selection li a#collapse-sidebar').addClass('glyphicon-chevron-left');
+        $('#folder-selection li a#collapse-sidebar').removeClass('glyphicon-chevron-right');
+        $('#folder-selection li a#collapse-sidebar').hide();
+}
+//$('#folder-selection li a#collapse-sidebar').click(function (event) {
+$('#folder-selection').mouseleave(function (event) {    
+    hideSideBar();
+});
+$('#folder-selection').mouseenter(function (event) {
+    showSideBar();
+});
 function FileConvertSize(aSize) {
     aSize = Math.abs(parseInt(aSize, 10));
     var def = [[1, 'octets'], [1024, 'ko'], [1024 * 1024, 'Mo'], [1024 * 1024 * 1024, 'Go'], [1024 * 1024 * 1024 * 1024, 'To']];
@@ -269,6 +304,7 @@ function generateList(files, user) {
 }
 
 function generateMenu(files, sharedFiles) {
+    showSideBar();
     $('#folderSelect').html('<option value="default">Selectionner un dossier</option>');
     $('#folder-selection li:not(.no-remove)').remove();
     $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
@@ -284,7 +320,7 @@ function generateMenu(files, sharedFiles) {
             for (var j = 0; j < files[i].level; j++) {
                 esc += '&nbsp;';
             }
-            $('#folder-selection').append('<li ' + parent + ' ' + style + ' data-name="' + files[i].name + '" data-id="' + files[i]._id + '" class="level' + files[i].level + '">\
+            $('#folder-selection').append('<li ' + parent + ' ' + style + ' data-name="' + files[i].name + '" data-id="' + files[i]._id + '" class="level' + files[i].level + ' folder">\
                     <a href="javascript:;" data-toggle="collapse" data-target="content' + files[i]._id + '"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;' + files[i].name + ' <i class="fa fa-fw fa-caret-down"></i></a>\
                     <ul id="content' + files[i]._id + '" class="collapse">\
                     </ul>\
@@ -302,7 +338,7 @@ function generateMenu(files, sharedFiles) {
                 parent = 'data-parent-id=' + sharedFiles[i].parent_id + '';
                 style = 'style=display:none';
             }
-            $('#folder-selection').append('<li '+parent+' data-user="' + sharedFiles[i].user.username + '" data-name="' + sharedFiles[i].name + '" data-id="' + sharedFiles[i]._id + '" class="shared level' + sharedFiles[i].level + '">\
+            $('#folder-selection').append('<li '+parent+' data-user="' + sharedFiles[i].user.username + '" data-name="' + sharedFiles[i].name + '" data-id="' + sharedFiles[i]._id + '" class="shared level' + sharedFiles[i].level + ' folder">\
                     <a href="javascript:;" data-toggle="collapse" data-target="content' + sharedFiles[i]._id + '"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;' + sharedFiles[i].name + ' <i class="fa fa-fw fa-caret-down"></i></a>\
                     <ul id="content' + sharedFiles[i]._id + '" class="collapse">\
                     </ul>\
