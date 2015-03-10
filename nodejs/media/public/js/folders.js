@@ -50,7 +50,10 @@ function hideSideBar(){
         $('#folder-selection li:not(.no-remove)').hide();
         $('#folder-selection li a#collapse-sidebar').removeClass('glyphicon-chevron-left');
         $('#folder-selection li a#collapse-sidebar').addClass('glyphicon-chevron-right');
-        $('#folder-selection li a#collapse-sidebar').show();
+        $('#folder-selection li a#collapse-sidebar').css({
+            left: 0,
+            top: 51
+        });
 }
 function showSideBar(){
      $('#wrapper').animate({
@@ -64,9 +67,14 @@ function showSideBar(){
         $('#folder-selection li:not(.no-remove)').show();
         $('#folder-selection li a#collapse-sidebar').addClass('glyphicon-chevron-left');
         $('#folder-selection li a#collapse-sidebar').removeClass('glyphicon-chevron-right');
-        $('#folder-selection li a#collapse-sidebar').hide();
+        $('#folder-selection li a#collapse-sidebar').css({
+            left: 150,
+            top: 0
+        });
 }
-//$('#folder-selection li a#collapse-sidebar').click(function (event) {
+$('#folder-selection li a#collapse-sidebar').click(function (event) {
+    hideSideBar();
+});
 $('#folder-selection').mouseleave(function (event) {    
     hideSideBar();
 });
