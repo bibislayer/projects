@@ -25,6 +25,7 @@ $('#folder-selection').delegate("li.folder", 'click', function (event) {
     $('button[data-conteneur="config_file"]').show();
     $("input[name=parent_id]").val(data_id);
     $("input[name=folder_id]").val(data_id);
+    $('#display-selected-folder span').html(folder_name);
     $('#lbl_folder_name').html('Ajouter un dossier à ' + folder_name);
     $('.add-files .fileinput-button span:first').html('Ajouter un fichier à ' + folder_name);
     $('.name-file-conig').html(folder_name);

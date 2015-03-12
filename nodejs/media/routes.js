@@ -638,7 +638,8 @@ module.exports = function (app) {
                                 title: 'Images et photos de ' + req.params.username,
                                 page: 'show',
                                 user: req.user,
-                                files: files
+                                username: req.params.username,
+                                files: files.sort(sort_by('level', true, parseInt))
                             });
                         });
             }

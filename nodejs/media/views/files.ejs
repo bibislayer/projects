@@ -1,13 +1,10 @@
 <% layout('layout') -%>
 <% script() -%>
 <% stylesheet() -%>
-<link href="/css/video-js.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="/css/jquery.fileupload.css">
 <link rel="stylesheet" href="/css/jquery.fileupload-ui.css">
 <link rel="stylesheet" href="/css/jquery-ui.css">
 <link rel="stylesheet" href="/css/defaultTheme.css">
-<!-- video.js must be in the <head> for older IEs to work. -->
-<script src="/js/video.js"></script>
 <style>
 .progress-bar{line-height:30px;}
 .fileupload-progress{margin-top:10px;}
@@ -25,6 +22,9 @@ var sharedFiles = <%- JSON.stringify(sharedFiles) %>;
 <link rel="stylesheet" href="/css/jquery.fileupload.css">
 <div class="row">
     <div class="col-lg-12 panel panel-default">
+        <div id="display-selected-folder">
+            <span>...</span>
+        </div>
         <div class="panel-body my-panel">
             <div class="btn-group pull-left">
                 <button style="display:none;" data-tooltip="tooltip" title="" data-conteneur="show_sharing" type="button" class="btn btn-default" data-original-title="Afficher la vue de <strong>ad</strong>" style="display: block;">
@@ -275,7 +275,7 @@ $('button[data-toggle=popover]').popover({
 });
     //$('button[data-toggle=popover]').popover('show');
     $('button[data-tooltip=tooltip]').tooltip({
-        placement: 'top',
+        placement: 'bottom',
         html: true
     });
     //generated content

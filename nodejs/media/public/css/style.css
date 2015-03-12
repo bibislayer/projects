@@ -247,7 +247,21 @@ li{
     overflow:auto; 
     height:250px;
 }
-
+#display-selected-folder{
+    margin: 0 auto;
+    text-align: center;
+    position: absolute;
+    left: 45%;
+    background-color: #222;
+    border-color: #080808;
+    color: white;
+    z-index: 1000;
+    border-radius: 0 0 4px 4px;
+    border: 1px solid transparent;
+}
+#display-selected-folder span{
+    padding: 10px 15px;
+}
 /****
 ** gestion du menu responsive
 **

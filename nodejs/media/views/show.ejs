@@ -1,9 +1,6 @@
 <% layout('fo_layout') -%>
 <% script() -%>
 <% stylesheet() -%>
-<link href="/css/video-js.min.css" rel="stylesheet" type="text/css">
-<!-- video.js must be in the <head> for older IEs to work. -->
-<script src="/js/video.js"></script>
 <style>
 .img-responsive, .thumbnail>img, .thumbnail a>img, .carousel-inner>.item>img, .carousel-inner>.item>a>img {
 max-height: 240px;
@@ -37,8 +34,9 @@ socket.emit('new_user', '');
 //console.log(files);
 generateMenu(files);
 function generateMenu(files) {
+    showSideBar();
     $('#folder-selection li:not(.no-remove)').remove();
-    $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
+    $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;<%- username %> partage avec vous :</span></li>');
     for (var i = 0; i < files.length; i++) {
         var parent = '';
         var style = '';
@@ -51,52 +49,18 @@ function generateMenu(files) {
             for (var j = 0; j < files[i].level; j++) {
                 esc += '&nbsp;';
             }
-            $('#folder-selection').append('<li ' + parent + ' ' + style + ' data-name="' + files[i].name + '" data-id="' + files[i]._id + '" class="level' + files[i].level + '">\
+            $('#folder-selection').append('<li ' + parent + ' ' + style + ' data-name="' + files[i].name + '" data-id="' + files[i]._id + '" class="level' + files[i].level + ' folder">\
                     <a href="javascript:;" data-toggle="collapse" data-target="content' + files[i]._id + '"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;' + files[i].name + ' <i class="fa fa-fw fa-caret-down"></i></a>\
                     <ul id="content' + files[i]._id + '" class="collapse">\
                     </ul>\
                 </li>');
-            $('#content' + files[i].parent_id).html($('li[data-parent-id="' + files[i].parent_id + '"].level' + files[i].level));
+            if(files[i].parent_id){
+                $('#content' + files[i].parent_id).html($('li[data-parent-id="' + files[i].parent_id + '"].level' + files[i].level));
+            }
         }
     }
 }
-/*function generateMenu(files){
-    $('#folder-selection li:not(.no-remove)').remove();
-    $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes dossiers</span></li>');
-    for(var i=0;i<files.length;i++){
-        var parent = '';
-        var style = '';
-        var access = 0;
-        if(files[i].type == "Directory" && files[i].allowedUsers){
-            for(var j=0;j<files[i].allowedUsers.length;j++){
-                if(user && user.email == files[i].allowedUsers[j].email){
-                    access = 1;
-                }
-            }
-        }
-        <% if(typeof allowed != 'undefined' && allowed == 1){ -%>
-            access = 1;
-        <% } -%>
-        if(access == 1){
-            console.log(files);
-            if(files[i].type == "Directory"){
-                if(files[i].parent_id){
-                    parent = 'data-parent-id='+files[i].parent_id+'';
-                    //style = 'style=display:none';
-                }
-                var esc = '';
-                for(var j=0;j<files[i].level;j++){
-                    esc += '&nbsp;';
-                }
-                $('#folder-selection').append('<li '+parent+' '+style+' data-name="'+files[i].name+'" data-id="'+files[i]._id+'" class="level'+files[i].level+'">\
-                    <a href="javascript:;" data-toggle="collapse" data-target="content'+files[i]._id+'"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;'+files[i].name+' <i class="fa fa-fw fa-caret-down"></i></a>\
-                    <ul id="content'+files[i]._id+'" class="collapse">\
-                    </ul>\
-                </li>');
-            }
-        }
-    }
-}*/
+
 $(document).ready(function() {
     $('#content-file').delegate('.fancybox-thumbs', 'click', function(evt){
         $('.fancybox-thumbs').fancybox({
@@ -127,8 +91,8 @@ $(document).ready(function() {
         evt.preventDefault();
     });
     var params = document.URL.split('/');
-    var elem = $('#folder-selection li[data-name='+params[5]+']');
+    var folder_selected = (params[5]) ? params[5] : '<%- username %>';
+    var elem = $('#folder-selection li[data-name='+folder_selected+']');
     elem.trigger("click");
-
 });
 </script>
