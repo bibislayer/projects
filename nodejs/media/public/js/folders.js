@@ -136,12 +136,14 @@ socket.on('selected_folder', function (datas) {
                 var length = file.name.length;
                 var noExt = file.name.substring(0, length - 4);
                 var ext = file.name.substring(length - 3, length);
-                if (ext == 'jpg' || ext == 'png' || ext == 'gif') {
+                if (ext == 'jpg' || ext == 'png' || ext == 'gif' ||
+                    ext == 'JPG' || ext == 'PNG' || ext == 'GIF') {
                     $('#content-file').append('<div class="col-lg-3 col-md-3 col-xs-6" style="margin-bottom:10px">\
                         <a class="thumbnail fancybox-thumbs" rel="fancybox-thumb" href="/get_file/' + file._id + '/' + ext + '" >\
                             <img class="img-responsive" src="/get_file/' + file._id + '/' + ext + '" alt="' + file.name + '">\
                         </a></div>');
-                } else if (ext == 'avi') {
+                } else if (ext == 'avi' || ext == 'mkv' ||
+                           ext == 'AVI' || ext == 'MKV') {
                     var id = "rand" + Math.floor((Math.random() * 10000) + 1);
                     $('#content-file').append('<div class="col-lg-5 col-md-5" style="margin-bottom:10px">\
                         <center><a class="thumbnail">\
