@@ -146,7 +146,7 @@ socket.on('selected_folder', function (datas) {
                            ext == 'AVI' || ext == 'MKV') {
                     var id = "rand" + Math.floor((Math.random() * 10000) + 1);
                     $('#content-file').append('<div class="col-lg-5 col-md-5" style="margin-bottom:10px">\
-                        <center><a class="thumbnail">\
+                        <center><span>' + file.name + '</span><a class="thumbnail">\
                         <video data-setup=\'{"techOrder": ["html5", "flash", "other supported tech"]}\' preload="auto" id="' + id + '" class="video-js vjs-default-skin" controls width="360" height="250">\
                         <source src="/get_file/' + file._id + '/mp4" type="video/mp4" />\
                         <source src="/get_file/' + file._id + '/webm" type="video/webm" />\
