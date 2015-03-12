@@ -25,42 +25,7 @@ videojs.options.flash.swf = "/js/video-js.swf";
 <script src="/js/folders.js"></script>
 <script>
 var files = <%- JSON.stringify(files) %>;
-<% if(typeof user != 'undefined'){ -%>
-    var user = <%- JSON.stringify(user) %>;
- <% }else{ -%>
-    var user = '';
-<% } -%>
-socket.emit('new_user', '');
-//console.log(files);
-generateMenu(files);
-function generateMenu(files) {
-    showSideBar();
-    $('#folder-selection li:not(.no-remove)').remove();
-    $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;<%- username %> partage avec vous :</span></li>');
-    for (var i = 0; i < files.length; i++) {
-        var parent = '';
-        var style = '';
-        if (files[i].type == "Directory") {
-            if (files[i].parent_id) {
-                parent = 'data-parent-id=' + files[i].parent_id + '';
-                style = 'style=display:none';
-            }
-            var esc = '';
-            for (var j = 0; j < files[i].level; j++) {
-                esc += '&nbsp;';
-            }
-            $('#folder-selection').append('<li ' + parent + ' ' + style + ' data-name="' + files[i].name + '" data-id="' + files[i]._id + '" class="level' + files[i].level + ' folder">\
-                    <a href="javascript:;" data-toggle="collapse" data-target="content' + files[i]._id + '"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;' + files[i].name + ' <i class="fa fa-fw fa-caret-down"></i></a>\
-                    <ul id="content' + files[i]._id + '" class="collapse">\
-                    </ul>\
-                </li>');
-            if(files[i].parent_id){
-                $('#content' + files[i].parent_id).html($('li[data-parent-id="' + files[i].parent_id + '"].level' + files[i].level));
-            }
-        }
-    }
-}
-
+var params = document.URL.split('/');
 $(document).ready(function() {
     $('#content-file').delegate('.fancybox-thumbs', 'click', function(evt){
         $('.fancybox-thumbs').fancybox({
@@ -90,9 +55,43 @@ $(document).ready(function() {
         });
         evt.preventDefault();
     });
-    var params = document.URL.split('/');
-    var folder_selected = (params[5]) ? params[5] : '<%- username %>';
+    var folder_selected = (params[5]) ? params[5] : params[4];
     var elem = $('#folder-selection li[data-name='+folder_selected+']');
     elem.trigger("click");
 });
+<% if(typeof user != 'undefined'){ -%>
+    var user = <%- JSON.stringify(user) %>;
+ <% }else{ -%>
+    var user = '';
+<% } -%>
+socket.emit('new_user', '');
+//console.log(files);
+generateMenu(files);
+function generateMenu(files) {
+    showSideBar();
+    $('#folder-selection li:not(.no-remove)').remove();
+    $('#folder-selection').append('<li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Partagé avec vous </span></li>');
+    for (var i = 0; i < files.length; i++) {
+        var parent = '';
+        var style = '';
+        if (files[i].type == "Directory") {
+            if (files[i].parent_id) {
+                parent = 'data-parent-id=' + files[i].parent_id + '';
+                style = 'style=display:none';
+            }
+            var esc = '';
+            for (var j = 0; j < files[i].level; j++) {
+                esc += '&nbsp;';
+            }
+            $('#folder-selection').append('<li ' + parent + ' ' + style + ' data-name="' + files[i].name + '" data-id="' + files[i]._id + '" class="level' + files[i].level + ' folder">\
+                    <a href="javascript:;" data-toggle="collapse" data-target="content' + files[i]._id + '"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;' + files[i].name + ' <i class="fa fa-fw fa-caret-down"></i></a>\
+                    <ul id="content' + files[i]._id + '" class="collapse">\
+                    </ul>\
+                </li>');
+            if(files[i].parent_id){
+                $('#content' + files[i].parent_id).html($('li[data-parent-id="' + files[i].parent_id + '"].level' + files[i].level));
+            }
+        }
+    }
+}
 </script>
