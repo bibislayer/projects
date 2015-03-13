@@ -627,7 +627,8 @@ module.exports = function (app) {
         });
     });
     app.get('/84aa3f388254173628cfae8092a866b2aeb45dc0d50d56150badf73d3c4a330b.txt', function (req, res) {
-        return '659b760e55742261369f7951f93365babf6ebd10d9faa69bada0bb2e18959239';
+        res.render('access', {
+        });
     });
     app.get('/u/:username', ensureAuthenticated, function (req, res) {
         User.findOne({username: req.params.username}, function (err, user) {
