@@ -1,0 +1,35 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.popover{
+	width:150%;
+}
+#buildingsList{
+	position: fixed;
+	bottom: 0px;
+	left:0px;
+    width: 75%;
+    white-space: nowrap;
+    overflow-y: hidden;
+}
+#buildingsList .item {
+    display: inline-block;
+    width: 15%;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    height: 100%;
+    margin-top: 10px;
+}
+.item-infos{
+	margin-top: 5px;
+}
+.infos-up{
+  font-weight: bold;
+  color:green;
+  display: none;
+}

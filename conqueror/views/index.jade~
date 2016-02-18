@@ -1,0 +1,15 @@
+extends layout
+block header
+  #container.col
+    ul
+      li
+        p citoyen:<span id="citoyenCount">0</span>
+      li
+        p bonheur:<span id="bonheurCount">0</span>
+      li
+        p or:<span id="orCount">0</span>
+block content
+  h1= title
+  p Welcome to #{title}
+  script
+   alert("working");
