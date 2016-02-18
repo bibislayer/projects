@@ -1,0 +1,81 @@
+<nav class="navbar navbar-inverse navbar-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+             <li class="title" style="line-height: 48px;">
+                <span style="vertical-align:middle;color:#999;"><i class="fa fa-user"></i> {{ app.user.username }}</span>
+            </li>
+            <li data-tooltip="tooltip" data-placement="bottom" data-original-title="<strong>Paramètre</strong>">
+                <a href="{{ path('fos_user_profile_show') }}"><i class="glyphicon glyphicon-cog"></i></a>
+            </li>
+            <li data-tooltip="tooltip" data-placement="bottom" data-original-title="<strong>Fichiers</strong>">
+                <a href="{{ path('get_files') }}"><i class="glyphicon glyphicon-file"></i></a>
+            </li>
+            <li data-tooltip="tooltip" data-placement="bottom" data-original-title="<strong>Déconnexion</strong>">
+                <a href="{{ path('fos_user_security_logout') }}"><i class="glyphicon glyphicon-off"></i></a>
+            </li>
+            {% else %}
+                <li data-tooltip="tooltip" data-placement="bottom" data-original-title="<strong>Connexion</strong>">
+                <a href="{{ path('fos_user_security_login') }}"><i class="glyphicon glyphicon-off"></i></a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul id="folder-selection" class="nav navbar-nav side-nav">
+            <li class="no-remove">
+                <a class="navbar-brand glyphicon glyphicon-home" href="{{ path('home') }}"></a>
+                {% if route == 'get_files' or route == 'folder_show' %}
+                    <a class="navbar-brand glyphicon glyphicon-chevron-right" id="collapse-sidebar" aria-hidden="true"></a>
+                {% endif %}
+            </li>
+            {% if files is not empty %}
+            <li class="title"><span>&nbsp;<i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;&nbsp;&nbsp;{{ (route == 'folder_show') ? 'Dossiers partagés' : 'Mes dossiers' }}</span></li>
+            {% for file in files %}
+                {% set parent = '' %}
+                {% set style = '' %}
+                {% if file.parentId %}
+                    {% set parent = 'data-parent-id=' ~ file.parentId %}
+                    {% set style = 'style=display:none' %}
+                {% endif %}
+                {% set esc = '' %}
+                {% for i in file.level %}
+                    {% set esc = esc~'&nbsp;' %}
+                {% endfor %}
+                <li {{ parent }} {{ style }} data-type="ajax" data-method="POST" data-url="{{ path('selected-folder') }}" data-name="{{ file.name }}" data-id="{{ file.id }}" class="level{{ file.level }} folder">
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="content{{ file.id }}"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;{{ file.name }} <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="content{{ file.id }}" class="collapse">
+                        </ul>
+                </li>
+            {% endfor %}
+             <script>
+                $(document).ready(function(){
+                {% for file in files %}
+                    $('#folderSelect').append('<option value="{{ file.id }}">{{ file.name }}</option>');
+                    $('#content{{ file.parentId }}').append($('li[data-parent-id="{{ file.parentId }}"].level{{ file.level }}'));
+                {% endfor %}
+                {% if route == 'folder_show' %}
+                     $('#folder-selection li').show();
+                {% endif %}
+                });
+            </script>
+            <li class="divider"><span></span></li>
+            {% if route == 'get_files' %}
+            <li class="title"><span>&nbsp;<i class="glyphicon glyphicon-share"></i>&nbsp;&nbsp;&nbsp;&nbsp;Mes partages</span></li>
+            {% endif %}
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<script src="{{ asset('bundles/facgeneral/js/files-menu.js') }}" type="text/javascript"></script>
+<script>
+$(document).ready(function(){
+    {% if route == 'get_files' %}
+        $('#folder-selection').mouseenter(function (event) {
+            showSideBar();
+        });
+    {% endif %}
+});
+</script>

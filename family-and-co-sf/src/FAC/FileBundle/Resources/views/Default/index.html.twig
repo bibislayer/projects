@@ -1,0 +1,97 @@
+{% extends 'FOSUserBundle::layout.html.twig' %}
+{% block title %}
+Vos fichiers
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/facgeneral/css/defaultTheme.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/facgeneral/css/video-js.min.css') }}">
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/facgeneral/js/jquery.fixedheadertable.js') }}"></script>
+	<script src="{{ asset('bundles/facgeneral/js/video.js') }}"></script>
+    <script src="{{ asset('bundles/facgeneral/js/jquery.lazyload.min.js') }}"></script>
+    <script>
+    videojs.options.flash.swf = "{{ asset('bundles/facgeneral/js/video-js.swf') }}";
+    var windowObjectReference;
+	var strWindowFeatures = "left=150,top=150,resizable=yes,scrollbars=yes,status=no,width=600,height=400";
+    </script>
+{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-lg-12 panel panel-default">
+        <div id="display-selected-folder">
+            <span>...</span>
+        </div>
+        <div class="panel-body my-panel">
+            <div class="btn-group pull-left">
+                <button style="display:none;" data-tooltip="tooltip" title="" data-conteneur="show_sharing" type="button" class="btn btn-default" data-original-title="Afficher la vue de <strong>ad</strong>" style="display: block;">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </button>
+                <button style="display:none;" data-tooltip="tooltip" data-toggle="popover" title="Céer un dossier" data-conteneur="create_folder" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                </button>
+                <button style="display:none;" data-tooltip="tooltip" data-toggle="popover" data-conteneur="config_file" title="Configurer la sélection" id="config" type="button" data-toggle="modal" class="btn btn-default">
+                    <span class="glyphicon glyphicon-cloud"></span>
+                </button>
+                 <button style="display:none;" data-type="ajax" data-url="remove-folder" data-id="" id="remove_folder" data-tooltip="tooltip" title="Suprimer le dossier selectionné" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                </button>
+                <button style="display:none;" type="button" id="btnUpload" class="btn btn-default" onclick="" data-tooltip="tooltip" title="Ajouter des fichiers">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                </button>
+            </div>
+            <div class="btn-group pull-right">
+                <button data-tooltip="tooltip" title="Afficher en liste" onclick="generateList()" id="generateList" type="button" class="btn btn-default {{ app.user.backParams and app.user.backParams.display == 'liste' ? 'active' : '' }}">
+                    <span class="glyphicon glyphicon-list"></span>
+                </button>
+                 <button data-tooltip="tooltip" title="Afficher en icones" onclick="generatePrevu()" id="generatePrevu" type="button" class="btn btn-default {{ app.user.backParams and app.user.backParams.display == 'prevu' ? 'active' : '' }}">
+                    <span class="glyphicon glyphicon-th-large"></span>
+                </button>
+            </div> 
+            <div class="btn-group pull-left files-actions" style="display:none">
+                <button data-tooltip="tooltip" title="Editer la sélection" id="edit" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+                <button data-tooltip="tooltip" title="Supprimer la sélection" id="remove" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                </button>
+                <button type="button" class="btn btn-default" data-conteneur="move_file" data-toggle="popover" data-tooltip="tooltip" title="Déplacer la sélection">
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                </button>
+            </div> 
+            <div class="btn-group pull-left files-actions" style="display:none">
+                <button type="button" role="button" data-toggle="dropdown" class="btn btn-default">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </button>
+                <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                    <li role="presentation">
+                        <a role="menuitem" id="add-files" tabindex="-1">Ajouter des fichiers</a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1">Créer un dossier</a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" id="remove" tabindex="-1">Supprimer la sélection</a>
+                    </li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        <a role="menuitem" id="config" tabindex="-1">Configurer la partage</a>
+                    </li>
+                </ul>
+                </div>
+            <br>
+            <div id="filesManager">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+    $("img").lazyload();
+    showSideBar();
+});
+</script>
+<!-- /.row -->
+<!-- Modal -->
+{% include 'FACFileBundle:Default:modal_panel.html.twig' %}
+{% endblock %}

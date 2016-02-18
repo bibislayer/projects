@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>    
+        <link href="{{ asset('bundles/facgeneral/css/style.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/facgeneral/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/facgeneral/css/sb-admin.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 text-center">
+                        <div class="panel panel-primary">
+                            <a href='//files.dev-monkey.org' class="logo">DM <small>Photos et vidéos</small></a>
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Invitation</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p>Vous étes invité à rejoindre la dev-monkey family :)</p>
+                                <p>Un site de partage d'images et de vidéos.</p>
+                                <p>Ce site vous permettra, en toute sécurité, de sauvegarder et si vous le souhaitez d'échanger vos images et vidéos.</p>
+                                <p>Pour finaliser votre inscription suivez ce lien: <a href="{{ confirmationUrl }}">Finaliser votre inscription</a>
+                                <p>Si le lien ne fonctionne pas copié/collé le lien ci-dessous: </p>
+                                <p>{{ confirmationUrl }}</p>
+                                <hr/>
+                                <p>Une fois votre compte créé suivez ce lien <a href="{{ sharedLink }}">Dossier partagé</a> pour voir le partage</p>
+                                <p>A bientôt sur dev-monkey ;)</p>
+                                <p>Site protégé par "<a href="http://fr.wikipedia.org/wiki/HyperText_Transfer_Protocol_Secure">SSL</a>" et "<a hre="http://fr.wikipedia.org/wiki/Facteur_d%27authentification">Authentification à deux facteurs</a>"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /#page-wrapper -->
+        </div>
+    </body>
+</html>

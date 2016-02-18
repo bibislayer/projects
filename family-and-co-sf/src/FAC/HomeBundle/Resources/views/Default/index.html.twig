@@ -1,0 +1,112 @@
+{% extends 'FOSUserBundle::layout.html.twig' %}
+{% block title %}
+Accueil
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Informations</h3>
+                </div>
+                <div class="panel-body">
+                    Petite note concernant le site.
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                <h3 class="panel-title">Donation</h3>
+                </div>
+                <div class="panel-body">
+                    <center>
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="HM2KY8XYMPTDL">
+                            <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - la solution de paiement en ligne la plus simple et la plus sécurisée !">
+                            <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+                        </form>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-question-sign"></i> Nom du site <small>Sondage</small></h3>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <input name="name" class="form-control" placeholder="Nom du site ex:dev-monkey" />
+                        </div>
+                        <div id="btnDomaine" class="form-group">
+                            <button id="check_domaine" type="submit" class="btn btn-default">Vérifier</button>
+                        </div>
+                    </form>
+                    <div id="domaine_checked" class="list-group" style="display:none;">
+                        <span style="cursor:pointer;" onclick="$('#domaine_checked .listSondage').toggle('slow');" class="text list-group-item"></span>
+                        <div class="listSondage"></div>
+                    </div>
+                    <div id="listSondage" class="list-group">
+                        {% for sondage in sondages %}
+                            <a href="javascript:void(0);" class="list-group-item">
+                                <span data-id="{{ sondage._id }}" data-tooltip="tooltip" title="+1" class="pull-right glyphicon glyphicon-thumbs-up"> </span>
+                                {{ sondage.text }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-exclamation-sign"></i> Vos repports de bug</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        {% for bug in bugs %} 
+                            {% if bug.status == 0 %}
+                                {% set cls = 'success' %}
+                                {% set title = 'Traité' %}
+                            {% elseif bug.status == 1 %}
+                                {% set cls = 'warning' %}
+                                {% set title = 'En cours' %}
+                            {% elseif bug.status == 2 %}
+                                {% set cls = 'danger' %}
+                                {% set title = 'Non traité' %}
+                            {% endif %}
+                            <a href="#" class="list-group-item">
+                                <span data-id="{{ bug._id }}" data-tooltip="tooltip" title="{{ title }}" class="badge badge-{{ cls }} active"> </span>
+                                <span class="badge">{{ bug.created }}</span>
+                                {{ bug.comment }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-info-sign"></i> Dernieres nouvelles</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            <span class="badge">En ce moment</span>
+                            <i class="fa fa-fw fa-calendar"></i> Ca code, ca code..
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="badge">Le 1er janvier 2015</span>
+                            <i class="fa fa-fw fa-comment"></i> Mise en ligne du site
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+{% endblock %}

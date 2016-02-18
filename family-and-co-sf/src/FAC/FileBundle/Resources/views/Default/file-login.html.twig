@@ -1,0 +1,31 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% block title %}
+Connexion au partage
+{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Connexion</h3>
+            </div>
+            <div class="panel-body">
+                {% if error %}
+                    <div>{{ error }}</div>
+                {% endif %}
+
+                <form action="{{ path("file_login", {user_name: app.request.get('user_name'), folder_name: app.request.get('folder_name')}) }}" method="post">
+                    {{ form_widget(form._token) }}
+                     <fieldset>
+                        <div class="form-group">
+                            <input id="password" class="form-control" placeholder="Password" name="password" required="required" type="password" value="">
+                        </div>
+                        <!-- Change this to a button or input when using this as a form -->
+                        <input type="submit" id="_submit" class="btn btn-lg btn-success btn-block" value="Connexion" />
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
